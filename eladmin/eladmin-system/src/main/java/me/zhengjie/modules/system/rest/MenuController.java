@@ -102,7 +102,7 @@ public class MenuController {
 
     @Log("查询菜单")
     @ApiOperation("查询菜单")
-    @GetMapping
+    @GetMapping(produces = "application/json;charset=utf8")
     @PreAuthorize("@el.check('menu:list')")
     public Object query(MenuQueryCriteria criteria) throws Exception {
         List<MenuDto> menuDtoList = menuService.queryAll(criteria, true);
