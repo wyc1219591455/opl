@@ -12,13 +12,14 @@ spring:
     redis:
       repositories:
         enabled: false
+  datasource:
 
   #配置 Jpa
   jpa:
     properties:
       hibernate:
         ddl-auto: none
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        dialect: org.hibernate.dialect.SQLServer2008Dialect
     open-in-view: true
 
 # mybatis 配置

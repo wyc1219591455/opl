@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9db5fb61-2ca2-4dfc-bab1-2bf7d4a8e32d" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_microsoft_sqlserver_mssql_jdbc_6_4_0_jre8.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_microsoft_sqlserver_sqljdbc4_4_0.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/annotation/AnonymousAccess.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/annotation/DataPermission.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/annotation/Limit.class" afterDir="false" />
@@ -350,9 +352,21 @@
       <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/utils/QiNiuUtil.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/generated-sources/annotations/me/zhengjie/service/mapstruct/LocalStorageMapperImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/java/me/zhengjie/modules/system/rest/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/java/me/zhengjie/modules/system/rest/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-common/eladmin-common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-common/eladmin-common.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-generator/eladmin-generator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/eladmin-generator.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-logging/eladmin-logging.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/eladmin-logging.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-logging/src/main/java/me/zhengjie/aspect/LogAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/src/main/java/me/zhengjie/aspect/LogAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-logging/src/main/java/me/zhengjie/domain/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/src/main/java/me/zhengjie/domain/Log.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-logging/src/main/java/me/zhengjie/service/impl/LogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/src/main/java/me/zhengjie/service/impl/LogServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/eladmin-system.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/eladmin-system.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/config/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/config/application-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/config/application-prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/config/application-prod.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/config/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/config/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/log4jdbc.log4j2.properties" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/log4jdbc.log4j2.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/test/java/me/zhengjie/EladminSystemApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/test/java/me/zhengjie/EladminSystemApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-tools/eladmin-tools.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/eladmin-tools.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -361,6 +375,14 @@
   </component>
   <component name="CompilerWorkspaceConfiguration">
     <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -378,15 +400,18 @@
   <component name="ProjectId" id="1cw9ZuzMF2EtlD33wO3CcshDed9" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
-    <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="D:/workspace/CMS" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../AccessControlSystem/eladmin" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -400,6 +425,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="me.zhengjie.global" />
+      <recent name="me.zhengjie.config.thread" />
       <recent name="me.zhengjie.modules.mnt.repository" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
@@ -407,7 +434,7 @@
       <recent name="F:\opl\OPL\eladmin\eladmin-system\src\main\java\me\zhengjie\config\thread" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.AppRun">
+  <component name="RunManager" selected="Spring Boot.AppRun">
     <configuration name="AppRun" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="me.zhengjie.AppRun" />
       <module name="eladmin-system" />
@@ -421,6 +448,22 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="EladminSystemApplicationTests.queryEntrance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="eladmin-system" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="me.zhengjie.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="me.zhengjie" />
+      <option name="MAIN_CLASS_NAME" value="me.zhengjie.EladminSystemApplicationTests" />
+      <option name="METHOD_NAME" value="queryEntrance" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="AppRun" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="eladmin-system" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="me.zhengjie.AppRun" />
@@ -430,6 +473,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.EladminSystemApplicationTests.queryEntrance" />
         <item itemvalue="Application.AppRun" />
       </list>
     </recent_temporary>
@@ -480,7 +524,8 @@
       <workItem from="1601436819550" duration="12385000" />
       <workItem from="1602205394073" duration="12387000" />
       <workItem from="1602222915758" duration="23725000" />
-      <workItem from="1602464919065" duration="35964000" />
+      <workItem from="1602464919065" duration="51512000" />
+      <workItem from="1602682451547" duration="39871000" />
     </task>
     <task id="LOCAL-00001" summary="增加根据名称查询微信菜单接口">
       <created>1599528469993</created>
@@ -517,7 +562,14 @@
       <option name="project" value="LOCAL" />
       <updated>1602467066174</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="修改数据库配置">
+      <created>1602639124960</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1602639124960</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -542,7 +594,8 @@
     <MESSAGE value="修改大事记排序条件" />
     <MESSAGE value="项目框架搭建" />
     <MESSAGE value="修改项目简介" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改项目简介" />
+    <MESSAGE value="修改数据库配置" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改数据库配置" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="178" key="#Project_Structure" timestamp="1601254868690">
@@ -557,50 +610,66 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="702" y="378" width="515" height="293" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1040@0.0.1920.1040" timestamp="1602228436993" />
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1601255853335">
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1602674831246">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1601255853335" />
-    <state x="456" y="113" key="CommitChangelistDialog2" timestamp="1602467065009">
+    <state x="690" y="266" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1602674831246" />
+    <state x="456" y="113" key="CommitChangelistDialog2" timestamp="1602639117990">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="456" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1602467065009" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1602560647663">
+    <state x="456" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1602639117990" />
+    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1602917061408">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1602560647663" />
-    <state width="1877" height="226" key="GridCell.Tab.0.bottom" timestamp="1602638777681">
+    <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1602917061408" />
+    <state width="1877" height="155" key="GridCell.Tab.0.bottom" timestamp="1603074857488">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="226" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1602638777681" />
-    <state width="1877" height="226" key="GridCell.Tab.0.center" timestamp="1602638777681">
+    <state width="1877" height="155" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857488" />
+    <state width="1877" height="155" key="GridCell.Tab.0.center" timestamp="1603074857487">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="226" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1602638777681" />
-    <state width="1877" height="226" key="GridCell.Tab.0.left" timestamp="1602638777681">
+    <state width="1877" height="155" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857487" />
+    <state width="1877" height="155" key="GridCell.Tab.0.left" timestamp="1603074857487">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="226" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1602638777681" />
-    <state width="1877" height="226" key="GridCell.Tab.0.right" timestamp="1602638777681">
+    <state width="1877" height="155" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857487" />
+    <state width="1877" height="155" key="GridCell.Tab.0.right" timestamp="1603074857488">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="226" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1602638777681" />
-    <state width="1877" height="273" key="GridCell.Tab.1.bottom" timestamp="1602584904661">
+    <state width="1877" height="155" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857488" />
+    <state width="1877" height="155" key="GridCell.Tab.1.bottom" timestamp="1603074857488">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1602584904661" />
-    <state width="1877" height="273" key="GridCell.Tab.1.center" timestamp="1602584904661">
+    <state width="1877" height="155" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857488" />
+    <state width="1877" height="155" key="GridCell.Tab.1.center" timestamp="1603074857488">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1602584904661" />
-    <state width="1877" height="273" key="GridCell.Tab.1.left" timestamp="1602584904661">
+    <state width="1877" height="155" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857488" />
+    <state width="1877" height="155" key="GridCell.Tab.1.left" timestamp="1603074857488">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1602584904661" />
-    <state width="1877" height="273" key="GridCell.Tab.1.right" timestamp="1602584904661">
+    <state width="1877" height="155" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857488" />
+    <state width="1877" height="155" key="GridCell.Tab.1.right" timestamp="1603074857488">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="273" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1602584904661" />
+    <state width="1877" height="155" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857488" />
+    <state width="1877" height="232" key="GridCell.Tab.2.bottom" timestamp="1602754203019">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="232" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1602754203019" />
+    <state width="1877" height="232" key="GridCell.Tab.2.center" timestamp="1602754203019">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="232" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1602754203019" />
+    <state width="1877" height="232" key="GridCell.Tab.2.left" timestamp="1602754203019">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="232" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1602754203019" />
+    <state width="1877" height="232" key="GridCell.Tab.2.right" timestamp="1602754203019">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="232" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1602754203019" />
     <state x="490" y="175" key="Maven.ArtifactSearchDialog" timestamp="1601256194697">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -621,26 +690,26 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="498" height="540" key="SwitcherDM/0.0.1920.1040@0.0.1920.1040" timestamp="1602487628654" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1602467068441">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1602639130519">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1602467068441" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1602639130519" />
     <state x="640" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1602222915800">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="640" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1602222915800" />
-    <state x="636" y="258" width="647" height="524" key="find.popup" timestamp="1601280898376">
+    <state x="636" y="258" width="666" height="524" key="find.popup" timestamp="1602840604372">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="636" y="258" width="647" height="524" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1601280898376" />
+    <state x="636" y="258" width="666" height="524" key="find.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1602840604372" />
     <state x="723" y="232" key="git4idea.branch.GitSmartOperationDialog" timestamp="1600341083223">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="723" y="232" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1600341083223" />
-    <state x="671" y="311" key="git4idea.merge.GitPullDialog" timestamp="1602638889960">
+    <state x="671" y="311" key="git4idea.merge.GitPullDialog" timestamp="1603074873930">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="671" y="311" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1602638889960" />
+    <state x="671" y="311" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1603074873930" />
     <state x="334" y="215" key="new project wizard" timestamp="1600686231620">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -655,20 +724,6 @@
     <state x="948" y="455" width="672" height="676" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1601264617965" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/eladmin/eladmin-system/src/main/java/me/zhengjie/modules/system/rest/MenuController.java</url>
-          <line>73</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/eladmin/eladmin-system/src/main/java/me/zhengjie/modules/system/rest/MenuController.java</url>
-          <line>75</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="menuService" language="JAVA" />

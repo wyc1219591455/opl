@@ -124,8 +124,8 @@ public class LogServiceImpl implements LogService {
     public Object findByErrDetail(Long id) {
         Log log = logRepository.findById(id).orElseGet(Log::new);
         ValidationUtil.isNull( log.getId(),"Log","id", id);
-        byte[] details = log.getExceptionDetail();
-        return Dict.create().set("exception",new String(ObjectUtil.isNotNull(details) ? details : "".getBytes()));
+        String details = log.getExceptionDetail();
+        return Dict.create().set("exception",ObjectUtil.isNotNull(details) ? details : "");
     }
 
     @Override
@@ -139,7 +139,7 @@ public class LogServiceImpl implements LogService {
             map.put("描述", log.getDescription());
             map.put("浏览器", log.getBrowser());
             map.put("请求耗时/毫秒", log.getTime());
-            map.put("异常详情", new String(ObjectUtil.isNotNull(log.getExceptionDetail()) ? log.getExceptionDetail() : "".getBytes()));
+            map.put("异常详情", new String(ObjectUtil.isNotNull(log.getExceptionDetail()) ? log.getExceptionDetail() : ""));
             map.put("创建日期", log.getCreateTime());
             list.add(map);
         }
