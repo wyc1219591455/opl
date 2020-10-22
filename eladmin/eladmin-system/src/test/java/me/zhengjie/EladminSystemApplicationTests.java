@@ -4,6 +4,8 @@ import me.zhengjie.modules.system.domain.Dept;
 import me.zhengjie.modules.system.service.DeptService;
 import me.zhengjie.modules.system.service.RoleService;
 import me.zhengjie.modules.system.service.dto.RoleSmallDto;
+import me.zhengjie.utils.ADUtils;
+import me.zhengjie.utils.LDAPConnector;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +32,13 @@ public class EladminSystemApplicationTests {
 
     @Value("${rsa.private_key}")
     private String privateKey;
+
+    @Test
+    public void ldapTest(){
+        LDAPConnector ldapConnector =LDAPConnector.getInstance();
+        System.out.println(ldapConnector.validateUser("yanwen.wu", "WY@65789"));
+        System.out.println(ldapConnector.getEmpNo("yanwen.wu"));
+    }
 
     @Test
     public void contextLoads() {
