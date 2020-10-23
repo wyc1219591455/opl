@@ -18,4 +18,5 @@ public interface FindUserNameMapper {
 
     void updatePasswordByName(AuthUserDto authUserDto);
 
+    void deleteByUserName(String userName);
 }
