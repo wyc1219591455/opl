@@ -12,5 +12,8 @@
     <update id="updatePasswordByName">
       update sys_user set password=#{password} where username=#{username}
     </update>
+    <delete id="deleteByUserName">
+        delete from sys_user where username=#{username}
+    </delete>
 
 </mapper>
