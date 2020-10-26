@@ -40,7 +40,7 @@ public class LDAPConnector {
         }
     }
 
-    private LDAPConnector() {
+    public LDAPConnector() {
         try {
             InputStream in =  LDAPConnector.class.getClassLoader().getResourceAsStream("ldap.properties");
             Properties properties = new Properties();

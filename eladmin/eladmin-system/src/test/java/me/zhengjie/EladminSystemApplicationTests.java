@@ -1,11 +1,12 @@
 package me.zhengjie;
 
+import me.zhengjie.modules.opl.mapper.FindUserNameMapper;
+import me.zhengjie.modules.security.service.dto.AuthUserDto;
 import me.zhengjie.modules.system.domain.Dept;
+import me.zhengjie.modules.system.domain.User;
 import me.zhengjie.modules.system.service.DeptService;
 import me.zhengjie.modules.system.service.RoleService;
 import me.zhengjie.modules.system.service.dto.RoleSmallDto;
-import me.zhengjie.utils.ADUtils;
-import me.zhengjie.utils.LDAPConnector;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,18 +30,11 @@ public class EladminSystemApplicationTests {
     private  PasswordEncoder passwordEncoder;
     @Autowired
     private  RoleService roleService;
-
-
+    @Autowired
+    private FindUserNameMapper findUserNameMapper;
 
     @Value("${rsa.private_key}")
     private String privateKey;
-
-    @Test
-    public void ldapTest(){
-        LDAPConnector ldapConnector =LDAPConnector.getInstance();
-        System.out.println(ldapConnector.validateUser("yanwen.wu", "WY@65789"));
-        System.out.println(ldapConnector.getEmpNo("yanwen.wu"));
-    }
 
     @Test
     public void contextLoads() {
@@ -78,12 +74,27 @@ public class EladminSystemApplicationTests {
 
     @Test
     public void getRoleList(){
-        List<RoleSmallDto> roleList = roleService.findByUsersId((long) 2);
-        for(RoleSmallDto list:roleList ){
-            System.out.println("==============" + list);
-        }
+        AuthUserDto authUser=new AuthUserDto();
+        authUser.setUsername("APE6374");
+        authUser.setPassword("123456");
+        findUserNameMapper.updatePasswordByName(authUser);
+        System.out.println(findUserNameMapper.findPasswordByUsername("APE6374"));
     }
 
 
+    @Test
+    public void create(){
+        AuthUserDto resources=new AuthUserDto();
+        resources.setUsername("APE6374");
+        // 默认密码 123456
+        resources.setPassword(passwordEncoder.encode("123456"));
+        findUserNameMapper.updatePasswordByName(resources);
+    }
+
+    @Test
+    public void delete(){
+        Integer i=findUserNameMapper.deleteByUserName("test");
+        System.out.println(i);
+    }
 }
 

@@ -27,15 +27,19 @@ import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.annotation.AnonymousAccess;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.exception.BadRequestException;
+import me.zhengjie.modules.opl.mapper.FindUserNameMapper;
 import me.zhengjie.modules.security.config.SecurityProperties;
 import me.zhengjie.modules.security.security.TokenProvider;
 import me.zhengjie.modules.security.service.dto.AuthUserDto;
 import me.zhengjie.modules.security.service.dto.JwtUserDto;
 import me.zhengjie.modules.security.service.OnlineUserService;
+import me.zhengjie.modules.system.domain.User;
 import me.zhengjie.modules.system.repository.UserRepository;
-import me.zhengjie.utils.RedisUtils;
-import me.zhengjie.utils.SecurityUtils;
-import me.zhengjie.utils.StringUtils;
+import me.zhengjie.modules.system.rest.UserController;
+import me.zhengjie.modules.system.service.UserService;
+import me.zhengjie.modules.system.service.dto.UserDto;
+import me.zhengjie.utils.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,6 +48,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -82,44 +87,85 @@ public class AuthorizationController {
     @AnonymousAccess
     @PostMapping(value = "/login")
     public Map<String, Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request) {
-        //public ResponseEntity<Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request){
+        //判断数据库里面是否有此用户
         if(ObjectUtil.isEmpty(userRepository.findByUsername(authUser.getUsername()))){
-            throw new BadRequestException("用户不存在");
-        }
-        // 密码解密
-        RSA rsa = new RSA(privateKey, null);
-        String password = new String(rsa.decrypt(authUser.getPassword(), KeyType.PrivateKey));
-        // 查询验证码
-        String code = (String) redisUtils.get(authUser.getUuid());
-        // 清除验证码
-        redisUtils.del(authUser.getUuid());
-        if (StringUtils.isBlank(code)) {
-            throw new BadRequestException("验证码不存在或已过期");
-        }
-        if (StringUtils.isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
-            throw new BadRequestException("验证码错误");
-        }
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
+            //没有，生成AD验证实例
+            LDAPConnector instance = LDAPConnector.getInstance();
+            //域密码解密
+            RSA rsa = new RSA(privateKey, null);
+            String password = new String(rsa.decrypt(authUser.getPassword(), KeyType.PrivateKey));
+            //判断域中是否存在
+            if(instance.validateUser(authUser.getUsername(),password)){
+                //如果存在，通过域账号名获得工号
+                String jobNum=instance.getEmpNo(authUser.getUsername());
+                // 查询验证码
+                String code = (String) redisUtils.get(authUser.getUuid());
+                // 清除验证码
+                redisUtils.del(authUser.getUuid());
+                if (StringUtils.isBlank(code)) {
+                    throw new BadRequestException("验证码不存在或已过期");
+                }
+                if (StringUtils.isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
+                    throw new BadRequestException("验证码错误");
+                }
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(jobNum,"123456");
 
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        // 生成令牌
-        String token = tokenProvider.createToken(authentication);
-        final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
-        // 保存在线信息
-        onlineUserService.save(jwtUserDto, token, request);
-        // 返回 token 与 用户信息
-        Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
-            put("token", properties.getTokenStartWith() + token);
-            put("user", jwtUserDto);
-        }};
-        if (singleLogin) {
-            //踢掉之前已经登录的token
-            onlineUserService.checkLoginOnUser(authUser.getUsername(), token);
+                Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // 生成令牌
+                String token = tokenProvider.createToken(authentication);
+                final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
+                // 保存在线信息
+                onlineUserService.save(jwtUserDto, token, request);
+                // 返回 token 与 用户信息
+                Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
+                    put("token", properties.getTokenStartWith() + token);
+                    put("user", jwtUserDto);
+                }};
+                if (singleLogin) {
+                    //踢掉之前已经登录的token
+                    onlineUserService.checkLoginOnUser(authUser.getUsername(), token);
+                }
+                // return ResponseEntity.ok(authInfo);
+                return authInfo;
+            }else{
+                throw new BadRequestException("用户名或密码错误");
+            }
+        }else{
+            // 密码解密
+            RSA rsa = new RSA(privateKey, null);
+            String password = new String(rsa.decrypt(authUser.getPassword(), KeyType.PrivateKey));
+            // 查询验证码
+            String code = (String) redisUtils.get(authUser.getUuid());
+            // 清除验证码
+            redisUtils.del(authUser.getUuid());
+            if (StringUtils.isBlank(code)) {
+                throw new BadRequestException("验证码不存在或已过期");
+            }
+            if (StringUtils.isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
+                throw new BadRequestException("验证码错误");
+            }
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            // 生成令牌
+            String token = tokenProvider.createToken(authentication);
+            final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
+            // 保存在线信息
+            onlineUserService.save(jwtUserDto, token, request);
+            // 返回 token 与 用户信息
+            Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
+                put("token", properties.getTokenStartWith() + token);
+                put("user", jwtUserDto);
+            }};
+            if (singleLogin) {
+                //踢掉之前已经登录的token
+                onlineUserService.checkLoginOnUser(authUser.getUsername(), token);
+            }
+            // return ResponseEntity.ok(authInfo);
+            return authInfo;
         }
-        // return ResponseEntity.ok(authInfo);
-        return authInfo;
+
     }
 
     @ApiOperation("获取用户信息")

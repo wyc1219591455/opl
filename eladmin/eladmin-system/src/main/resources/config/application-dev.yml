@@ -8,7 +8,7 @@ spring:
 
   redis:
     #数据库索引
-    database: 6
+    database: 3
     host: 10.66.53.27
     port: 6379
     password: JST@123

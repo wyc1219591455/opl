@@ -1,5 +1,7 @@
 package me.zhengjie.utils;
 
+import lombok.Data;
+
 import javax.naming.AuthenticationException;
 import javax.naming.Context;
 import javax.naming.directory.DirContext;
@@ -13,22 +15,26 @@ import java.util.Hashtable;
  * @Description TODO
  * @createTime 2020年10月21日 11:40:00
  */
+@Data
 public class ADUtils {
     /** 
     * @Description: 验证用户输入的账号和密码是否在域中 
     * @Params: [userName, password] 
     * @return: boolean
     */
-    public static boolean validateUser(String userName,String password){
+    String userName;//AD域认证，用户的登录UserName
+    String password;//AD域认证，用户的登录PassWord*/
+    String host = "10.66.52.52";//AD域IP
+    String domain = "@justech.com";//域名后缀
+    String port = "389"; //端口，一般默认389
+    String url = new String("ldap://" + host + ":" + port);//固定写法
+    String user = userName.indexOf(domain) > 0 ? userName : userName
+            + domain;
+    public boolean validateUser(String userName,String password){
         Boolean flag=false;
         /*String userName = "chenxin.jiang";//AD域认证，用户的登录UserName
         String password = "Jiang.183";//AD域认证，用户的登录PassWord*/
-        String host = "10.66.52.52";//AD域IP
-        String domain = "@justech.com";//域名后缀
-        String port = "389"; //端口，一般默认389
-        String url = new String("ldap://" + host + ":" + port);//固定写法
-        String user = userName.indexOf(domain) > 0 ? userName : userName
-                + domain;
+
         Hashtable env = new Hashtable();//实例化一个Env
         DirContext ctx = null;
         env.put(Context.SECURITY_AUTHENTICATION, "simple");//LDAP访问安全级别(none,simple,strong),一种模式，这么写就行
