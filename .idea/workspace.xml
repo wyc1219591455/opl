@@ -1,372 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="9db5fb61-2ca2-4dfc-bab1-2bf7d4a8e32d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_microsoft_sqlserver_mssql_jdbc_6_4_0_jre8.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_microsoft_sqlserver_sqljdbc4_4_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/annotation/AnonymousAccess.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/annotation/DataPermission.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/annotation/Limit.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/annotation/Query$Join.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/annotation/Query$Type.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/annotation/Query.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/aspect/LimitAspect.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/aspect/LimitType.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/base/BaseDTO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/base/BaseEntity$Create.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/base/BaseEntity$Update.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/base/BaseEntity.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/base/BaseMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/config/AuditorConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/config/ElPermissionConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/config/FastJsonRedisSerializer.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/config/FileProperties$ElPath.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/config/FileProperties.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/config/RedisConfig$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/config/RedisConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/config/StringRedisSerializer.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/config/SwaggerConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/config/SwaggerDataConfig$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/config/SwaggerDataConfig$Page.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/config/SwaggerDataConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/exception/BadRequestException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/exception/EntityExistException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/exception/EntityNotFoundException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/exception/handler/ApiError.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/exception/handler/GlobalExceptionHandler.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/ElAdminConstant$Url.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/ElAdminConstant.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/EncryptUtils.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/FileUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/FileUtils.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/PageHelpResultUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/PageUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/QueryHelp$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/QueryHelp.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/RedisUtils.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/RequestHolder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/SecurityUtils.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/SpringContextHolder.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/StringUtils.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/ThrowableUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/TranslatorUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/classes/me/zhengjie/utils/ValidationUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/test-classes/me/zhengjie/utils/EncryptUtilsTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/test-classes/me/zhengjie/utils/FileUtilTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-common/target/test-classes/me/zhengjie/utils/StringUtilsTest.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/domain/ColumnInfo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/domain/GenConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/domain/vo/TableInfo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/repository/ColumnInfoRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/repository/GenConfigRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/rest/GenConfigController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/rest/GeneratorController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/service/GenConfigService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/service/GeneratorService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/service/impl/GenConfigServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/service/impl/GeneratorServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/utils/ColUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/target/classes/me/zhengjie/utils/GenUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/annotation/Log.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/aspect/LogAspect.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/domain/Log.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/repository/LogRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/rest/LogController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/service/LogService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/service/dto/LogErrorDTO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/service/dto/LogQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/service/dto/LogSmallDTO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/service/impl/LogServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/service/mapstruct/LogErrorMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/service/mapstruct/LogErrorMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/service/mapstruct/LogSmallMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/classes/me/zhengjie/service/mapstruct/LogSmallMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/generated-sources/annotations/me/zhengjie/service/mapstruct/LogErrorMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/target/generated-sources/annotations/me/zhengjie/service/mapstruct/LogSmallMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/banner.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/config/application-dev.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/config/application-prod.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/config/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/generator.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/log4jdbc.log4j2.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/AppRun.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/config/ConfigurerAdapter.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/config/ResponseBodyHandler.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/config/WebSocketConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/config/thread/AsyncTaskExecutePool.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/config/thread/AsyncTaskProperties.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/config/thread/TheadFactoryName.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/config/thread/ThreadPoolExecutorUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/model/exception/MyException.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/model/vo/ImageUploadVo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/model/vo/RCodeEnum.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/model/vo/ResultVO.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/domain/App.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/domain/Database.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/domain/Deploy.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/domain/DeployHistory.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/domain/ServerDeploy.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/repository/AppRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/repository/DatabaseRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/repository/DeployHistoryRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/repository/DeployRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/repository/ServerDeployRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/rest/AppController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/rest/DatabaseController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/rest/DeployController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/rest/DeployHistoryController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/rest/ServerDeployController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/AppService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/DatabaseService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/DeployHistoryService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/DeployService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/ServerDeployService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/dto/AppDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/dto/AppQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/dto/DatabaseDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/dto/DatabaseQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/dto/DeployDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/dto/DeployHistoryDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/dto/DeployHistoryQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/dto/DeployQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/dto/ServerDeployDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/dto/ServerDeployQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/impl/AppServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/impl/DatabaseServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/impl/DeployHistoryServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/impl/DeployServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/impl/ServerDeployServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/mapstruct/AppMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/mapstruct/AppMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/mapstruct/DatabaseMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/mapstruct/DatabaseMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/mapstruct/DeployHistoryMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/mapstruct/DeployHistoryMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/mapstruct/DeployMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/mapstruct/DeployMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/mapstruct/ServerDeployMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/service/mapstruct/ServerDeployMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/util/DataTypeEnum.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/util/ExecuteShellUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/util/ScpClientUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/util/SqlUtils.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/util/ZipUtils.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/websocket/MsgType.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/websocket/SocketMsg.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/mnt/websocket/WebSocketServer.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/config/JobRunner.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/config/QuartzConfig$QuartzJobFactory.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/config/QuartzConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/domain/QuartzJob.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/domain/QuartzLog.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/repository/QuartzJobRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/repository/QuartzLogRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/rest/QuartzJobController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/service/QuartzJobService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/service/dto/JobQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/service/impl/QuartzJobServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/task/TestTask.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/utils/ExecutionJob.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/utils/QuartzManage.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/quartz/utils/QuartzRunnable.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/config/SecurityConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/config/SecurityProperties.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/rest/AuthorizationController$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/rest/AuthorizationController$2.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/rest/AuthorizationController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/rest/OnlineController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/security/JwtAccessDeniedHandler.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/security/JwtAuthenticationEntryPoint.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/security/TokenConfigurer.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/security/TokenFilter.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/security/TokenProvider.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/service/OnlineUserService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/service/UserDetailsServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/service/dto/AuthUserDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/service/dto/JwtUserDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/security/service/dto/OnlineUserDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/domain/Dept.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/domain/Dict.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/domain/DictDetail.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/domain/Job.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/domain/Menu.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/domain/Role.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/domain/User.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/domain/vo/MenuMetaVo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/domain/vo/MenuVo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/domain/vo/UserPassVo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/repository/DeptRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/repository/DictDetailRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/repository/DictRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/repository/JobRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/repository/MenuRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/repository/RoleRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/repository/UserRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/rest/DeptController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/rest/DictController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/rest/DictDetailController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/rest/JobController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/rest/LimitController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/rest/MenuController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/rest/MonitorController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/rest/RoleController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/rest/UserController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/rest/VerifyController$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/rest/VerifyController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/DataService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/DeptService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/DictDetailService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/DictService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/JobService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/MenuService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/MonitorService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/RoleService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/UserService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/VerifyService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/DeptDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/DeptQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/DeptSmallDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/DictDetailDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/DictDetailQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/DictDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/DictQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/DictSmallDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/JobDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/JobQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/JobSmallDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/MenuDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/MenuQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/RoleDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/RoleQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/RoleSmallDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/UserDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/dto/UserQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/DataServiceImpl$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/DataServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/DeptServiceImpl$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/DeptServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/DictDetailServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/DictServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/JobServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/MenuServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/MonitorServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/RoleServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/UserServiceImpl$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/UserServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/impl/VerifyServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/DeptMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/DeptMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/DeptSmallMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/DeptSmallMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/DictDetailMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/DictDetailMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/DictMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/DictMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/DictSmallMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/DictSmallMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/JobMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/JobMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/JobSmallMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/JobSmallMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/MenuMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/MenuMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/RoleMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/RoleMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/RoleSmallMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/RoleSmallMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/UserMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/modules/system/service/mapstruct/UserMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/utils/ResultVOUtils.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/utils/SnowFlake.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/utils/enums/CodeBiEnum.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/utils/enums/CodeEnum.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/me/zhengjie/utils/enums/DataScopeEnum.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/template/email/email.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/template/email/taskAlarm.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/template/generator/admin/Controller.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/template/generator/admin/Dto.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/template/generator/admin/Entity.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/template/generator/admin/Mapper.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/template/generator/admin/QueryCriteria.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/template/generator/admin/Repository.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/template/generator/admin/Service.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/template/generator/admin/ServiceImpl.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/template/generator/front/api.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/classes/template/generator/front/index.ftl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/mnt/service/mapstruct/AppMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/mnt/service/mapstruct/DatabaseMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/mnt/service/mapstruct/DeployHistoryMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/mnt/service/mapstruct/DeployMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/mnt/service/mapstruct/ServerDeployMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/system/service/mapstruct/DeptMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/system/service/mapstruct/DeptSmallMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/system/service/mapstruct/DictDetailMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/system/service/mapstruct/DictMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/system/service/mapstruct/DictSmallMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/system/service/mapstruct/JobMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/system/service/mapstruct/JobSmallMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/system/service/mapstruct/MenuMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/system/service/mapstruct/RoleMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/system/service/mapstruct/RoleSmallMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/generated-sources/annotations/me/zhengjie/modules/system/service/mapstruct/UserMapperImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-system/target/test-classes/me/zhengjie/EladminSystemApplicationTests.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/config/MultipartConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/domain/AlipayConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/domain/EmailConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/domain/LocalStorage.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/domain/Picture.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/domain/QiniuConfig.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/domain/QiniuContent.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/domain/vo/EmailVo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/domain/vo/TradeVo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/repository/AliPayRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/repository/EmailRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/repository/LocalStorageRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/repository/PictureRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/repository/QiNiuConfigRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/repository/QiniuContentRepository.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/rest/AliPayController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/rest/EmailController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/rest/LocalStorageController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/rest/PictureController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/rest/QiniuController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/AliPayService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/EmailService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/LocalStorageService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/PictureService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/QiNiuService.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/dto/LocalStorageDto.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/dto/LocalStorageQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/dto/PictureQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/dto/QiniuQueryCriteria.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/impl/AliPayServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/impl/EmailServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/impl/LocalStorageServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/impl/PictureServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/impl/QiNiuServiceImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/mapstruct/LocalStorageMapper.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/service/mapstruct/LocalStorageMapperImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/utils/AliPayStatusEnum.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/utils/AlipayUtils.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/classes/me/zhengjie/utils/QiNiuUtil.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/target/generated-sources/annotations/me/zhengjie/service/mapstruct/LocalStorageMapperImpl.java" afterDir="false" />
+    <list default="true" id="9db5fb61-2ca2-4dfc-bab1-2bf7d4a8e32d" name="Default Changelist" comment="更新域验证代码，增加从域中获取工号">
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eladmin/eladmin-common/eladmin-common.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-common/eladmin-common.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-generator/eladmin-generator.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-generator/eladmin-generator.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-logging/eladmin-logging.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/eladmin-logging.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-logging/src/main/java/me/zhengjie/aspect/LogAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/src/main/java/me/zhengjie/aspect/LogAspect.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-logging/src/main/java/me/zhengjie/domain/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/src/main/java/me/zhengjie/domain/Log.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-logging/src/main/java/me/zhengjie/service/impl/LogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-logging/src/main/java/me/zhengjie/service/impl/LogServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/eladmin-system.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/eladmin-system.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/config/application-dev.yml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/config/application-dev.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/config/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/config/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/log4jdbc.log4j2.properties" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/log4jdbc.log4j2.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/java/me/zhengjie/modules/security/rest/AuthorizationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/java/me/zhengjie/modules/security/rest/AuthorizationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/java/me/zhengjie/modules/system/rest/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/java/me/zhengjie/modules/system/rest/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/java/me/zhengjie/utils/LDAPConnector.java" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/java/me/zhengjie/utils/LDAPConnector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/ldap.properties" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/main/resources/ldap.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eladmin/eladmin-system/src/test/java/me/zhengjie/EladminSystemApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-system/src/test/java/me/zhengjie/EladminSystemApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/eladmin-tools/eladmin-tools.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin-tools/eladmin-tools.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/eladmin/eladmin.iml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/eladmin.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/eladmin/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/eladmin/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -400,7 +63,6 @@
   <component name="ProjectId" id="1cw9ZuzMF2EtlD33wO3CcshDed9" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
-    <option name="showExcludedFiles" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
@@ -411,44 +73,40 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../AccessControlSystem/eladmin" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CMS" />
     <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
+  </component>
+  <component name="ReactorSettings">
+    <option name="notificationShown" value="true" />
   </component>
   <component name="RebelAgentSelection">
     <selection>jr</selection>
   </component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="me.zhengjie.utils" />
       <recent name="me.zhengjie.global" />
       <recent name="me.zhengjie.config.thread" />
       <recent name="me.zhengjie.modules.mnt.repository" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\GitProject\ape-opl\eladmin\eladmin-system\src\main\resources" />
       <recent name="F:\opl\OPL\eladmin\eladmin-system\src\main\java\me\zhengjie\config" />
       <recent name="F:\opl\OPL\eladmin\eladmin-system\src\main\java\me\zhengjie\config\thread" />
     </key>
   </component>
   <component name="RunManager" selected="Spring Boot.AppRun">
-    <configuration name="AppRun" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="me.zhengjie.AppRun" />
-      <module name="eladmin-system" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="me.zhengjie.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="EladminSystemApplicationTests.queryEntrance" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="EladminSystemApplicationTests.adTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="eladmin-system" />
       <extension name="coverage">
         <pattern>
@@ -458,7 +116,71 @@
       </extension>
       <option name="PACKAGE_NAME" value="me.zhengjie" />
       <option name="MAIN_CLASS_NAME" value="me.zhengjie.EladminSystemApplicationTests" />
-      <option name="METHOD_NAME" value="queryEntrance" />
+      <option name="METHOD_NAME" value="adTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EladminSystemApplicationTests.adText" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="eladmin-system" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="me.zhengjie.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="me.zhengjie" />
+      <option name="MAIN_CLASS_NAME" value="me.zhengjie.EladminSystemApplicationTests" />
+      <option name="METHOD_NAME" value="adText" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EladminSystemApplicationTests.contextLoads" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="eladmin-system" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="me.zhengjie.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="me.zhengjie" />
+      <option name="MAIN_CLASS_NAME" value="me.zhengjie.EladminSystemApplicationTests" />
+      <option name="METHOD_NAME" value="contextLoads" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EladminSystemApplicationTests.ldapTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="eladmin-system" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="me.zhengjie.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="me.zhengjie" />
+      <option name="MAIN_CLASS_NAME" value="me.zhengjie.EladminSystemApplicationTests" />
+      <option name="METHOD_NAME" value="ldapTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EladminSystemApplicationTests.main" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="eladmin-system" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="me.zhengjie.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="me.zhengjie" />
+      <option name="MAIN_CLASS_NAME" value="me.zhengjie.EladminSystemApplicationTests" />
+      <option name="METHOD_NAME" value="main" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -473,22 +195,13 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.EladminSystemApplicationTests.queryEntrance" />
-        <item itemvalue="Application.AppRun" />
+        <item itemvalue="JUnit.EladminSystemApplicationTests.ldapTest" />
+        <item itemvalue="JUnit.EladminSystemApplicationTests.main" />
+        <item itemvalue="JUnit.EladminSystemApplicationTests.adTest" />
+        <item itemvalue="JUnit.EladminSystemApplicationTests.adText" />
+        <item itemvalue="JUnit.EladminSystemApplicationTests.contextLoads" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ServiceViewManager">
-    <option name="viewStates">
-      <list>
-        <serviceView>
-          <treeState>
-            <expand />
-            <select />
-          </treeState>
-        </serviceView>
-      </list>
-    </option>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -526,6 +239,15 @@
       <workItem from="1602222915758" duration="23725000" />
       <workItem from="1602464919065" duration="51512000" />
       <workItem from="1602682451547" duration="39871000" />
+      <workItem from="1603100395974" duration="1355000" />
+      <workItem from="1603155460652" duration="2187000" />
+      <workItem from="1603242262388" duration="6908000" />
+      <workItem from="1603328027480" duration="5793000" />
+      <workItem from="1603413671430" duration="29117000" />
+      <workItem from="1603517111543" duration="8219000" />
+      <workItem from="1603672248554" duration="6917000" />
+      <workItem from="1603760443771" duration="6392000" />
+      <workItem from="1603846222130" duration="5557000" />
     </task>
     <task id="LOCAL-00001" summary="增加根据名称查询微信菜单接口">
       <created>1599528469993</created>
@@ -569,24 +291,37 @@
       <option name="project" value="LOCAL" />
       <updated>1602639124960</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="新增ad域链接验证工具类">
+      <created>1603253045702</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1603253045702</updated>
+    </task>
+    <task id="LOCAL-00008" summary="更新域验证代码，增加从域中获取工号">
+      <created>1603352332502</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1603352332502</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="COLUMN_ORDER" />
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="增加根据名称查询微信菜单接口" />
@@ -595,16 +330,23 @@
     <MESSAGE value="项目框架搭建" />
     <MESSAGE value="修改项目简介" />
     <MESSAGE value="修改数据库配置" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改数据库配置" />
+    <MESSAGE value="新增ad域链接验证工具类" />
+    <MESSAGE value="更新域验证代码，增加从域中获取工号" />
+    <option name="LAST_COMMIT_MESSAGE" value="更新域验证代码，增加从域中获取工号" />
   </component>
   <component name="WindowStateProjectService">
     <state x="552" y="178" key="#Project_Structure" timestamp="1601254868690">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="552" y="178" key="#Project_Structure/0.0.1920.1040@0.0.1920.1040" timestamp="1601254868690" />
-    <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser" timestamp="1599477360022">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="371" y="95" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog" timestamp="1603448444414">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state x="371" y="95" key="#com.intellij.codeInsight.editorActions.RestoreReferencesDialog/0.0.1280.680@0.0.1280.680" timestamp="1603448444414" />
+    <state x="510" y="82" key="#com.intellij.ide.util.MemberChooser" timestamp="1603520157875">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="510" y="82" key="#com.intellij.ide.util.MemberChooser/0.0.1280.680@0.0.1280.680" timestamp="1603520157875" />
     <state x="765" y="229" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1599477360022" />
     <state x="702" y="378" width="515" height="293" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1602228436993">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -618,57 +360,70 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="456" y="113" key="CommitChangelistDialog2/0.0.1920.1040@0.0.1920.1040" timestamp="1602639117990" />
-    <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1602917061408">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="461" y="95" key="FileChooserDialogImpl" timestamp="1603853345499">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state x="461" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1603853345499" />
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1602917061408" />
-    <state width="1877" height="155" key="GridCell.Tab.0.bottom" timestamp="1603074857488">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="235" key="GridCell.Tab.0.bottom" timestamp="1603801267130">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state width="1237" height="235" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603801267130" />
     <state width="1877" height="155" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857488" />
-    <state width="1877" height="155" key="GridCell.Tab.0.center" timestamp="1603074857487">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="235" key="GridCell.Tab.0.center" timestamp="1603801267130">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state width="1237" height="235" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1603801267130" />
     <state width="1877" height="155" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857487" />
-    <state width="1877" height="155" key="GridCell.Tab.0.left" timestamp="1603074857487">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="235" key="GridCell.Tab.0.left" timestamp="1603801267129">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state width="1237" height="235" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1603801267129" />
     <state width="1877" height="155" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857487" />
-    <state width="1877" height="155" key="GridCell.Tab.0.right" timestamp="1603074857488">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="235" key="GridCell.Tab.0.right" timestamp="1603801267130">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state width="1237" height="235" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1603801267130" />
     <state width="1877" height="155" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857488" />
-    <state width="1877" height="155" key="GridCell.Tab.1.bottom" timestamp="1603074857488">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="523" key="GridCell.Tab.1.bottom" timestamp="1603529812429">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state width="1237" height="523" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603529812429" />
     <state width="1877" height="155" key="GridCell.Tab.1.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857488" />
-    <state width="1877" height="155" key="GridCell.Tab.1.center" timestamp="1603074857488">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="523" key="GridCell.Tab.1.center" timestamp="1603529812429">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state width="1237" height="523" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1603529812429" />
     <state width="1877" height="155" key="GridCell.Tab.1.center/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857488" />
-    <state width="1877" height="155" key="GridCell.Tab.1.left" timestamp="1603074857488">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="523" key="GridCell.Tab.1.left" timestamp="1603529812429">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state width="1237" height="523" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1603529812429" />
     <state width="1877" height="155" key="GridCell.Tab.1.left/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857488" />
-    <state width="1877" height="155" key="GridCell.Tab.1.right" timestamp="1603074857488">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="523" key="GridCell.Tab.1.right" timestamp="1603529812429">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state width="1237" height="523" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1603529812429" />
     <state width="1877" height="155" key="GridCell.Tab.1.right/0.0.1920.1040@0.0.1920.1040" timestamp="1603074857488" />
-    <state width="1877" height="232" key="GridCell.Tab.2.bottom" timestamp="1602754203019">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="523" key="GridCell.Tab.2.bottom" timestamp="1603529812429">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state width="1237" height="523" key="GridCell.Tab.2.bottom/0.0.1280.680@0.0.1280.680" timestamp="1603529812429" />
     <state width="1877" height="232" key="GridCell.Tab.2.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1602754203019" />
-    <state width="1877" height="232" key="GridCell.Tab.2.center" timestamp="1602754203019">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="523" key="GridCell.Tab.2.center" timestamp="1603529812429">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state width="1237" height="523" key="GridCell.Tab.2.center/0.0.1280.680@0.0.1280.680" timestamp="1603529812429" />
     <state width="1877" height="232" key="GridCell.Tab.2.center/0.0.1920.1040@0.0.1920.1040" timestamp="1602754203019" />
-    <state width="1877" height="232" key="GridCell.Tab.2.left" timestamp="1602754203019">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="523" key="GridCell.Tab.2.left" timestamp="1603529812429">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state width="1237" height="523" key="GridCell.Tab.2.left/0.0.1280.680@0.0.1280.680" timestamp="1603529812429" />
     <state width="1877" height="232" key="GridCell.Tab.2.left/0.0.1920.1040@0.0.1920.1040" timestamp="1602754203019" />
-    <state width="1877" height="232" key="GridCell.Tab.2.right" timestamp="1602754203019">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1237" height="523" key="GridCell.Tab.2.right" timestamp="1603529812429">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state width="1237" height="523" key="GridCell.Tab.2.right/0.0.1280.680@0.0.1280.680" timestamp="1603529812429" />
     <state width="1877" height="232" key="GridCell.Tab.2.right/0.0.1920.1040@0.0.1920.1040" timestamp="1602754203019" />
     <state x="490" y="175" key="Maven.ArtifactSearchDialog" timestamp="1601256194697">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -682,22 +437,28 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="669" y="235" key="MultipleFileMergeDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1600341232100" />
-    <state x="440" y="94" key="SettingsEditor" timestamp="1601263662072">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="284" y="0" key="SettingsEditor" timestamp="1603682334728">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state x="284" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1603682334728" />
     <state x="440" y="94" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1601263662072" />
     <state width="498" height="540" key="SwitcherDM" timestamp="1602487628654">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="498" height="540" key="SwitcherDM/0.0.1920.1040@0.0.1920.1040" timestamp="1602487628654" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1602639130519">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="270" y="107" key="Vcs.Push.Dialog.v2" timestamp="1603352359174">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state x="270" y="107" key="Vcs.Push.Dialog.v2/0.0.1280.680@0.0.1280.680" timestamp="1603352359174" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1602639130519" />
     <state x="640" y="344" key="com.intellij.ide.util.TipDialog" timestamp="1602222915800">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="640" y="344" key="com.intellij.ide.util.TipDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1602222915800" />
+    <state x="439" y="253" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1603449526595">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="439" y="253" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680@0.0.1280.680" timestamp="1603449526595" />
     <state x="636" y="258" width="666" height="524" key="find.popup" timestamp="1602840604372">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -706,9 +467,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="723" y="232" key="git4idea.branch.GitSmartOperationDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1600341083223" />
-    <state x="671" y="311" key="git4idea.merge.GitPullDialog" timestamp="1603074873930">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="447" y="203" key="git4idea.merge.GitPullDialog" timestamp="1603252953281">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state x="447" y="203" key="git4idea.merge.GitPullDialog/0.0.1280.680@0.0.1280.680" timestamp="1603252953281" />
     <state x="671" y="311" key="git4idea.merge.GitPullDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1603074873930" />
     <state x="334" y="215" key="new project wizard" timestamp="1600686231620">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -718,9 +480,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="702" y="147" key="refactoring.ChangeSignatureDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1599477324015" />
-    <state x="948" y="455" width="672" height="676" key="search.everywhere.popup" timestamp="1601264617965">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="632" y="298" width="672" height="443" key="search.everywhere.popup" timestamp="1603800932631">
+      <screen x="0" y="0" width="1280" height="680" />
     </state>
+    <state x="632" y="298" width="672" height="443" key="search.everywhere.popup/0.0.1280.680@0.0.1280.680" timestamp="1603800932631" />
     <state x="948" y="455" width="672" height="676" key="search.everywhere.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1601264617965" />
   </component>
   <component name="XDebuggerManager">

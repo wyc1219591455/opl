@@ -65,6 +65,11 @@ public class UserController {
     @Value("${rsa.private_key}")
     private String privateKey;
     private final PasswordEncoder passwordEncoder;
+
+    public PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
     private final UserService userService;
     private final DataService dataService;
     private final DeptService deptService;

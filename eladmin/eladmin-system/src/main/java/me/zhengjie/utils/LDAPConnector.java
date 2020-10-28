@@ -86,7 +86,7 @@ public class LDAPConnector {
         boolean passed = false;
         try {
             dirContext = new InitialLdapContext(env,sortControls);
-            dirContext.setRequestControls(sortControls);
+            //dirContext.setRequestControls(sortControls);
             SearchControls controls = new SearchControls();
             controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             String filter = "(sAMAccountName=" + username + ")";
@@ -135,7 +135,7 @@ public class LDAPConnector {
         String empNo=null;
         try {
             dirContext = new InitialLdapContext(env, sortControls);
-            dirContext.setRequestControls(sortControls);
+            //dirContext.setRequestControls(sortControls);
             SearchControls controls = new SearchControls();
             controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
             String filter = "(sAMAccountName=" + username + ")";
@@ -155,7 +155,10 @@ public class LDAPConnector {
                 }
             }
         }
-        return empNo.split(":")[1].trim().toUpperCase();
+        if (empNo!=null) {
+            return empNo.split(":")[1].trim().toUpperCase();
+        }
+        else return empNo;
     }
 
 }
