@@ -1,5 +1,8 @@
 package me.zhengjie.modules.opl.service;
 
+import me.zhengjie.modules.system.domain.User;
+
+
 /**
  * @author admin
  * @version 1.0.0
@@ -9,5 +12,9 @@ package me.zhengjie.modules.opl.service;
  */
 
 public interface WorkOrderService {
-
+    /**
+     * 获取当前用户信息
+     * @return
+     */
+   User queryUserInfo();
 }

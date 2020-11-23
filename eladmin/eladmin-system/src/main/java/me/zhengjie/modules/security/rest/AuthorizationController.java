@@ -27,28 +27,19 @@ import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.annotation.AnonymousAccess;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.exception.BadRequestException;
-import me.zhengjie.modules.opl.mapper.FindUserNameMapper;
 import me.zhengjie.modules.security.config.SecurityProperties;
 import me.zhengjie.modules.security.security.TokenProvider;
 import me.zhengjie.modules.security.service.dto.AuthUserDto;
 import me.zhengjie.modules.security.service.dto.JwtUserDto;
 import me.zhengjie.modules.security.service.OnlineUserService;
-import me.zhengjie.modules.system.domain.User;
 import me.zhengjie.modules.system.repository.UserRepository;
-import me.zhengjie.modules.system.rest.UserController;
-import me.zhengjie.modules.system.service.UserService;
-import me.zhengjie.modules.system.service.dto.UserDto;
 import me.zhengjie.utils.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -132,38 +123,44 @@ public class AuthorizationController {
                 throw new BadRequestException("用户名或密码错误");
             }
         }else{
-            // 密码解密
-            RSA rsa = new RSA(privateKey, null);
-            String password = new String(rsa.decrypt(authUser.getPassword(), KeyType.PrivateKey));
-            // 查询验证码
-            String code = (String) redisUtils.get(authUser.getUuid());
-            // 清除验证码
-            redisUtils.del(authUser.getUuid());
-            if (StringUtils.isBlank(code)) {
-                throw new BadRequestException("验证码不存在或已过期");
+            //只让admin进入
+            if("admin".equals(authUser.getUsername())){
+                // 密码解密
+                RSA rsa = new RSA(privateKey, null);
+                String password = new String(rsa.decrypt(authUser.getPassword(), KeyType.PrivateKey));
+                // 查询验证码
+                String code = (String) redisUtils.get(authUser.getUuid());
+                // 清除验证码
+                redisUtils.del(authUser.getUuid());
+                if (StringUtils.isBlank(code)) {
+                    throw new BadRequestException("验证码不存在或已过期");
+                }
+                if (StringUtils.isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
+                    throw new BadRequestException("验证码错误");
+                }
+                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
+                Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // 生成令牌
+                String token = tokenProvider.createToken(authentication);
+                final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
+                // 保存在线信息
+                onlineUserService.save(jwtUserDto, token, request);
+                // 返回 token 与 用户信息
+                Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
+                    put("token", properties.getTokenStartWith() + token);
+                    put("user", jwtUserDto);
+                }};
+                if (singleLogin) {
+                    //踢掉之前已经登录的token
+                    onlineUserService.checkLoginOnUser(authUser.getUsername(), token);
+                }
+                // return ResponseEntity.ok(authInfo);
+                return authInfo;
+            }else{
+                throw new BadRequestException("用户名或密码错误");
             }
-            if (StringUtils.isBlank(authUser.getCode()) || !authUser.getCode().equalsIgnoreCase(code)) {
-                throw new BadRequestException("验证码错误");
-            }
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser.getUsername(), password);
-            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            // 生成令牌
-            String token = tokenProvider.createToken(authentication);
-            final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
-            // 保存在线信息
-            onlineUserService.save(jwtUserDto, token, request);
-            // 返回 token 与 用户信息
-            Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
-                put("token", properties.getTokenStartWith() + token);
-                put("user", jwtUserDto);
-            }};
-            if (singleLogin) {
-                //踢掉之前已经登录的token
-                onlineUserService.checkLoginOnUser(authUser.getUsername(), token);
-            }
-            // return ResponseEntity.ok(authInfo);
-            return authInfo;
+
         }
 
     }
