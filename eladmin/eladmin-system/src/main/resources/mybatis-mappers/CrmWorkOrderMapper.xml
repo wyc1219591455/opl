@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.zhengjie.modules.opl.mapper.CrmWorkOrderMapper">
+
+    <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
+        INSERT INTO crm_work_order(name,entity_type,owner_id,dim_depart,workflow_stage_name
+        ,applicant_id,created_by,created_at,updated_by,updated_at,lock_status,approval_status
+        ,topic,serial_no,plan_comp_time,created_person,job_number,project_name,model,matter_date
+        ,sn_no,ultimate_customer,problem_type,problem_attach,problem_desc,problem_path,site_condition
+        ,rescue_action,fae_header,work_order_type,is_crm,crm_id)
+        VALUES(#{name},#{entityType},#{ownerId},#{dimDepart},#{workflowStageName},
+        #{applicantId},#{createdBy},#{createdAt},#{updatedBy},#{updatedAt}
+        ,#{lockStatus},#{approvalStatus},#{topic},#{serialNo},#{planCompTime},#{createdPerson}
+        ,#{jobNumber},#{projectName},#{model},#{matterDate},#{snNo},#{ultimateCustomer}
+        ,#{problemType},#{problemAttach},#{problemDesc},#{problemPath},#{siteCondition}
+        ,#{rescueAction},#{faeHeader},#{workOrderType},#{isCrm},#{crmId})
+    </insert>
+
+    <update id="update" parameterType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
+        UPDATE crm_work_order set name=#{name},entity_type=#{entityType},owner_id=#{ownerId},dim_depart=#{dimDepart},
+        workflow_stage_name=#{workflowStageName},applicant_id=#{applicantId},created_by=#{createdBy},
+        created_at=#{createdAt},updated_by=#{updatedBy},updated_at=#{updatedAt},lock_status=#{lockStatus},
+        approval_status=#{approvalStatus},topic=#{topic},serial_no=#{serialNo},plan_comp_time=#{planCompTime},
+        created_person=#{createdPerson},job_number=#{jobNumber},project_name=#{projectName},model=#{model},
+        matter_date=#{matterDate},sn_no=#{snNo},ultimate_customer=#{ultimateCustomer},problem_type=#{problemType},
+        problem_attach=#{problemAttach},problem_desc=#{problemDesc},problem_path=#{problemPath},
+        site_condition=#{siteCondition},rescue_action=#{rescueAction},fae_header=#{faeHeader},work_order_type=#{workOrderType}
+        WHERE crm_id = #{crmId}
+    </update>
+
+
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+        INSERT INTO crm_work_order(name,entity_type,owner_id,dim_depart,workflow_stage_name
+        ,applicant_id,created_by,created_at,updated_by,updated_at,lock_status,approval_status
+        ,topic,serial_no,plan_comp_time,created_person,job_number,project_name,model,matter_date
+        ,sn_no,ultimate_customer,problem_type,problem_attach,problem_desc,problem_path,site_condition
+        ,rescue_action,fae_header,work_order_type,is_crm,crm_id)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.name},#{item.entityType},#{item.ownerId},#{item.dimDepart},#{item.workflowStageName},
+            #{item.applicantId},#{item.createdBy},#{item.createdAt,jdbcType=TIMESTAMP},#{item.updatedBy},
+            #{item.updatedAt,jdbcType=TIMESTAMP},#{item.lockStatus},#{item.approvalStatus},#{item.topic},
+            #{item.serialNo},#{item.planCompTime,jdbcType=TIMESTAMP},#{item.createdPerson},#{item.jobNumber},
+            #{item.projectName},#{item.model},#{item.matterDate,jdbcType=TIMESTAMP},
+            #{item.snNo},#{item.ultimateCustomer},#{item.problemType},#{item.problemAttach},#{item.problemDesc},
+            #{item.problemPath},#{item.siteCondition},#{item.rescueAction},#{item.faeHeader},#{item.workOrderType},
+            #{item.isCrm},#{item.crmId})
+        </foreach>
+    </insert>
+
+    <update id="batchUpdate" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" separator=";">
+        UPDATE crm_work_order set name=#{item.name},entity_type=#{item.entityType},owner_id=#{item.ownerId},dim_depart=#{item.dimDepart},
+        workflow_stage_name=#{item.workflowStageName},applicant_id=#{item.applicantId},created_by=#{item.createdBy},created_at=#{item.createdAt},updated_by=#{item.updatedBy},
+        updated_at=#{item.updatedAt},lock_status=#{item.lockStatus},approval_status=#{item.approvalStatus},topic=#{item.topic},serial_no=#{item.serialNo},plan_comp_time=#{item.planCompTime},
+        created_person=#{item.createdPerson},job_number=#{item.jobNumber},project_name=#{item.projectName},model=#{item.model},matter_date=#{item.matterDate},sn_no=#{item.snNo},
+        ultimate_customer=#{item.ultimateCustomer},problem_type=#{item.problemType},problem_attach=#{item.problemAttach},problem_desc=#{item.problemDesc},problem_path=#{item.problemPath},
+        site_condition=#{item.siteCondition},rescue_action=#{item.rescueAction},fae_header=#{item.faeHeader},work_order_type=#{item.workOrderType}
+         WHERE crm_id = #{item.crmId}
+        </foreach>
+    </update>
+
+    <select id="findAll" resultType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
+       SELECT * FROM crm_work_order
+    </select>
+
+    <select id="findOplByMaxId" resultType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
+        SELECT * FROM crm_work_order WHERE id =(SELECT max(id) FROM crm_work_order WHERE serial_no LIKE '%opl%')
+    </select>
+
+    <select id="findCrmOrderByMaxId" resultType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
+        SELECT * FROM crm_work_order WHERE id =(SELECT max(id) FROM crm_work_order WHERE serial_no LIKE '%crm%')
+    </select>
+
+    <select id="findCrmOrderById" parameterType="Integer" resultType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
+        SELECT * FROM crm_work_order WHERE id = #{id}
+    </select>
+
+    <select id="findCrmOrderByOrderType" parameterType="Integer" resultType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
+        SELECT * FROM crm_work_order WHERE work_order_type = #{type}
+    </select>
+
+    <select id="findOrderBySerialNo" parameterType="String" resultType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
+        SELECT * FROM crm_work_order WHERE serial_no = #{serialNo}
+    </select>
+
+    <select id="findAllOrder" resultType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
+        SELECT * FROM crm_work_order
+    </select>
+
+</mapper>
