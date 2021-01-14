@@ -19,31 +19,31 @@ import java.util.Map;
  * @author: ming.cao
  * @create: 2021-01-13 19:36
  **/
-@Api(tags = "OPL：工单管理")
 @RestController
 @RequiredArgsConstructor
+@Api(tags = "OPL：工单管理")
 @RequestMapping("/api/crmWorkOrder")
 public class CrmWorkOrderController {
 
-    private CrmWorkOrderService crmWorkOrderService;
+    private final CrmWorkOrderService crmWorkOrderService;
 
     @Log("获取所有工单信息")
     @ApiOperation("获取所有工单信息")
-    @GetMapping()
+    @GetMapping
     public Map<String ,Object> getCrmWorkOrder(CrmWorkOrderCriteria criteria, Pageable pageable){
         return  crmWorkOrderService.findAll(criteria,pageable);
     }
 
     @Log("新增工单")
     @ApiOperation("新增工单")
-    @PostMapping()
+    @PostMapping
     public void insert(CrmWorkOrder crmWorkOrder){
         crmWorkOrderService.insert(crmWorkOrder);
     }
 
     @Log("修改工单")
     @ApiOperation("修改工单")
-    @PutMapping()
+    @PutMapping
     public void update(CrmWorkOrder crmWorkOrder){
         crmWorkOrderService.update(crmWorkOrder);
     }

@@ -3,6 +3,7 @@ package me.zhengjie.modules.opl.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.domain.Pageable;
@@ -11,6 +12,7 @@ import me.zhengjie.modules.opl.service.CrmWorkOrderService;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.utils.PageHelpResultUtil;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,8 +51,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
     @Override
     public Map<String, Object> findAll(CrmWorkOrderCriteria criteria, Pageable pageable) {
-        PageHelper.clearPage();
-
+        PageHelper.startPage(pageable.getPage(),pageable.getSize());
         List<CrmWorkOrder> tempList= crmWorkOrderMapper.findAll();
         PageInfo<CrmWorkOrder> pageInfo = new PageInfo(tempList);
         return PageHelpResultUtil.toPage(pageInfo);

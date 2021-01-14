@@ -1,3 +1,4 @@
+/*
 package me.zhengjie.modules.opl.rest;
 
 import io.swagger.annotations.Api;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
+*/
 /**
  * @Author: chenxin.jiang
  * @Date: 2020/11/2
  * @Description:
- */
+ *//*
+
 @Api(tags = "OPL：发起问题")
 @RestController
 @RequestMapping(value = "/opl" , produces = "application/json;charset=utf8")
@@ -39,3 +42,4 @@ public class ProblemController {
         problemService.createProblem(problem,count+1);
     }
 }
+*/

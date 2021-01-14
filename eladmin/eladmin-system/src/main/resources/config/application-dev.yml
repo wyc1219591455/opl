@@ -8,10 +8,10 @@ spring:
 
   redis:
     #数据库索引
-    database: 3
-    host: 10.66.53.27
+    database: 9
+    host: 10.66.52.138
     port: 6379
-    password: JST@123
+    password:
     #连接超时时间
     timeout: 5000
 
