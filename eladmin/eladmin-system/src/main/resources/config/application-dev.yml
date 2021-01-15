@@ -10,6 +10,7 @@ spring:
     #数据库索引
     database: 9
     host: 10.66.52.138
+    #host: 10.66.53.27
     port: 6379
     password:
     #连接超时时间
