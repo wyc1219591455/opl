@@ -69,4 +69,11 @@ public class PublicController {
       DeptQueryCriteria criteria=new DeptQueryCriteria();
       return deptService.queryAll(criteria, true);
   }
+
+
+  @GetMapping("/num")
+  @AnonymousAccess
+  public String getNum(String userName){
+    return publicService.getNum(userName);
+  }
 }

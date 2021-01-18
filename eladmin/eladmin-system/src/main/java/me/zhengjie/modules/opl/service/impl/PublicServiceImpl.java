@@ -6,6 +6,7 @@ import me.zhengjie.modules.opl.domain.Project;
 import me.zhengjie.modules.opl.domain.Status;
 import me.zhengjie.modules.opl.mapper.PublicMapper;
 import me.zhengjie.modules.opl.service.PublicService;
+import me.zhengjie.utils.LDAPConnector;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -42,6 +43,11 @@ public class PublicServiceImpl implements PublicService {
         DateFormat dateFormat=new SimpleDateFormat("yyyyMMdd");
         String format = dateFormat.format(date);
         return publicMapper.findCountProblemToday(format);
+    }
+
+    @Override
+    public String getNum(String userName) {
+        return LDAPConnector.getEmpNo(userName);
     }
 
 }

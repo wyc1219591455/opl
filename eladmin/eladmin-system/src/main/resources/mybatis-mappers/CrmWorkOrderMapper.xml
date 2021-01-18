@@ -94,17 +94,17 @@
             AND A.serial_no LIKE CONCAT('%',#{serialNo},'%')
         </if>
         <if test="orderStatus != null ">
-            AND A.FStatus = #{status}
+            AND A.orderStatus = #{orderStatus}
         </if>
 
-        <if test="beginDate != null ">
-            AND A.FBeginDate &gt;= #{beginDate}
+        <if test="startTime != null ">
+            AND A.created_at &gt;= #{startTime}
         </if>
 
-        <if test="endDate != null  ">
-            AND A.FEndDate &lt;= #{endDate}
+        <if test="endTime != null  ">
+            AND A.created_at &lt;= #{endTime}
         </if>
-        ORDER BY A.FBeginDate desc
+        ORDER BY A.created_at desc
 
     </select>
 

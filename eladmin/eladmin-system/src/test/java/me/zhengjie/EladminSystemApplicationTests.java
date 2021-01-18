@@ -1,6 +1,5 @@
 package me.zhengjie;
 
-import me.zhengjie.modules.opl.mapper.FindUserNameMapper;
 import me.zhengjie.modules.security.service.dto.AuthUserDto;
 import me.zhengjie.modules.system.domain.Dept;
 import me.zhengjie.modules.system.domain.User;
@@ -30,8 +29,8 @@ public class EladminSystemApplicationTests {
     private  PasswordEncoder passwordEncoder;
     @Autowired
     private  RoleService roleService;
-    @Autowired
-    private FindUserNameMapper findUserNameMapper;
+//    @Autowired
+//    private FindUserNameMapper findUserNameMapper;
 
     @Value("${rsa.private_key}")
     private String privateKey;
@@ -72,29 +71,29 @@ public class EladminSystemApplicationTests {
 
     }
 
-    @Test
-    public void getRoleList(){
-        AuthUserDto authUser=new AuthUserDto();
-        authUser.setUsername("APE6374");
-        authUser.setPassword("123456");
-        findUserNameMapper.updatePasswordByName(authUser);
-        System.out.println(findUserNameMapper.findPasswordByUsername("APE6374"));
-    }
-
-
-    @Test
-    public void create(){
-        AuthUserDto resources=new AuthUserDto();
-        resources.setUsername("APE6374");
-        // 默认密码 123456
-        resources.setPassword(passwordEncoder.encode("123456"));
-        findUserNameMapper.updatePasswordByName(resources);
-    }
-
-    @Test
-    public void delete(){
-        Integer i=findUserNameMapper.deleteByUserName("test");
-        System.out.println(i);
-    }
+//    @Test
+//    public void getRoleList(){
+//        AuthUserDto authUser=new AuthUserDto();
+//        authUser.setUsername("APE6374");
+//        authUser.setPassword("123456");
+//        findUserNameMapper.updatePasswordByName(authUser);
+//        System.out.println(findUserNameMapper.findPasswordByUsername("APE6374"));
+//    }
+//
+//
+//    @Test
+//    public void create(){
+//        AuthUserDto resources=new AuthUserDto();
+//        resources.setUsername("APE6374");
+//        // 默认密码 123456
+//        resources.setPassword(passwordEncoder.encode("123456"));
+//        findUserNameMapper.updatePasswordByName(resources);
+//    }
+//
+//    @Test
+//    public void delete(){
+//        Integer i=findUserNameMapper.deleteByUserName("test");
+//        System.out.println(i);
+//    }
 }
 

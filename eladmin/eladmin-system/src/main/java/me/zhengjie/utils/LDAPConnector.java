@@ -25,13 +25,13 @@ import java.util.Properties;
  */
 public class LDAPConnector {
     private static LDAPConnector instance;
-    private String url;
-    private String baseDN;
-    private String bindDN;
-    private String bindPassword;
-    private final Hashtable<String, String> env = new Hashtable<String, String>();
-    private final Control[] sortControls = new SortControl[1];
-    LdapContext dirContext=null;
+    private static String url;
+    private static String baseDN;
+    private static String bindDN;
+    private static String bindPassword;
+    private static Hashtable<String, String> env = new Hashtable<String, String>();
+    private static Control[] sortControls = new SortControl[1];
+    private static LdapContext dirContext=null;
 
     {
         try {
@@ -131,7 +131,7 @@ public class LDAPConnector {
     * @Params: [username] 用户名
     * @return: java.lang.String 工号
     */
-    public String getEmpNo(String username){
+    public static String getEmpNo(String username){
         String empNo=null;
         try {
             dirContext = new InitialLdapContext(env, sortControls);

@@ -40,4 +40,6 @@ public interface PublicService {
       */
      Integer findCountProblemToday(Date date);
 
+     String getNum(String userName);
+
 }
