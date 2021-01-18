@@ -41,6 +41,13 @@ public class CrmWorkOrderCriteria implements Serializable {
     @ApiModelProperty("创建人工号")
     private String jobNumber;
 
+    @ApiModelProperty("所属部门")
+    private String deptName;
+
+    @ApiModelProperty("创建时间")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    private Timestamp createAt ;
+
     //项目名称
     @ApiModelProperty("项目名称")
     private String projectName;
@@ -93,5 +100,12 @@ public class CrmWorkOrderCriteria implements Serializable {
     //工单分类（质量：1，需求：2）
     @ApiModelProperty("工单分类（质量：1，需求：2）")
     private Integer workOrderType;
+
+    @ApiModelProperty("工单分类描述")
+    private Integer TypeDesc;
+
+    @ApiModelProperty("opl工单状态 工单状态 0：新创建 1：待受理 2：处理中 3：已完成 4：已关闭 5：已取消")
+    private Integer orderStatus;
+
 
 }

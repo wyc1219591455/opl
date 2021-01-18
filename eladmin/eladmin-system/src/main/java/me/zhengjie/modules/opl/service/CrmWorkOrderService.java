@@ -17,14 +17,14 @@ public interface CrmWorkOrderService {
 
     /**
      * @title: insert
-     * @description: insert
+     * @description: opl新建工单
      * @date: 2021/1/13 19:17
      * @author: ming.cao
-     * @param crmWorkOrder
+     * @param crmWorkOrderCriteria
      * @return void
      * @throws
      */
-    void insert(CrmWorkOrder crmWorkOrder) ;
+    void insert(CrmWorkOrderCriteria crmWorkOrderCriteria) ;
 
     /**
      * @title: update

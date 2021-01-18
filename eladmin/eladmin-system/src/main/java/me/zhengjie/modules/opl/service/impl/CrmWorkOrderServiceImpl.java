@@ -32,11 +32,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     private final CrmWorkOrderMapper crmWorkOrderMapper;
 
     @Override
-    public void insert(CrmWorkOrder crmWorkOrder) {
+    public void insert(CrmWorkOrderCriteria crmWorkOrderCriteria) {
         //获取opl工单号
         String maxSerialNo = getOplMaxNo();
-        crmWorkOrder.setSerialNo(maxSerialNo);
-        crmWorkOrderMapper.insert(crmWorkOrder);
+        crmWorkOrderCriteria.setSerialNo(maxSerialNo);
+        crmWorkOrderMapper.insert(crmWorkOrderCriteria);
     }
 
     @Override
@@ -52,8 +52,8 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     @Override
     public Map<String, Object> findAll(CrmWorkOrderCriteria criteria, Pageable pageable) {
         PageHelper.startPage(pageable.getPage(),pageable.getSize());
-        List<CrmWorkOrder> tempList= crmWorkOrderMapper.findAll();
-        PageInfo<CrmWorkOrder> pageInfo = new PageInfo(tempList);
+        List<CrmWorkOrderCriteria> tempList= crmWorkOrderMapper.findAll();
+        PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
         return PageHelpResultUtil.toPage(pageInfo);
     }
 

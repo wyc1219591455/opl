@@ -1,6 +1,7 @@
 package me.zhengjie.modules.opl.mapper;
 
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -16,14 +17,14 @@ public interface CrmWorkOrderMapper {
 
     /**
      * @title: insert
-     * @description: insert
+     * @description: opl插入表
      * @date: 2021/1/13 19:32
      * @author: ming.cao
-     * @param crmWorkOrder
+     * @param crmWorkOrderCriteria
      * @return void
      * @throws
      */
-    void insert(CrmWorkOrder crmWorkOrder);
+    void insert(CrmWorkOrderCriteria crmWorkOrderCriteria);
 
     /**
      * @title: update
@@ -45,7 +46,7 @@ public interface CrmWorkOrderMapper {
      * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
      * @throws
      */
-    List<CrmWorkOrder> findAll();
+    List<CrmWorkOrderCriteria> findAll();
 
     /**
      * @title: findCrmOrderById
@@ -122,7 +123,7 @@ public interface CrmWorkOrderMapper {
      * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
      * @throws
      */
-    List<CrmWorkOrder> findAllOrder();
+    List<CrmWorkOrderCriteria> findAllOrder();
 
     /**
      * @title: findOrderBySerialNo

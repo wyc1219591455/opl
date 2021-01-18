@@ -2,19 +2,39 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.zhengjie.modules.opl.mapper.CrmWorkOrderMapper">
+    <resultMap id="OrderMap" type="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria">
+        <result property="topic" column="topic"></result>
+        <result property="serialNo" column="serial_no"></result>
+        <result property="planCompTime" column="plan_comp_time"></result>
+        <result property="createdPerson" column="created_person"></result>
+        <result property="jobNumber" column="job_number"></result>
+        <result property="createAt" column="created_at"></result>
+        <result property="deptName" column="deptName"></result>
+        <result property="projectName" column="project_name"></result>
+        <result property="model" column="model"></result>
+        <result property="matterDate" column="matter_date"></result>
+        <result property="snNo" column="sn_no"></result>
+        <result property="ultimateCustomer" column="ultimate_customer"></result>
+        <result property="problemType" column="problem_type"></result>
+        <result property="problemAttach" column="problem_attach"></result>
+        <result property="problemDesc" column="problem_desc"></result>
+        <result property="problemPath" column="problem_path"></result>
+        <result property="siteCondition" column="site_condition"></result>
+        <result property="rescueAction" column="rescue_action"></result>
+        <result property="faeHeader" column="fae_header"></result>
+        <result property="workOrderType" column="work_order_type"></result>
+        <result property="TypeDesc" column="TypeDesc"></result>
+        <result property="orderStatus" column="orderStatus"></result>
+    </resultMap>
 
-    <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
-        INSERT INTO crm_work_order(name,entity_type,owner_id,dim_depart,workflow_stage_name
-        ,applicant_id,created_by,created_at,updated_by,updated_at,lock_status,approval_status
-        ,topic,serial_no,plan_comp_time,created_person,job_number,project_name,model,matter_date
-        ,sn_no,ultimate_customer,problem_type,problem_attach,problem_desc,problem_path,site_condition
-        ,rescue_action,fae_header,work_order_type,is_crm,crm_id)
-        VALUES(#{name},#{entityType},#{ownerId},#{dimDepart},#{workflowStageName},
-        #{applicantId},#{createdBy},#{createdAt},#{updatedBy},#{updatedAt}
-        ,#{lockStatus},#{approvalStatus},#{topic},#{serialNo},#{planCompTime},#{createdPerson}
-        ,#{jobNumber},#{projectName},#{model},#{matterDate},#{snNo},#{ultimateCustomer}
-        ,#{problemType},#{problemAttach},#{problemDesc},#{problemPath},#{siteCondition}
-        ,#{rescueAction},#{faeHeader},#{workOrderType},#{isCrm},#{crmId})
+    <insert id="insert" parameterType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria">
+        INSERT INTO crm_work_order(topic,serialNo,planCompTime,createdPerson,jobNumber,created_at
+        ,projectName,model,matterDate,snNo,ultimateCustomer,problemType,problemAttach
+        ,problemDesc,problemPath,siteCondition,rescueAction,faeHeader,workOrderType)
+        VALUES(#{topic},#{serialNo},#{planCompTime},#{createdPerson},#{jobNumber},#{createAt},
+        #{projectName},#{model},#{matterDate},#{snNo},#{ultimateCustomer}
+        ,#{problemType},#{problemAttach},#{problemDesc},#{problemPath},#{siteCondition},#{rescueAction}
+        ,#{faeHeader},#{workOrderType})
     </insert>
 
     <update id="update" parameterType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
@@ -61,8 +81,31 @@
         </foreach>
     </update>
 
-    <select id="findAll" resultType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
-       SELECT * FROM crm_work_order
+    <select id="findAll" resultMap="OrderMap">
+        SELECT A.topic,A.serial_no,A.plan_comp_time,A.created_person,C.FDeptFullName AS deptName,A.project_name,A.model,A.matter_date,A.sn_no,
+        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.fae_header,A.work_order_type
+        FROM crm_work_order A
+        LEFT JOIN tsysuser B ON A.job_number=B.FUserName
+        LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
+        <if test="topic != null and topic != ''">
+            AND A.topic LIKE CONCAT('%',#{topic},'%')
+        </if>
+        <if test="serialNo != null and serialNo != '' ">
+            AND A.serial_no LIKE CONCAT('%',#{serialNo},'%')
+        </if>
+        <if test="orderStatus != null ">
+            AND A.FStatus = #{status}
+        </if>
+
+        <if test="beginDate != null ">
+            AND A.FBeginDate &gt;= #{beginDate}
+        </if>
+
+        <if test="endDate != null  ">
+            AND A.FEndDate &lt;= #{endDate}
+        </if>
+        ORDER BY A.FBeginDate desc
+
     </select>
 
     <select id="findOplByMaxId" resultType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
