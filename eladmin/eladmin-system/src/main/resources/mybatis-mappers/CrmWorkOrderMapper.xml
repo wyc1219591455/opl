@@ -28,9 +28,9 @@
     </resultMap>
 
     <insert id="insert" parameterType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria">
-        INSERT INTO crm_work_order(topic,serialNo,planCompTime,createdPerson,jobNumber,created_at
-        ,projectName,model,matterDate,snNo,ultimateCustomer,problemType,problemAttach
-        ,problemDesc,problemPath,siteCondition,rescueAction,faeHeader,workOrderType)
+        INSERT INTO crm_work_order(topic,serial_no,plan_comp_time,created_person,job_number,created_at
+        ,project_name,model,matter_date,sn_no,ultimate_customer,problem_type,problem_attach
+        ,problem_desc,problem_path,site_condition,rescue_action,fae_header,work_order_type)
         VALUES(#{topic},#{serialNo},#{planCompTime},#{createdPerson},#{jobNumber},#{createAt},
         #{projectName},#{model},#{matterDate},#{snNo},#{ultimateCustomer}
         ,#{problemType},#{problemAttach},#{problemDesc},#{problemPath},#{siteCondition},#{rescueAction}
@@ -83,7 +83,7 @@
 
     <select id="findAll" resultMap="OrderMap">
         SELECT A.topic,A.serial_no,A.plan_comp_time,A.created_person,C.FDeptFullName AS deptName,A.project_name,A.model,A.matter_date,A.sn_no,
-        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.fae_header,A.work_order_type
+        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.work_order_type
         FROM crm_work_order A
         LEFT JOIN tsysuser B ON A.job_number=B.FUserName
         LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode

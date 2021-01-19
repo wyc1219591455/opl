@@ -102,7 +102,7 @@ public class CrmWorkOrderCriteria implements Serializable {
     private Integer workOrderType;
 
     @ApiModelProperty("工单分类描述")
-    private Integer TypeDesc;
+    private String TypeDesc;
 
     @ApiModelProperty("opl工单状态 工单状态 0：新创建 1：待受理 2：处理中 3：已完成 4：已关闭 5：已取消")
     private Integer orderStatus;
