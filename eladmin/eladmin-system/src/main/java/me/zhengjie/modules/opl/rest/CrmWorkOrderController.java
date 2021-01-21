@@ -37,7 +37,7 @@ public class CrmWorkOrderController {
     @Log("新增工单")
     @ApiOperation("新增工单")
     @PostMapping
-    public void insert(CrmWorkOrderCriteria crmWorkOrderCriteria){
+    public void insert( @RequestBody CrmWorkOrderCriteria crmWorkOrderCriteria){
         crmWorkOrderService.insert(crmWorkOrderCriteria);
     }
 
