@@ -23,7 +23,7 @@ public interface QueuesToDeptMapper {
      * @return java.util.List<me.zhengjie.modules.opl.domain.QueuesToDept>
      * @throws
      */
-    List<QueuesToDept> findByQueueId(Integer id) ;
+    List<UserForShow> findByQueueId(Integer id) ;
 
     /**
      * @title: insert

@@ -97,10 +97,10 @@ public class RequestQueuesServiceImpl implements RequestQueuesService {
      * @param criteria
      */
     private void isEmptyTest(RequestQueuesCriteria criteria){
-        if (ObjectUtil.isNotEmpty(criteria.getCode())){
+        if (ObjectUtil.isEmpty(criteria.getCode())){
             throw new BadRequestException("组代码不能为空！");
         }
-        if (ObjectUtil.isNotEmpty(criteria.getName())){
+        if (ObjectUtil.isEmpty(criteria.getName())){
             throw new BadRequestException("组名称不能为空！");
         }
 

@@ -27,12 +27,12 @@ import java.util.Map;
 @RequestMapping("/api/queueToDept")
 public class QueueToDeptController {
 
-    private QueuesToDeptService queuesToDeptService;
+    private final QueuesToDeptService queuesToDeptService;
 
     @Log("获取所有支持组部门信息")
     @ApiOperation("获取所有支持组部门信息")
     @GetMapping
-    public Map<String ,Object> getQueueToDept(@ApiParam("支持组id") Integer queueId, Pageable pageable){
+    public Map<String ,Object> getQueueToDept( Integer queueId, Pageable pageable){
         return  queuesToDeptService.findByQueueId(pageable,queueId);
     }
 
@@ -59,7 +59,7 @@ public class QueueToDeptController {
 
     @Log("获取所有部门人员信息")
     @ApiOperation("获取所有部门人员信息")
-    @GetMapping
+    @GetMapping("/deptUser")
     public Map<String ,Object> findAllUserByDeptId(@ApiParam("部门id") Integer deptId, Pageable pageable){
       return   queuesToDeptService.findAllUserByDeptId(pageable,deptId);
     }

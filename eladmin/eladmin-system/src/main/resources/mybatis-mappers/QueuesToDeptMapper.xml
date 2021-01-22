@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.zhengjie.modules.opl.mapper.QueuesToDeptMapper">
 
-    <select id="findByQueueId" resultType="me.zhengjie.modules.opl.domain.QueuesToDept">
+    <select id="findByQueueId" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
         SELECT t3.FUserId as userId,t3.FUserName as userName,t3.FHumanName as humanName,
         t4.FDeptName as deptName,t1.code,t1.name,t1.id
         FROM trequestqueues t1 LEFT JOIN
@@ -32,7 +32,7 @@
         INSERT INTO queuesToDept(queuesId,sourceId,type,status,
         createDateTime,createUserId)
         VALUES(#{queuesId},#{sourceId},#{type},#{status},
-        #{createDateTime},#{createUserId})
+        #{createDateTime,jdbcType=TIMESTAMP},#{createUserId})
     </insert>
 
     <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
@@ -40,14 +40,14 @@
         createDateTime,createUserId)
         <foreach collection="list" item="item" index="index" separator="," >
         VALUES (#{item.queuesId},#{item.sourceId},#{item.type},#{item.status},
-        #{item.createDateTime},#{item.createUserId})
+        #{item.createDateTime,jdbcType=TIMESTAMP},#{item.createUserId})
         </foreach>
     </insert>
 
     <update id="update" parameterType="me.zhengjie.modules.opl.domain.QueuesToDept">
         UPDATE queuesToDept SET queuesId=#{queuesId},
         sourceId=#{sourceId},type=#{type},status=#{status},
-        modifyDateTime=#{modifyDateTime},modifyUserId=#{modifyUserId}
+        modifyDateTime=#{modifyDateTime,jdbcType=TIMESTAMP},modifyUserId=#{modifyUserId}
         WHERE id = #{id}
     </update>
 
@@ -55,7 +55,7 @@
         <foreach collection="list" item="item" index="index" separator="," >
         UPDATE queuesToDept SET queuesId=#{item.queuesId},
         sourceId=#{item.sourceId},type=#{item.type},status=#{item.status},
-        modifyDateTime=#{item.modifyDateTime},modifyUserId=#{item.modifyUserId}
+        modifyDateTime=#{item.modifyDateTime,jdbcType=TIMESTAMP},modifyUserId=#{item.modifyUserId}
         WHERE id = #{item.id}
         </foreach>
     </update>

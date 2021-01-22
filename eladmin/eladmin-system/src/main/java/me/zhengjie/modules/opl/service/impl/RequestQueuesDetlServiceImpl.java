@@ -139,13 +139,13 @@ public class RequestQueuesDetlServiceImpl implements RequestQueuesDetlService {
      * @param criteria
      */
     private void isEmptyTest(RequestQueuesDetlCriteria criteria){
-        if (ObjectUtil.isNotEmpty(criteria.getMemberId())){
+        if (ObjectUtil.isEmpty(criteria.getMemberId())){
             throw new BadRequestException("人员不能为空！");
         }
-        if (ObjectUtil.isNotEmpty(criteria.getQueuesId())){
+        if (ObjectUtil.isEmpty(criteria.getQueuesId())){
             throw new BadRequestException("支持组不能为空！");
         }
-        if (ObjectUtil.isNotEmpty(criteria.getDeptId())){
+        if (ObjectUtil.isEmpty(criteria.getDeptId())){
             throw new BadRequestException("部门不能为空！");
         }
 
