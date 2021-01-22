@@ -2,6 +2,7 @@ package me.zhengjie.modules.opl.service;
 
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.RequestQueuesDetl;
+import me.zhengjie.modules.opl.service.dto.OrgTreeDto;
 import me.zhengjie.modules.opl.service.dto.RequestQueuesDetlCriteria;
 
 import java.util.List;
@@ -57,4 +58,15 @@ public interface RequestQueuesDetlService {
      * @throws
      */
     void deleteRequestQueuesDetl(List<Integer> ids);
+
+    /**
+     * @title: getOrgData
+     * @description: 获取公司部门数据
+     * @date: 2021/1/21 10:35
+     * @author: ming.cao
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.OrgTreeDto>
+     * @throws
+     */
+    List<OrgTreeDto> getOrgData();
 }

@@ -222,11 +222,11 @@
             <artifactId>UserAgentUtils</artifactId>
             <version>1.20</version>
         </dependency>
-        <!-- jackson解析xml -->
+       <!-- &lt;!&ndash; jackson解析xml &ndash;&gt;
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>

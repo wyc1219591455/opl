@@ -71,4 +71,7 @@ public interface RequestQueuesDetlMapper {
      * @throws
      */
     Integer countMemberInQueue(Integer queuesId,Integer memberId);
+
+
+    
 }
