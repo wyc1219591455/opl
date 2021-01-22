@@ -276,24 +276,7 @@ public class MenuServiceImpl implements MenuService {
                             menuVo.setRedirect("noredirect");
                             menuVo.setChildren(buildMenus(menuDtoList));
                             // 处理是一级菜单并且没有子菜单的情况
-                        } /*else if(menuDTO.getPid() == null){
-                            MenuVo menuVo1 = new MenuVo();
-                            menuVo1.setMeta(menuVo.getMeta());
-                            // 非外链
-                            if(!menuDTO.getIFrame()){
-                                menuVo1.setPath("index");
-                                menuVo1.setName(menuVo.getName());
-                                menuVo1.setComponent(menuVo.getComponent());
-                            } else {
-                                menuVo1.setPath(menuDTO.getPath());
-                            }
-                            menuVo.setName(null);
-                            menuVo.setMeta(null);
-                            menuVo.setComponent("Layout");
-                            List<MenuVo> list1 = new ArrayList<>();
-                            list1.add(menuVo1);
-                            menuVo.setChildren(list1);
-                        }*/
+                        }
                         menuVo.setId(menuDTO.getId());
                         menuVo.setParentId(menuDTO.getPid());
                         list.add(menuVo);

@@ -5,6 +5,8 @@ import com.sun.org.apache.xpath.internal.operations.String;
 import me.zhengjie.modules.opl.domain.RequestQueues;
 import me.zhengjie.modules.opl.domain.RequestQueuesDetl;
 import me.zhengjie.modules.opl.service.dto.RequestQueuesDetlDto;
+import me.zhengjie.modules.opl.service.dto.UserForShow;
+import me.zhengjie.modules.system.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -73,5 +75,10 @@ public interface RequestQueuesDetlMapper {
     Integer countMemberInQueue(Integer queuesId,Integer memberId);
 
 
-    
+    List<UserForShow> findUserForShow(Long queuesId, Long deptId);
+
+
+    List<UserForShow> findUserByDept(Long DeptId);
+
+
 }

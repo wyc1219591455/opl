@@ -69,4 +69,16 @@ public interface RequestQueuesDetlService {
      * @throws
      */
     List<OrgTreeDto> getOrgData();
+
+    /**
+     * @title: getUserForShow
+     * @description: getUserForShow
+     * @date: 2021/1/22 11:25
+     * @author: ming.cao
+     * @param queuesId
+     * @param deptId
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     */
+    Map<String ,Object> getUserForShow(Pageable pageable,Long queuesId,Long deptId);
 }
