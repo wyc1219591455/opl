@@ -11,6 +11,7 @@ import me.zhengjie.modules.opl.mapper.RequestQueuesDetlMapper;
 
 import me.zhengjie.modules.opl.service.RequestQueuesDetlService;
 
+import me.zhengjie.modules.opl.service.dto.OrgTreeDto;
 import me.zhengjie.modules.opl.service.dto.RequestQueuesDetlCriteria;
 import me.zhengjie.modules.opl.service.dto.RequestQueuesDetlDto;
 import me.zhengjie.utils.PageHelpResultUtil;
@@ -109,6 +110,11 @@ public class RequestQueuesDetlServiceImpl implements RequestQueuesDetlService {
             throw new BadRequestException("删除失败！");
         }
 
+    }
+
+    @Override
+    public List<OrgTreeDto> getOrgData() {
+        return null;
     }
 
     /**

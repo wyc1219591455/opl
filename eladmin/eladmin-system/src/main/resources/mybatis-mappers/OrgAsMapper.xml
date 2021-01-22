@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.zhengjie.modules.opl.mapper.OrgAsMapper">
+
+    <resultMap id="orgMap" type="me.zhengjie.modules.opl.domain.OrgAs">
+        <id property="orgId" column="FOrgId"></id>
+        <result property="parentId" column="FParentId"></result>
+        <result property="enCode" column="FEnCode"></result>
+        <result property="shortName" column="FShortName"></result>
+        <result property="fullName" column="FFullName"></result>
+        <result property="memo" column="FMemo"></result>
+        <result property="status" column="FStatus"></result>
+        <result property="createUserId" column="FCreateUserId"></result>
+        <result property="createDateTime" column="FCreateDateTime"></result>
+        <result property="modifyUserId" column="FModifyUserId"></result>
+        <result property="modifyDateTime" column="FModifyDateTime"></result>
+        <result property="orgSourceId" column="FOrgSourceId"></result>
+    </resultMap>
+
+    <select id="findGradeOrg" resultMap="orgMap">
+        SELECT * FROM tsysorgas WHERE FStatus = 0
+         AND FParentId IS NULL or FParentId ='' ORDER BY FOrgId
+    </select>
+
+    <select id="findAllOrg" resultMap="orgMap">
+        SELECT * FROM tsysorgas WHERE FStatus = 0
+          ORDER BY FOrgId
+    </select>
+
+</mapper>
