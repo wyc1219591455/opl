@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.zhengjie.modules.opl.mapper.ServiceCatalogMapper">
+
+    <insert id="insertCatalog" parameterType="me.zhengjie.modules.opl.domain.ServiceCatalog">
+        INSERT INTO serviceCatalog(catalogName,shortName,icon,status,createDateTime,createUserId,modifyDateTime,modifyUserId)
+        VALUES(#{catalogName},#{shortName},#{icon},#{status},#{createDateTime},#{createUserId},#{modifyDateTime},#{modifyUserId})
+    </insert>
+
+    <select id="findAllCatalog"  resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogDto">
+        SELECT A.catalogId,A.catalogName,A.shortName,A.icon,A.status,A.createUserId,A.createDateTime,B.FHumanName as createPerson ,A.modifyDateTime,A.modifyUserId,C.FHumanName as modifyPerson
+        FROM serviceCatalog A
+        LEFT JOIN tsysuser B ON A.createUserId=B.FUserName
+        LEFT JOIN tsysuser C ON A.modifyUserId=C.FUserName
+
+
+        ORDER BY A.createDateTime DESC
+
+    </select>
+</mapper>

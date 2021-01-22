@@ -1,11 +1,14 @@
 package me.zhengjie.modules.opl.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
@@ -16,7 +19,7 @@ public class SubServiceCatalog {
 
 
   @ApiModelProperty(value = "服务分类条目ID")
-  private long catalogId;
+  private Integer catalogId;
 
   @ApiModelProperty(value = "服务分类名称")
   private String catalogName;
@@ -25,24 +28,27 @@ public class SubServiceCatalog {
   private String description;
 
   @ApiModelProperty(value = "父节点ID")
-  private long parentId;
+  private Integer parentId;
 
   @ApiModelProperty(value = "状态")
-  private long status;
+  private Integer status;
 
   @ApiModelProperty(value = "默认服务组")
-  private long defaultQueueId;
+  private Integer defaultQueueId;
 
-  @ApiModelProperty(value = "创建日期")
-  private java.sql.Timestamp createDateTime;
+  //创建日期
+  @ApiModelProperty("创建日期")
+  @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+  private Timestamp createDateTime;
 
   @ApiModelProperty(value = "创建人")
-  private long createUserId;
+  private String createUserId;
 
-  @ApiModelProperty(value = "修改日期")
-  private java.sql.Timestamp modifyDateTime;
+  @ApiModelProperty("修改日期")
+  @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+  private Timestamp modifyDateTime;
 
   @ApiModelProperty(value = "修改人")
-  private long modifyUserId;
+  private String modifyUserId;
 
 }
