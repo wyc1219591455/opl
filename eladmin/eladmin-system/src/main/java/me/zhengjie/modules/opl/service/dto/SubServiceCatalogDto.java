@@ -36,6 +36,9 @@ public class SubServiceCatalogDto {
     @ApiModelProperty(value = "默认服务组")
     private Integer defaultQueueId;
 
+    @ApiModelProperty(value = "权限人员")
+    private String humanName;
+
     //创建日期
     @ApiModelProperty("创建日期")
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")

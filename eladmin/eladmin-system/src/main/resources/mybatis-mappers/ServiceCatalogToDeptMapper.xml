@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.zhengjie.modules.opl.mapper.ServiceCatalogToDeptMapper">
+
+    <insert id="insertCatalogToDeptAssociation" parameterType="me.zhengjie.modules.opl.domain.ServiceCatalogToDept">
+        INSERT INTO serviceCatalogToDept(sourceId,catalogId,type,status,createDateTime,createUserId)
+        VALUES(#{sourceId},#{catalogId},#{type},#{status},#{createDateTime},#{createUserId})
+    </insert>
+
+    <select id="findAssociationById"  resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogDto">
+        SELECT C.catalogId,C.catalogName,C.description,C.parentId,C.status,C.defaultQueueId,B.FHumanName as humanName
+        FROM serviceCatalogToDept A
+        LEFT JOIN tsysuser B ON A.sourceId=B.FUserId
+        LEFT JOIN subServiceCatalog C ON A.catalogId=C.catalogId
+        WHERE A.type=1 and B.FUserName= #{userId}
+        UNION
+        SELECT D.catalogId,D.catalogName,D.description,D.parentId,D.status,D.defaultQueueId,C.FHumanName as humanName
+        FROM serviceCatalogToDept A
+        LEFT JOIN tsysdept B ON A.sourceId=B.FDeptId
+        LEFT JOIN tsysuser C ON B.FSourceCode=C.FDeptId
+        LEFT JOIN subServiceCatalog D ON A.catalogId=D.catalogId
+        WHERE A.type=0 and C.FUserName= #{userId}
+    </select>
+</mapper>

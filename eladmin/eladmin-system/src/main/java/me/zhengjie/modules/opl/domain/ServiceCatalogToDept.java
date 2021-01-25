@@ -13,37 +13,38 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "æœåŠ¡åˆ†ç±»æ¡ç›®ä¸»è¡¨")
-public class ServiceCatalog {
+@ApiModel(value = "²¿ÃÅ/ÈËÔ± È¨ÏŞÓë·şÎñ·ÖÀà¹ØÁª±í")
+public class ServiceCatalogToDept {
 
-  @ApiModelProperty(value = "æœåŠ¡åˆ†ç±»æ¡ç›®ID")
+
+
+  @ApiModelProperty(value = "ID")
+  private Integer id;
+
+  @ApiModelProperty(value = "¹ØÁªµÄÈËÔ±»ò²¿ÃÅId")
+  private Integer sourceId;
+
+  @ApiModelProperty(value = "·şÎñ·ÖÀàId")
   private Integer catalogId;
 
-  @ApiModelProperty(value = "æœåŠ¡åˆ†ç±»åç§°")
-  private String catalogName;
+  @ApiModelProperty(value = "ÀàĞÍ 0´ú±í¹ØÁª²¿ÃÅ 1´ú±í¹ØÁªÈËÔ±")
+  private Integer type;
 
-  @ApiModelProperty(value = "ç®€ç§°")
-  private String shortName;
+  @ApiModelProperty(value = "×´Ì¬ 1´ú±íÔÚÊ¹ÓÃ 0´ú±í²»ÔÙÊ¹ÓÃ")
+  private Integer status;
 
-  @ApiModelProperty(value = "å›¾æ ‡åœ°å€")
-  private String icon;
-
-  @ApiModelProperty(value = "çŠ¶æ€")
-  private String status;
-
-  //åˆ›å»ºæ—¥æœŸ
-  @ApiModelProperty("åˆ›å»ºæ—¥æœŸ")
+  @ApiModelProperty("´´½¨ÈÕÆÚ")
   @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
   private Timestamp createDateTime;
 
-  @ApiModelProperty(value = "åˆ›å»ºäººå·¥å·")
+  @ApiModelProperty(value = "´´½¨ÈË¹¤ºÅ")
   private String createUserId;
 
-  @ApiModelProperty("ä¿®æ”¹æ—¥æœŸ")
+  @ApiModelProperty("ĞŞ¸ÄÈÕÆÚ")
   @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
   private Timestamp modifyDateTime;
 
-  @ApiModelProperty(value = "ä¿®æ”¹äººå·¥å·")
+  @ApiModelProperty(value = "ĞŞ¸ÄÈË¹¤ºÅ")
   private String modifyUserId;
 
 }
