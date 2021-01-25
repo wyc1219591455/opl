@@ -23,9 +23,8 @@
          AND FParentId IS NULL or FParentId ='' ORDER BY FOrgId
     </select>
 
-    <select id="findAllOrg" resultMap="orgMap">
-        SELECT * FROM tsysorgas WHERE FStatus = 0
-          ORDER BY FOrgId
+    <select id="findAllChildrenOrg" resultMap="orgMap">
+        SELECT * FROM tsysorgas WHERE FStatus = 0 AND FParentId = '7dc16e86-172c-4f96-bd16-9a0fd82d6262' ORDER BY FOrgId
     </select>
 
 </mapper>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="me.zhengjie.modules.opl.mapper.RequestQueuesDetlMapper">
+<mapper namespace="me.zhengjie.modules.opl.mapper.ServiceCatalogToQueuesMapper">
 
     <select id="findByQueuesId" resultType="me.zhengjie.modules.opl.service.dto.RequestQueuesDetlDto">
         SELECT t3.FUserId as userId,t3.FUserName as userName,t3.FHumanName as humanName,t4.FDeptName as deptName,t1.code,t1.name,t1.id
@@ -27,7 +27,7 @@
         WHERE t1.id = #{queuesId}
     </select>
     <select id="findUserByDept" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
-
+        SELECT FROM tsysuser WHERE
     </select>
 
     <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.RequestQueuesDetl">

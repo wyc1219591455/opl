@@ -17,6 +17,6 @@ public interface OrgAsMapper {
 
     List<OrgAs> findGradeOrg();
 
-    List<OrgAs> findAllOrg();
+    List<OrgAs> findAllChildrenOrg();
 
 }

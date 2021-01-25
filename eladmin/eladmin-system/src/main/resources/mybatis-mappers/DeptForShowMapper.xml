@@ -3,8 +3,24 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.zhengjie.modules.opl.mapper.DeptForShowMapper">
 
+    <resultMap id="deptMap" type="me.zhengjie.modules.opl.domain.DeptForShow">
+        <id property="deptId" column="FDeptId"></id>
+        <result property="parentId" column="FParentId"></result>
+        <result property="orgId" column="FOrgId"></result>
+        <result property="deptFullName" column="FDeptFullName"></result>
+        <result property="deptName" column="FDeptName"></result>
+        <result property="deptCode" column="FDeptCode"></result>
+        <result property="sourceCode" column="FSourceCode"></result>
+        <result property="sort" column="FSort"></result>
+        <result property="description" column="FDescription"></result>
+        <result property="flag" column="FFlag"></result>
+        <result property="createUserId" column="FCreateUserId"></result>
+        <result property="createDateTime" column="FCreateDateTime"></result>
+        <result property="modifyUserId" column="FModifyUserId"></result>
+        <result property="modifyDateTime" column="FModifyDateTime"></result>
+    </resultMap>
 
-    <select id="findDeptByOrgId" resultType="me.zhengjie.modules.opl.domain.DeptForShow">
+    <select id="findDeptByOrgId" resultMap="deptMap">
         SELECT * FROM tsysdept WHERE FOrgId = #{orgId} AND FFlag = 1
     </select>
 

@@ -1,6 +1,7 @@
 package me.zhengjie.modules.opl.mapper;
 
 import me.zhengjie.modules.opl.domain.DeptForShow;
+import me.zhengjie.modules.opl.service.dto.UserForShow;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -17,5 +18,6 @@ public interface DeptForShowMapper {
     List<DeptForShow> findDeptByOrgId(String orgId);
 
     List<DeptForShow> findDeptByParentId(String deptId);
+
 
 }

@@ -10,12 +10,12 @@
     </select>
 
     <select id="countRequestQueuesByCode" resultType="java.lang.Integer">
-        SELECT count(*) FROM trequestqueues WHERE FCode=#{code}
+        SELECT count(*) FROM trequestqueues WHERE code=#{code}
     </select>
 
     <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.RequestQueues">
-        INSERT INTO trequestqueues(id,code,name,status,memo,isDefault,createUserId,createDateTime)
-        VALUES (#{id},#{code},#{name},#{status},#{memo},#{isDefault},#{createUserId},#{createDateTime})
+        INSERT INTO trequestqueues(code,name,status,memo,isDefault,createUserId,createDateTime)
+        VALUES (#{code},#{name},#{status},#{memo},#{isDefault},#{createUserId},#{createDateTime})
     </insert>
 
     <update id="update" parameterType="me.zhengjie.modules.opl.domain.RequestQueues">

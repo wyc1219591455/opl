@@ -34,46 +34,75 @@ public class DeptForShowServiceImpl implements DeptForShowService {
     public Map<String, Object> getOrgData() {
         List<OrgTreeDto> treeList = new ArrayList<OrgTreeDto>();
         //获取公司数据
-        List<OrgAs> orgAsList = orgAsMapper.findAllOrg();
-
-        for (OrgAs orgAs : orgAsList) {
-            String orgId = orgAs.getOrgId().toString();
-            OrgTreeDto treeDto = new OrgTreeDto();
-            treeDto.setId(orgId);
-            treeDto.setText(orgAs.getShortName());
-            treeDto.setValue(orgId);
-            treeDto.setParentId(0L);
-            /**
-             * 暂无
-             */
-            treeDto.setChildren(getOrgChildNodes(orgId,orgAsList));
-            treeDto.setLevel(1L);
+        List<OrgAs> orgGrade = orgAsMapper.findGradeOrg();
+        List<OrgAs> orgAsList = orgAsMapper.findAllChildrenOrg();
+        if (orgGrade.size()>0) {
+            for (OrgAs orgAs : orgGrade) {
+                String orgId = orgAs.getOrgId().toString();
+                OrgTreeDto treeDto = new OrgTreeDto();
+                treeDto.setId(orgId);
+                treeDto.setText(orgAs.getShortName());
+                treeDto.setValue(orgId);
+                treeDto.setParentId(0L);
+                /**
+                 * 暂无
+                 */
+                treeDto.setChildren(getOrgChildNodes());
+                treeDto.setLevel(1L);
+                treeList.add(treeDto);
+            }
         }
         Map<String,Object> map = new LinkedHashMap<>(2);
         map.put("content",treeList);
         return map;
     }
 
+    //获取子公司
+    private  List<OrgTreeDto> getOrgChildNodes(){
 
-    private List<OrgTreeDto> getOrgChildNodes(String orgId,List<OrgAs> orgAsList){
         List<OrgTreeDto> treeList = new ArrayList<>();
-        //获取公司下对应的部门信息
-        List<DeptForShow> deptForShowList = deptForShowMapper.findDeptByOrgId(orgId);
-        for (DeptForShow deptForShow : deptForShowList) {
-            //部门id
-            String itemDeptId = deptForShow.getDeptId().toString();
-            String value = deptForShow.getDeptId().toString();
-            //设置部门树结构
-            OrgTreeDto treeDto = new OrgTreeDto();
-            treeDto.setId(itemDeptId);
-            treeDto.setText(deptForShow.getDeptName());
-            treeDto.setValue(itemDeptId);
-            treeDto.setHasChildren(false);
-            treeDto.setLevel(2L);
-            //部门下的子部门
-            treeList.add(treeDto);
+        //获取子部门
+        List<OrgAs> orgChildren = orgAsMapper.findAllChildrenOrg();
+        if (orgChildren.size()>0) {
+            for (OrgAs orgChild : orgChildren) {
+                OrgTreeDto treeDto = new OrgTreeDto();
+                treeDto.setId(orgChild.getOrgId().toString());
+                treeDto.setText(orgChild.getShortName());
+                treeDto.setValue(orgChild.getEnCode());
+                treeDto.setParentId(1L);
+                treeDto.setHasChildren(getDeptChildNodes(orgChild.getEnCode()).size()>0?true:false);
+                treeDto.setChildren(getDeptChildNodes(orgChild.getEnCode()));
+                treeDto.setLevel(1L);
+                treeList.add(treeDto);
+            }
+        }
+        return treeList;
+
+    }
+
+    //获取子部门
+    private List<OrgTreeDto> getDeptChildNodes(String code){
+        List<OrgTreeDto> treeList = new ArrayList<>();
+        //找到公司下面对应的部门
+        List<DeptForShow> deptForShowList = deptForShowMapper.findDeptByOrgId(code);
+        if (deptForShowList.size()>0) {
+            for (DeptForShow deptForShow : deptForShowList) {
+                OrgTreeDto treeDto = new OrgTreeDto();
+                /**
+                 * 写
+                 */
+                String itemDeptId = deptForShow.getDeptId().toString();
+                treeDto.setId(itemDeptId);
+                treeDto.setValue(deptForShow.getDeptId().toString());
+                treeDto.setText(deptForShow.getDeptName());
+                treeDto.setChildren(null);
+                treeDto.setLevel(2L);
+                treeDto.setHasChildren(false);
+                treeList.add(treeDto);
+            }
         }
         return treeList;
     }
+
 
 }

@@ -2,6 +2,7 @@ package me.zhengjie.modules.opl.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.modules.opl.domain.Pageable;
@@ -20,10 +21,10 @@ import java.util.Map;
  * @author: ming.cao
  * @create: 2021-01-20 19:30
  **/
-@RestController
+//@RestController
 @RequiredArgsConstructor
-@Api(tags = "OPL:支持组明细管理")
-@RequestMapping("/api/requestQueuesDetl")
+//@Api(tags = "OPL:支持组明细管理")
+//@RequestMapping("/api/requestQueuesDetl")
 public class RequestQueuesDetlController {
 
     private final RequestQueuesDetlService requestQueuesDetlService;
@@ -31,7 +32,7 @@ public class RequestQueuesDetlController {
     @Log("获取所有支持组明细信息")
     @ApiOperation("获取所有支持组明细信息")
     @GetMapping
-    public Map<String ,Object> getRequestQueues(Integer id, Pageable pageable){
+    public Map<String ,Object> getRequestQueues(@ApiParam("支持组id") Integer id, Pageable pageable){
         return  requestQueuesDetlService.findByQueuesId(pageable,id);
     }
 
@@ -56,4 +57,10 @@ public class RequestQueuesDetlController {
         requestQueuesDetlService.deleteRequestQueuesDetl(ids);
     }
 
+    @Log("获取所有人员明细信息")
+    @ApiOperation("获取所有人员明细信息")
+    @GetMapping("/getUserForShow")
+    public Map<String ,Object> getUserForShowQueues( Pageable pageable,@ApiParam("支持组id") Long deptId){
+       return requestQueuesDetlService.getUserForShow(pageable,deptId,null);
+    }
 }

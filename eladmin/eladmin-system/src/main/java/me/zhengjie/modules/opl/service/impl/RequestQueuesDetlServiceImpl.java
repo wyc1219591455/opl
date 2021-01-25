@@ -14,6 +14,7 @@ import me.zhengjie.modules.opl.service.RequestQueuesDetlService;
 import me.zhengjie.modules.opl.service.dto.OrgTreeDto;
 import me.zhengjie.modules.opl.service.dto.RequestQueuesDetlCriteria;
 import me.zhengjie.modules.opl.service.dto.RequestQueuesDetlDto;
+import me.zhengjie.modules.opl.service.dto.UserForShow;
 import me.zhengjie.utils.PageHelpResultUtil;
 import me.zhengjie.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
@@ -117,18 +118,34 @@ public class RequestQueuesDetlServiceImpl implements RequestQueuesDetlService {
         return null;
     }
 
+    @Override
+    public Map<String, Object> getUserForShow(Pageable pageable ,Long queuesId, Long deptId) {
+        if (pageable!=null&&pageable.getPage()==-1) {
+        List<UserForShow> queues= requestQueuesDetlMapper.findUserForShow(queuesId,null);
+            Map<String,Object> map = new LinkedHashMap<>(2);
+            map.put("content",queues);
+            map.put("totalElements",queues.size());
+            return map;
+        }else {
+            PageHelper.startPage(pageable.getPage(),pageable.getSize());
+            List<UserForShow> queues= requestQueuesDetlMapper.findUserForShow(queuesId,null);
+            PageInfo<UserForShow> pageInfo1 = new PageInfo<>(queues);
+            return PageHelpResultUtil.toPage(pageInfo1);
+        }
+    }
+
     /**
      * 非空校验
      * @param criteria
      */
     private void isEmptyTest(RequestQueuesDetlCriteria criteria){
-        if (ObjectUtil.isNotEmpty(criteria.getMemberId())){
+        if (ObjectUtil.isEmpty(criteria.getMemberId())){
             throw new BadRequestException("人员不能为空！");
         }
-        if (ObjectUtil.isNotEmpty(criteria.getQueuesId())){
+        if (ObjectUtil.isEmpty(criteria.getQueuesId())){
             throw new BadRequestException("支持组不能为空！");
         }
-        if (ObjectUtil.isNotEmpty(criteria.getDeptId())){
+        if (ObjectUtil.isEmpty(criteria.getDeptId())){
             throw new BadRequestException("部门不能为空！");
         }
 
