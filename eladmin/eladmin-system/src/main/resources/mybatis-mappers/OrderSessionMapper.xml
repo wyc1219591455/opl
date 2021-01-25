@@ -4,7 +4,7 @@
 <mapper namespace="me.zhengjie.modules.opl.mapper.OrderSessionMapper">
 
     <insert id="insertSession" parameterType="me.zhengjie.modules.opl.domain.OrderSession">
-        INSERT INTO orderSession(transId,orderType,description,createDateTime,createUserId)
+        INSERT INTO orderSession(transId,orderType,description,createUserId,createDateTime)
         VALUES(#{transId},#{orderType},#{description},#{createUserId},#{createDateTime})
     </insert>
 

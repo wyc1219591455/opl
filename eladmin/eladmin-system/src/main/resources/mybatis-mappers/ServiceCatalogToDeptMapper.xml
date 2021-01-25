@@ -8,7 +8,7 @@
         VALUES(#{sourceId},#{catalogId},#{type},#{status},#{createDateTime},#{createUserId})
     </insert>
 
-    <select id="findAssociationById"  resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogDto">
+    <select id="findAssociationById"  resultType="me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto">
         SELECT C.catalogId,C.catalogName,C.description,C.parentId,C.status,C.defaultQueueId,B.FHumanName as humanName
         FROM serviceCatalogToDept A
         LEFT JOIN tsysuser B ON A.sourceId=B.FUserId
@@ -22,4 +22,22 @@
         LEFT JOIN subServiceCatalog D ON A.catalogId=D.catalogId
         WHERE A.type=0 and C.FUserName= #{userId}
     </select>
+    <select id="findParentAssociationById"  resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogDto">
+        SELECT D.catalogId,D.catalogName,D.shortName,D.icon,D.status
+        FROM serviceCatalogToDept A
+        LEFT JOIN tsysuser B ON A.sourceId=B.FUserId
+        LEFT JOIN subServiceCatalog C ON A.catalogId=C.catalogId
+        LEFT JOIN serviceCatalog D ON D.catalogId=C.parentId
+        WHERE A.type=1 and B.FUserName= #{userId}
+        UNION
+       SELECT E.catalogId,E.catalogName,E.shortName,E.icon,E.status
+        FROM serviceCatalogToDept A
+        LEFT JOIN tsysdept B ON A.sourceId=B.FDeptId
+        LEFT JOIN tsysuser C ON B.FSourceCode=C.FDeptId
+        LEFT JOIN subServiceCatalog D ON A.catalogId=D.catalogId
+        LEFT JOIN serviceCatalog E ON E.catalogId=D.parentId
+        WHERE A.type=0 and C.FUserName= #{userId}
+    </select>
+
+
 </mapper>

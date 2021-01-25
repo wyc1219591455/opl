@@ -1,6 +1,7 @@
 package me.zhengjie.modules.opl.service;
 
 import me.zhengjie.modules.opl.domain.ServiceCatalogToDept;
+import me.zhengjie.modules.opl.service.dto.ServiceCatalogDto;
 import me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto;
 
 import java.util.List;
@@ -17,6 +18,28 @@ public interface ServiceCatalogToDeptService {
      * @throws
      */
     List<SubServiceCatalogDto> findSubCatalogById(String userId);
+
+    /**
+     * @title: findParentCatalogById
+     * @description: 获取用户可查看的父分类
+     * @date: 2021/1/20 18:35
+     * @author: yuchao.wang
+     * @param
+     * @return ServiceCatalogDto
+     * @throws
+     */
+    List<ServiceCatalogDto> findParentCatalogById(String userId);
+
+    /**
+     * @title: findAllCatalogById
+     * @description: 获取用户可查看的所有分类
+     * @date: 2021/1/20 18:35
+     * @author: yuchao.wang
+     * @param
+     * @return ServiceCatalogDto
+     * @throws
+     */
+    List<ServiceCatalogDto> findAllCatalogById(String userId);
 
     /**
      * @title: insertCatalogToDeptAssociation

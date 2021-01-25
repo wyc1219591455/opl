@@ -25,6 +25,20 @@ public class ServiceCatalogToDeptController {
         return serviceCatalogToDeptService.findSubCatalogById(userId);
     }
 
+    @Log("查询人员能看到的服务父分类")
+    @ApiOperation("查询人员能看到的服务父分类")
+    @GetMapping("/parent")
+    public Object findParentCatalogById(String userId) {
+        return serviceCatalogToDeptService.findParentCatalogById(userId);
+    }
+
+    @Log("查询人员能看到的所有服务分类")
+    @ApiOperation("查询人员能看到的所有服务分类")
+    @GetMapping("/all")
+    public Object findALLCatalogById(String userId) {
+        return serviceCatalogToDeptService.findAllCatalogById(userId);
+    }
+
     @Log("新增服务分类主表")
     @ApiOperation("新增服务分类主表")
     @PostMapping

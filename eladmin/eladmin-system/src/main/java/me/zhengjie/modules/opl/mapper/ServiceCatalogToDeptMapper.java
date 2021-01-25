@@ -4,6 +4,7 @@ import me.zhengjie.modules.opl.domain.OrderSessionDetail;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToDept;
 import me.zhengjie.modules.opl.domain.SubServiceCatalog;
 import me.zhengjie.modules.opl.service.dto.OrderSessionDetailDto;
+import me.zhengjie.modules.opl.service.dto.ServiceCatalogDto;
 import me.zhengjie.modules.opl.service.dto.SessionDetailCriteria;
 import me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto;
 import org.apache.ibatis.annotations.Mapper;
@@ -37,8 +38,20 @@ public interface ServiceCatalogToDeptMapper {
      * @date: 2021/1/19 19:46
      * @author: yuchao.wang
      * @param userId
-     * @return OrderSession
+     * @return SubServiceCatalogDto
      * @throws
      */
     List<SubServiceCatalogDto> findAssociationById(String userId);
+
+
+    /**
+     * @title: 根据人员ID查找服务分类父表
+     * @description: 根据人员ID查找服务分类父表
+     * @date: 2021/1/19 19:46
+     * @author: yuchao.wang
+     * @param userId
+     * @return ServiceCatalogDto
+     * @throws
+     */
+    List<ServiceCatalogDto> findParentAssociationById(String userId);
 }

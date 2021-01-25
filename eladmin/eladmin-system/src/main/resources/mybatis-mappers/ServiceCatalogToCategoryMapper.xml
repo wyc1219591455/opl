@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.zhengjie.modules.opl.mapper.ServiceCatalogToCategoryMapper">
+
+    <insert id="insertCatalogToCategoryAssociation" parameterType="me.zhengjie.modules.opl.domain.ServiceCatalogToCategory">
+        INSERT INTO serviceCatalogToCategory(catalogId,categoryId,createUserId,createDateTime)
+        VALUES(#{catalogId},#{categoryId},#{createUserId},#{createDateTime})
+    </insert>
+
+    <select id="findAssociationById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto">
+        SELECT A.categoryId as id ,B.name
+        FROM serviceCatalogToCategory A
+        LEFT JOIN trequestCategory B ON A.categoryId=B.id
+        WHERE A.catalogId= #{catalogId} AND A.status=1
+
+        ORDER BY B.id ASC
+
+    </select>
+
+    <select id="findSubAssociationById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto">
+        SELECT A.id ,A.name
+        FROM trequestCategory A
+        WHERE A.parentId= #{categoryId} AND A.status=1
+
+        ORDER BY A.name ASC
+
+    </select>
+</mapper>

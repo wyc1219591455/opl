@@ -22,7 +22,7 @@ public class OrderSession {
 
     //主键id
     @ApiModelProperty("主键id")
-    private Long id;
+    private Integer id;
 
     //功能完善表名称
     @ApiModelProperty("工单主表ID")

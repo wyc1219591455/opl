@@ -21,13 +21,13 @@ public class OrderSessionDetail {
 
 
   @ApiModelProperty(value = "主键")
-  private long detailId;
+  private Integer detailId;
 
   @ApiModelProperty(value = "orderSessionId")
-  private long sessionId;
+  private Integer sessionId;
 
   @ApiModelProperty(value = "工单Id")
-  private long transId;
+  private Integer transId;
 
   @ApiModelProperty(value = "操作详情")
   private String propName;
