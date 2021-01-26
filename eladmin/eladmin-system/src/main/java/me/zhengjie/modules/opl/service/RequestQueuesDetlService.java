@@ -72,7 +72,7 @@ public interface RequestQueuesDetlService {
 
     /**
      * @title: getUserForShow
-     * @description: getUserForShow
+     * @description: 获取人员展示数据
      * @date: 2021/1/22 11:25
      * @author: ming.cao
      * @param queuesId

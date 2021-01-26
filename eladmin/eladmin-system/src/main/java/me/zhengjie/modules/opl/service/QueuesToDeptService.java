@@ -16,7 +16,7 @@ import java.util.Map;
 public interface QueuesToDeptService {
     /**
      * @title: findByQueueId
-     * @description: findByQueueId
+     * @description: 根据组id获取数据
      * @date: 2021/1/22 14:39
      * @author: ming.cao
      * @param
@@ -27,7 +27,7 @@ public interface QueuesToDeptService {
 
     /**
      * @title: findAllUserByDeptId
-     * @description: findAllUserByDeptId
+     * @description: 根据部门id获取所有人
      * @date: 2021/1/22 17:24
      * @author: ming.cao
      * @param pageable
@@ -39,7 +39,7 @@ public interface QueuesToDeptService {
 
     /**
      * @title: insert
-     * @description: insert
+     * @description: 批量新增
      * @date: 2021/1/22 14:40
      * @author: ming.cao
      * @param criterias
@@ -50,7 +50,7 @@ public interface QueuesToDeptService {
 
     /**
      * @title: update
-     * @description: update
+     * @description: 批量修改
      * @date: 2021/1/22 14:40
      * @author: ming.cao
      * @param criterias
@@ -61,7 +61,7 @@ public interface QueuesToDeptService {
 
     /**
      * @title: deleteQueuesToDept
-     * @description: deleteQueuesToDept
+     * @description: 批量删除
      * @date: 2021/1/22 15:06
      * @author: ming.cao
      * @param ids

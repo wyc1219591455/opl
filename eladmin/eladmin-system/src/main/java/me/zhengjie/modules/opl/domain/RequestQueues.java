@@ -43,19 +43,19 @@ public class RequestQueues implements Serializable {
 	/**
 	 * 有效状态
 	 */
-	@ApiModelProperty(value = "有效状态", position = 3)
+	@ApiModelProperty(value = "有效状态：1启用 0禁用", position = 3)
 	private Integer status;
 
 	/**
 	 * 有效状态
 	 */
-	@ApiModelProperty(value = "有效状态", position = 4)
+	@ApiModelProperty(value = "描述", position = 4)
 	private String memo;
 
 	/**
 	 * 是否默认组
 	 */
-	@ApiModelProperty(value = "是否默认组", position = 5)
+	@ApiModelProperty(value = "是否默认组：1 是 0 否", position = 5)
 	private Integer isDefault;
 
 	/**
@@ -83,6 +83,5 @@ public class RequestQueues implements Serializable {
 	@ApiModelProperty(value = "修改时间", position = 9)
 	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
 	private Timestamp modifyDateTime;
-
 
 }

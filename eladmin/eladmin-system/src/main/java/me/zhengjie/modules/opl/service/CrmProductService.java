@@ -12,6 +12,15 @@ import java.util.Map;
  **/
 
 public interface CrmProductService {
-    Map<String,Object> findAll(Pageable pageable) ;
+    /**
+    * @title: findAll
+    * @description: 获取所有
+    * @date: 2021/1/26 10:02
+    * @author: ming.cao
+    * @param pageable
+    * @return java.util.Map<java.lang.String,java.lang.Object>
+    * @throws
+    */
+Map<String,Object> findAll(Pageable pageable);
 
 }

@@ -53,7 +53,7 @@ public class RequestQueuesDetlController {
     @Log("删除支持组明细")
     @ApiOperation("删除支持组明细")
     @DeleteMapping
-    public void delRequestQueues(List<Integer> ids){
+    public void delRequestQueues(@RequestBody List<Integer> ids){
         requestQueuesDetlService.deleteRequestQueuesDetl(ids);
     }
 

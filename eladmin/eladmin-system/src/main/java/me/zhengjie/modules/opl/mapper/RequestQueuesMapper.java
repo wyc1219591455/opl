@@ -59,12 +59,23 @@ public interface RequestQueuesMapper {
 
     /**
      * @title: countRequestQueuesByCode
-     * @description: countRequestQueuesByCode
+     * @description: 获取此code的个数
      * @date: 2021/1/20 16:51
      * @author: ming.cao
      * @param
      * @return java.lang.Integer
      * @throws
      */
-    Integer countRequestQueuesByCode(String code);
+    Integer countRequestQueuesByCode(String code,Integer id);
+
+    /**
+     * @title: countDefaultQueue
+     * @description: 获取默认支持组个数
+     * @date: 2021/1/25 15:33
+     * @author: ming.cao
+     * @param
+     * @return java.lang.Integer
+     * @throws
+     */
+    Integer countDefaultQueue(Integer id);
 }

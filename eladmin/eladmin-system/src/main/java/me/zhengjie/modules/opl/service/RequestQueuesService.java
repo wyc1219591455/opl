@@ -16,7 +16,7 @@ import java.util.Map;
 public interface RequestQueuesService {
     /**
     * @title: findAll
-    * @description: findAll
+    * @description: 获取所有数据
     * @date: 2021/1/20 16:00
     * @author: ming.cao
     * @param
@@ -27,7 +27,7 @@ public interface RequestQueuesService {
 
     /**
      * @title: addRequestQueues
-     * @description: addRequestQueues
+     * @description: 新增
      * @date: 2021/1/20 16:03
      * @author: ming.cao
      * @param criteria
@@ -38,7 +38,7 @@ public interface RequestQueuesService {
 
     /**
      * @title: updateRequestQueues
-     * @description: updateRequestQueues
+     * @description: 修改
      * @date: 2021/1/20 16:03
      * @author: ming.cao
      * @param criteria
@@ -49,7 +49,7 @@ public interface RequestQueuesService {
 
     /**
      * @title: delete
-     * @description: delete
+     * @description: 批量删除
      * @date: 2021/1/20 16:03
      * @author: ming.cao
      * @param ids

@@ -111,10 +111,21 @@ public class RequestQueuesServiceImpl implements RequestQueuesService {
      */
     private void isOnlyTest(RequestQueuesCriteria criteria){
         if (ObjectUtil.isNotEmpty(criteria)) {
-           if (requestQueuesMapper.countRequestQueuesByCode(criteria.getCode())>0){
+           if (requestQueuesMapper.countRequestQueuesByCode(criteria.getCode(),criteria.getId())>0){
                throw new BadRequestException("组代码不允许重复！");
            }
+
+           if (criteria.getIsDefault()==1){
+               if (ObjectUtil.isEmpty(criteria.getId())){
+                   //没id说明新增设置id
+                    criteria.setId(0);
+               }
+               if (requestQueuesMapper.countDefaultQueue(criteria.getId())>0){
+                   throw new BadRequestException("已存在默认组，请勿重复设置！");
+               }
+           }
         }
+
 
     }
 }

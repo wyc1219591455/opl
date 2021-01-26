@@ -44,7 +44,7 @@ public class CrmWorkOrderController {
     @Log("修改工单")
     @ApiOperation("修改工单")
     @PutMapping
-    public void update(CrmWorkOrder crmWorkOrder){
+    public void update( @RequestBody CrmWorkOrder crmWorkOrder){
         crmWorkOrderService.update(crmWorkOrder);
     }
 

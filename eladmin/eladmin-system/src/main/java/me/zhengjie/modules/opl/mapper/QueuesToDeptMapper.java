@@ -102,4 +102,6 @@ public interface QueuesToDeptMapper {
      */
     List<UserForShow> findAllUserByDeptId(Integer deptId);
 
+
+
 }

@@ -28,7 +28,7 @@ public interface CrmWorkOrderService {
 
     /**
      * @title: update
-     * @description: update
+     * @description: 修改
      * @date: 2021/1/13 19:18
      * @author: ming.cao
      * @param crmWorkOrder
@@ -50,7 +50,7 @@ public interface CrmWorkOrderService {
 
     /**
      * @title: findAll
-     * @description: findAll
+     * @description: 查询所有
      * @date: 2021/1/13 19:48
      * @author: ming.cao
      * @param

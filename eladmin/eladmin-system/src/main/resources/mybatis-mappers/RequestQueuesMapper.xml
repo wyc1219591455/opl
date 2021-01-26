@@ -4,27 +4,35 @@
 <mapper namespace="me.zhengjie.modules.opl.mapper.RequestQueuesMapper">
 
 
-
+    <!--查询所有-->
     <select id="findAll" resultType="me.zhengjie.modules.opl.domain.RequestQueues">
         SELECT * FROM trequestqueues WHERE 1 = 1
     </select>
 
+    <!--获取此code的个数-->
     <select id="countRequestQueuesByCode" resultType="java.lang.Integer">
-        SELECT count(*) FROM trequestqueues WHERE code=#{code}
+        SELECT count(*) FROM trequestqueues WHERE code=#{code} AND id != #{id}
     </select>
 
+    <!--获取默认组个数-->
+    <select id="countDefaultQueue" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        SELECT count(*) FROM trequestqueues WHERE isDefault = 1 AND status = 1 AND id != #{id}
+    </select>
+
+    <!--新增-->
     <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.RequestQueues">
         INSERT INTO trequestqueues(code,name,status,memo,isDefault,createUserId,createDateTime)
         VALUES (#{code},#{name},#{status},#{memo},#{isDefault},#{createUserId},#{createDateTime})
     </insert>
 
+    <!--修改-->
     <update id="update" parameterType="me.zhengjie.modules.opl.domain.RequestQueues">
         UPDATE trequestqueues SET code = #{code},name = #{name},status = #{status},memo = #{memo},
         isDefault = #{isDefault},modifyUserId = #{modifyUserId},modifyDateTime = #{modifyDateTime}
         WHERE id = #{id}
     </update>
 
-
+    <!--删除-->
     <delete id="delete" parameterType="Integer">
         DELETE FROM trequestqueues WHERE id = #{id}
     </delete>

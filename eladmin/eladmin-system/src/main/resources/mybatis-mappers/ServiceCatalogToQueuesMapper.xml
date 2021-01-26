@@ -3,55 +3,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.zhengjie.modules.opl.mapper.ServiceCatalogToQueuesMapper">
 
-    <select id="findByQueuesId" resultType="me.zhengjie.modules.opl.service.dto.RequestQueuesDetlDto">
-        SELECT t3.FUserId as userId,t3.FUserName as userName,t3.FHumanName as humanName,t4.FDeptName as deptName,t1.code,t1.name,t1.id
-        FROM trequestqueues t1 LEFT JOIN
-        trequestqueuesdetl t2 ON t1.id =t2.queuesId
-        LEFT JOIN tsysuser t3 ON t2.memberId = t3.FUserId
-        LEFT JOIN tsysdept t4 ON t2.deptId = t4.FDeptId
-        WHERE t1.id = #{id}
+
+    <!-- 查询 -->
+    <select id="findByQueuesId" parameterType="java.lang.Integer" resultType="me.zhengjie.modules.opl.service.dto.ServiceCataLogToQueuesDto">
+        SELECT t1.id,t1.catalogId,t1.queuesId,t1.status,t1.createDateTime,
+        t1.createUserId,t1.modifyDateTime,t1.modifyUserId,t2.name as queuesName
+        FROM serviceCatalogToQueues t1
+        LEFT JOIN trequestqueues t2
+        ON t1.queuesId = t2.id
+        WHERE t1.catalogId = #{catalogId}
     </select>
 
-    <select id="countMemberInQueue" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM trequestqueuesdetl
-         WHERE queuesId=#{queuesId} and memberId=#{memberId}
-    </select>
-
-    <select id="findUserForShow" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
-        SELECT t2.memberId as userId ,t3.FUserName as userName ,
-        t3.FHumanName as humanName,t4.FDeptName as deptName ,t4.FDeptId as deptId
-         FROM trequestqueues t1
-        LEFT JOIN trequestqueuesdetl t2 on t1.id = t2.queuesId
-        LEFT JOIN tsysuser t3 on t2.memberId = t3.FUserId
-        LEFT JOIN tsysdept t4 on t2.deptId = t4.FDeptId
-        WHERE t1.id = #{queuesId}
-    </select>
-    <select id="findUserByDept" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
-        SELECT FROM tsysuser WHERE
-    </select>
-
-    <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.RequestQueuesDetl">
-        INSERT INTO trequestqueuesdetl(
-        queuesId,memberId,status,memo,deptId,
-        createUserId,createDateTime,index
-        ) VALUES (
-        #{queuesId},#{memberId},#{status},#{memo},#{deptId},
-        #{createUserId},#{createDateTime},#{index}
-        )
+    <!-- 批量新增 -->
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+        INSERT INTO serviceCatalogToQueues(catalogId,queuesId,status,createDateTime,createUserId)
+        VALUES
+         <foreach collection="list" item="item" index="index" separator=",">
+         (#{item.catalogId},#{item.queuesId},#{item.status},#{item.createDateTime},#{item.createUserId})
+         </foreach>
     </insert>
 
-    <update id="update" parameterType="me.zhengjie.modules.opl.domain.RequestQueuesDetl">
-        UPDATE trequestqueuesdetl SET
-         queuesId = #{queuesId},memberId = #{memberId},status = #{status},
-         memo = #{memo},deptId = #{deptId},modifyUserId=#{modifyUserId},
-         modifyDateTime=#{modifyDateTime},index = #{index}
-        WHERE id = #{id}
+    <!-- 批量修改 -->
+    <update id="batchUpdate" parameterType="java.util.List" useGeneratedKeys="true">
+        <foreach collection="list" item="item" index="index" separator=",">
+            UPDATE serviceCatalogToQueues SET catalogId=#{item.catalogId},queuesId=#{item.queuesId},
+            status=#{item.status},modifyDateTime=#{item.modifyDateTime},modifyUserId=#{item.modifyUserId}
+            WHERE id = #{item.id}
+        </foreach>
     </update>
 
-    <delete id="delete" parameterType="java.lang.Integer">
-        DELETE FROM trequestqueuesdetl WHERE id = #{id}
+    <!-- 删除 -->
+    <delete id="delByCatalogId" parameterType="java.lang.Integer">
+        DELETE FROM serviceCatalogToQueues WHERE catalogId = #{catalogId}
     </delete>
-
-
 
 </mapper>

@@ -3,6 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.zhengjie.modules.opl.mapper.QueuesToDeptMapper">
 
+    <!--获取明细下人员数据-->
     <select id="findByQueueId" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
         SELECT t3.FUserId as userId,t3.FUserName as userName,t3.FHumanName as humanName,
         t4.FDeptName as deptName,t1.code,t1.name,t1.id
@@ -21,6 +22,7 @@
         WHERE t2.type =1 and t1.id = #{id}
     </select>
 
+    <!--根据部门id获取所有的人员-->
     <select id="findAllUserByDeptId" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
         SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
         t2.FDeptId as deptId,t2.FDeptName as deptName  FROM tsysuser t1
@@ -28,6 +30,8 @@
          WHERE t2.FDeptId =#{deptId}
     </select>
 
+
+    <!--新增-->
     <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.QueuesToDept">
         INSERT INTO queuesToDept(queuesId,sourceId,type,status,
         createDateTime,createUserId)
@@ -35,6 +39,7 @@
         #{createDateTime,jdbcType=TIMESTAMP},#{createUserId})
     </insert>
 
+    <!--批量新增-->
     <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
         INSERT INTO queuesToDept(queuesId,sourceId,type,status,
         createDateTime,createUserId)
@@ -44,6 +49,7 @@
         </foreach>
     </insert>
 
+    <!--更新-->
     <update id="update" parameterType="me.zhengjie.modules.opl.domain.QueuesToDept">
         UPDATE queuesToDept SET queuesId=#{queuesId},
         sourceId=#{sourceId},type=#{type},status=#{status},
@@ -51,6 +57,7 @@
         WHERE id = #{id}
     </update>
 
+    <!--批量更新-->
     <update id="batchUpdate" parameterType="java.util.List" useGeneratedKeys="true">
         <foreach collection="list" item="item" index="index" separator="," >
         UPDATE queuesToDept SET queuesId=#{item.queuesId},
@@ -60,12 +67,14 @@
         </foreach>
     </update>
 
+    <!--根据id删除-->
     <delete id="delete" parameterType="java.lang.Integer">
         DELETE FROM queuesToDept WHERE id = #{id}
     </delete>
+
+    <!--根据支持组id删除-->
     <delete id="deleteByQueue">
         DELETE FROM queuesToDept WHERE queuesId = #{queuesId}
     </delete>
-
 
 </mapper>
