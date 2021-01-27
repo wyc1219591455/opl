@@ -4,7 +4,6 @@ package me.zhengjie.modules.opl.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToDept;
-import me.zhengjie.modules.opl.domain.SubServiceCatalog;
 import me.zhengjie.modules.opl.mapper.ServiceCatalogToDeptMapper;
 import me.zhengjie.modules.opl.service.ServiceCatalogToDeptService;
 import me.zhengjie.modules.opl.service.dto.ServiceCatalogDto;
@@ -15,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service

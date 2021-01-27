@@ -13,6 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * @program: eladmin
+ * @description: 服务分类对应工单分类关联表
+ * @author: yuchao.wang
+ * @create: 2021-01-20 19:25
+ **/
 @Service
 @RequiredArgsConstructor
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
@@ -41,7 +47,7 @@ public class ServiceCatalogToCategoryServiceImpl implements ServiceCatalogToCate
     //递归查询子节点
     public TrequestCategoryDto getCategory(TrequestCategoryDto trequestCategoryDto){
         List<TrequestCategoryDto> trequestCategoryDtos=serviceCatalogToCategoryMapper.findSubAssociationById(trequestCategoryDto.getId());
-        while(trequestCategoryDtos!=null)
+        if(trequestCategoryDtos!=null)
         {
             trequestCategoryDto.setTrequestCategoryDtos(trequestCategoryDtos);
             for (TrequestCategoryDto trequestCategoryDto1:trequestCategoryDtos)

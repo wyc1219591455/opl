@@ -25,4 +25,6 @@ public class ServiceCatalogToCategoryController {
     public Object findAllCatalogById(Integer catalogId) {
         return serviceCatalogToCategoryService.findAllCatalogById(catalogId);
     }
+    
+
 }
