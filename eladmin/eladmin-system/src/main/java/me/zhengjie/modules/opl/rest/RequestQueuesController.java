@@ -31,8 +31,8 @@ public class RequestQueuesController {
     @Log("获取所有产品信息")
     @ApiOperation("获取所有支持组信息")
     @GetMapping
-    public Map<String ,Object> getRequestQueues(CrmWorkOrderCriteria criteria, Pageable pageable){
-        return  requestQueuesService.findAll(pageable);
+    public Map<String ,Object> getRequestQueues(RequestQueuesCriteria criteria, Pageable pageable){
+        return  requestQueuesService.findAll(criteria,pageable);
     }
 
     @Log("新增支持组")

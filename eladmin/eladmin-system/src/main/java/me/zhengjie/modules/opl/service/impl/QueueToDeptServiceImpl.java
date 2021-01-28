@@ -10,7 +10,7 @@ import me.zhengjie.modules.opl.domain.QueuesToDept;
 import me.zhengjie.modules.opl.mapper.QueuesToDeptMapper;
 import me.zhengjie.modules.opl.service.QueuesToDeptService;
 import me.zhengjie.modules.opl.service.dto.QueuesToDeptCriteria;
-import me.zhengjie.modules.opl.service.dto.RequestQueuesDetlCriteria;
+
 import me.zhengjie.modules.opl.service.dto.UserForShow;
 import me.zhengjie.utils.PageHelpResultUtil;
 import me.zhengjie.utils.SecurityUtils;
@@ -78,8 +78,10 @@ public class QueueToDeptServiceImpl implements QueuesToDeptService {
             QueuesToDept queuesToDept = new QueuesToDept();
             queuesToDept.setQueuesId(criteria.getQueuesId());
             queuesToDept.setSourceId(criteria.getSourceId());
-            queuesToDept.setType(criteria.getType());
-            queuesToDept.setStatus(criteria.getStatus());
+            queuesToDept.setType(1);
+            queuesToDept.setStatus("1");
+            //queuesToDept.setType(criteria.getType());
+            //queuesToDept.setStatus(criteria.getStatus());
             queuesToDept.setCreateDateTime(new Timestamp(new Date().getTime()));
             queuesToDept.setCreateUserId(""+SecurityUtils.getCurrentUserId());
             return queuesToDept;
@@ -100,8 +102,10 @@ public class QueueToDeptServiceImpl implements QueuesToDeptService {
             QueuesToDept queuesToDept = new QueuesToDept();
             queuesToDept.setQueuesId(criteria.getQueuesId());
             queuesToDept.setSourceId(criteria.getSourceId());
-            queuesToDept.setType(criteria.getType());
-            queuesToDept.setStatus(criteria.getStatus());
+            queuesToDept.setType(1);
+            queuesToDept.setStatus("1");
+            //queuesToDept.setType(criteria.getType());
+            //queuesToDept.setStatus(criteria.getStatus());
             queuesToDept.setCreateDateTime(new Timestamp(new Date().getTime()));
             queuesToDept.setCreateUserId(""+SecurityUtils.getCurrentUserId());
             return queuesToDept;

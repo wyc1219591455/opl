@@ -2,6 +2,7 @@ package me.zhengjie.modules.opl.service;
 
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.RequestQueues;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.RequestQueuesCriteria;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public interface RequestQueuesService {
     * @return java.util.Map<java.lang.String,java.lang.Object>
     * @throws
     */
-    Map<String ,Object> findAll(Pageable pageable);
+    Map<String ,Object> findAll(RequestQueuesCriteria criteria, Pageable pageable);
 
     /**
      * @title: addRequestQueues

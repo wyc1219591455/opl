@@ -9,6 +9,7 @@ import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.RequestQueues;
 import me.zhengjie.modules.opl.mapper.RequestQueuesMapper;
 import me.zhengjie.modules.opl.service.RequestQueuesService;
+
 import me.zhengjie.modules.opl.service.dto.RequestQueuesCriteria;
 import me.zhengjie.utils.PageHelpResultUtil;
 import me.zhengjie.utils.SecurityUtils;
@@ -34,9 +35,9 @@ public class RequestQueuesServiceImpl implements RequestQueuesService {
     private final RequestQueuesMapper requestQueuesMapper;
 
     @Override
-    public Map<String, Object> findAll(Pageable pageable) {
+    public Map<String, Object> findAll(RequestQueuesCriteria criteria,Pageable pageable) {
         PageHelper.startPage(pageable.getPage(),pageable.getSize());
-        List<RequestQueues> requestQueuesList = requestQueuesMapper.findAll();
+        List<RequestQueues> requestQueuesList = requestQueuesMapper.findAll(criteria);
         PageInfo<RequestQueues> pageInfo1 = new PageInfo<>(requestQueuesList);
         return PageHelpResultUtil.toPage(pageInfo1);
     }

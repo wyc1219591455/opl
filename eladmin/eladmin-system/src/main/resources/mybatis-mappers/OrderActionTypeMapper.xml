@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.zhengjie.modules.opl.mapper.OrderActionTypeMapper">
+
+    <!--批量新增-->
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+        INSERT INTO orderActionType(text,name,createUserId,createDateTime)
+        <foreach collection="list" item="item" index="index" separator=",">
+        VALUES (#{item.text},#{item.name},#{item.createUserId},#{item.createDateTime})
+        </foreach>
+    </insert>
+
+    <!--批量修改-->
+    <update id="batchUpdate" parameterType="me.zhengjie.modules.opl.domain.QueuesToDept">
+        <foreach collection="list" item="item" index="index" separator="," >
+        UPDATE orderActionType SET text=#{item.text},name=#{item.name}
+            WHERE id = #{item.id}
+        </foreach>
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM orderActionType WHERE id = #{id}
+    </delete>
+</mapper>
