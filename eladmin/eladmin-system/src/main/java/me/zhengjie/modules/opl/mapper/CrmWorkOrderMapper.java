@@ -2,6 +2,7 @@ package me.zhengjie.modules.opl.mapper;
 
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public interface CrmWorkOrderMapper {
      * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
      * @throws
      */
-    List<CrmWorkOrderCriteria> findAll();
+    List<CrmWorkOrderDto> findAll(CrmWorkOrderCriteria crmWorkOrderCriteria);
 
     /**
      * @title: findCrmOrderById

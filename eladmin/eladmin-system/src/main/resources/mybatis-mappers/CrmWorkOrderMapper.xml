@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.zhengjie.modules.opl.mapper.CrmWorkOrderMapper">
-    <resultMap id="OrderMap" type="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria">
+    <resultMap id="OrderMap" type="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
         <result property="topic" column="topic"></result>
         <result property="serialNo" column="serial_no"></result>
         <result property="planCompTime" column="plan_comp_time"></result>
@@ -81,12 +81,13 @@
         </foreach>
     </update>
 
-    <select id="findAll" resultMap="OrderMap">
+    <select id="findAll" parameterType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria" resultMap="OrderMap">
         SELECT A.topic,A.serial_no,A.plan_comp_time,A.created_person,C.FDeptFullName AS deptName,A.project_name,A.model,A.matter_date,A.sn_no,
         A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.work_order_type
         FROM crm_work_order A
         LEFT JOIN tsysuser B ON A.job_number=B.FUserName
         LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
+        where 1=1
         <if test="topic != null and topic != ''">
             AND A.topic LIKE CONCAT('%',#{topic},'%')
         </if>
@@ -97,13 +98,13 @@
             AND A.orderStatus = #{orderStatus}
         </if>
 
-        <if test="startTime != null ">
-            AND A.created_at &gt;= #{startTime}
-        </if>
+<!--        <if test="startTime != null ">-->
+<!--            AND A.created_at &gt;= #{startTime}-->
+<!--        </if>-->
 
-        <if test="endTime != null  ">
-            AND A.created_at &lt;= #{endTime}
-        </if>
+<!--        <if test="endTime != null  ">-->
+<!--            AND A.created_at &lt;= #{endTime}-->
+<!--        </if>-->
         ORDER BY A.created_at desc
 
     </select>

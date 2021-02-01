@@ -10,6 +10,7 @@ import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.mapper.CrmWorkOrderMapper;
 import me.zhengjie.modules.opl.service.CrmWorkOrderService;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
 import me.zhengjie.utils.PageHelpResultUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,7 +53,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     @Override
     public Map<String, Object> findAll(CrmWorkOrderCriteria criteria, Pageable pageable) {
         PageHelper.startPage(pageable.getPage(),pageable.getSize());
-        List<CrmWorkOrderCriteria> tempList= crmWorkOrderMapper.findAll();
+        List<CrmWorkOrderDto> tempList= crmWorkOrderMapper.findAll(criteria);
         PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
         return PageHelpResultUtil.toPage(pageInfo);
     }

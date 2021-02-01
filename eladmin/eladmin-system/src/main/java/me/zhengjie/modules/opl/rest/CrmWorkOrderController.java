@@ -27,10 +27,10 @@ public class CrmWorkOrderController {
 
     private final CrmWorkOrderService crmWorkOrderService;
 
-    @Log("获取所有工单信息")
-    @ApiOperation("获取所有工单信息")
+    @Log("工单报表")
+    @ApiOperation("工单报表")
     @GetMapping
-    public Map<String ,Object> getCrmWorkOrder(CrmWorkOrderCriteria criteria, Pageable pageable){
+    public Object getCrmWorkOrder( CrmWorkOrderCriteria criteria, Pageable pageable){
         return  crmWorkOrderService.findAll(criteria,pageable);
     }
 
