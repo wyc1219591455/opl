@@ -41,9 +41,9 @@ public class RequestQueuesCriteria implements Serializable {
     private Integer status;
 
     /**
-     * 有效状态
+     * 描述
      */
-    @ApiModelProperty(value = "有效状态", position = 4)
+    @ApiModelProperty(value = "描述", position = 4)
     private String memo;
 
     /**

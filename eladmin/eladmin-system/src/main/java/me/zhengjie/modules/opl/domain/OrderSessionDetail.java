@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "null")
+@ApiModel(value = "OrderSessionDetail")
 public class OrderSessionDetail {
 
 

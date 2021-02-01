@@ -64,5 +64,4 @@ public class QueueToDeptController {
       return   queuesToDeptService.findAllUserByDeptId(pageable,deptId);
     }
 
-
 }

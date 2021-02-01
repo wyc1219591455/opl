@@ -1,6 +1,8 @@
 package me.zhengjie.modules.opl.mapper;
 
 import me.zhengjie.modules.opl.domain.RequestQueues;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
+import me.zhengjie.modules.opl.service.dto.RequestQueuesCriteria;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -22,7 +24,7 @@ public interface RequestQueuesMapper {
      * @return java.util.List<me.zhengjie.modules.opl.domain.RequestQueues>
      * @throws
      */
-    List<RequestQueues> findAll() ;
+    List<RequestQueues> findAll(RequestQueuesCriteria criteria) ;
 
     /**
      * @title: insert
