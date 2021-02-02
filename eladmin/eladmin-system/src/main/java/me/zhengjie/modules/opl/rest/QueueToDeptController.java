@@ -12,6 +12,7 @@ import me.zhengjie.modules.opl.service.dto.QueuesToDeptCriteria;
 import me.zhengjie.modules.opl.service.dto.RequestQueuesDetlCriteria;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -60,8 +61,15 @@ public class QueueToDeptController {
     @Log("获取所有部门人员信息")
     @ApiOperation("获取所有部门人员信息")
     @GetMapping("/deptUser")
-    public Map<String ,Object> findAllUserByDeptId(@ApiParam("部门id") Integer deptId, Pageable pageable){
-      return   queuesToDeptService.findAllUserByDeptId(pageable,deptId);
+    public Map<String ,Object> findAllUserByDeptId(@ApiParam("部门id") @NotNull Integer deptId, Pageable pageable){
+      return  queuesToDeptService.findAllUserByDeptId(pageable,deptId);
+    }
+
+    @Log("根据服务分类条目获取部门信息")
+    @ApiOperation("根据服务分类条目获取部门信息")
+    @GetMapping("/findDeptByCatalogId")
+    public Map<String ,Object> findDeptByCatalogId(@ApiParam("服务条目id") @NotNull Integer catalogId){
+        return queuesToDeptService.findDeptByCatalogId(catalogId);
     }
 
 }

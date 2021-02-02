@@ -25,6 +25,9 @@ public interface ServiceCatalogToQueuesMapper {
      */
     List<ServiceCataLogToQueuesDto> findByQueuesId(Integer catalogId);
 
+
+    List<ServiceCataLogToQueuesDto> findQueuesByUserId(Integer userId);
+
     /**
      * @title: batchInsert
      * @description: 批量新增

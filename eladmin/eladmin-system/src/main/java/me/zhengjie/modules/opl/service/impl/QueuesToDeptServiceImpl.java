@@ -11,6 +11,7 @@ import me.zhengjie.modules.opl.mapper.QueuesToDeptMapper;
 import me.zhengjie.modules.opl.service.QueuesToDeptService;
 import me.zhengjie.modules.opl.service.dto.QueuesToDeptCriteria;
 
+import me.zhengjie.modules.opl.service.dto.SysDeptDto;
 import me.zhengjie.modules.opl.service.dto.UserForShow;
 import me.zhengjie.utils.PageHelpResultUtil;
 import me.zhengjie.utils.SecurityUtils;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
-public class QueueToDeptServiceImpl implements QueuesToDeptService {
+public class QueuesToDeptServiceImpl implements QueuesToDeptService {
     private final QueuesToDeptMapper queuesToDeptMapper;
 
     @Override
@@ -54,16 +55,25 @@ public class QueueToDeptServiceImpl implements QueuesToDeptService {
     }
 
     @Override
+    public Map<String, Object> findDeptByCatalogId(Integer catalogId) {
+        List<SysDeptDto> deptDtoList = queuesToDeptMapper.findDeptByCatalogId(catalogId);
+        Map<String,Object> map = new LinkedHashMap<>(2);
+        map.put("content",deptDtoList);
+        map.put("totalElements",deptDtoList.size());
+        return map;
+    }
+
+    @Override
     public Map<String, Object> findAllUserByDeptId(Pageable pageable, Integer deptId) {
         if (pageable!=null&&pageable.getPage()==-1) {
-            List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId(deptId);
+            List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId2(deptId);
             Map<String,Object> map = new LinkedHashMap<>(2);
             map.put("content",userForShowList);
             map.put("totalElements",userForShowList.size());
             return map;
         }else{
             PageHelper.startPage(pageable.getPage(),pageable.getSize());
-            List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId(deptId);
+            List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId2(deptId);
             PageInfo<UserForShow> pageInfo1 = new PageInfo<>(userForShowList);
             return  PageHelpResultUtil.toPage(pageInfo1);
         }
@@ -114,7 +124,6 @@ public class QueueToDeptServiceImpl implements QueuesToDeptService {
 
     }
 
-
     @Override
     public void deleteQueuesToDept(List<Integer> ids) {
         try{
@@ -125,7 +134,6 @@ public class QueueToDeptServiceImpl implements QueuesToDeptService {
             throw new BadRequestException("删除失败！");
         }
     }
-
 
     /**
      * 非空校验
@@ -143,4 +151,5 @@ public class QueueToDeptServiceImpl implements QueuesToDeptService {
         }
 
     }
+
 }

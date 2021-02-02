@@ -1,6 +1,8 @@
 package me.zhengjie.modules.opl.mapper;
 
+import me.zhengjie.modules.opl.domain.DeptForShow;
 import me.zhengjie.modules.opl.domain.QueuesToDept;
+import me.zhengjie.modules.opl.service.dto.SysDeptDto;
 import me.zhengjie.modules.opl.service.dto.UserForShow;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -93,7 +95,7 @@ public interface QueuesToDeptMapper {
 
     /**
      * @title: findAllUserByDeptId
-     * @description: findAllUserByDeptId
+     * @description: 根据部门id获取所有的人员
      * @date: 2021/1/22 16:06
      * @author: ming.cao
      * @param deptId
@@ -102,6 +104,25 @@ public interface QueuesToDeptMapper {
      */
     List<UserForShow> findAllUserByDeptId(Integer deptId);
 
+    /**
+     * @title: findDeptByQueueId
+     * @description: 根据服务分类条目id获取部门信息
+     * @date: 2021/2/2 15:15
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.SysDeptDto>
+     * @throws
+     */
+    List<SysDeptDto> findDeptByCatalogId(Integer catalogId);
 
-
+    /**
+     * @title: findAllUserByDeptId2
+     * @description: 根据部门id获取所有的人员
+     * @date: 2021/2/2 16:01
+     * @author: ming.cao
+     * @param deptId
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
+     * @throws
+     */
+    List<UserForShow> findAllUserByDeptId2(Integer deptId);
 }

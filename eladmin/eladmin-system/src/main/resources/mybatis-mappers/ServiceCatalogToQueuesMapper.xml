@@ -14,6 +14,12 @@
         WHERE t1.catalogId = #{catalogId}
     </select>
 
+    <!-- 根据人员查询数据 -->
+    <select id="findQueuesByUserId" resultType="me.zhengjie.modules.opl.service.dto.ServiceCataLogToQueuesDto">
+
+
+    </select>
+
     <!-- 批量新增 -->
     <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
         INSERT INTO serviceCatalogToQueues(catalogId,queuesId,status,createDateTime,createUserId)
