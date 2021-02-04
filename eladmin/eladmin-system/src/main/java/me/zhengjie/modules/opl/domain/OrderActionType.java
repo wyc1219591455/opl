@@ -1,5 +1,6 @@
 package me.zhengjie.modules.opl.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
@@ -42,6 +44,7 @@ public class OrderActionType implements Serializable {
 	 * 创建时间
 	 */
 	@ApiModelProperty(value = "创建时间", position = 4)
-	private java.util.Date createDateTime;
+	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+	private Timestamp createDateTime;
 
 }

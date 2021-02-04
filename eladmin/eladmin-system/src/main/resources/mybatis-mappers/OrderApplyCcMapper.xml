@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.zhengjie.modules.opl.mapper.OrderApplyCcMapper">
+
+    <!--新增-->
+    <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.OrderApplyCc">
+        INSERT INTO orderApplyCc(transId,empId,ccType,createDateTime,createUserId,originalType)
+        VALUES (#{transId},#{empId},#{ccType},#{createDateTime},#{createUserId},#{originalType})
+    </insert>
+
+    <!--修改-->
+    <update id="update" parameterType="me.zhengjie.modules.opl.domain.OrderApplyCc">
+        UPDATE orderApplyCc SET transId=#{transId},empId=#{empId},ccType=#{ccType},
+        modifyDateTime=#{modifyDateTime},modifyUserId=#{modifyUserId},originalType=#{originalType}
+        WHERE id = #{id}
+    </update>
+
+    <!--删除-->
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM orderApplyCc WHERE id =#{id}
+    </delete>
+
+    <!--根据有抄送的工单id查询-->
+    <select id="findCcByTransId" resultType="me.zhengjie.modules.opl.service.dto.OrderApplyCcDto">
+        SELECT t1.*,t2.FHumanName as humanName,t2.FUserName as userName,t2.FEmail as email FROM orderApplyCc t1
+         LEFT JOIN tsysuser t2 ON t1.empId = t2.FUserId
+         LEFT JOIN crm_work_order t3 ON t1.transId = t3.id
+        WHERE t1.transId = #{transId}
+    </select>
+
+    <!--根据有抄送的人员id查询-->
+    <select id="findCcByEmpId" resultType="me.zhengjie.modules.opl.service.dto.OrderApplyCcDto">
+        SELECT t1.*,t2.FHumanName as humanName,t2.FUserName as userName,t2.FEmail as email FROM orderApplyCc t1
+         LEFT JOIN tsysuser t2 ON t1.empId = t2.id
+         LEFT JOIN crm_work_order t3 ON t1.transId = t3.id
+         WHERE t1.empId = #{empId}
+    </select>
+
+</mapper>

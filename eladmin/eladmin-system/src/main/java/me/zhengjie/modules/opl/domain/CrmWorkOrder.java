@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.sql.Time;
 import java.sql.Timestamp;
 
 /**
@@ -156,4 +157,44 @@ public class CrmWorkOrder implements Serializable {
     @ApiModelProperty("crm的id")
     private Long crmId;
 
+    @ApiModelProperty("工单状态（opl系统中状态）")
+    private Integer status;
+
+    @ApiModelProperty("处理人（opl系统中的处理人）")
+    private Integer receiver;
+
+    @ApiModelProperty("最终开始处理时间")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    private Timestamp realOpTime;
+
+    @ApiModelProperty("到支持组")
+    private Integer serviceCatalogToQueueId;
+
+    @ApiModelProperty("到服务分类")
+    private Integer serviceCatalogId;
+
+    @ApiModelProperty("完成时间")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    private Timestamp finishDateTime;
+
+    @ApiModelProperty("完成人")
+    private Integer finishUserId;
+
+    @ApiModelProperty("完成代码（成功1，无法处理2，失败3）")
+    private Integer finishCode;
+
+    @ApiModelProperty("关闭时间")
+    private Timestamp closeDateTime;
+
+    @ApiModelProperty("关闭人")
+    private Integer closeUserId;
+
+    @ApiModelProperty("关闭得分")
+    private Integer closeScore;
+
+    @ApiModelProperty("取消时间")
+    private Timestamp cancelDateTime;
+
+    @ApiModelProperty("取消人")
+    private Integer cancelUserId;
 }

@@ -30,6 +30,28 @@
          WHERE t2.FDeptId =#{deptId}
     </select>
 
+    <!-- 根据服务分类条目id获取部门信息 -->
+    <select id="findDeptByCatalogId" resultType="me.zhengjie.modules.opl.service.dto.SysDeptDto">
+    SELECT t4.* FROM sys_dept t4 WHERE EXISTS (SELECT c1.* FROM
+    (SELECT t3.dept_id FROM queuesToDept t1
+    LEFT JOIN sys_user t2
+    ON t1.sourceId=t2.user_id AND
+    EXISTS(SELECT * FROM sys_user s1 WHERE s1.user_id = t1.sourceId)
+    LEFT JOIN sys_dept t3
+    ON t3.dept_id = t2.dept_id
+	WHERE t1.status = 1 AND t1.queuesId in
+	(SELECT c2.queuesId FROM serviceCatalogToQueues c2 WHERE c2.catalogId = #{catalogId})
+    GROUP BY t3.dept_id) c1 WHERE c1.dept_id=t4.dept_id)
+    </select>
+
+    <!--根据部门id获取所有的人员-->
+    <select id="findAllUserByDeptId2" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
+        SELECT t1.user_id as userId,t1.dept_id as deptId ,
+        t1.username as userName,t1.nick_name as humanName,
+        t2.name as deptName FROM sys_user t1
+        LEFT JOIN sys_dept t2 ON t1.dept_id=t2.dept_id
+        WHERE t1.enabled=1 AND t1.dept_id=#{deptId}
+    </select>
 
     <!--新增-->
     <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.QueuesToDept">

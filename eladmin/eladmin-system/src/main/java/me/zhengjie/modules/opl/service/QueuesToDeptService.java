@@ -26,6 +26,17 @@ public interface QueuesToDeptService {
     Map<String,Object> findByQueueId(Pageable pageable, Integer id);
 
     /**
+     * @title: findDeptByCatalogId
+     * @description: 根据服务分类条目获取部门数据
+     * @date: 2021/2/2 15:32
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     */
+    Map<String,Object> findDeptByCatalogId(Integer catalogId);
+
+    /**
      * @title: findAllUserByDeptId
      * @description: 根据部门id获取所有人
      * @date: 2021/1/22 17:24
@@ -36,6 +47,7 @@ public interface QueuesToDeptService {
      * @throws
      */
     Map<String,Object> findAllUserByDeptId(Pageable pageable, Integer id);
+
 
     /**
      * @title: insert

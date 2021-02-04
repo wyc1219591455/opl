@@ -41,15 +41,15 @@ public class RequestQueuesDetlServiceImpl implements RequestQueuesDetlService {
     private final RequestQueuesDetlMapper requestQueuesDetlMapper;
 
     @Override
-    public Map<String, Object> findByQueuesId(Pageable pageable,Integer id) {
-        if (pageable.getPage()==-1){
+    public Map<String, Object> findByQueuesId(Pageable pageable, Integer id) {
+        if (pageable.getPage() == -1) {
             List<RequestQueuesDetlDto> dtoList = requestQueuesDetlMapper.findByQueuesId(id);
-            Map<String,Object> map = new LinkedHashMap<>(2);
-            map.put("content",dtoList);
-            map.put("totalElements",dtoList.size());
+            Map<String, Object> map = new LinkedHashMap<>(2);
+            map.put("content", dtoList);
+            map.put("totalElements", dtoList.size());
             return map;
-        }else{
-            PageHelper.startPage(pageable.getPage(),pageable.getSize());
+        } else {
+            PageHelper.startPage(pageable.getPage(), pageable.getSize());
             List<RequestQueuesDetlDto> dtoList = requestQueuesDetlMapper.findByQueuesId(id);
             PageInfo<RequestQueuesDetlDto> pageInfo1 = new PageInfo<>(dtoList);
             return PageHelpResultUtil.toPage(pageInfo1);
@@ -72,7 +72,7 @@ public class RequestQueuesDetlServiceImpl implements RequestQueuesDetlService {
             detl.setCreateUserId("" + SecurityUtils.getCurrentUserId());
             detl.setCreateDateTime(new Timestamp(new Date().getTime()));
             requestQueuesDetlMapper.insert(detl);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw new BadRequestException("新增失败！");
         }
     }
@@ -80,21 +80,21 @@ public class RequestQueuesDetlServiceImpl implements RequestQueuesDetlService {
     @Override
     public void updateRequestQueuesDetl(RequestQueuesDetlCriteria criteria) {
         try {
-        //非空校验
-        isEmptyTest(criteria);
-        //唯一性校验
-        isOnlyTest(criteria);
-        RequestQueuesDetl detl = new RequestQueuesDetl();
-        detl.setId(criteria.getId());
-        detl.setDeptId(criteria.getDeptId());
-        detl.setMemberId(criteria.getMemberId());
-        detl.setMemo(criteria.getMemo());
-        detl.setQueuesId(criteria.getQueuesId());
-        detl.setStatus(criteria.getStatus());
-        detl.setCreateUserId(""+SecurityUtils.getCurrentUserId());
-        detl.setCreateDateTime(new Timestamp(new Date().getTime()));
-        requestQueuesDetlMapper.update(detl);
-        }catch (Exception e){
+            //非空校验
+            isEmptyTest(criteria);
+            //唯一性校验
+            isOnlyTest(criteria);
+            RequestQueuesDetl detl = new RequestQueuesDetl();
+            detl.setId(criteria.getId());
+            detl.setDeptId(criteria.getDeptId());
+            detl.setMemberId(criteria.getMemberId());
+            detl.setMemo(criteria.getMemo());
+            detl.setQueuesId(criteria.getQueuesId());
+            detl.setStatus(criteria.getStatus());
+            detl.setCreateUserId("" + SecurityUtils.getCurrentUserId());
+            detl.setCreateDateTime(new Timestamp(new Date().getTime()));
+            requestQueuesDetlMapper.update(detl);
+        } catch (Exception e) {
             throw new BadRequestException("更新失败！");
         }
     }
@@ -102,12 +102,11 @@ public class RequestQueuesDetlServiceImpl implements RequestQueuesDetlService {
     @Override
     @Transactional
     public void deleteRequestQueuesDetl(List<Integer> ids) {
-        try{
+        try {
             for (Integer id : ids) {
                 requestQueuesDetlMapper.delete(id);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new BadRequestException("删除失败！");
         }
 
@@ -119,16 +118,16 @@ public class RequestQueuesDetlServiceImpl implements RequestQueuesDetlService {
     }
 
     @Override
-    public Map<String, Object> getUserForShow(Pageable pageable ,Long queuesId, Long deptId) {
-        if (pageable!=null&&pageable.getPage()==-1) {
-        List<UserForShow> queues= requestQueuesDetlMapper.findUserForShow(queuesId,null);
-            Map<String,Object> map = new LinkedHashMap<>(2);
-            map.put("content",queues);
-            map.put("totalElements",queues.size());
+    public Map<String, Object> getUserForShow(Pageable pageable, Long queuesId, Long deptId) {
+        if (pageable != null && pageable.getPage() == -1) {
+            List<UserForShow> queues = requestQueuesDetlMapper.findUserForShow(queuesId, null);
+            Map<String, Object> map = new LinkedHashMap<>(2);
+            map.put("content", queues);
+            map.put("totalElements", queues.size());
             return map;
-        }else {
-            PageHelper.startPage(pageable.getPage(),pageable.getSize());
-            List<UserForShow> queues= requestQueuesDetlMapper.findUserForShow(queuesId,null);
+        } else {
+            PageHelper.startPage(pageable.getPage(), pageable.getSize());
+            List<UserForShow> queues = requestQueuesDetlMapper.findUserForShow(queuesId, null);
             PageInfo<UserForShow> pageInfo1 = new PageInfo<>(queues);
             return PageHelpResultUtil.toPage(pageInfo1);
         }
@@ -136,16 +135,17 @@ public class RequestQueuesDetlServiceImpl implements RequestQueuesDetlService {
 
     /**
      * 非空校验
+     *
      * @param criteria
      */
-    private void isEmptyTest(RequestQueuesDetlCriteria criteria){
-        if (ObjectUtil.isEmpty(criteria.getMemberId())){
+    private void isEmptyTest(RequestQueuesDetlCriteria criteria) {
+        if (ObjectUtil.isEmpty(criteria.getMemberId())) {
             throw new BadRequestException("人员不能为空！");
         }
-        if (ObjectUtil.isEmpty(criteria.getQueuesId())){
+        if (ObjectUtil.isEmpty(criteria.getQueuesId())) {
             throw new BadRequestException("支持组不能为空！");
         }
-        if (ObjectUtil.isEmpty(criteria.getDeptId())){
+        if (ObjectUtil.isEmpty(criteria.getDeptId())) {
             throw new BadRequestException("部门不能为空！");
         }
 
@@ -154,12 +154,12 @@ public class RequestQueuesDetlServiceImpl implements RequestQueuesDetlService {
     /**
      * 唯一性校验
      */
-    private void isOnlyTest(RequestQueuesDetlCriteria criteria){
+    private void isOnlyTest(RequestQueuesDetlCriteria criteria) {
         if (ObjectUtil.isNotEmpty(criteria)) {
-        Integer count= requestQueuesDetlMapper.countMemberInQueue(criteria.getQueuesId(),Integer.parseInt(criteria.getMemberId()));
-        if (count>0){
-            throw new BadRequestException("支持组下人员不允许重复！");
-        }
+            Integer count = requestQueuesDetlMapper.countMemberInQueue(criteria.getQueuesId(), Integer.parseInt(criteria.getMemberId()));
+            if (count > 0) {
+                throw new BadRequestException("支持组下人员不允许重复！");
+            }
         }
 
     }

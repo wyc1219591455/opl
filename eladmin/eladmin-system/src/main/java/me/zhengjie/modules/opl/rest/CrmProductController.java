@@ -35,5 +35,4 @@ public class CrmProductController {
         return  crmProductService.findAll(pageable);
     }
 
-
 }

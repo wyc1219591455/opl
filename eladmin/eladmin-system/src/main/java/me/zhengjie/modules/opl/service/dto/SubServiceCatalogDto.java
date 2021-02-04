@@ -23,8 +23,6 @@ import java.sql.Timestamp;
 @ApiModel(value = "服务分类条目子表")
 public class SubServiceCatalogDto {
 
-
-
     @ApiModelProperty(value = "服务分类条目ID")
     private Integer catalogId;
 

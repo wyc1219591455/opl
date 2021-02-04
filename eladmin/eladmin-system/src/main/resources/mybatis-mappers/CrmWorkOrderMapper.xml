@@ -46,6 +46,63 @@
         matter_date=#{matterDate},sn_no=#{snNo},ultimate_customer=#{ultimateCustomer},problem_type=#{problemType},
         problem_attach=#{problemAttach},problem_desc=#{problemDesc},problem_path=#{problemPath},
         site_condition=#{siteCondition},rescue_action=#{rescueAction},fae_header=#{faeHeader},work_order_type=#{workOrderType}
+        <if test="orderStatus!=null">
+            ,order_status=#{orderStatus}
+        </if>
+        <if test="measures!=null and measures!=''">
+            ,measures=#{measures}
+        </if>
+        <if test="completeType!=null">
+            ,complete_type=#{completeType}
+        </if>
+        <if test="reason!=null and reason!=''">
+            ,reason=#{reason}
+        </if>
+        <if test="completeAttach!=null and completeAttach!=''">
+            ,complete_attach=#{completeAttach}
+        </if>
+       <if test="department!=null and department!=''">
+           ,department=#{department}
+       </if>
+       <if test="status!=null">
+           ,status=#{status}
+       </if>
+       <if test="receiver!=null and receiver!=''">
+           ,receiver=#{receiver}
+       </if>
+       <if test="serviceCatalogToQueueId!=null">
+           ,service_catalog_to_queue_id=#{serviceCatalogToQueueId}
+       </if>
+       <if test="serviceCatalogId!=null">
+           ,service_catalog_id=#{serviceCatalogId}
+       </if>
+       <if test="realOpTime!=null">
+           ,real_op_time=#{realOpTime}
+       </if>
+       <if test="finishDateTime!=null">
+           ,finish_date_time=#{finishDateTime}
+       </if>
+       <if test="finishUserId!=null">
+           ,finish_user_id=#{finishUserId}
+       </if>
+       <if test="finishCode!=null">
+           ,finish_code=#{finishCode}
+       </if>
+       <if test="closeDateTime!=null">
+           ,close_date_time=#{closeDateTime}
+       </if>
+       <if test="closeUserId!=null">
+           ,close_user_id=#{closeUserId}
+       </if>
+       <if test="closeScore!=null">
+           ,close_score=#{closeScore}
+       </if>
+       <if test="cancelDateTime!=null">
+           ,cancel_date_time=#{cancelDateTime}
+       </if>
+       <if test="cancelUserId!=null">
+           ,cancel_user_id=#{cancelUserId}
+       </if>
         WHERE crm_id = #{crmId}
     </update>
 
@@ -255,7 +312,7 @@
         SELECT * FROM crm_work_order WHERE serial_no = #{serialNo}
     </select>
 
-    <select id="findAllOrder" resultType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
+    <select id="findAllOrder" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria">
         SELECT * FROM crm_work_order
     </select>
 
