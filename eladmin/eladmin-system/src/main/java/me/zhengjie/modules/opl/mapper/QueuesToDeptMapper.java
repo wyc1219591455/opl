@@ -125,4 +125,15 @@ public interface QueuesToDeptMapper {
      * @throws
      */
     List<UserForShow> findAllUserByDeptId2(Integer deptId);
+
+    /**
+     * @title: findServiceCatalogByUserId
+     * @description: 根据用户id获取所有服务分类条目
+     * @date: 2021/2/4 13:15
+     * @author: ming.cao
+     * @param userId
+     * @return java.util.List<java.lang.Integer>
+     * @throws
+     */
+    List<Integer> findServiceCatalogByUserId(Integer userId);
 }

@@ -53,6 +53,21 @@
         WHERE t1.enabled=1 AND t1.dept_id=#{deptId}
     </select>
 
+    <!--根据用户id获取所有服务分类条目-->
+    <select id="findServiceCatalogByUserId" resultType="java.lang.Integer">
+    SELECT catalogId FROM subServiceCatalog t1 WHERE t1.defaultQueueId in (
+    -- 人对应的支持组id
+    SELECT queuesId FROM queuesToDept WHERE type=1 and sourceId = #{userId}
+    UNION
+    -- 部门对应的支持组id
+    SELECT queuesId FROM queuesToDept WHERE type=0 and sourceId in (
+    SELECT s1.dept_id FROM sys_user s1 left JOIN
+    sys_dept s2 on s1.dept_id = s2.dept_id
+    WHERE  s1.user_id= #{userId} and s2.enabled = 1
+    )
+    )
+    </select>
+
     <!--新增-->
     <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.QueuesToDept">
         INSERT INTO queuesToDept(queuesId,sourceId,type,status,
