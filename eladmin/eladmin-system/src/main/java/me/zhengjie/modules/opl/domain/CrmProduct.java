@@ -21,7 +21,7 @@ import java.sql.Timestamp;
 public class CrmProduct implements Serializable {
 
     //主键id
-    private Long id;
+    private Integer id;
 
     //产品编码
     private String productNo;

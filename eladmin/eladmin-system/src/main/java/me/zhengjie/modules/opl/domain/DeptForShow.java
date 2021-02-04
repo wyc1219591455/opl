@@ -20,7 +20,7 @@ public class DeptForShow implements Serializable {
 	 * 部门id
 	 */
 	@ApiModelProperty(value = "部门id", position = 0)
-	private Long deptId;
+	private Integer deptId;
 
 	/**
 	 * 上级部门

@@ -26,7 +26,7 @@ public class OrgAs implements Serializable {
 	 * 主键(公司编码)
 	 */
 	@ApiModelProperty(value = "主键(公司编码)", position = 0)
-	private Long orgId;
+	private Integer orgId;
 
 	/**
 	 * 上级
