@@ -10,6 +10,13 @@ import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
+
+/**
+ * @program: eladmin
+ * @description:
+ * @author: yuchao.wang
+ * @create: 2021-01-13 19:56
+ **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

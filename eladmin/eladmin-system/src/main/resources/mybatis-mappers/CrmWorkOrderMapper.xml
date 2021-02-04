@@ -23,7 +23,7 @@
         <result property="rescueAction" column="rescue_action"></result>
         <result property="faeHeader" column="fae_header"></result>
         <result property="workOrderType" column="work_order_type"></result>
-        <result property="TypeDesc" column="TypeDesc"></result>
+        <result property="typeDesc" column="typeDesc"></result>
         <result property="orderStatus" column="orderStatus"></result>
     </resultMap>
 
@@ -81,12 +81,15 @@
         </foreach>
     </update>
 
-    <select id="findAll" parameterType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria" resultMap="OrderMap">
-        SELECT A.topic,A.serial_no,A.plan_comp_time,A.created_person,C.FDeptFullName AS deptName,A.project_name,A.model,A.matter_date,A.sn_no,
-        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.work_order_type
+    <select id="findAll" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultMap="OrderMap">
+        SELECT A.topic,A.serial_no,A.plan_comp_time,A.created_person,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.matter_date,A.sn_no,
+        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.work_order_type,E.name as typeDesc,A.order_status,F.name as statusDesc
         FROM crm_work_order A
         LEFT JOIN tsysuser B ON A.job_number=B.FUserName
         LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
+        LEFT JOIN crm_product D ON A.model=D.crm_id
+        LEFT JOIN trequestCategory E ON E.text=A.work_order_type
+        LEFT JOIN orderStatus F ON F.id=A.order_status
         where 1=1
         <if test="topic != null and topic != ''">
             AND A.topic LIKE CONCAT('%',#{topic},'%')
@@ -95,17 +98,140 @@
             AND A.serial_no LIKE CONCAT('%',#{serialNo},'%')
         </if>
         <if test="orderStatus != null ">
-            AND A.orderStatus = #{orderStatus}
+            AND A.order_status = #{orderStatus}
         </if>
 
-<!--        <if test="startTime != null ">-->
-<!--            AND A.created_at &gt;= #{startTime}-->
-<!--        </if>-->
+        <if test="model != null and model != '' ">
+            AND A.model = #{model}
+        </if>
 
-<!--        <if test="endTime != null  ">-->
-<!--            AND A.created_at &lt;= #{endTime}-->
-<!--        </if>-->
+        <if test="workOrderType != null ">
+            AND A.work_order_type = #{workOrderType}
+        </if>
+
+        <if test="startTime != null ">
+            AND A.created_at &gt;= #{startTime}
+        </if>
+
+        <if test="endTime != null  ">
+            AND A.created_at &lt;= #{endTime}
+        </if>
         ORDER BY A.created_at desc
+
+    </select>
+
+    <select id="findCreatedByMe" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultMap="OrderMap">
+        SELECT A.topic,A.serial_no,A.plan_comp_time,A.created_person,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.matter_date,A.sn_no,
+        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.work_order_type,E.name as typeDesc,A.order_status,F.name as statusDesc
+        FROM crm_work_order A
+        LEFT JOIN tsysuser B ON A.job_number=B.FUserName
+        LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
+        LEFT JOIN crm_product D ON A.model=D.crm_id
+        LEFT JOIN trequestCategory E ON E.text=A.work_order_type
+        LEFT JOIN orderStatus F ON F.id=A.order_status
+        where A.job_number= #{jobNumber}
+        <if test="topic != null and topic != ''">
+            AND A.topic LIKE CONCAT('%',#{topic},'%')
+        </if>
+        <if test="serialNo != null and serialNo != '' ">
+            AND A.serial_no LIKE CONCAT('%',#{serialNo},'%')
+        </if>
+        <if test="orderStatus != null ">
+            AND A.order_status = #{orderStatus}
+        </if>
+
+        <if test="model != null and model != '' ">
+            AND A.model = #{model}
+        </if>
+
+        <if test="workOrderType != null ">
+            AND A.work_order_type = #{workOrderType}
+        </if>
+
+        <if test="startTime != null ">
+            AND A.created_at &gt;= #{startTime}
+        </if>
+
+        <if test="endTime != null  ">
+            AND A.created_at &lt;= #{endTime}
+        </if>
+        ORDER BY A.created_at desc
+
+    </select>
+
+    <select id="findTreatByMe" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultMap="OrderMap">
+        SELECT A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.created_at,A.project_name,D.product_name AS model,A.matter_date,A.sn_no,
+        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.work_order_type,E.name as typeDesc,A.order_status,F.name as statusDesc
+        FROM crm_work_order A
+        LEFT JOIN tsysuser B ON A.job_number=B.FUserName
+        LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
+        LEFT JOIN crm_product D ON A.model=D.crm_id
+        LEFT JOIN trequestCategory E ON E.text=A.work_order_type
+        LEFT JOIN orderStatus F ON F.id=A.order_status
+        where A.receiver= #{jobNumber}
+        <if test="topic != null and topic != ''">
+            AND A.topic LIKE CONCAT('%',#{topic},'%')
+        </if>
+        <if test="serialNo != null and serialNo != '' ">
+            AND A.serial_no LIKE CONCAT('%',#{serialNo},'%')
+        </if>
+        <if test="orderStatus != null ">
+            AND A.order_status = #{orderStatus}
+        </if>
+
+        <if test="model != null and model != '' ">
+            AND A.model = #{model}
+        </if>
+
+        <if test="workOrderType != null ">
+            AND A.work_order_type = #{workOrderType}
+        </if>
+
+        <if test="startTime != null ">
+            AND A.created_at &gt;= #{startTime}
+        </if>
+
+        <if test="endTime != null  ">
+            AND A.created_at &lt;= #{endTime}
+        </if>
+        UNION
+        SELECT A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.created_at,A.project_name,D.product_name AS model,A.matter_date,A.sn_no,
+        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.work_order_type,E.name as typeDesc,A.order_status,F.name as statusDesc
+        FROM crm_work_order A
+        LEFT JOIN tsysuser B ON A.job_number=B.FUserName
+        LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
+        LEFT JOIN crm_product D ON A.model=D.crm_id
+        LEFT JOIN trequestCategory E ON E.text=A.work_order_type
+        LEFT JOIN orderStatus F ON F.id=A.order_status
+        LEFT JOIN subOrder G ON G.parentNo=A.id
+        where G.receiver= #{jobNumber}
+        <if test="topic != null and topic != ''">
+            AND A.topic LIKE CONCAT('%',#{topic},'%')
+        </if>
+        <if test="serialNo != null and serialNo != '' ">
+            AND A.serial_no LIKE CONCAT('%',#{serialNo},'%')
+        </if>
+        <if test="orderStatus != null ">
+            AND A.order_status = #{orderStatus}
+        </if>
+
+        <if test="model != null and model != '' ">
+            AND A.model = #{model}
+        </if>
+
+        <if test="workOrderType != null ">
+            AND A.work_order_type = #{workOrderType}
+        </if>
+
+        <if test="startTime != null ">
+            AND A.created_at &gt;= #{startTime}
+        </if>
+
+        <if test="endTime != null  ">
+            AND A.created_at &lt;= #{endTime}
+        </if>
+
+--         ORDER BY A.created_at desc
 
     </select>
 

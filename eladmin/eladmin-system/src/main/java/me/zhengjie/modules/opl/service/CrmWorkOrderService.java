@@ -3,6 +3,7 @@ package me.zhengjie.modules.opl.service;
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
+import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 
 import java.util.List;
 import java.util.Map;
@@ -52,12 +53,34 @@ public interface CrmWorkOrderService {
      * @title: findAll
      * @description: 查询所有
      * @date: 2021/1/13 19:48
-     * @author: ming.cao
+     * @author: yuchao.wang
      * @param
      * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
      * @throws
      */
-    Map<String,Object> findAll(CrmWorkOrderCriteria criteria, Pageable pageable);
+    Map<String,Object> findAll(WorkOrderCriteria workOrderCriteria, Pageable pageable);
+
+    /**
+     * @title: findCreatedByMe
+     * @description: 查询我发起的工单
+     * @date: 2021/1/13 19:48
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    Map<String,Object> findCreatedByMe(WorkOrderCriteria workOrderCriteria, Pageable pageable);
+
+    /**
+     * @title: findTreatByMe
+     * @description: 查询我处理的工单
+     * @date: 2021/1/13 19:48
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    Map<String,Object> findTreatByMe(WorkOrderCriteria workOrderCriteria, Pageable pageable);
 
     /**
      * @title: findCrmOrderByOrderType

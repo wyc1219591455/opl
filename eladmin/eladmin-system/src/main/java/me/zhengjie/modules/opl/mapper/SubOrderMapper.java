@@ -45,5 +45,5 @@ public interface SubOrderMapper {
      * @return SubOrder
      * @throws
      */
-    List<SubOrder> findAllSubOrder();
+    List<SubOrder> findSubOrderByParentId();
 }

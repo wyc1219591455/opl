@@ -7,6 +7,13 @@ import me.zhengjie.modules.opl.service.dto.TrequestCategoryDto;
 
 import java.util.List;
 
+
+/**
+ * @program: eladmin
+ * @description:
+ * @author: yuchao.wang
+ * @create: 2021-01-13 19:56
+ **/
 public interface ServiceCatalogToCategoryService {
 
 

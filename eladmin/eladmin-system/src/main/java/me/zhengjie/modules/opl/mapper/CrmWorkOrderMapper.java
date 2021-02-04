@@ -3,6 +3,7 @@ package me.zhengjie.modules.opl.mapper;
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
+import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -42,12 +43,46 @@ public interface CrmWorkOrderMapper {
      * @title: findAll
      * @description: findAll
      * @date: 2021/1/13 19:46
-     * @author: ming.cao
+     * @author: yuchao.wang
      * @param
      * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
      * @throws
      */
-    List<CrmWorkOrderDto> findAll(CrmWorkOrderCriteria crmWorkOrderCriteria);
+    List<CrmWorkOrderDto> findAll(WorkOrderCriteria workOrderCriteria);
+
+
+    /**
+     * @title: findCreatedByMe
+     * @description: 我发起的工单
+     * @date: 2021/1/13 19:46
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    List<CrmWorkOrderDto> findCreatedByMe(WorkOrderCriteria workOrderCriteria);
+
+    /**
+     * @title: findTreatByMe
+     * @description: 我处理的工单
+     * @date: 2021/1/13 19:46
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    List<CrmWorkOrderDto> findTreatByMe(WorkOrderCriteria workOrderCriteria);
+
+    /**
+     * @title: findTeamOrder
+     * @description: 组内工单
+     * @date: 2021/1/13 19:46
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    List<CrmWorkOrderDto> findTeamOrder(WorkOrderCriteria workOrderCriteria);
 
     /**
      * @title: findCrmOrderById

@@ -7,19 +7,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
-import java.util.List;
-
-
 /**
- * @program: eladmin
+ * @program: 工单子单
  * @description:
  * @author: yuchao.wang
- * @create: 2021-01-13 19:56
+ * @create: 2021-01-19 13:44
  **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CrmWorkOrderDto {
+public class SubOrderDto {
+
+    //主键
+    @ApiModelProperty("主键")
+    private Integer id;
+
+    //主题
+    @ApiModelProperty("父工单")
+    private String parentNo;
 
     //主题
     @ApiModelProperty("主题")
@@ -44,6 +49,9 @@ public class CrmWorkOrderDto {
 
     @ApiModelProperty("所属部门")
     private String deptName;
+
+    @ApiModelProperty("所属部门Id")
+    private Integer deptId;
 
     @ApiModelProperty("创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
@@ -105,13 +113,14 @@ public class CrmWorkOrderDto {
     @ApiModelProperty("工单分类描述")
     private String typeDesc;
 
-    @ApiModelProperty("opl工单状态 工单状态 0：新创建 1：待受理 2：处理中 3：已完成 4：已关闭 5：已取消")
-    private Integer orderStatus;
+    @ApiModelProperty("是否允许转派 1可以转派  0不可以转派")
+    private Integer isTransfer;
 
-    @ApiModelProperty("工单状态描述")
-    private String statusDesc;
+    @ApiModelProperty("描述")
+    private String orderDesc;
 
-    @ApiModelProperty("子单列表")
-    private List<SubOrderDto> subOrderDtoList;
+
 
 }
+
+

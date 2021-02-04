@@ -8,13 +8,17 @@ import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.mapper.CrmWorkOrderMapper;
+import me.zhengjie.modules.opl.mapper.SubOrderMapper;
 import me.zhengjie.modules.opl.service.CrmWorkOrderService;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
+import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 import me.zhengjie.utils.PageHelpResultUtil;
+import me.zhengjie.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +35,7 @@ import java.util.Map;
 public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
     private final CrmWorkOrderMapper crmWorkOrderMapper;
+    private final SubOrderMapper subOrderMapper;
 
     @Override
     public void insert(CrmWorkOrderCriteria crmWorkOrderCriteria) {
@@ -51,9 +56,33 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     }
 
     @Override
-    public Map<String, Object> findAll(CrmWorkOrderCriteria criteria, Pageable pageable) {
+    public Map<String, Object> findAll(WorkOrderCriteria criteria, Pageable pageable) {
         PageHelper.startPage(pageable.getPage(),pageable.getSize());
         List<CrmWorkOrderDto> tempList= crmWorkOrderMapper.findAll(criteria);
+        PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
+        return PageHelpResultUtil.toPage(pageInfo);
+    }
+
+    @Override
+    public Map<String, Object> findCreatedByMe(WorkOrderCriteria criteria, Pageable pageable) {
+        PageHelper.startPage(pageable.getPage(),pageable.getSize());
+        String jobNumber = SecurityUtils.getCurrentUsername();
+        criteria.setJobNumber(jobNumber);
+        List<CrmWorkOrderDto> tempList= crmWorkOrderMapper.findCreatedByMe(criteria);
+        PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
+        return PageHelpResultUtil.toPage(pageInfo);
+    }
+
+    @Override
+    public Map<String, Object> findTreatByMe(WorkOrderCriteria criteria, Pageable pageable) {
+        PageHelper.startPage(pageable.getPage(),pageable.getSize());
+        String jobNumber = SecurityUtils.getCurrentUsername();
+        criteria.setJobNumber(jobNumber);
+        List<CrmWorkOrderDto> tempList= crmWorkOrderMapper.findTreatByMe(criteria);
+//        for(CrmWorkOrderDto crmWorkOrderDto:tempList)
+//        {
+//            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId());
+//        }
         PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
         return PageHelpResultUtil.toPage(pageInfo);
     }

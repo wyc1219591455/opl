@@ -8,6 +8,7 @@ import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.service.CrmWorkOrderService;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
+import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,8 +31,22 @@ public class CrmWorkOrderController {
     @Log("工单报表")
     @ApiOperation("工单报表")
     @GetMapping
-    public Object getCrmWorkOrder( CrmWorkOrderCriteria criteria, Pageable pageable){
+    public Object getCrmWorkOrder(WorkOrderCriteria criteria, Pageable pageable){
         return  crmWorkOrderService.findAll(criteria,pageable);
+    }
+
+    @Log("我发起的工单")
+    @ApiOperation("我发起的工单")
+    @GetMapping("/create")
+    public Object getCrmWorkOrderByMe(WorkOrderCriteria criteria, Pageable pageable){
+        return  crmWorkOrderService.findCreatedByMe(criteria,pageable);
+    }
+
+    @Log("我处理的工单")
+    @ApiOperation("我处理的工单")
+    @GetMapping("/treat")
+    public Object getTreatOrderByMe(WorkOrderCriteria criteria, Pageable pageable){
+        return  crmWorkOrderService.findTreatByMe(criteria,pageable);
     }
 
     @Log("新增工单")

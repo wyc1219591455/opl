@@ -6,6 +6,13 @@ import me.zhengjie.modules.opl.domain.ServiceCatalog;
 
 import java.util.Map;
 
+
+/**
+ * @program: eladmin
+ * @description:
+ * @author: yuchao.wang
+ * @create: 2021-01-13 19:56
+ **/
 public interface ServiceCatalogService {
 
     /**
