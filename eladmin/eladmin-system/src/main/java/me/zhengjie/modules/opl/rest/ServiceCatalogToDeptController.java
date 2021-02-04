@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "服务分类")
+@Api(tags = "服务分类权限关联（设定人员是否能看到）")
 @RequestMapping("/api/association")
 public class ServiceCatalogToDeptController {
 
@@ -39,8 +39,8 @@ public class ServiceCatalogToDeptController {
         return serviceCatalogToDeptService.findAllCatalogById(userId);
     }
 
-    @Log("新增服务分类主表")
-    @ApiOperation("新增服务分类主表")
+    @Log("新增服务分类关联")
+    @ApiOperation("新增服务分类关联")
     @PostMapping
     public void insertCatalogToDeptAssociation(@RequestBody ServiceCatalogToDept serviceCatalogToDept)  {
         serviceCatalogToDeptService.insertCatalogToDeptAssociation(serviceCatalogToDept);
