@@ -186,7 +186,7 @@
         SELECT * FROM crm_work_order WHERE serial_no = #{serialNo}
     </select>
 
-    <select id="findAllOrder" resultType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
+    <select id="findAllOrder" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria">
         SELECT * FROM crm_work_order
     </select>
 
