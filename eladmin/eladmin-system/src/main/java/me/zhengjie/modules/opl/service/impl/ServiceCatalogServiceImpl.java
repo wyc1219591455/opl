@@ -47,6 +47,18 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
     }
 
     @Override
+    public Map<String, Object> findParentCatalog(Pageable pageable) {
+
+        PageHelper.startPage(pageable.getPage(),pageable.getSize());
+        List<ServiceCatalogDto> serviceCatalogDtoList = serviceCatalogMapper.findAllCatalog();
+        PageInfo<ServiceCatalogDto> pageInfo = new PageInfo(serviceCatalogDtoList);
+        return PageHelpResultUtil.toPage(pageInfo);
+    }
+
+
+
+
+    @Override
     public void insertCatalog(ServiceCatalog serviceCatalog) {
 
         serviceCatalogMapper.insertCatalog(serviceCatalog);

@@ -37,6 +37,17 @@ public interface ServiceCatalogService {
      */
     void insertCatalog(ServiceCatalog serviceCatalog);
 
+    /**
+     * @title: findParentCatalog
+     * @description: 获取父服务分类
+     * @date: 2021/1/20 18:35
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     */
+    Map<String,Object> findParentCatalog(Pageable pageable);
+
 //    /**
 //     * @title: insertSubCatalog
 //     * @description: 新增服务子分类

@@ -110,13 +110,16 @@ public class SubOrderDto {
     @ApiModelProperty("工单分类（质量：1，需求：2）")
     private Integer workOrderType;
 
+    @ApiModelProperty("opl工单状态 工单状态 0：新创建 1：待受理 2：处理中 3：已完成 4：已关闭 5：已取消")
+    private Integer orderStatus;
+
     @ApiModelProperty("工单分类描述")
     private String typeDesc;
 
     @ApiModelProperty("是否允许转派 1可以转派  0不可以转派")
     private Integer isTransfer;
 
-    @ApiModelProperty("描述")
+    @ApiModelProperty("工单状态描述")
     private String orderDesc;
 
 

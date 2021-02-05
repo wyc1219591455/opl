@@ -41,8 +41,8 @@ public class SubServiceCatalogDto {
     @ApiModelProperty(value = "默认服务组")
     private Integer defaultQueueId;
 
-    @ApiModelProperty(value = "权限人员")
-    private String humanName;
+    @ApiModelProperty(value = "默认服务组名称")
+    private String defaultQueue;
 
     //创建日期
     @ApiModelProperty("创建日期")
@@ -63,6 +63,8 @@ public class SubServiceCatalogDto {
     @ApiModelProperty(value = "修改人")
     private String modifyUserId;
 
+    @ApiModelProperty(value = "图标地址")
+    private String icon;
 
     //创建人
     @ApiModelProperty("修改人名称")

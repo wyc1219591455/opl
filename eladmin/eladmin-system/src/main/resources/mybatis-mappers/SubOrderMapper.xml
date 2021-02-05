@@ -2,35 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.zhengjie.modules.opl.mapper.SubOrderMapper">
-    <resultMap id="SubOrderMap" type="me.zhengjie.modules.opl.domain.SubOrder">
-        <id property="id" column="id"></id>
-        <result property="parentNo" column="parentNo"></result>
-        <result property="topic" column="topic"></result>
-        <result property="serialNo" column="serialNo"></result>
-        <result property="planCompTime" column="planCompTime"></result>
-        <result property="createdPerson" column="createdPerson"></result>
-        <result property="jobNumber" column="jobNumber"></result>
-        <result property="createAt" column="createdTime"></result>
-        <result property="deptName" column="deptName"></result>
-        <result property="deptId" column="deptId"></result>
-        <result property="projectName" column="projectName"></result>
-        <result property="model" column="model"></result>
-        <result property="matterDate" column="matterDate"></result>
-        <result property="snNo" column="snNo"></result>
-        <result property="ultimateCustomer" column="ultimateCustomer"></result>
-        <result property="problemType" column="problemType"></result>
-        <result property="problemAttach" column="problemAttach"></result>
-        <result property="problemDesc" column="problemDesc"></result>
-        <result property="problemPath" column="ProblemPath"></result>
-        <result property="siteCondition" column="siteCondition"></result>
-        <result property="rescueAction" column="rescueAction"></result>
-        <result property="faeHeader" column="faeHeader"></result>
-        <result property="workOrderType" column="workOrderType"></result>
-        <result property="typeDesc" column="typeDesc"></result>
-        <result property="orderStatus" column="orderStatus"></result>
-        <result property="isTransfer" column="isTransfer"></result>
-        <result property="orderDesc" column="description"></result>
-    </resultMap>
+
 
     <insert id="insertSubOrder" parameterType="me.zhengjie.modules.opl.domain.SubOrder">
         INSERT INTO subOrder(parentNo,topic,serialNo,planCompTime,jobNumber
@@ -54,12 +26,15 @@
         WHERE crm_id = #{crmId}
     </update>
 
-    <select id="findSubOrderByParentId" parameterType="Integer" resultMap="SubOrderMap">
-        SELECT A.id,A.parentNo,A.topic,A.serialNo,A.planCompTime,A.jobNumber,B.FHumanName as createdPerson ,A.createdTime,C.FDeptFullName AS deptName,A.deptId,A.projectName,A.model,A.matterDate,A.snNo,
-        A.ultimateCustomer,A.problemType,A.problemAttach,A.problemDesc,A.problemPath,A.siteCondition,A.rescueAction,A.faeHeader,A.workOrderType,A.orderStatus,A.isTransfer,A.description
+    <select id="findSubOrderByParentId" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.SubOrderDto">
+        SELECT A.id,A.parentNo,A.topic,A.serialNo,A.planCompTime,A.jobNumber,B.FHumanName as createdPerson ,A.createdTime,C.FDeptFullName AS deptName,A.deptId,A.projectName,D.product_name AS model,A.matterDate,A.snNo,
+        A.ultimateCustomer,A.problemType,A.problemAttach,A.problemDesc,A.problemPath,A.siteCondition,A.rescueAction,A.faeHeader,A.workOrderType,E.name as typeDesc,A.orderStatus,F.name as orderDesc,A.isTransfer,A.description,A.receiver
         FROM subOrder A
         LEFT JOIN tsysuser B ON A.jobNumber=B.FUserName
         LEFT JOIN tsysdept C ON A.deptId=C.FDeptId
+        LEFT JOIN crm_product D ON A.model=D.crm_id
+        LEFT JOIN trequestCategory E ON E.text=A.workOrderType
+        LEFT JOIN orderStatus F ON F.id=A.orderStatus
         WHERE A.parentNo =#{parentNo}
 
         ORDER BY A.serialNo asc

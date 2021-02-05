@@ -51,4 +51,7 @@ public class SubServiceCatalog {
   @ApiModelProperty(value = "修改人")
   private String modifyUserId;
 
+  @ApiModelProperty(value = "图标地址")
+  private String icon;
+
 }

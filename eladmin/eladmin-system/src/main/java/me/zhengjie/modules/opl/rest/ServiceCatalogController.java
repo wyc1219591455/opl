@@ -29,6 +29,13 @@ public class ServiceCatalogController {
         return serviceCatalogService.findAllCatalog(pageable);
     }
 
+    @Log("查询父服务分类")
+    @ApiOperation("查询父服务分类")
+    @GetMapping("/parent")
+    public Map<String, Object> findParentCatalog(Pageable pageable) {
+        return serviceCatalogService.findParentCatalog(pageable);
+    }
+
     @Log("新增服务分类主表")
     @ApiOperation("新增服务分类主表")
     @PostMapping

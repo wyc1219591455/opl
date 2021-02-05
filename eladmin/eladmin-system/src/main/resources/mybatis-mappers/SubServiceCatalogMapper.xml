@@ -9,10 +9,12 @@
     </insert>
 
     <select id="findSubCatalogByParentId"  resultType="me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto">
-        SELECT A.catalogId,A.catalogName,A.description,A.parentId,A.status,A.defaultQueueId,A.createUserId,A.createDateTime,B.FHumanName as createPerson ,A.modifyDateTime,A.modifyUserId,C.FHumanName as modifyPerson
+        SELECT A.catalogId,A.catalogName,A.description,A.parentId,A.status,A.defaultQueueId,D.name as defaultQueue ,A.createUserId,A.createDateTime,B.FHumanName as createPerson ,A.modifyDateTime,A.modifyUserId,C.FHumanName as modifyPerson
         FROM subServiceCatalog A
         LEFT JOIN tsysuser B ON A.createUserId=B.FUserName
         LEFT JOIN tsysuser C ON A.modifyUserId=C.FUserName
+        LEFT JOIN trequestqueues D ON A.defaultQueueId=D.id
+
         Where A.parentId= #{ParentId}
 
 
