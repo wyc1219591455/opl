@@ -115,7 +115,7 @@
         </foreach>
     </update>
 
-    <select id="findAll" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultMap="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
+    <select id="findAll" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
         SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
         A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.finish_user_id,A.finish_code,A.close_date_time,A.close_user_id,A.close_score,A.cancel_date_time,A.cancel_user_id,
         A.work_order_type,A.receiver,E.name as typeDesc,A.order_status,F.name as statusDesc
@@ -195,7 +195,7 @@
 
     </select>
 
-    <select id="findTreatByMe" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultMap="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
+    <select id="findTreatByMe" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
         SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
         A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.finish_user_id,A.finish_code,A.close_date_time,A.close_user_id,A.close_score,A.cancel_date_time,A.cancel_user_id,
         A.work_order_type,A.receiver,E.name as typeDesc,A.order_status,F.name as statusDesc
