@@ -44,7 +44,7 @@ public interface ServiceCatalogToDeptService {
      * @return ServiceCatalogDto
      * @throws
      */
-    List<ServiceCatalogDto> findAllCatalogById(String userId);
+    List<ServiceCatalogDto> findAllCatalogById();
 
     /**
      * @title: insertCatalogToDeptAssociation

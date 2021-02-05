@@ -54,15 +54,13 @@
         WHERE crm_id = #{crmId}
     </update>
 
-    <select id="findAllSubOrder" resultMap="SubOrderMap">
+    <select id="findSubOrderByParentId" parameterType="Integer" resultMap="SubOrderMap">
         SELECT A.id,A.parentNo,A.topic,A.serialNo,A.planCompTime,A.jobNumber,B.FHumanName as createdPerson ,A.createdTime,C.FDeptFullName AS deptName,A.deptId,A.projectName,A.model,A.matterDate,A.snNo,
         A.ultimateCustomer,A.problemType,A.problemAttach,A.problemDesc,A.problemPath,A.siteCondition,A.rescueAction,A.faeHeader,A.workOrderType,A.orderStatus,A.isTransfer,A.description
         FROM subOrder A
         LEFT JOIN tsysuser B ON A.jobNumber=B.FUserName
         LEFT JOIN tsysdept C ON A.deptId=C.FDeptId
-        <if test="parentNo != null and parentNo != ''">
-            AND A.parentNo =#{parentNo}
-        </if>
+        WHERE A.parentNo =#{parentNo}
 
         ORDER BY A.serialNo asc
 

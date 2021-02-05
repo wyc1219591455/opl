@@ -21,6 +21,10 @@ import java.util.List;
 @AllArgsConstructor
 public class CrmWorkOrderDto {
 
+    //主键id
+    @ApiModelProperty("主键id")
+    private Integer id;
+
     //主题
     @ApiModelProperty("主题")
     private String topic;
@@ -110,6 +114,41 @@ public class CrmWorkOrderDto {
 
     @ApiModelProperty("工单状态描述")
     private String statusDesc;
+
+    @ApiModelProperty("处理人（opl系统中的处理人）")
+    private Integer receiver;
+
+    @ApiModelProperty("最终开始处理时间")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    private Timestamp realOpTime;
+
+    @ApiModelProperty("到服务分类")
+    private Integer serviceCatalogId;
+
+    @ApiModelProperty("完成时间")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    private Timestamp finishDateTime;
+
+    @ApiModelProperty("完成人")
+    private Integer finishUserId;
+
+    @ApiModelProperty("完成代码（成功1，无法处理2，失败3）")
+    private Integer finishCode;
+
+    @ApiModelProperty("关闭时间")
+    private Timestamp closeDateTime;
+
+    @ApiModelProperty("关闭人")
+    private Integer closeUserId;
+
+    @ApiModelProperty("关闭得分")
+    private Integer closeScore;
+
+    @ApiModelProperty("取消时间")
+    private Timestamp cancelDateTime;
+
+    @ApiModelProperty("取消人")
+    private Integer cancelUserId;
 
     @ApiModelProperty("子单列表")
     private List<SubOrderDto> subOrderDtoList;

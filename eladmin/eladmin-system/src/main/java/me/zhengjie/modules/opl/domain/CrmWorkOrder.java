@@ -21,9 +21,7 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class CrmWorkOrder implements Serializable {
 
-    //主键id
-    @ApiModelProperty("主键id")
-    private Integer id;
+
 
     //功能完善表名称
     @ApiModelProperty("功能完善表名称")
@@ -166,9 +164,6 @@ public class CrmWorkOrder implements Serializable {
     @ApiModelProperty("最终开始处理时间")
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
     private Timestamp realOpTime;
-
-    @ApiModelProperty("到支持组")
-    private Integer serviceCatalogToQueueId;
 
     @ApiModelProperty("到服务分类")
     private Integer serviceCatalogId;

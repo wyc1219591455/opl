@@ -35,8 +35,8 @@ public class ServiceCatalogToDeptController {
     @Log("查询人员能看到的所有服务分类")
     @ApiOperation("查询人员能看到的所有服务分类")
     @GetMapping("/all")
-    public Object findALLCatalogById(String userId) {
-        return serviceCatalogToDeptService.findAllCatalogById(userId);
+    public Object findALLCatalogById() {
+        return serviceCatalogToDeptService.findAllCatalogById();
     }
 
     @Log("新增服务分类关联")

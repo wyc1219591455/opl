@@ -8,6 +8,7 @@ import me.zhengjie.modules.opl.mapper.ServiceCatalogToDeptMapper;
 import me.zhengjie.modules.opl.service.ServiceCatalogToDeptService;
 import me.zhengjie.modules.opl.service.dto.ServiceCatalogDto;
 import me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto;
+import me.zhengjie.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,9 +43,10 @@ public class ServiceCatalogToDeptServiceImpl implements ServiceCatalogToDeptServ
 
 
     @Override
-    public List<ServiceCatalogDto> findAllCatalogById(String userId) {
-        List<ServiceCatalogDto> serviceCatalogDtoList= serviceCatalogToDeptMapper.findParentAssociationById(userId);
-        List<SubServiceCatalogDto> subServiceCatalogs=serviceCatalogToDeptMapper.findAssociationById(userId);
+    public List<ServiceCatalogDto> findAllCatalogById() {
+        String jobNumber = SecurityUtils.getCurrentUsername();
+        List<ServiceCatalogDto> serviceCatalogDtoList= serviceCatalogToDeptMapper.findParentAssociationById(jobNumber);
+        List<SubServiceCatalogDto> subServiceCatalogs=serviceCatalogToDeptMapper.findAssociationById(jobNumber);
         if(ObjectUtil.isNotEmpty(serviceCatalogDtoList))
         {
             for(ServiceCatalogDto serviceCatalogDto:serviceCatalogDtoList)

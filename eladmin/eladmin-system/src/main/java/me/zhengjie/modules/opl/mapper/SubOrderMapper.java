@@ -2,6 +2,7 @@ package me.zhengjie.modules.opl.mapper;
 
 
 import me.zhengjie.modules.opl.domain.SubOrder;
+import me.zhengjie.modules.opl.service.dto.SubOrderDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -45,5 +46,5 @@ public interface SubOrderMapper {
      * @return SubOrder
      * @throws
      */
-    List<SubOrder> findSubOrderByParentId();
+    List<SubOrderDto> findSubOrderByParentId(Integer parentId);
 }

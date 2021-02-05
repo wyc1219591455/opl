@@ -69,6 +69,10 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         String jobNumber = SecurityUtils.getCurrentUsername();
         criteria.setJobNumber(jobNumber);
         List<CrmWorkOrderDto> tempList= crmWorkOrderMapper.findCreatedByMe(criteria);
+        for(CrmWorkOrderDto crmWorkOrderDto:tempList)
+        {
+            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
+        }
         PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
         return PageHelpResultUtil.toPage(pageInfo);
     }
@@ -79,10 +83,10 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         String jobNumber = SecurityUtils.getCurrentUsername();
         criteria.setJobNumber(jobNumber);
         List<CrmWorkOrderDto> tempList= crmWorkOrderMapper.findTreatByMe(criteria);
-//        for(CrmWorkOrderDto crmWorkOrderDto:tempList)
-//        {
-//            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId());
-//        }
+        for(CrmWorkOrderDto crmWorkOrderDto:tempList)
+        {
+            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
+        }
         PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
         return PageHelpResultUtil.toPage(pageInfo);
     }

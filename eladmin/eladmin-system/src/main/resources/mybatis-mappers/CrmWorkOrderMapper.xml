@@ -2,30 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.zhengjie.modules.opl.mapper.CrmWorkOrderMapper">
-    <resultMap id="OrderMap" type="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
-        <result property="topic" column="topic"></result>
-        <result property="serialNo" column="serial_no"></result>
-        <result property="planCompTime" column="plan_comp_time"></result>
-        <result property="createdPerson" column="created_person"></result>
-        <result property="jobNumber" column="job_number"></result>
-        <result property="createAt" column="created_at"></result>
-        <result property="deptName" column="deptName"></result>
-        <result property="projectName" column="project_name"></result>
-        <result property="model" column="model"></result>
-        <result property="matterDate" column="matter_date"></result>
-        <result property="snNo" column="sn_no"></result>
-        <result property="ultimateCustomer" column="ultimate_customer"></result>
-        <result property="problemType" column="problem_type"></result>
-        <result property="problemAttach" column="problem_attach"></result>
-        <result property="problemDesc" column="problem_desc"></result>
-        <result property="problemPath" column="problem_path"></result>
-        <result property="siteCondition" column="site_condition"></result>
-        <result property="rescueAction" column="rescue_action"></result>
-        <result property="faeHeader" column="fae_header"></result>
-        <result property="workOrderType" column="work_order_type"></result>
-        <result property="typeDesc" column="typeDesc"></result>
-        <result property="orderStatus" column="orderStatus"></result>
-    </resultMap>
+
 
     <insert id="insert" parameterType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria">
         INSERT INTO crm_work_order(topic,serial_no,plan_comp_time,created_person,job_number,created_at
@@ -138,9 +115,10 @@
         </foreach>
     </update>
 
-    <select id="findAll" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultMap="OrderMap">
-        SELECT A.topic,A.serial_no,A.plan_comp_time,A.created_person,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.matter_date,A.sn_no,
-        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.work_order_type,E.name as typeDesc,A.order_status,F.name as statusDesc
+    <select id="findAll" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultMap="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
+        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
+        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.finish_user_id,A.finish_code,A.close_date_time,A.close_user_id,A.close_score,A.cancel_date_time,A.cancel_user_id,
+        A.work_order_type,A.receiver,E.name as typeDesc,A.order_status,F.name as statusDesc
         FROM crm_work_order A
         LEFT JOIN tsysuser B ON A.job_number=B.FUserName
         LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
@@ -177,9 +155,10 @@
 
     </select>
 
-    <select id="findCreatedByMe" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultMap="OrderMap">
-        SELECT A.topic,A.serial_no,A.plan_comp_time,A.created_person,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.matter_date,A.sn_no,
-        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.work_order_type,E.name as typeDesc,A.order_status,F.name as statusDesc
+    <select id="findCreatedByMe" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
+        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
+        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.finish_user_id,A.finish_code,A.close_date_time,A.close_user_id,A.close_score,A.cancel_date_time,A.cancel_user_id,
+        A.work_order_type,A.receiver,E.name as typeDesc,A.order_status,F.name as statusDesc
         FROM crm_work_order A
         LEFT JOIN tsysuser B ON A.job_number=B.FUserName
         LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
@@ -216,9 +195,10 @@
 
     </select>
 
-    <select id="findTreatByMe" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultMap="OrderMap">
-        SELECT A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.created_at,A.project_name,D.product_name AS model,A.matter_date,A.sn_no,
-        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.work_order_type,E.name as typeDesc,A.order_status,F.name as statusDesc
+    <select id="findTreatByMe" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultMap="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
+        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
+        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.finish_user_id,A.finish_code,A.close_date_time,A.close_user_id,A.close_score,A.cancel_date_time,A.cancel_user_id,
+        A.work_order_type,A.receiver,E.name as typeDesc,A.order_status,F.name as statusDesc
         FROM crm_work_order A
         LEFT JOIN tsysuser B ON A.job_number=B.FUserName
         LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
@@ -252,8 +232,9 @@
             AND A.created_at &lt;= #{endTime}
         </if>
         UNION
-        SELECT A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.created_at,A.project_name,D.product_name AS model,A.matter_date,A.sn_no,
-        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.work_order_type,E.name as typeDesc,A.order_status,F.name as statusDesc
+        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
+        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.finish_user_id,A.finish_code,A.close_date_time,A.close_user_id,A.close_score,A.cancel_date_time,A.cancel_user_id,
+        A.work_order_type,A.receiver,E.name as typeDesc,A.order_status,F.name as statusDesc
         FROM crm_work_order A
         LEFT JOIN tsysuser B ON A.job_number=B.FUserName
         LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
