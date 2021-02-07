@@ -2,6 +2,7 @@ package me.zhengjie.modules.opl.service;
 
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.ServiceCatalog;
+import me.zhengjie.modules.opl.domain.SubServiceCatalog;
 
 
 import java.util.Map;
@@ -28,7 +29,7 @@ public interface ServiceCatalogService {
 
     /**
      * @title: insertCatalog
-     * @description: 新增服务分类
+     * @description: 新增服务分类主表
      * @date: 2021/1/20 18:55
      * @author: yuchao.wang
      * @param serviceCatalog
@@ -48,14 +49,52 @@ public interface ServiceCatalogService {
      */
     Map<String,Object> findParentCatalog(Pageable pageable);
 
-//    /**
-//     * @title: insertSubCatalog
-//     * @description: 新增服务子分类
-//     * @date: 2021/1/20 18:55
-//     * @author: yuchao.wang
-//     * @param subServiceCatalog
-//     * @return void
-//     * @throws
-//     */
-//    void insertSubCatalog(SubServiceCatalog subServiceCatalog);
+
+
+    /**
+     * @title: findSubCatalog
+     * @description: 根据ParentId获取子服务分类
+     * @date: 2021/1/20 18:35
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     */
+    Map<String,Object> findSubCatalog(Integer parentId,Pageable pageable);
+
+    /**
+     * @title: insertSubCatalog
+     * @description: 新增服务子分类
+     * @date: 2021/1/20 18:55
+     * @author: yuchao.wang
+     * @param subServiceCatalog
+     * @return void
+     * @throws
+     */
+    void insertSubCatalog(SubServiceCatalog subServiceCatalog);
+
+    /**
+     * @title: updateParentCatalog
+     * @description: 修改服务父分类
+     * @date: 2021/1/20 18:55
+     * @author: yuchao.wang
+     * @param serviceCatalog
+     * @return void
+     * @throws
+     */
+    void updateParentCatalog(ServiceCatalog serviceCatalog);
+
+
+    /**
+     * @title: updateSubCatalog
+     * @description: 修改服务子分类
+     * @date: 2021/1/20 18:55
+     * @author: yuchao.wang
+     * @param subServiceCatalog
+     * @return void
+     * @throws
+     */
+    void updateSubCatalog(SubServiceCatalog subServiceCatalog);
+
+
 }

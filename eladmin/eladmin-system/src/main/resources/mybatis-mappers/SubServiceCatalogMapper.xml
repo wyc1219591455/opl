@@ -4,8 +4,8 @@
 <mapper namespace="me.zhengjie.modules.opl.mapper.SubServiceCatalogMapper">
 
     <insert id="insertSubCatalog" parameterType="me.zhengjie.modules.opl.domain.SubServiceCatalog">
-        INSERT INTO serviceCatalog(catalogName,description,parentId,status,defaultQueueId,createDateTime,createUserId,modifyDateTime,modifyUserId)
-        VALUES(#{catalogName},#{description},#{parentId},#{status},#{defaultQueueId},#{createDateTime},#{createUserId},#{modifyDateTime},#{modifyUserId})
+        INSERT INTO serviceCatalog(catalogName,description,parentId,status,defaultQueueId,createDateTime,createUserId)
+        VALUES(#{catalogName},#{description},#{parentId},#{status},#{defaultQueueId},#{createDateTime},#{createUserId})
     </insert>
 
     <select id="findSubCatalogByParentId"  resultType="me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto">
@@ -19,6 +19,30 @@
 
 
         ORDER BY A.createDateTime DESC
+
+    </select>
+
+
+    <update id="updateSubCatalog" parameterType="me.zhengjie.modules.opl.domain.SubServiceCatalog">
+        UPDATE subServiceCatalog
+        <set>
+
+            catalogName = #{catalogName},
+            description = #{description},
+            status = #{status},
+            icon = #{icon},
+            defaultQueueId = #{defaultQueueId},
+            modifyDateTime = #{modifyDateTime},
+            modifyUserId = #{modifyUserId}
+
+        </set>
+        WHERE catalogId = #{catalogId}
+    </update>
+
+    <select id="findAllCatalog"  resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogDto">
+        SELECT count(*)
+        FROM crm_work_order A
+        where A.status not in(5,7) AND A.service_catalog_id = #{catalogId}
 
     </select>
 </mapper>

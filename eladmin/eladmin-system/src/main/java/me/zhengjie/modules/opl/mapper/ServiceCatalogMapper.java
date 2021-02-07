@@ -31,7 +31,7 @@ public interface ServiceCatalogMapper {
 
     /**
      * @title: update
-     * @description: update
+     * @description: 服务分类条目主表更新
      * @date: 2021/1/19 19:32
      * @author: yuchao.wang
      * @param serviceCatalog
@@ -50,4 +50,15 @@ public interface ServiceCatalogMapper {
      * @throws
      */
     List<ServiceCatalogDto> findAllCatalog();
+
+    /**
+     * @title: findOnUsedSub
+     * @description: 查找父分类下还在使用的子类数量
+     * @date: 2021/1/20 18:55
+     * @author: yuchao.wang
+     * @param catalogId
+     * @return Integer
+     * @throws
+     */
+    Integer findOnUsedSub(Integer catalogId);
 }

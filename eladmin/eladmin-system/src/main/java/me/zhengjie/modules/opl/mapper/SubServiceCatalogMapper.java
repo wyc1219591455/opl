@@ -50,4 +50,16 @@ public interface SubServiceCatalogMapper {
      * @throws
      */
     List<SubServiceCatalogDto> findSubCatalogByParentId(Integer ParentId);
+
+
+    /**
+     * @title: findOnUsedSub
+     * @description: 查找父分类下还在使用的子类数量
+     * @date: 2021/1/20 18:55
+     * @author: yuchao.wang
+     * @param catalogId
+     * @return Integer
+     * @throws
+     */
+    Integer findOnUsedOrder(Integer catalogId);
 }
