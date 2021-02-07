@@ -96,5 +96,4 @@ public interface ServiceCatalogService {
      */
     void updateSubCatalog(SubServiceCatalog subServiceCatalog);
 
-
 }

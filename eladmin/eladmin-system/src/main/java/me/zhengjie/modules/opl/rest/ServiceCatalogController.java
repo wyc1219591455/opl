@@ -68,7 +68,9 @@ public class ServiceCatalogController {
     @ApiOperation("修改服务分类子表")
     @PutMapping("/sub")
     public void updateSubCatalog(@RequestBody SubServiceCatalog subServiceCatalog) {
-        serviceCatalogService.insertSubCatalog(subServiceCatalog);
+        serviceCatalogService.updateSubCatalog(subServiceCatalog);
     }
+
+
 
 }

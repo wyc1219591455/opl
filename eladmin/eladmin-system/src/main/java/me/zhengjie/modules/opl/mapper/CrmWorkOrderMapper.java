@@ -107,17 +107,6 @@ public interface CrmWorkOrderMapper {
     List<CrmWorkOrder> findCrmOrderByOrderType(Integer type);
 
     /**
-     * @title: batchInsert
-     * @description: batchInsert
-     * @date: 2021/1/13 19:32
-     * @author: ming.cao
-     * @param list
-     * @return void
-     * @throws
-     */
-    void batchInsert(List<CrmWorkOrder> list);
-
-    /**
      * @title: batchUpdate
      * @description: batchUpdate
      * @date: 2021/1/13 19:33

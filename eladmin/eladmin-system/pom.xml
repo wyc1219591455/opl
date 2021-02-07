@@ -93,11 +93,11 @@
             <version>4.0</version>
         </dependency>
         <!-- 钉钉 -->
-        <dependency>
+<!--        <dependency>
             <groupId>com.dingtalk.api</groupId>
             <artifactId>top-api-sdk-dev</artifactId>
             <version>ding-open-mc-SNAPSHOT</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>

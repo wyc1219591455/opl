@@ -84,25 +84,6 @@
     </update>
 
 
-    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
-        INSERT INTO crm_work_order(name,entity_type,owner_id,dim_depart,workflow_stage_name
-        ,applicant_id,created_by,created_at,updated_by,updated_at,lock_status,approval_status
-        ,topic,serial_no,plan_comp_time,created_person,job_number,project_name,model,matter_date
-        ,sn_no,ultimate_customer,problem_type,problem_attach,problem_desc,problem_path,site_condition
-        ,rescue_action,fae_header,work_order_type,is_crm,crm_id)
-        VALUES
-        <foreach collection="list" item="item" index="index" separator="," >
-            (#{item.name},#{item.entityType},#{item.ownerId},#{item.dimDepart},#{item.workflowStageName},
-            #{item.applicantId},#{item.createdBy},#{item.createdAt,jdbcType=TIMESTAMP},#{item.updatedBy},
-            #{item.updatedAt,jdbcType=TIMESTAMP},#{item.lockStatus},#{item.approvalStatus},#{item.topic},
-            #{item.serialNo},#{item.planCompTime,jdbcType=TIMESTAMP},#{item.createdPerson},#{item.jobNumber},
-            #{item.projectName},#{item.model},#{item.matterDate,jdbcType=TIMESTAMP},
-            #{item.snNo},#{item.ultimateCustomer},#{item.problemType},#{item.problemAttach},#{item.problemDesc},
-            #{item.problemPath},#{item.siteCondition},#{item.rescueAction},#{item.faeHeader},#{item.workOrderType},
-            #{item.isCrm},#{item.crmId})
-        </foreach>
-    </insert>
-
     <update id="batchUpdate" parameterType="java.util.List">
         <foreach collection="list" item="item" index="index" separator=";">
         UPDATE crm_work_order set name=#{item.name},entity_type=#{item.entityType},owner_id=#{item.ownerId},dim_depart=#{item.dimDepart},

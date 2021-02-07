@@ -39,7 +39,7 @@
         WHERE catalogId = #{catalogId}
     </update>
 
-    <select id="findAllCatalog"  resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogDto">
+    <select id="findOnUsedOrder"  resultType="Integer">
         SELECT count(*)
         FROM crm_work_order A
         where A.status not in(5,7) AND A.service_catalog_id = #{catalogId}

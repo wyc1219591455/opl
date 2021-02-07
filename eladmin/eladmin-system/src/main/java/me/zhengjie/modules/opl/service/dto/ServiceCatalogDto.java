@@ -35,7 +35,7 @@ public class ServiceCatalogDto {
     private String icon;
 
     @ApiModelProperty(value = "状态")
-    private String status;
+    private Integer status;
 
     //创建日期
     @ApiModelProperty("创建日期")
