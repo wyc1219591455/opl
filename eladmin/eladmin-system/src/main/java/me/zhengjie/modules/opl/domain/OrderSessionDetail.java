@@ -20,29 +20,28 @@ public class OrderSessionDetail {
 
 
 
-  @ApiModelProperty(value = "Ö÷¼ü")
+  @ApiModelProperty(value = "ä¸»é”®")
   private Integer detailId;
 
   @ApiModelProperty(value = "orderSessionId")
   private Integer sessionId;
 
-  @ApiModelProperty(value = "¹¤µ¥Id")
+  @ApiModelProperty(value = "å·¥å•Id")
   private Integer transId;
 
-  @ApiModelProperty(value = "²Ù×÷ÏêÇé")
+  @ApiModelProperty(value = "æ“ä½œè¯¦æƒ…")
   private String propName;
 
-  @ApiModelProperty(value = "¾ÉÊı¾İ")
+  @ApiModelProperty(value = "æ—§æ•°æ®")
   private String oldValue;
 
-  @ApiModelProperty(value = "ĞÂÊı¾İ")
+  @ApiModelProperty(value = "æ–°æ•°æ®")
   private String newValue;
 
-  @ApiModelProperty(value = "´´½¨ÈË¹¤ºÅ")
+  @ApiModelProperty(value = "åˆ›å»ºäººå·¥å·")
   private String createUserId;
 
-  //´´½¨ÈÕÆÚ
-  @ApiModelProperty("´´½¨ÈÕÆÚ")
+  @ApiModelProperty("åˆ›å»ºæ—¶é—´")
   @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
   private Timestamp createDateTime;
 

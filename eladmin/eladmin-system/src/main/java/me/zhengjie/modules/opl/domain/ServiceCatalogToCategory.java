@@ -13,28 +13,28 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "¹¤µ¥·ÖÀàºÍ·şÎñ·ÖÀà¹ØÁª±í")
+@ApiModel(value = "å·¥å•åˆ†ç±»å’ŒæœåŠ¡åˆ†ç±»å…³è”è¡¨")
 public class ServiceCatalogToCategory {
 
 
 
-  @ApiModelProperty(value = "Ö÷¼ü")
+  @ApiModelProperty(value = "ä¸»é”®")
   private Integer id;
 
-  @ApiModelProperty(value = "·şÎñ·ÖÀàID")
+  @ApiModelProperty(value = "æœåŠ¡åˆ†ç±»ID")
   private Integer catalogId;
 
-  @ApiModelProperty(value = "¹¤µ¥·ÖÀàId")
+  @ApiModelProperty(value = "å·¥å•åˆ†ç±»Id")
   private Integer categoryId;
 
-  @ApiModelProperty("´´½¨Ê±¼ä")
+  @ApiModelProperty("åˆ›å»ºæ—¶é—´")
   @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
   private Timestamp createDateTime ;
 
-  @ApiModelProperty(value = "´´½¨ÈË¹¤ºÅ")
+  @ApiModelProperty(value = "åˆ›å»ºäººå·¥å·")
   private String createUserId;
 
-  @ApiModelProperty(value = "×´Ì¬")
+  @ApiModelProperty(value = "çŠ¶æ€")
   private Integer status;
 
 }

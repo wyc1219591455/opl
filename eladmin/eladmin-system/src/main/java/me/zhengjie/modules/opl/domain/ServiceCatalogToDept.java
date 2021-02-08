@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value = "²¿ÃÅ/ÈËÔ± È¨ÏŞÓë·şÎñ·ÖÀà¹ØÁª±í")
+@ApiModel(value = "éƒ¨é—¨/äººå‘˜ æƒé™ä¸æœåŠ¡åˆ†ç±»å…³è”è¡¨")
 public class ServiceCatalogToDept {
 
 
@@ -21,30 +21,30 @@ public class ServiceCatalogToDept {
   @ApiModelProperty(value = "ID")
   private Integer id;
 
-  @ApiModelProperty(value = "¹ØÁªµÄÈËÔ±»ò²¿ÃÅId")
+  @ApiModelProperty(value = "å…³è”çš„äººå‘˜æˆ–éƒ¨é—¨Id")
   private Integer sourceId;
 
-  @ApiModelProperty(value = "·şÎñ·ÖÀàId")
+  @ApiModelProperty(value = "æœåŠ¡åˆ†ç±»Id")
   private Integer catalogId;
 
-  @ApiModelProperty(value = "ÀàĞÍ 0´ú±í¹ØÁª²¿ÃÅ 1´ú±í¹ØÁªÈËÔ±")
+  @ApiModelProperty(value = "ç±»å‹ 0ä»£è¡¨å…³è”éƒ¨é—¨ 1ä»£è¡¨å…³è”äººå‘˜")
   private Integer type;
 
-  @ApiModelProperty(value = "×´Ì¬ 1´ú±íÔÚÊ¹ÓÃ 0´ú±í²»ÔÙÊ¹ÓÃ")
+  @ApiModelProperty(value = "çŠ¶æ€ 1ä»£è¡¨åœ¨ä½¿ç”¨ 0ä»£è¡¨ä¸å†ä½¿ç”¨")
   private Integer status;
 
-  @ApiModelProperty("´´½¨ÈÕÆÚ")
+  @ApiModelProperty("åˆ›å»ºæ—¥æœŸ")
   @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
   private Timestamp createDateTime;
 
-  @ApiModelProperty(value = "´´½¨ÈË¹¤ºÅ")
+  @ApiModelProperty(value = "åˆ›å»ºäººå·¥å·")
   private String createUserId;
 
-  @ApiModelProperty("ĞŞ¸ÄÈÕÆÚ")
+  @ApiModelProperty("ä¿®æ”¹æ—¥æœŸ")
   @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
   private Timestamp modifyDateTime;
 
-  @ApiModelProperty(value = "ĞŞ¸ÄÈË¹¤ºÅ")
+  @ApiModelProperty(value = "ä¿®æ”¹äººå·¥å·")
   private String modifyUserId;
 
 }

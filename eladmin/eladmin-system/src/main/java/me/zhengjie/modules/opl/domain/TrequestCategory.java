@@ -18,26 +18,29 @@ public class TrequestCategory {
 
 
 
-  @ApiModelProperty(value = "Ö÷¼ü")
+  @ApiModelProperty(value = "ä¸»é”®")
   private Integer id;
 
-  @ApiModelProperty(value = "Ãû³Æ")
+  @ApiModelProperty(value = "åç§°")
   private String name;
 
-  @ApiModelProperty(value = "¸¸½ÚµãID")
+  @ApiModelProperty(value = "çˆ¶èŠ‚ç‚¹ID")
   private Integer parentId;
 
-  @ApiModelProperty("´´½¨Ê±¼ä")
+  @ApiModelProperty("åˆ›å»ºæ—¶é—´")
   @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
   private Timestamp createDateTime ;
 
-  @ApiModelProperty(value = "´´½¨ÈË")
+  @ApiModelProperty(value = "åˆ›å»ºäºº")
   private Integer createUserId;
 
-  @ApiModelProperty(value = "×´Ì¬")
+  @ApiModelProperty(value = "çŠ¶æ€")
   private Integer status;
 
-  @ApiModelProperty(value = "¸ù½ÚµãId")
+  @ApiModelProperty(value = "æ ¹èŠ‚ç‚¹Id")
   private Integer rootId;
+
+  @ApiModelProperty(value = "æ ‡è¯†æ•°å­—")
+  private Integer text;
 
 }
