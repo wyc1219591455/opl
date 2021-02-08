@@ -6,8 +6,9 @@ import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToQueues;
 import me.zhengjie.modules.opl.mapper.ServiceCatalogToQueuesMapper;
 import me.zhengjie.modules.opl.service.ServiceCatalogToQueuesService;
-import me.zhengjie.modules.opl.service.dto.ServiceCataLogToQueuesCriteria;
-import me.zhengjie.modules.opl.service.dto.ServiceCataLogToQueuesDto;
+import me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesCriteria;
+import me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesCriteria2;
+import me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesDto;
 import me.zhengjie.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -36,7 +37,7 @@ public class ServiceCatalogToQueuesServiceImpl implements ServiceCatalogToQueues
     @Override
     public Map<String,Object> getQueueByCatalogId(Integer catalogId) {
         Map<String,Object> map = new LinkedHashMap<>();
-        List<ServiceCataLogToQueuesDto> dtos = serviceCatalogToQueuesMapper.findByQueuesId(catalogId);
+        List<ServiceCatalogToQueuesDto> dtos = serviceCatalogToQueuesMapper.findByQueuesId(catalogId);
         map.put("content",dtos);
         map.put("totalElements",dtos.size());
         return map;
@@ -44,14 +45,14 @@ public class ServiceCatalogToQueuesServiceImpl implements ServiceCatalogToQueues
 
     @Override
     @Transactional
-    public void batchInsert(ServiceCataLogToQueuesCriteria criteria) {
+    public void batchInsert(ServiceCatalogToQueuesCriteria criteria) {
         //非空校验
         isNotEmptyTest(criteria);
 
         //新增
         List<ServiceCatalogToQueues> tempList = criteria.getQueuesIds().stream().map(queuesId->{
             ServiceCatalogToQueues serviceCatalogToQueues = new ServiceCatalogToQueues();
-            serviceCatalogToQueues.setCatalogId(criteria.getCataLogId());
+            serviceCatalogToQueues.setCatalogId(criteria.getCatalogId());
             serviceCatalogToQueues.setQueuesId(queuesId);
             serviceCatalogToQueues.setCreateDateTime(new Timestamp(new Date().getTime()));
             serviceCatalogToQueues.setCreateUserId(SecurityUtils.getCurrentUserId().intValue());
@@ -62,18 +63,36 @@ public class ServiceCatalogToQueuesServiceImpl implements ServiceCatalogToQueues
     }
 
     @Override
+    public void insert(ServiceCatalogToQueuesCriteria2 criteria2) {
+        //非空校验
+        if (ObjectUtil.isEmpty(criteria2.getCatalogId())){
+            throw new BadRequestException("服务分类id不能为空！");
+        }
+        if (ObjectUtil.isEmpty(criteria2.getQueuesId())){
+            throw new BadRequestException("支持组id不能为空！");
+        }
+        ServiceCatalogToQueues serviceCatalogToQueues = new ServiceCatalogToQueues();
+        serviceCatalogToQueues.setCatalogId(criteria2.getCatalogId());
+        serviceCatalogToQueues.setQueuesId(criteria2.getQueuesId());
+        serviceCatalogToQueues.setCreateUserId(SecurityUtils.getCurrentUserId().intValue());
+        serviceCatalogToQueues.setCreateDateTime(new Timestamp(new Date().getTime()));
+        serviceCatalogToQueuesMapper.insert(serviceCatalogToQueues);
+    }
+
+
+    @Override
     @Transactional
-    public void batchUpdate(ServiceCataLogToQueuesCriteria criteria) {
+    public void batchUpdate(ServiceCatalogToQueuesCriteria criteria) {
         //非空校验
         isNotEmptyTest(criteria);
 
         //删除以前全部服务关联支持组数据
-        serviceCatalogToQueuesMapper.delByCatalogId(criteria.getCataLogId());
+        serviceCatalogToQueuesMapper.delByCatalogId(criteria.getCatalogId());
 
         //新增所有服务关联支持组部分
         List<ServiceCatalogToQueues> tempList = criteria.getQueuesIds().stream().map(queuesId->{
             ServiceCatalogToQueues serviceCatalogToQueues = new ServiceCatalogToQueues();
-            serviceCatalogToQueues.setCatalogId(criteria.getCataLogId());
+            serviceCatalogToQueues.setCatalogId(criteria.getCatalogId());
             serviceCatalogToQueues.setQueuesId(queuesId);
             serviceCatalogToQueues.setCreateDateTime(new Timestamp(new Date().getTime()));
             serviceCatalogToQueues.setCreateUserId(SecurityUtils.getCurrentUserId().intValue());
@@ -85,11 +104,11 @@ public class ServiceCatalogToQueuesServiceImpl implements ServiceCatalogToQueues
     }
 
     //非空校验
-    private void isNotEmptyTest(ServiceCataLogToQueuesCriteria criteria){
+    private void isNotEmptyTest(ServiceCatalogToQueuesCriteria criteria){
         if (ObjectUtil.isEmpty(criteria)){
             throw new BadRequestException("参数不能为空！");
         }else {
-            if (ObjectUtil.isEmpty(criteria.getCataLogId())){
+            if (ObjectUtil.isEmpty(criteria.getCatalogId())){
                 throw new BadRequestException("服务分类id不能为空！");
             }
             if (ObjectUtil.isEmpty(criteria.getQueuesIds())){

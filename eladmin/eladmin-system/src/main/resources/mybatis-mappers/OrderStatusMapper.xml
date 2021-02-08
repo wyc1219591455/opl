@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.zhengjie.modules.opl.mapper.OrderStatusMapper">
+
+
+    <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.OrderStatus">
+        INSERT INTO orderStatus(name,desc,isCloseTimer,color,createUserId,createDateTime)
+        VALUES (#{name},#{desc},#{isCloseTimer},#{color},#{createUserId},#{createDateTime})
+    </insert>
+
+    <update id="update" parameterType="me.zhengjie.modules.opl.domain.OrderStatus">
+        UPDATE SET name=#{name},desc=#{desc},isCloseTimer=#{isCloseTimer},color=#{color}
+        ,modifyUserId=#{modifyUserId},modifyDateTime=#{modifyDateTime}
+         FROM orderStatus WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM orderStatus WHERE id =#{id}
+    </delete>
+
+
+    <select id="findStatusById" resultType="me.zhengjie.modules.opl.domain.OrderStatus">
+        SELECT * FROM orderStatus WHERE id = #{id}
+    </select>
+
+    <select id="findAllStatus" parameterType="me.zhengjie.modules.opl.service.dto.OrderStatusCriteria" resultType="me.zhengjie.modules.opl.domain.OrderStatus">
+        SELECT * FROM orderStatus WHERE 1 = 1
+        <if test="name!=null and name!=''">
+            and name = #{name}
+        </if>
+        <if test="desc!=null and desc!=''">
+            and desc = #{desc}
+        </if>
+
+    </select>
+
+</mapper>

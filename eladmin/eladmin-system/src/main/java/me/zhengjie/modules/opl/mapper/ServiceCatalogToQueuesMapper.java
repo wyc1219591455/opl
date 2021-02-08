@@ -1,7 +1,7 @@
 package me.zhengjie.modules.opl.mapper;
 
 import me.zhengjie.modules.opl.domain.ServiceCatalogToQueues;
-import me.zhengjie.modules.opl.service.dto.ServiceCataLogToQueuesDto;
+import me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -23,10 +23,10 @@ public interface ServiceCatalogToQueuesMapper {
      * @return java.util.List<me.zhengjie.modules.opl.domain.ServiceCatalogToQueues>
      * @throws
      */
-    List<ServiceCataLogToQueuesDto> findByQueuesId(Integer catalogId);
+    List<ServiceCatalogToQueuesDto> findByQueuesId(Integer catalogId);
 
 
-    List<ServiceCataLogToQueuesDto> findQueuesByUserId(Integer userId);
+    List<ServiceCatalogToQueuesDto> findQueuesByUserId(Integer userId);
 
     /**
      * @title: batchInsert
@@ -38,6 +38,17 @@ public interface ServiceCatalogToQueuesMapper {
      * @throws
      */
     void batchInsert(List<ServiceCatalogToQueues> queues);
+
+    /**
+     * @title: insert
+     * @description: 新增
+     * @date: 2021/2/8 14:49
+     * @author: ming.cao
+     * @param queues
+     * @return void
+     * @throws
+     */
+    void insert(ServiceCatalogToQueues queues);
 
     /**
      * @title: batchUpdate

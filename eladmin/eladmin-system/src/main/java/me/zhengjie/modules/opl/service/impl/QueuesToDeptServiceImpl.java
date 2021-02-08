@@ -114,8 +114,7 @@ public class QueuesToDeptServiceImpl implements QueuesToDeptService {
             queuesToDept.setSourceId(criteria.getSourceId());
             queuesToDept.setType(1);
             queuesToDept.setStatus("1");
-            //queuesToDept.setType(criteria.getType());
-            //queuesToDept.setStatus(criteria.getStatus());
+
             queuesToDept.setCreateDateTime(new Timestamp(new Date().getTime()));
             queuesToDept.setCreateUserId(""+SecurityUtils.getCurrentUserId());
             return queuesToDept;

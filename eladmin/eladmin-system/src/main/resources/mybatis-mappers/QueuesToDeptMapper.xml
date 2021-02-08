@@ -79,9 +79,9 @@
     <!--批量新增-->
     <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
         INSERT INTO queuesToDept(queuesId,sourceId,type,status,
-        createDateTime,createUserId)
+        createDateTime,createUserId) VALUES
         <foreach collection="list" item="item" index="index" separator="," >
-        VALUES (#{item.queuesId},#{item.sourceId},#{item.type},#{item.status},
+         (#{item.queuesId},#{item.sourceId},#{item.type},#{item.status},
         #{item.createDateTime,jdbcType=TIMESTAMP},#{item.createUserId})
         </foreach>
     </insert>

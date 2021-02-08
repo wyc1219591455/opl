@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.zhengjie.modules.opl.mapper.ServiceCatalogRelateDeptMapper">
+
+    <!--新增-->
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+        INSERT INTO serviceCatalogRelateDept(catalogId,deptId,type,status,createDateTime,createUserId)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator="," >
+         (#{catalogId},#{deptId},#{type},#{status},#{createDateTime},#{createUserId})
+        </foreach>
+    </insert>
+
+    <!--修改-->
+    <update id="batchUpdate" parameterType="java.util.List" useGeneratedKeys="true">
+        <foreach collection="list" item="item" index="index" separator="," >
+        UPDATE serviceCatalogRelateDept SET catalogId=#{catalogId},deptId=#{deptId},
+        type=#{type},status=#{status},modifyDateTime=#{modifyDateTime},modifyUserId=#{modifyUserId}
+        WHERE id = #{id}
+        </foreach>
+    </update>
+
+    <!--删除-->
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM serviceCatalogRelateDept WHERE id = #{id}
+    </delete>
+
+    <!--通过服务分类条目id删除-->
+    <delete id="deleteByCatalogId" parameterType="java.lang.Integer">
+        DELETE FROM serviceCatalogRelateDept WHERE catalogId = #{catalogId}
+    </delete>
+
+    <!--根据服务分类条目id查询部门-->
+    <select id="findDeptDtoByCatalogId" resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogRelateDeptDto">
+        SELECT t1.id as id,t2.dept_id as deptId,t2.name as deptName FROM serviceCatalogRelateDept t1
+        LEFT JOIN sys_dept t2
+        ON t1.deptId=t2.dept_id
+        WHERE t1.catalogId=#{catalogId}
+    </select>
+
+</mapper>

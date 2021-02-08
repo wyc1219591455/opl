@@ -17,10 +17,10 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceCataLogToQueuesCriteria implements Serializable {
+public class ServiceCatalogToQueuesCriteria implements Serializable {
 
     @ApiModelProperty(value = "服务分类Id")
-    private Integer cataLogId;
+    private Integer catalogId;
 
     @ApiModelProperty(value = "支持组Ids")
     private List<Integer> queuesIds;

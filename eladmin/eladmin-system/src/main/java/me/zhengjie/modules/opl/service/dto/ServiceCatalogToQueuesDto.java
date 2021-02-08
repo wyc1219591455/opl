@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceCataLogToQueuesDto implements Serializable {
+public class ServiceCatalogToQueuesDto implements Serializable {
     @Id
     /**
      * 主键

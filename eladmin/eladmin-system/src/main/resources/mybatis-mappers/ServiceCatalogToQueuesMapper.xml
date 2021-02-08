@@ -5,7 +5,7 @@
 
 
     <!-- 查询 -->
-    <select id="findByQueuesId" parameterType="java.lang.Integer" resultType="me.zhengjie.modules.opl.service.dto.ServiceCataLogToQueuesDto">
+    <select id="findByQueuesId" parameterType="java.lang.Integer" resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesDto">
         SELECT t1.id,t1.catalogId,t1.queuesId,t1.status,t1.createDateTime,
         t1.createUserId,t1.modifyDateTime,t1.modifyUserId,t2.name as queuesName
         FROM serviceCatalogToQueues t1
@@ -15,7 +15,7 @@
     </select>
 
     <!-- 根据人员查询数据 -->
-    <select id="findQueuesByUserId" resultType="me.zhengjie.modules.opl.service.dto.ServiceCataLogToQueuesDto">
+    <select id="findQueuesByUserId" resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesDto">
 
 
     </select>
@@ -27,6 +27,12 @@
          <foreach collection="list" item="item" index="index" separator=",">
          (#{item.catalogId},#{item.queuesId},#{item.status},#{item.createDateTime},#{item.createUserId})
          </foreach>
+    </insert>
+
+    <!-- 新增 -->
+    <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.ServiceCatalogToQueues">
+        INSERT INTO serviceCatalogToQueues(catalogId,queuesId,status,createDateTime,createUserId)
+        VALUES (#{item.catalogId},#{item.queuesId},#{item.status},#{item.createDateTime},#{item.createUserId})
     </insert>
 
     <!-- 批量修改 -->

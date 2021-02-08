@@ -1,9 +1,8 @@
 package me.zhengjie.modules.opl.service;
 
-import me.zhengjie.modules.opl.service.dto.ServiceCataLogToQueuesCriteria;
-import me.zhengjie.modules.opl.service.dto.ServiceCataLogToQueuesDto;
+import me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesCriteria;
+import me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesCriteria2;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,7 +32,18 @@ public interface ServiceCatalogToQueuesService {
      * @return void
      * @throws
      */
-    void batchInsert(ServiceCataLogToQueuesCriteria criteria);
+    void batchInsert(ServiceCatalogToQueuesCriteria criteria);
+
+    /**
+     * @title: insert
+     * @description: 新增
+     * @date: 2021/2/8 14:40
+     * @author: ming.cao
+     * @param criteria2
+     * @return void
+     * @throws
+     */
+    void insert(ServiceCatalogToQueuesCriteria2 criteria2);
 
     /**
      * @title: batchUpdate
@@ -44,6 +54,6 @@ public interface ServiceCatalogToQueuesService {
      * @return void
      * @throws
      */
-    void batchUpdate(ServiceCataLogToQueuesCriteria criteria);
+    void batchUpdate(ServiceCatalogToQueuesCriteria criteria);
 
 }

@@ -43,8 +43,4 @@ public class OrderApplyCcController {
         orderApplyCcService.insert(orderApplyCc);
     }
 
-
-
-
-
 }
