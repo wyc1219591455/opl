@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.zhengjie.modules.opl.mapper.RequestClosureCodeMapper">
+
+    <!--新增-->
+    <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.RequestClosureCode">
+        INSERT INTO requestClosureCode (name,desc,createUserId,createDateTime)
+        VALUES(#{name},#{desc},#{createUserId},#{createDateTime})
+    </insert>
+
+    <!--更新-->
+    <update id="update" parameterType="me.zhengjie.modules.opl.domain.RequestClosureCode">
+        UPDATE requestClosureCode SET name=#{name},desc=#{desc},
+        modifyUserId=#{modifyUserId},modifyDateTime=#{modifyDateTime}
+        WHERE id=#{id}
+    </update>
+
+    <!--删除-->
+    <delete id="delete" parameterType="me.zhengjie.modules.opl.domain.RequestClosureCode">
+        DELETE FROM requestClosureCode WHERE id=#{id}
+    </delete>
+
+    <!--查询-->
+    <select id="findAll" parameterType="me.zhengjie.modules.opl.service.dto.RequestClosureCodeCriteria" resultType="me.zhengjie.modules.opl.domain.RequestClosureCode">
+        SELECT id,name,desc,createUserId,createDateTime,modifyUserId,modifyDateTime
+        FROM requestClosureCode WHERE 1 = 1
+        <if test="name!=null and name != ''">
+            AND name LIKE concat('%', #{name},'%')
+        </if>
+        <if test="desc!=null and desc!=''">
+            AND desc LIKE concat('%', #{desc},'%')
+        </if>
+    </select>
+
+    <!--查询此数据的总数-->
+    <select id="countRequestClosureCode" parameterType="me.zhengjie.modules.opl.service.dto.RequestClosureCodeCriteria" resultType="java.lang.Integer">
+        SELECT count(*) FROM requestClosureCode WHERE name = #{name}
+         <if test="id!=null">
+         AND id != #{id}
+         </if>
+    </select>
+
+</mapper>

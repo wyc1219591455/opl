@@ -5,10 +5,10 @@
 
     <!--新增-->
     <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
-        INSERT INTO serviceCatalogRelateDept(catalogId,deptId,type,status,createDateTime,createUserId)
+        INSERT INTO serviceCatalogRelateDept(catalogId,deptId,status,createDateTime,createUserId)
         VALUES
         <foreach collection="list" item="item" index="index" separator="," >
-         (#{catalogId},#{deptId},#{type},#{status},#{createDateTime},#{createUserId})
+         (#{catalogId},#{deptId},#{status},#{createDateTime},#{createUserId})
         </foreach>
     </insert>
 

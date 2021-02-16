@@ -28,9 +28,6 @@ public class ServiceCatalogRelateDept implements Serializable {
     @ApiModelProperty(value = "部门Id")
     private Integer deptId;
 
-    @ApiModelProperty(value = "类型")
-    private Integer type;
-
     @ApiModelProperty(value = "状态")
     private Integer status;
 

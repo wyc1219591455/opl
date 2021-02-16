@@ -32,14 +32,21 @@ public class OrderApplyCcController {
     @Log("根据工单id获取抄送信息")
     @ApiOperation("根据工单id获取抄送信息")
     @GetMapping
-    public Map<String,Object> getOrderApplyCcByOrderId(Pageable pageable,Integer orderId){
+    public Map<String,Object> getOrderApplyCcByOrderId(Pageable pageable,Integer orderId) {
        return orderApplyCcService.findCcByOrderId(pageable,orderId);
+    }
+
+    @Log("根据用户id获取抄送信息")
+    @ApiOperation("根据用户id获取抄送信息")
+    @GetMapping("/getCcByUserId")
+    public Map<String,Object> getOrderApplyCcByUserId(Pageable pageable,Integer userId) {
+        return orderApplyCcService.findCcByEmpId(pageable,userId);
     }
 
     @Log("新增工单抄送信息")
     @ApiOperation("新增工单抄送信息")
     @PostMapping
-    public void addOrderApplyCcByOrderId(OrderApplyCc orderApplyCc){
+    public void addOrderApplyCcByOrderId(OrderApplyCc orderApplyCc) {
         orderApplyCcService.insert(orderApplyCc);
     }
 

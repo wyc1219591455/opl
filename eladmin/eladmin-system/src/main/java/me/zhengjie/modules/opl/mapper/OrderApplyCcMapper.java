@@ -1,6 +1,8 @@
 package me.zhengjie.modules.opl.mapper;
 
 import me.zhengjie.modules.opl.domain.OrderApplyCc;
+import me.zhengjie.modules.opl.domain.SubOrder;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
 import me.zhengjie.modules.opl.service.dto.OrderApplyCcDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -36,6 +38,28 @@ public interface OrderApplyCcMapper {
      * @throws
      */
     List<OrderApplyCcDto> findCcByEmpId(Integer empId);
+
+    /**
+     * @title: findMasterOrderCcByEmpId
+     * @description: 主表抄送数据
+     * @date: 2021/2/9 18:43
+     * @author: ming.cao
+     * @param empId
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto>
+     * @throws
+     */
+    List<CrmWorkOrderDto> findMasterOrderCcByEmpId(Integer empId);
+
+    /**
+     * @title: findSubOrderCcByEmpId
+     * @description: 附表抄送数据
+     * @date: 2021/2/9 18:42
+     * @author: ming.cao
+     * @param empId
+     * @return java.util.List<me.zhengjie.modules.opl.domain.SubOrder>
+     * @throws
+     */
+    List<SubOrder> findSubOrderCcByEmpId(Integer empId);
 
     /**
      * @title: insert
