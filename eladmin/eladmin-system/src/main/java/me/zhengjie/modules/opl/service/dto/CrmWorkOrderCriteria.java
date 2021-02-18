@@ -37,6 +37,10 @@ public class CrmWorkOrderCriteria implements Serializable {
     @ApiModelProperty("工单创建人")
     private String createdPerson;
 
+    //工单创建人
+    @ApiModelProperty("工单修改人人")
+    private String modifyPerson;
+
     //创建人工号
     @ApiModelProperty("创建人工号")
     private String jobNumber;
@@ -46,7 +50,11 @@ public class CrmWorkOrderCriteria implements Serializable {
 
     @ApiModelProperty("创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
-    private Timestamp createAt ;
+    private Timestamp createDateTime ;
+
+    @ApiModelProperty("修改时间")
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    private Timestamp modifyDateTime ;
 
     //项目名称
     @ApiModelProperty("项目名称")

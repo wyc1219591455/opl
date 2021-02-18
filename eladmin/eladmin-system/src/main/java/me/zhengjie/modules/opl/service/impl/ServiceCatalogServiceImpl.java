@@ -4,12 +4,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.exception.BadRequestException;
-import me.zhengjie.modules.opl.domain.Pageable;
-import me.zhengjie.modules.opl.domain.ServiceCatalog;
-import me.zhengjie.modules.opl.domain.SubServiceCatalog;
-import me.zhengjie.modules.opl.mapper.ServiceCatalogMapper;
-import me.zhengjie.modules.opl.mapper.SubServiceCatalogMapper;
+import me.zhengjie.modules.opl.domain.*;
+import me.zhengjie.modules.opl.mapper.*;
 import me.zhengjie.modules.opl.service.ServiceCatalogService;
+import me.zhengjie.modules.opl.service.dto.CatalogCriteria;
 import me.zhengjie.modules.opl.service.dto.ServiceCatalogDto;
 import me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto;
 import me.zhengjie.utils.PageHelpResultUtil;
@@ -39,6 +37,9 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
 
     private final ServiceCatalogMapper serviceCatalogMapper;
     private final SubServiceCatalogMapper subServiceCatalogMapper;
+    private final ServiceCatalogToCategoryMapper serviceCatalogToCategoryMapper;
+    private final ServiceCatalogToQueuesMapper serviceCatalogToQueuesMapper;
+    private final ServiceCatalogRelateDeptMapper serviceCatalogRelateDeptMapper;
 
     @Override
     public Map<String, Object> findAllCatalog(Pageable pageable) {
@@ -83,18 +84,47 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
         serviceCatalogMapper.insertCatalog(serviceCatalog);
 
     }
-
     @Override
-    public void insertSubCatalog(SubServiceCatalog subServiceCatalog) {
-
+    public void insertSubCatalog(CatalogCriteria catalogCriteria) {
+        SubServiceCatalog subServiceCatalog=catalogCriteria.getSubServiceCatalog();
         String createName = SecurityUtils.getCurrentUsername();
         Timestamp createDate = new Timestamp(new Date().getTime());
         subServiceCatalog.setCreateDateTime(createDate);
         subServiceCatalog.setCreateUserId(createName);
         subServiceCatalog.setStatus(1);
         subServiceCatalogMapper.insertSubCatalog(subServiceCatalog);
+        List<ServiceCatalogToCategory> serviceCatalogToCategoryList =catalogCriteria.getServiceCatalogToCategoryList();
+        for(ServiceCatalogToCategory serviceCatalogToCategory:serviceCatalogToCategoryList)
+        {
+            serviceCatalogToCategory.setCreateDateTime(createDate);
+            serviceCatalogToCategory.setCreateUserId(createName);
+            serviceCatalogToCategory.setStatus(1);
+        }
+        serviceCatalogToCategoryMapper.batchInsert(serviceCatalogToCategoryList);
+        ServiceCatalogToQueues serviceCatalogToQueues =catalogCriteria.getServiceCatalogToQueues();
+        serviceCatalogToQueuesMapper.insert(serviceCatalogToQueues);
+        List<ServiceCatalogRelateDept> serviceCatalogRelateDeptList=catalogCriteria.getServiceCatalogRelateDept();
+        for(ServiceCatalogRelateDept serviceCatalogRelateDept:serviceCatalogRelateDeptList)
+        {
+            serviceCatalogRelateDept.setCreateDateTime(createDate);
+            serviceCatalogRelateDept.setCreateUserId(createName);
+        }
+        serviceCatalogRelateDeptMapper.batchInsert(serviceCatalogRelateDeptList);
+
 
     }
+
+//    @Override
+//    public void insertSubCatalog(SubServiceCatalog subServiceCatalog) {
+//
+//        String createName = SecurityUtils.getCurrentUsername();
+//        Timestamp createDate = new Timestamp(new Date().getTime());
+//        subServiceCatalog.setCreateDateTime(createDate);
+//        subServiceCatalog.setCreateUserId(createName);
+//        subServiceCatalog.setStatus(1);
+//        subServiceCatalogMapper.insertSubCatalog(subServiceCatalog);
+//
+//    }
 
     @Override
     public void updateParentCatalog(ServiceCatalog serviceCatalog) {

@@ -8,21 +8,17 @@
         INSERT INTO crm_work_order(topic,serial_no,plan_comp_time,created_person,job_number,created_at
         ,project_name,model,matter_date,sn_no,ultimate_customer,problem_type,problem_attach
         ,problem_desc,problem_path,site_condition,rescue_action,fae_header,work_order_type)
-        VALUES(#{topic},#{serialNo},#{planCompTime},#{createdPerson},#{jobNumber},#{createAt},
+        VALUES(#{topic},#{serialNo},#{planCompTime},#{createdPerson},#{jobNumber},#{createDateTime},
         #{projectName},#{model},#{matterDate},#{snNo},#{ultimateCustomer}
         ,#{problemType},#{problemAttach},#{problemDesc},#{problemPath},#{siteCondition},#{rescueAction}
         ,#{faeHeader},#{workOrderType})
     </insert>
 
-    <update id="update" parameterType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
-        UPDATE crm_work_order set name=#{name},entity_type=#{entityType},owner_id=#{ownerId},dim_depart=#{dimDepart},
-        workflow_stage_name=#{workflowStageName},applicant_id=#{applicantId},created_by=#{createdBy},
-        created_at=#{createdAt},updated_by=#{updatedBy},updated_at=#{updatedAt},lock_status=#{lockStatus},
-        approval_status=#{approvalStatus},topic=#{topic},serial_no=#{serialNo},plan_comp_time=#{planCompTime},
-        created_person=#{createdPerson},job_number=#{jobNumber},project_name=#{projectName},model=#{model},
-        matter_date=#{matterDate},sn_no=#{snNo},ultimate_customer=#{ultimateCustomer},problem_type=#{problemType},
-        problem_attach=#{problemAttach},problem_desc=#{problemDesc},problem_path=#{problemPath},
-        site_condition=#{siteCondition},rescue_action=#{rescueAction},fae_header=#{faeHeader},work_order_type=#{workOrderType}
+    <update id="update" parameterType="me.zhengjie.modules.opl.service.dto.CatalogCriteria">
+        UPDATE crm_work_order set topic=#{topic},plan_comp_time=#{planCompTime},dim_depart=#{deptName},project_name=#{projectName},
+        model=#{model},matter_date=#{matterDate},sn_no=#{snNo},ultimate_customer=#{ultimateCustomer},updated_by=#{modifyPerson},
+        updated_at=#{modifyDateTime},problem_type=#{problemType},problem_attach=#{problemAttach},problem_desc=#{problemDesc},
+        problem_path=#{problemPath},site_condition=#{siteCondition},rescue_action=#{rescueAction},fae_header=#{faeHeader},work_order_type=#{workOrderType}
         <if test="orderStatus!=null">
             ,order_status=#{orderStatus}
         </if>
@@ -40,9 +36,6 @@
         </if>
        <if test="department!=null and department!=''">
            ,department=#{department}
-       </if>
-       <if test="status!=null">
-           ,status=#{status}
        </if>
        <if test="receiver!=null and receiver!=''">
            ,receiver=#{receiver}
@@ -155,8 +148,11 @@
         <if test="serialNo != null and serialNo != '' ">
             AND A.serial_no LIKE CONCAT('%',#{serialNo},'%')
         </if>
-        <if test="orderStatus != null ">
-            AND A.order_status = #{orderStatus}
+        <if test="orderStatusList != null and orderStatusList.size &gt; 0">
+            AND A.order_status in
+            <foreach collection="orderStatusList" item="orderStatus" open="(" separator="," close=")">
+                #{orderStatus}
+            </foreach>
         </if>
 
         <if test="model != null and model != '' ">
@@ -195,8 +191,11 @@
         <if test="serialNo != null and serialNo != '' ">
             AND A.serial_no LIKE CONCAT('%',#{serialNo},'%')
         </if>
-        <if test="orderStatus != null ">
-            AND A.order_status = #{orderStatus}
+        <if test="orderStatusList != null and orderStatusList.size &gt; 0">
+            AND A.order_status in
+            <foreach collection="orderStatusList" item="orderStatus" open="(" separator="," close=")">
+                #{orderStatus}
+            </foreach>
         </if>
 
         <if test="model != null and model != '' ">
@@ -232,8 +231,11 @@
         <if test="serialNo != null and serialNo != '' ">
             AND A.serial_no LIKE CONCAT('%',#{serialNo},'%')
         </if>
-        <if test="orderStatus != null ">
-            AND A.order_status = #{orderStatus}
+        <if test="orderStatusList != null and orderStatusList.size &gt; 0">
+            AND A.order_status in
+            <foreach collection="orderStatusList" item="orderStatus" open="(" separator="," close=")">
+                #{orderStatus}
+            </foreach>
         </if>
 
         <if test="model != null and model != '' ">

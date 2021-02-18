@@ -46,8 +46,8 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     }
 
     @Override
-    public void update(CrmWorkOrder crmWorkOrder) {
-        crmWorkOrderMapper.update(crmWorkOrder);
+    public void update(CrmWorkOrderCriteria crmWorkOrderCriteria) {
+        crmWorkOrderMapper.update(crmWorkOrderCriteria);
     }
 
     @Override

@@ -28,7 +28,6 @@ public class WorkOrderCriteria {
     @ApiModelProperty("工单编号")
     private String serialNo;
 
-
     //创建人工号
     @ApiModelProperty("创建人工号,前端不传")
     private String jobNumber;

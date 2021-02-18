@@ -3,6 +3,7 @@ package me.zhengjie.modules.opl.service;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.ServiceCatalog;
 import me.zhengjie.modules.opl.domain.SubServiceCatalog;
+import me.zhengjie.modules.opl.service.dto.CatalogCriteria;
 
 
 import java.util.Map;
@@ -67,11 +68,11 @@ public interface ServiceCatalogService {
      * @description: 新增服务子分类
      * @date: 2021/1/20 18:55
      * @author: yuchao.wang
-     * @param subServiceCatalog
+     * @param catalogCriteria
      * @return void
      * @throws
      */
-    void insertSubCatalog(SubServiceCatalog subServiceCatalog);
+    void insertSubCatalog(CatalogCriteria catalogCriteria);
 
     /**
      * @title: updateParentCatalog

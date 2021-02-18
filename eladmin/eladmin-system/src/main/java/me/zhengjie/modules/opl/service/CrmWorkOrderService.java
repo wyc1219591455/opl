@@ -3,6 +3,7 @@ package me.zhengjie.modules.opl.service;
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
 import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 
 import java.util.List;
@@ -32,11 +33,11 @@ public interface CrmWorkOrderService {
      * @description: 修改
      * @date: 2021/1/13 19:18
      * @author: ming.cao
-     * @param crmWorkOrder
+     * @param crmWorkOrderCriteria
      * @return void
      * @throws
      */
-    void update(CrmWorkOrder crmWorkOrder);
+    void update(CrmWorkOrderCriteria crmWorkOrderCriteria);
 
     /**
      * @title: findCrmOrderById

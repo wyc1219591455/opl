@@ -3,9 +3,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.zhengjie.modules.opl.mapper.ServiceCatalogToCategoryMapper">
 
+
+    <!--新增-->
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+        INSERT INTO serviceCatalogToCategory(catalogId,categoryId,createUserId,createDateTime,status)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{catalogId},#{categoryId},#{createUserId},#{createDateTime},#{status})
+        </foreach>
+    </insert>
+
+
     <insert id="insertCatalogToCategoryAssociation" parameterType="me.zhengjie.modules.opl.domain.ServiceCatalogToCategory">
-        INSERT INTO serviceCatalogToCategory(catalogId,categoryId,createUserId,createDateTime)
-        VALUES(#{catalogId},#{categoryId},#{createUserId},#{createDateTime})
+        INSERT INTO serviceCatalogToCategory(catalogId,categoryId,createUserId,createDateTime,status)
+        VALUES(#{catalogId},#{categoryId},#{createUserId},#{createDateTime},#{status})
     </insert>
 
     <select id="findAssociationById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto">

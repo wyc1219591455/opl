@@ -1,6 +1,7 @@
 package me.zhengjie.modules.opl.mapper;
 
 
+import me.zhengjie.modules.opl.domain.ServiceCatalogRelateDept;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToCategory;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToDept;
 import me.zhengjie.modules.opl.domain.TrequestCategory;
@@ -30,6 +31,18 @@ public interface ServiceCatalogToCategoryMapper {
      * @throws
      */
     void insertCatalogToCategoryAssociation(ServiceCatalogToCategory serviceCatalogToCategory);
+
+
+    /**
+     * @title: insert
+     * @description: 批量新增
+     * @date: 2021/2/8 15:21
+     * @author: yuchao.wang
+     * @param
+     * @return void
+     * @throws
+     */
+    void batchInsert(List<ServiceCatalogToCategory> list);
 
 
     /**

@@ -33,11 +33,11 @@ public interface CrmWorkOrderMapper {
      * @description: update
      * @date: 2021/1/13 19:32
      * @author: ming.cao
-     * @param crmWorkOrder
+     * @param crmWorkOrderCriteria
      * @return void
      * @throws
      */
-    void update(CrmWorkOrder crmWorkOrder);
+    void update(CrmWorkOrderCriteria crmWorkOrderCriteria);
 
     /**
      * @title: findAll

@@ -6,13 +6,13 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
-import me.zhengjie.modules.opl.domain.Pageable;
-import me.zhengjie.modules.opl.domain.ServiceCatalog;
-import me.zhengjie.modules.opl.domain.SubServiceCatalog;
+import me.zhengjie.modules.opl.domain.*;
 import me.zhengjie.modules.opl.service.ServiceCatalogService;
+import me.zhengjie.modules.opl.service.dto.CatalogCriteria;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -53,8 +53,10 @@ public class ServiceCatalogController {
     @Log("新增服务分类子表")
     @ApiOperation("新增服务分类子表")
     @PostMapping("/sub")
-    public void insertSubCatalog(@RequestBody SubServiceCatalog subServiceCatalog) {
-        serviceCatalogService.insertSubCatalog(subServiceCatalog);
+    public void insertSubCatalog(@RequestBody CatalogCriteria catalogCriteria) {
+
+        serviceCatalogService.insertSubCatalog(catalogCriteria);
+
     }
 
     @Log("修改服务分类父表")
