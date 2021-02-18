@@ -38,14 +38,14 @@ public class SubServiceCatalog {
 
   //��������
   @ApiModelProperty("创建日期")
-  @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
   private Timestamp createDateTime;
 
   @ApiModelProperty(value = "创建人")
   private String createUserId;
 
   @ApiModelProperty("修改日期")
-  @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
   private Timestamp modifyDateTime;
 
   @ApiModelProperty(value = "修改人")

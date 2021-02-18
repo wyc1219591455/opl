@@ -53,7 +53,7 @@ public class CrmWorkOrder implements Serializable {
 
     //创建日期
     @ApiModelProperty("创建日期")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp createdAt;
 
     //修改人
@@ -62,7 +62,7 @@ public class CrmWorkOrder implements Serializable {
 
     //修改时间
     @ApiModelProperty("修改时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp updatedAt;
 
     //锁定状态（未锁定：1，已锁定：2）
@@ -83,7 +83,7 @@ public class CrmWorkOrder implements Serializable {
 
     //期望完成时间
     @ApiModelProperty("期望完成时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp planCompTime;
 
     //工单创建人
@@ -104,7 +104,7 @@ public class CrmWorkOrder implements Serializable {
 
     //事项日期
     @ApiModelProperty("事项日期")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp matterDate;
 
     //SN编码
@@ -162,14 +162,14 @@ public class CrmWorkOrder implements Serializable {
     private Integer receiver;
 
     @ApiModelProperty("最终开始处理时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp realOpTime;
 
     @ApiModelProperty("到服务分类")
     private Integer serviceCatalogId;
 
     @ApiModelProperty("完成时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp finishDateTime;
 
     @ApiModelProperty("完成人")

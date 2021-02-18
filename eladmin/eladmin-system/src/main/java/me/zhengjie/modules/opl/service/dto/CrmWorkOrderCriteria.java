@@ -30,7 +30,7 @@ public class CrmWorkOrderCriteria implements Serializable {
 
     //期望完成时间
     @ApiModelProperty("期望完成时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp planCompTime;
 
     //工单创建人
@@ -49,11 +49,11 @@ public class CrmWorkOrderCriteria implements Serializable {
     private String deptName;
 
     @ApiModelProperty("创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp createDateTime ;
 
     @ApiModelProperty("修改时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp modifyDateTime ;
 
     //项目名称
@@ -66,7 +66,7 @@ public class CrmWorkOrderCriteria implements Serializable {
 
     //事项日期
     @ApiModelProperty("事项日期")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp matterDate;
 
     //SN编码

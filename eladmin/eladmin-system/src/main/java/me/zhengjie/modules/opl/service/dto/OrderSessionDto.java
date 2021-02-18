@@ -52,7 +52,7 @@ public class OrderSessionDto {
 
     //创建日期
     @ApiModelProperty("创建日期")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp createDateTime;
 
     @ApiModelProperty("明细列表")

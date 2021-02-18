@@ -32,14 +32,14 @@ public class ServiceCatalogRelateDept implements Serializable {
     private Integer status;
 
     @ApiModelProperty(value = "创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp createDateTime;
 
     @ApiModelProperty(value = "创建人")
     private String createUserId;
 
     @ApiModelProperty(value = "修改时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp modifyDateTime;
 
     @ApiModelProperty(value = "修改人")

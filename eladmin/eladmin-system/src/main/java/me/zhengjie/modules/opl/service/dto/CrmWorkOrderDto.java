@@ -35,7 +35,7 @@ public class CrmWorkOrderDto {
 
     //期望完成时间
     @ApiModelProperty("期望完成时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp planCompTime;
 
     //工单创建人
@@ -50,7 +50,7 @@ public class CrmWorkOrderDto {
     private String deptName;
 
     @ApiModelProperty("创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp createAt ;
 
     //项目名称
@@ -63,7 +63,7 @@ public class CrmWorkOrderDto {
 
     //事项日期
     @ApiModelProperty("事项日期")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp matterDate;
 
     //SN编码
@@ -119,14 +119,14 @@ public class CrmWorkOrderDto {
     private String receiver;
 
     @ApiModelProperty("最终开始处理时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp realOpTime;
 
     @ApiModelProperty("到服务分类")
     private Integer serviceCatalogId;
 
     @ApiModelProperty("完成时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp finishDateTime;
 
     @ApiModelProperty("完成人")
@@ -136,7 +136,7 @@ public class CrmWorkOrderDto {
     private Integer finishCode;
 
     @ApiModelProperty("关闭时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp closeDateTime;
 
     @ApiModelProperty("关闭人")
@@ -146,7 +146,7 @@ public class CrmWorkOrderDto {
     private Integer closeScore;
 
     @ApiModelProperty("取消时间")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp cancelDateTime;
 
     @ApiModelProperty("取消人")

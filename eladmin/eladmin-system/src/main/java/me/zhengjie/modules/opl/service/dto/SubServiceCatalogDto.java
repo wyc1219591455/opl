@@ -46,7 +46,7 @@ public class SubServiceCatalogDto {
 
     //创建日期
     @ApiModelProperty("创建日期")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp createDateTime;
 
     @ApiModelProperty(value = "创建人")
@@ -57,7 +57,7 @@ public class SubServiceCatalogDto {
     private String createPerson;
 
     @ApiModelProperty("修改日期")
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp modifyDateTime;
 
     @ApiModelProperty(value = "修改人")
