@@ -5,13 +5,13 @@
 
     <!--新增-->
     <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.RequestClosureCode">
-        INSERT INTO requestClosureCode (name,desc,createUserId,createDateTime)
+        INSERT INTO requestClosureCode (name,[desc],createUserId,createDateTime)
         VALUES(#{name},#{desc},#{createUserId},#{createDateTime})
     </insert>
 
     <!--更新-->
     <update id="update" parameterType="me.zhengjie.modules.opl.domain.RequestClosureCode">
-        UPDATE requestClosureCode SET name=#{name},desc=#{desc},
+        UPDATE requestClosureCode SET name=#{name},[desc]=#{desc},
         modifyUserId=#{modifyUserId},modifyDateTime=#{modifyDateTime}
         WHERE id=#{id}
     </update>
@@ -23,13 +23,13 @@
 
     <!--查询-->
     <select id="findAll" parameterType="me.zhengjie.modules.opl.service.dto.RequestClosureCodeCriteria" resultType="me.zhengjie.modules.opl.domain.RequestClosureCode">
-        SELECT id,name,desc,createUserId,createDateTime,modifyUserId,modifyDateTime
+        SELECT id,name,[desc],createUserId,createDateTime,modifyUserId,modifyDateTime
         FROM requestClosureCode WHERE 1 = 1
         <if test="name!=null and name != ''">
             AND name LIKE concat('%', #{name},'%')
         </if>
         <if test="desc!=null and desc!=''">
-            AND desc LIKE concat('%', #{desc},'%')
+            AND `desc` LIKE concat('%', #{desc},'%')
         </if>
     </select>
 
