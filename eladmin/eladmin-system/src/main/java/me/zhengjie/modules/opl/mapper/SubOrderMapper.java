@@ -59,4 +59,15 @@ public interface SubOrderMapper {
      * @throws
      */
     List<SubOrderDto> findSubOrderBySerialNo(String SerialNo);
+
+    /**
+     * @title: findParentWorkOrderDtoById
+     * @description: findParentWorkOrderDtoById
+     * @date: 2021/2/18 17:23
+     * @author: ming.cao
+     * @param id
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto>
+     * @throws
+     */
+    List<CrmWorkOrderDto> findParentWorkOrderDtoById(Integer id);
 }

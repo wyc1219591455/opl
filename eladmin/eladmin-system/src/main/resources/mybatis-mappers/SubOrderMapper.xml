@@ -53,4 +53,13 @@
         LEFT JOIN orderStatus F ON F.id=A.orderStatus
         WHERE A.serialNo =#{serialNo}
     </select>
+
+
+    <select id="findParentWorkOrderDtoById" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
+SELECT t1.* FROM crm_work_order t1 WHERE exists (
+            SELECT t2.parentNo FROM subOrder t2 WHERE t2.id = #{id}
+            and t2.parentNo=t1.id
+        )
+
+    </select>
 </mapper>
