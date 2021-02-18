@@ -45,10 +45,11 @@
     </select>
 
     <!-- 附表数据 -->
-    <select id="findSubOrderCcByEmpId" resultType="me.zhengjie.modules.opl.domain.SubOrder">
+    <select id="findSubOrderCcByEmpId" resultType="me.zhengjie.modules.opl.service.dto.SubOrderDto">
         SELECT t1.* FROM subOrder t1
         WHERE exists( SELECT t2.* FROM orderApplyCc t2 WHERE t2.transId=t1.id
          AND originalType=1 AND t2.empId=#{empId})
     </select>
+
 
 </mapper>

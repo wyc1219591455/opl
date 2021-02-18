@@ -57,4 +57,15 @@ public interface OrderApplyCcService {
      */
     Map<String,Object> findCcByEmpId(Pageable pageable, Integer empId);
 
+    /**
+     * @title: findCcOrder
+     * @description: 获取抄送我的工单
+     * @date: 2021/2/18 13:41
+     * @author: ming.cao
+     * @param
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     */
+    Map<String,Object> findCcOrder(Pageable pageable);
+
 }

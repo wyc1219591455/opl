@@ -2,6 +2,7 @@ package me.zhengjie.modules.opl.mapper;
 
 
 import me.zhengjie.modules.opl.domain.SubOrder;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
 import me.zhengjie.modules.opl.service.dto.SubOrderDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -47,4 +48,15 @@ public interface SubOrderMapper {
      * @throws
      */
     List<SubOrderDto> findSubOrderByParentId(Integer parentId);
+
+    /**
+     * @title: findCrmWorkOrderDtoById
+     * @description: 根据id获取父类订单
+     * @date: 2021/2/18 14:30
+     * @author: ming.cao
+     * @param id
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto>
+     * @throws
+     */
+    List<CrmWorkOrderDto> findParentWorkOrderDtoById(Integer id) ;
 }
