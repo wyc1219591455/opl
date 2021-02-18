@@ -8,6 +8,7 @@ import me.zhengjie.modules.opl.domain.OrderApplyCc;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.service.OrderApplyCcService;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
+import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ public class OrderApplyCcController {
     @Log("抄送我的")
     @ApiOperation("抄送我的")
     @GetMapping("/getCcOrder")
-    public Map<String,Object> findCcOrder(CrmWorkOrderCriteria criteria, Pageable pageable){
+    public Map<String,Object> findCcOrder(WorkOrderCriteria criteria, Pageable pageable){
         return orderApplyCcService.findCcOrder(criteria,pageable);
     }
 

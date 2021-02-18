@@ -56,36 +56,36 @@
 
 
     <select id="findParentWorkOrderDtoById" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
-SELECT t1.* FROM crm_work_order t1 WHERE exists (
+        SELECT t1.* FROM crm_work_order t1 WHERE exists (
             SELECT t2.parentNo FROM subOrder t2 WHERE t2.id = #{id}
             and t2.parentNo=t1.id
         )
 
-        <if test="topic!=null and topic !=''">
-            AND t1.topic LIKE concat('%',#{topic},'%')
+        <if test="criteria.topic!=null and criteria.topic !=''">
+            AND t1.topic LIKE concat('%',#{criteria.topic},'%')
         </if>
 
-        <if test="serialNo!=null and serialNo!=''">
-            AND t1.serial_no LIKE concat('%',#{serialNo},'%')
+        <if test="criteria.serialNo!=null and criteria.serialNo!=''">
+            AND t1.serial_no LIKE concat('%',#{criteria.serialNo},'%')
         </if>
 
-        <if test="orderStatusList!=null and orderStatusList.size &gt; 0">
+        <if test="criteria.orderStatusList!=null and criteria.orderStatusList.size &gt; 0">
             AND t1.order_status in
-            <foreach collection="orderStatusList" item="orderStatus" open="(" separator="," close=")">
-                #{orderStatus}
+            <foreach collection="criteria.orderStatusList" item="orderStatus" open="(" separator="," close=")">
+                #{criteria.orderStatus}
             </foreach>
         </if>
 
-        <if test="workOrderType!=null">
-            AND t1.work_order_type = #{workOrderType}
+        <if test="criteria.workOrderType!=null">
+            AND t1.work_order_type = #{criteria.workOrderType}
         </if>
 
-        <if test="startTime != null ">
-            AND t1.created_at &gt;= #{startTime}
+        <if test="criteria.startTime != null ">
+            AND t1.created_at &gt;= #{criteria.startTime}
         </if>
 
-        <if test="endTime != null  ">
-            AND t1.created_at &lt;= #{endTime}
+        <if test="criteria.endTime != null  ">
+            AND t1.created_at &lt;= #{criteria.endTime}
         </if>
     </select>
 </mapper>

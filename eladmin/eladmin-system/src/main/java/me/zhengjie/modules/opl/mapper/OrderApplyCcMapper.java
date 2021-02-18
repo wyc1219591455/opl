@@ -2,10 +2,7 @@ package me.zhengjie.modules.opl.mapper;
 
 import me.zhengjie.modules.opl.domain.OrderApplyCc;
 import me.zhengjie.modules.opl.domain.SubOrder;
-import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
-import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
-import me.zhengjie.modules.opl.service.dto.OrderApplyCcDto;
-import me.zhengjie.modules.opl.service.dto.SubOrderDto;
+import me.zhengjie.modules.opl.service.dto.*;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -61,7 +58,7 @@ public interface OrderApplyCcMapper {
      * @return java.util.List<me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto>
      * @throws
      */
-    List<CrmWorkOrderDto> findMasterOrderCcByEmpId2(CrmWorkOrderCriteria criteria,Integer empId);
+    List<CrmWorkOrderDto> findMasterOrderCcByEmpId2(WorkOrderCriteria criteria, Integer empId);
 
     /**
      * @title: findSubOrderCcByEmpId

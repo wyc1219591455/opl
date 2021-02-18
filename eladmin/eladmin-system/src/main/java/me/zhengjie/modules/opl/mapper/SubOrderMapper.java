@@ -5,6 +5,7 @@ import me.zhengjie.modules.opl.domain.SubOrder;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
 import me.zhengjie.modules.opl.service.dto.SubOrderDto;
+import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -70,5 +71,5 @@ public interface SubOrderMapper {
      * @return java.util.List<me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto>
      * @throws
      */
-    List<CrmWorkOrderDto> findParentWorkOrderDtoById(CrmWorkOrderCriteria criteria, Integer id);
+    List<CrmWorkOrderDto> findParentWorkOrderDtoById(WorkOrderCriteria criteria, Integer id);
 }

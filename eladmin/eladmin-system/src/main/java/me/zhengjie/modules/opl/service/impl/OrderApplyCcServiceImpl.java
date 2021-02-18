@@ -11,10 +11,7 @@ import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.mapper.OrderApplyCcMapper;
 import me.zhengjie.modules.opl.mapper.SubOrderMapper;
 import me.zhengjie.modules.opl.service.OrderApplyCcService;
-import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
-import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
-import me.zhengjie.modules.opl.service.dto.OrderApplyCcDto;
-import me.zhengjie.modules.opl.service.dto.SubOrderDto;
+import me.zhengjie.modules.opl.service.dto.*;
 import me.zhengjie.utils.PageHelpResultUtil;
 import me.zhengjie.utils.PageInfoUtils;
 import me.zhengjie.utils.SecurityUtils;
@@ -96,7 +93,7 @@ public class OrderApplyCcServiceImpl implements OrderApplyCcService {
     }
 
     @Override
-    public Map<String, Object> findCcOrder(CrmWorkOrderCriteria criteria, Pageable pageable) {
+    public Map<String, Object> findCcOrder(WorkOrderCriteria criteria, Pageable pageable) {
 
         Integer empId= SecurityUtils.getCurrentUserId().intValue();
 
