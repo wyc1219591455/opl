@@ -1,6 +1,7 @@
 package me.zhengjie.modules.opl.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import io.swagger.annotations.ApiModelProperty;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 /**
  * 工单同步log日志
@@ -46,7 +48,8 @@ public class CrmOrderSyncLog implements Serializable {
 	 * 创建人
 	 */
 	@ApiModelProperty(value = "创建人", position = 4)
-	private java.util.Date createdAt;
+	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+	private Timestamp createdAt;
 
 	/**
 	 * 修改日期
@@ -58,7 +61,8 @@ public class CrmOrderSyncLog implements Serializable {
 	 * 修改人
 	 */
 	@ApiModelProperty(value = "修改人", position = 6)
-	private java.util.Date updatedAt;
+	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+	private Timestamp updatedAt;
 
 	/**
 	 * 失败原因

@@ -36,6 +36,13 @@ public class OrderApplyCcController {
        return orderApplyCcService.findCcByOrderId(pageable,orderId);
     }
 
+    @Log("抄送我的")
+    @ApiOperation("抄送我的")
+    @GetMapping("/getCcOrder")
+    public Map<String,Object> findCcOrder(Pageable pageable){
+        return orderApplyCcService.findCcOrder(pageable);
+    }
+
     @Log("根据用户id获取抄送信息")
     @ApiOperation("根据用户id获取抄送信息")
     @GetMapping("/getCcByUserId")

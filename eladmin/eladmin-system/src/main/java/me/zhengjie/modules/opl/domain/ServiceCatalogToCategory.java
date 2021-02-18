@@ -28,7 +28,7 @@ public class ServiceCatalogToCategory {
   private Integer categoryId;
 
   @ApiModelProperty("创建时间")
-  @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
   private Timestamp createDateTime ;
 
   @ApiModelProperty(value = "创建人工号")

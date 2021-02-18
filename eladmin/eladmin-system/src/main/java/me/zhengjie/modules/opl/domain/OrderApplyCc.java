@@ -49,7 +49,7 @@ public class OrderApplyCc implements Serializable {
 	 * 创建时间
 	 */
 	@ApiModelProperty(value = "创建时间", position = 4)
-	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	private Timestamp createDateTime;
 
 	/**
@@ -62,7 +62,7 @@ public class OrderApplyCc implements Serializable {
 	 * 修改时间
 	 */
 	@ApiModelProperty(value = "修改时间", position = 6)
-	@JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
 	private Timestamp modifyDateTime;
 
 	/**
@@ -74,7 +74,7 @@ public class OrderApplyCc implements Serializable {
 	/**
 	 * 表来源（0 主表crmworkorder ，1 附表 suborder）
 	 */
-	@ApiModelProperty(value = "来源表", position = 7)
+	@ApiModelProperty(value = "来源表", position = 8)
 	private Integer originalType;
 
 }

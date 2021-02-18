@@ -19,13 +19,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class OrderApplyCcDto extends OrderApplyCc implements Serializable{
 
-    @ApiModelProperty(value = "人员名称", position = 2)
+    @ApiModelProperty(value = "人员名称")
     private String humanName;
 
-    @ApiModelProperty(value = "人员编号", position = 2)
+    @ApiModelProperty(value = "人员编号")
     private String userName;
 
-    @ApiModelProperty(value = "邮件", position = 2)
+    @ApiModelProperty(value = "邮件")
     private String email;
 
 }
