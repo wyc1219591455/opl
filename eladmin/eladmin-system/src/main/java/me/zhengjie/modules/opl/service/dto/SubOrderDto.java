@@ -122,7 +122,11 @@ public class SubOrderDto {
     @ApiModelProperty("工单状态描述")
     private String orderDesc;
 
+    @ApiModelProperty("处理人是否一致")
+    private Boolean equalsTreat=false;
 
+    @ApiModelProperty("发起人是否一致")
+    private Boolean equalsCreate=false;
 
 }
 

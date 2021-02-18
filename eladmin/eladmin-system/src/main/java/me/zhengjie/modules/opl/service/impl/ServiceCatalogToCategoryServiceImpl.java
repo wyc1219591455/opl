@@ -2,16 +2,22 @@ package me.zhengjie.modules.opl.service.impl;
 
 
 import cn.hutool.core.util.ObjectUtil;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
+import me.zhengjie.modules.opl.domain.CrmProduct;
+import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToCategory;
 import me.zhengjie.modules.opl.mapper.ServiceCatalogToCategoryMapper;
 import me.zhengjie.modules.opl.service.ServiceCatalogToCategoryService;
 import me.zhengjie.modules.opl.service.dto.TrequestCategoryDto;
+import me.zhengjie.utils.PageHelpResultUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: eladmin
@@ -33,15 +39,47 @@ public class ServiceCatalogToCategoryServiceImpl implements ServiceCatalogToCate
         {
             for(TrequestCategoryDto trequestCategoryDto:categoryDtoList)
             {
-                getCategory(trequestCategoryDto);
+                getUsedCategory(trequestCategoryDto);
             }
         }
         return  categoryDtoList;
     }
 
+
+
     @Override
     public void insertCategoryAssociation(ServiceCatalogToCategory serviceCatalogToCategory){
        serviceCatalogToCategoryMapper.insertCatalogToCategoryAssociation(serviceCatalogToCategory);
+    }
+
+    @Override
+    public Map<String, Object> findAllCatalog(Pageable pageable){
+        PageHelper.startPage(pageable.getPage(),pageable.getSize());
+        List<TrequestCategoryDto> categoryDtoList= serviceCatalogToCategoryMapper.findAssociation();
+        if(ObjectUtil.isNotEmpty(categoryDtoList))
+        {
+            for(TrequestCategoryDto trequestCategoryDto:categoryDtoList)
+            {
+                getCategory(trequestCategoryDto);
+            }
+        }
+        PageInfo<TrequestCategoryDto> pageInfo = new PageInfo<>(categoryDtoList);
+        return PageHelpResultUtil.toPage(pageInfo);
+    }
+
+    @Override
+    public Map<String, Object> findUsedCatalog(Pageable pageable){
+        PageHelper.startPage(pageable.getPage(),pageable.getSize());
+        List<TrequestCategoryDto> categoryDtoList= serviceCatalogToCategoryMapper.findUsedAssociation();
+        if(ObjectUtil.isNotEmpty(categoryDtoList))
+        {
+            for(TrequestCategoryDto trequestCategoryDto:categoryDtoList)
+            {
+                getUsedCategory(trequestCategoryDto);
+            }
+        }
+        PageInfo<TrequestCategoryDto> pageInfo = new PageInfo<>(categoryDtoList);
+        return PageHelpResultUtil.toPage(pageInfo);
     }
 
     //递归查询子节点
@@ -54,6 +92,19 @@ public class ServiceCatalogToCategoryServiceImpl implements ServiceCatalogToCate
                 {
                     getCategory(trequestCategoryDto1);
                 }
+        }
+        return trequestCategoryDto;
+    }
+
+    public TrequestCategoryDto getUsedCategory(TrequestCategoryDto trequestCategoryDto){
+        List<TrequestCategoryDto> trequestCategoryDtos=serviceCatalogToCategoryMapper.findUsedSubAssociationById(trequestCategoryDto.getId());
+        if(trequestCategoryDtos!=null)
+        {
+            trequestCategoryDto.setTrequestCategoryDtos(trequestCategoryDtos);
+            for (TrequestCategoryDto trequestCategoryDto1:trequestCategoryDtos)
+            {
+                getUsedCategory(trequestCategoryDto1);
+            }
         }
         return trequestCategoryDto;
     }

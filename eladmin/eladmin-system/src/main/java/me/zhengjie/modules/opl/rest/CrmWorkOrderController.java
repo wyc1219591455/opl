@@ -64,4 +64,17 @@ public class CrmWorkOrderController {
         crmWorkOrderService.update(crmWorkOrderCriteria);
     }
 
+    @Log("根据工单号查找主单详情")
+    @ApiOperation("根据工单号查找主单详情")
+    @GetMapping("/detail")
+    public Object findOrderBySerialNo(String SerialNo){
+        return  crmWorkOrderService.findOrderBySerialNo(SerialNo);
+    }
+
+    @Log("根据工单号查找子单详情")
+    @ApiOperation("根据工单号查找子单详情")
+    @GetMapping("/subDetail")
+    public Object findSubOrderBySerialNo(String SerialNo){
+        return  crmWorkOrderService.findSubOrderBySerialNo(SerialNo);
+    }
 }

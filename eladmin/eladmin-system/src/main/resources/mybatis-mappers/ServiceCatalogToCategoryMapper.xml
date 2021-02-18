@@ -20,21 +20,61 @@
     </insert>
 
     <select id="findAssociationById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto">
-        SELECT A.categoryId as id ,B.name
+        SELECT A.categoryId as id ,B.status,B.name,B.parentId,C.name as parentName,B.rootId,D.name as rootName
         FROM serviceCatalogToCategory A
         LEFT JOIN trequestCategory B ON A.categoryId=B.id
-        WHERE A.catalogId= #{catalogId} AND A.status=1
+        LEFT JOIN trequestCategory C on B.parentId=C.id
+        LEFT JOIN trequestCategory D on B.rootId=D.id
+        WHERE A.catalogId= #{catalogId} AND A.status=1 AND B.status=1
 
         ORDER BY B.id ASC
 
     </select>
 
-    <select id="findSubAssociationById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto">
-        SELECT A.id ,A.name
-        FROM trequestCategory A
-        WHERE A.parentId= #{categoryId} AND A.status=1
 
-        ORDER BY A.name ASC
+    <select id="findAssociation"  resultType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto">
+        SELECT A.id ,A.name,A.status,A.parentId,B.name as parentName,A.rootId,C.name as rootName
+        FROM trequestCategory A
+        LEFT JOIN trequestCategory B on A.parentId=B.id
+        LEFT JOIN trequestCategory C on A.rootId=C.id
+        WHERE A.parentId= 0
+
+        ORDER BY A.id ASC
+
+    </select>
+
+    <select id="findUsedAssociation"  resultType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto">
+        SELECT A.id ,A.name,A.status,A.parentId,B.name as parentName,A.rootId,C.name as rootName
+        FROM trequestCategory A
+        LEFT JOIN trequestCategory B on A.parentId=B.id
+        LEFT JOIN trequestCategory C on A.rootId=C.id
+        WHERE A.parentId= 0 AND A.status=1
+
+        ORDER BY A.id ASC
+
+    </select>
+
+    <select id="findSubAssociationById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto">
+        SELECT A.id ,A.name,A.parentId,A.status,B.name as parentName,A.rootId,C.name as rootName
+        FROM trequestCategory A
+        LEFT JOIN trequestCategory B on A.parentId=B.id
+        LEFT JOIN trequestCategory C on A.rootId=C.id
+
+        WHERE A.parentId= #{categoryId}
+
+        ORDER BY A.id ASC
+
+    </select>
+
+    <select id="findUsedSubAssociationById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto">
+        SELECT A.id ,A.name,A.parentId,A.status,B.name as parentName,A.rootId,C.name as rootName
+        FROM trequestCategory A
+        LEFT JOIN trequestCategory B on A.parentId=B.id
+        LEFT JOIN trequestCategory C on A.rootId=C.id
+
+        WHERE A.parentId= #{categoryId}  AND A.status=1
+
+        ORDER BY A.id ASC
 
     </select>
 </mapper>

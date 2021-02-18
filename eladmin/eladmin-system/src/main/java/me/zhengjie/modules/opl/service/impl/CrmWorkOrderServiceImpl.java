@@ -12,6 +12,7 @@ import me.zhengjie.modules.opl.mapper.SubOrderMapper;
 import me.zhengjie.modules.opl.service.CrmWorkOrderService;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
+import me.zhengjie.modules.opl.service.dto.SubOrderDto;
 import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 import me.zhengjie.utils.PageHelpResultUtil;
 import me.zhengjie.utils.SecurityUtils;
@@ -93,8 +94,37 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
 
     @Override
-    public List<CrmWorkOrder> findCrmOrderByOrderType(Integer type) {
-        return crmWorkOrderMapper.findCrmOrderByOrderType(type);
+    public List<CrmWorkOrderDto> findOrderBySerialNo(String SerialNo) {
+        String jobNumber = SecurityUtils.getCurrentUsername();
+        List<CrmWorkOrderDto> crmWorkOrderDtoList=  crmWorkOrderMapper.findOrderBySerialNo(SerialNo);
+        for(CrmWorkOrderDto crmWorkOrderDto:crmWorkOrderDtoList){
+            if(crmWorkOrderDto.getJobNumber()!=null&jobNumber.equals(crmWorkOrderDto.getJobNumber()))
+            {
+                crmWorkOrderDto.setEqualsCreate(true);
+            }
+            else if(crmWorkOrderDto.getReceiver()!=null&jobNumber.equals(crmWorkOrderDto.getReceiver()))
+            {
+                crmWorkOrderDto.setEqualsTreat(true);
+            }
+        }
+        return crmWorkOrderDtoList;
+    }
+
+    @Override
+    public List<SubOrderDto> findSubOrderBySerialNo(String SerialNo) {
+        String jobNumber = SecurityUtils.getCurrentUsername();
+        List<SubOrderDto> subOrderDtoList=  subOrderMapper.findSubOrderBySerialNo(SerialNo);
+        for(SubOrderDto subOrderDto:subOrderDtoList){
+            if(subOrderDto.getCreatedPerson()!=null&jobNumber.equals(subOrderDto.getCreatedPerson()))
+            {
+                subOrderDto.setEqualsCreate(true);
+            }
+            else if(subOrderDto.getJobNumber()!=null&jobNumber.equals(subOrderDto.getJobNumber()))
+            {
+                subOrderDto.setEqualsTreat(true);
+            }
+        }
+        return subOrderDtoList;
     }
 
     private String getOplMaxNo(){

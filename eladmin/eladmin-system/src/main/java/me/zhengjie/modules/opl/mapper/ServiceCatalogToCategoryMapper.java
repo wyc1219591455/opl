@@ -58,6 +58,29 @@ public interface ServiceCatalogToCategoryMapper {
 
 
     /**
+     * @title: 查找所有父分类
+     * @description: 查找所有父分类
+     * @date: 2021/1/19 19:46
+     * @author: yuchao.wang
+     * @param
+     * @return ServiceCatalogToCategory
+     * @throws
+     */
+    List<TrequestCategoryDto> findAssociation();
+
+    /**
+     * @title: 查找所有可用的父分类
+     * @description: 查找所有可用的父分类
+     * @date: 2021/1/19 19:46
+     * @author: yuchao.wang
+     * @param
+     * @return ServiceCatalogToCategory
+     * @throws
+     */
+    List<TrequestCategoryDto> findUsedAssociation();
+
+
+    /**
      * @title: 根据父ID查找子分类
      * @description: 根据父ID查找子分类
      * @date: 2021/1/19 19:46
@@ -67,4 +90,15 @@ public interface ServiceCatalogToCategoryMapper {
      * @throws
      */
     List<TrequestCategoryDto> findSubAssociationById(Integer categoryId);
+
+    /**
+     * @title: 根据父ID查找可用的子分类
+     * @description: 根据父ID查找可用的子分类
+     * @date: 2021/1/19 19:46
+     * @author: yuchao.wang
+     * @param categoryId
+     * @return TrequestCategoryDto
+     * @throws
+     */
+    List<TrequestCategoryDto> findUsedSubAssociationById(Integer categoryId);
 }

@@ -57,15 +57,15 @@ public class OrderLogAspect {
      * @param joinPoint join point for advice
      * @param e exception
      */
-    @AfterThrowing(pointcut = "orderLogPointcut()", throwing = "e")
-    public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
-        CrmOrderSyncLog log = new CrmOrderSyncLog();
-        currentTime.remove();
-        log.setFailedReason(ThrowableUtil.getStackTrace(e));
-        log.setIsSuccess(0);
-        crmOrderSyncLogService.save(getUsername(),(ProceedingJoinPoint)joinPoint,log );
-
-    }
+//    @AfterThrowing(pointcut = "orderLogPointcut()", throwing = "e")
+//    public void logAfterThrowing(JoinPoint joinPoint, Throwable e) {
+//        CrmOrderSyncLog log = new CrmOrderSyncLog();
+//        currentTime.remove();
+//        log.setFailedReason(ThrowableUtil.getStackTrace(e));
+//        log.setIsSuccess(0);
+//        crmOrderSyncLogService.save(getUsername(),(ProceedingJoinPoint)joinPoint,log );
+//
+//    }
 
     private String getUsername() {
         try {

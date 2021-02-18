@@ -21,7 +21,7 @@ public interface CrmWorkOrderMapper {
      * @title: insert
      * @description: opl插入表
      * @date: 2021/1/13 19:32
-     * @author: ming.cao
+     * @author: yuchao.wang
      * @param crmWorkOrderCriteria
      * @return void
      * @throws
@@ -32,7 +32,7 @@ public interface CrmWorkOrderMapper {
      * @title: update
      * @description: update
      * @date: 2021/1/13 19:32
-     * @author: ming.cao
+     * @author: yuchao.wang
      * @param crmWorkOrderCriteria
      * @return void
      * @throws
@@ -154,11 +154,11 @@ public interface CrmWorkOrderMapper {
      * @title: findOrderBySerialNo
      * @description: findOrderBySerialNo
      * @date: 2021/1/13 19:33
-     * @author: ming.cao
+     * @author: yuchao.wang
      * @param
      * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
      * @throws
      */
-    List<CrmWorkOrder> findOrderBySerialNo();
+    List<CrmWorkOrderDto> findOrderBySerialNo(String SerialNo);
 
 }

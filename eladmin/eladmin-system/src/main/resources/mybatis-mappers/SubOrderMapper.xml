@@ -40,4 +40,17 @@
         ORDER BY A.serialNo asc
 
     </select>
+
+
+    <select id="findSubOrderBySerialNo" parameterType="String" resultType="me.zhengjie.modules.opl.service.dto.SubOrderDto">
+       SELECT A.id,A.parentNo,A.topic,A.serialNo,A.planCompTime,A.jobNumber,B.FHumanName as createdPerson ,A.createdTime,C.FDeptFullName AS deptName,A.deptId,A.projectName,D.product_name AS model,A.matterDate,A.snNo,
+        A.ultimateCustomer,A.problemType,A.problemAttach,A.problemDesc,A.problemPath,A.siteCondition,A.rescueAction,A.faeHeader,A.workOrderType,E.name as typeDesc,A.orderStatus,F.name as orderDesc,A.isTransfer,A.description,A.receiver
+        FROM subOrder A
+        LEFT JOIN tsysuser B ON A.jobNumber=B.FUserName
+        LEFT JOIN tsysdept C ON A.deptId=C.FDeptId
+        LEFT JOIN crm_product D ON A.model=D.crm_id
+        LEFT JOIN trequestCategory E ON E.text=A.workOrderType
+        LEFT JOIN orderStatus F ON F.id=A.orderStatus
+        WHERE A.serialNo =#{serialNo}
+    </select>
 </mapper>

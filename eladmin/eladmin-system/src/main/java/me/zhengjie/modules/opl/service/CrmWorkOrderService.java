@@ -4,6 +4,7 @@ import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
+import me.zhengjie.modules.opl.service.dto.SubOrderDto;
 import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 
 import java.util.List;
@@ -84,15 +85,24 @@ public interface CrmWorkOrderService {
     Map<String,Object> findTreatByMe(WorkOrderCriteria workOrderCriteria, Pageable pageable);
 
     /**
-     * @title: findCrmOrderByOrderType
-     * @description: 更具工单分类获取数据
-     * @date: 2021/1/13 19:23
-     * @author: ming.cao
-     * @param type
+     * @title: findOrderBySerialNo
+     * @description: 根据工单号查询工单
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
      * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
      * @throws
      */
-    List<CrmWorkOrder> findCrmOrderByOrderType(Integer type);
+    List<CrmWorkOrderDto> findOrderBySerialNo(String SerialNo);
 
-
+    /**
+     * @title: findOrderBySerialNo
+     * @description: 根据工单号查询工单子单
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    List<SubOrderDto> findSubOrderBySerialNo(String SerialNo);
 }

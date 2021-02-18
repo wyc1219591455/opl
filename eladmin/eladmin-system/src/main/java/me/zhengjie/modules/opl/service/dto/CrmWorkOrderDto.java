@@ -125,6 +125,9 @@ public class CrmWorkOrderDto {
     @ApiModelProperty("到服务分类")
     private Integer serviceCatalogId;
 
+    @ApiModelProperty("服务分类名称")
+    private String serviceCatalogDesc;
+
     @ApiModelProperty("完成时间")
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
     private Timestamp finishDateTime;
@@ -134,6 +137,10 @@ public class CrmWorkOrderDto {
 
     @ApiModelProperty("完成代码（成功1，无法处理2，失败3）")
     private Integer finishCode;
+
+    @ApiModelProperty("完成代码描述")
+    private String finishCodeDesc;
+
 
     @ApiModelProperty("关闭时间")
     @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss", timezone="GMT+8")
@@ -154,5 +161,11 @@ public class CrmWorkOrderDto {
 
     @ApiModelProperty("子单列表")
     private List<SubOrderDto> subOrderDtoList;
+
+    @ApiModelProperty("处理人是否一致")
+    private Boolean equalsTreat=false;
+
+    @ApiModelProperty("发起人是否一致")
+    private Boolean equalsCreate=false;
 
 }

@@ -1,11 +1,13 @@
 package me.zhengjie.modules.opl.service;
 
+import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToCategory;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToDept;
 import me.zhengjie.modules.opl.service.dto.ServiceCatalogDto;
 import me.zhengjie.modules.opl.service.dto.TrequestCategoryDto;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -27,6 +29,28 @@ public interface ServiceCatalogToCategoryService {
      * @throws
      */
     List<TrequestCategoryDto> findAllCatalogById(Integer catalogId);
+
+    /**
+     * @title: findAllCatalog
+     * @description: 获取所有工单分类
+     * @date: 2021/1/20 18:35
+     * @author: yuchao.wang
+     * @param
+     * @return ServiceCatalogDto
+     * @throws
+     */
+    Map<String, Object> findAllCatalog(Pageable pageable);
+
+    /**
+     * @title: findAllCatalog
+     * @description: 获取使用的工单分类
+     * @date: 2021/1/20 18:35
+     * @author: yuchao.wang
+     * @param
+     * @return ServiceCatalogDto
+     * @throws
+     */
+    Map<String, Object> findUsedCatalog(Pageable pageable);
 
     /**
      * @title: insertCategoryAssociation
