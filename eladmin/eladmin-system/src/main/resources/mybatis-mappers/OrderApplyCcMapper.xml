@@ -51,5 +51,38 @@
          AND originalType=1 AND t2.empId=#{empId})
     </select>
 
+    <select id="findMasterOrderCcByEmpId2" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
+        SELECT t1.* FROM crm_work_order t1
+        WHERE exists( SELECT t2.* FROM orderApplyCc t2 WHERE t2.transId=t1.id
+        AND originalType=0 AND t2.empId=#{empId})
+
+        <if test="topic!=null and topic !=''">
+            AND t1.topic LIKE concat('%',#{topic},'%')
+        </if>
+
+        <if test="serialNo!=null and serialNo!=''">
+            AND t1.serial_no LIKE concat('%',#{serialNo},'%')
+        </if>
+
+        <if test="orderStatusList!=null and orderStatusList.size &gt; 0">
+            AND t1.order_status in
+            <foreach collection="orderStatusList" item="orderStatus" open="(" separator="," close=")">
+                #{orderStatus}
+            </foreach>
+        </if>
+
+        <if test="workOrderType!=null">
+            AND t1.work_order_type = #{workOrderType}
+        </if>
+
+        <if test="startTime != null ">
+            AND t1.created_at &gt;= #{startTime}
+        </if>
+
+        <if test="endTime != null  ">
+            AND t1.created_at &lt;= #{endTime}
+        </if>
+    </select>
+
 
 </mapper>

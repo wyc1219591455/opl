@@ -11,6 +11,7 @@ import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.mapper.OrderApplyCcMapper;
 import me.zhengjie.modules.opl.mapper.SubOrderMapper;
 import me.zhengjie.modules.opl.service.OrderApplyCcService;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
 import me.zhengjie.modules.opl.service.dto.OrderApplyCcDto;
 import me.zhengjie.modules.opl.service.dto.SubOrderDto;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Security;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @program: eladmin
@@ -94,14 +96,14 @@ public class OrderApplyCcServiceImpl implements OrderApplyCcService {
     }
 
     @Override
-    public Map<String, Object> findCcOrder(Pageable pageable) {
+    public Map<String, Object> findCcOrder(CrmWorkOrderCriteria criteria, Pageable pageable) {
 
         Integer empId= SecurityUtils.getCurrentUserId().intValue();
 
         List<CrmWorkOrderDto> totalOrderList = new ArrayList<>();
 
         //抄送主表的数据
-        List<CrmWorkOrderDto> crmWorkOrderDtoList = orderApplyCcMapper.findMasterOrderCcByEmpId(empId);
+        List<CrmWorkOrderDto> crmWorkOrderDtoList = orderApplyCcMapper.findMasterOrderCcByEmpId2(criteria,empId);
         //主表数据中拼接子表
         for (CrmWorkOrderDto crmWorkOrderDto : crmWorkOrderDtoList) {
             List<SubOrderDto> subOrderDtoList = subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId());
@@ -114,7 +116,7 @@ public class OrderApplyCcServiceImpl implements OrderApplyCcService {
         List<CrmWorkOrderDto> parentList = new ArrayList<>();
         //查询父类
         for (SubOrderDto subOrderDto : subOrderDtoList) {
-            List<CrmWorkOrderDto> crmWorkOrderDtoList1 = subOrderMapper.findParentWorkOrderDtoById(subOrderDto.getId());
+            List<CrmWorkOrderDto> crmWorkOrderDtoList1 = subOrderMapper.findParentWorkOrderDtoById(criteria,subOrderDto.getId());
             //主工单数据
             CrmWorkOrderDto tempParent = crmWorkOrderDtoList1.get(0);
             //将子表工单数据分装成list
@@ -139,10 +141,13 @@ public class OrderApplyCcServiceImpl implements OrderApplyCcService {
         totalOrderList.addAll(crmWorkOrderDtoList);
         //插入子类的数据
         totalOrderList.addAll(parentList);
+
+        //list按照时间排序
+        List<CrmWorkOrderDto> collect =totalOrderList.stream().sorted(Comparator.comparing(CrmWorkOrderDto::getCreateAt)).collect(Collectors.toList());
        /* totalOrderList.stream().
                 collect(Collectors.collectingAndThen(Collectors.toCollection(()->new TreeSet<>(Comparator.comparing(o->o.getId()))), ArrayList::new));*/
         //return PageHelpResultUtil.toPage(PageInfoUtils.listToPageInfo(totalOrderList, pageable.getPage(), pageable.getSize()));
-   return PageHelpResultUtil.toPage(PageInfoUtils.listToPageInfo(totalOrderList, pageable.getPage(), pageable.getSize()));
+   return PageHelpResultUtil.toPage(PageInfoUtils.listToPageInfo(collect, pageable.getPage(), pageable.getSize()));
     }
 
 }

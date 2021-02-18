@@ -2,6 +2,7 @@ package me.zhengjie.modules.opl.service;
 
 import me.zhengjie.modules.opl.domain.OrderApplyCc;
 import me.zhengjie.modules.opl.domain.Pageable;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 
 import java.util.Map;
 
@@ -66,6 +67,6 @@ public interface OrderApplyCcService {
      * @return java.util.Map<java.lang.String,java.lang.Object>
      * @throws
      */
-    Map<String,Object> findCcOrder(Pageable pageable);
+    Map<String,Object> findCcOrder(CrmWorkOrderCriteria criteria, Pageable pageable);
 
 }

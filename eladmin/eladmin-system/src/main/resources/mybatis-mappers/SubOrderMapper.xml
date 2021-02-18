@@ -61,5 +61,31 @@ SELECT t1.* FROM crm_work_order t1 WHERE exists (
             and t2.parentNo=t1.id
         )
 
+        <if test="topic!=null and topic !=''">
+            AND t1.topic LIKE concat('%',#{topic},'%')
+        </if>
+
+        <if test="serialNo!=null and serialNo!=''">
+            AND t1.serial_no LIKE concat('%',#{serialNo},'%')
+        </if>
+
+        <if test="orderStatusList!=null and orderStatusList.size &gt; 0">
+            AND t1.order_status in
+            <foreach collection="orderStatusList" item="orderStatus" open="(" separator="," close=")">
+                #{orderStatus}
+            </foreach>
+        </if>
+
+        <if test="workOrderType!=null">
+            AND t1.work_order_type = #{workOrderType}
+        </if>
+
+        <if test="startTime != null ">
+            AND t1.created_at &gt;= #{startTime}
+        </if>
+
+        <if test="endTime != null  ">
+            AND t1.created_at &lt;= #{endTime}
+        </if>
     </select>
 </mapper>
