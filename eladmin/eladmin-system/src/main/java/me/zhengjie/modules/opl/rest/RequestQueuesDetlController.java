@@ -21,10 +21,10 @@ import java.util.Map;
  * @author: ming.cao
  * @create: 2021-01-20 19:30
  **/
-//@RestController
+@RestController
 @RequiredArgsConstructor
-//@Api(tags = "OPL:支持组明细管理")
-//@RequestMapping("/api/requestQueuesDetl")
+@Api(tags = "OPL:支持组明细管理")
+@RequestMapping("/api/requestQueuesDetl")
 public class RequestQueuesDetlController {
 
     private final RequestQueuesDetlService requestQueuesDetlService;

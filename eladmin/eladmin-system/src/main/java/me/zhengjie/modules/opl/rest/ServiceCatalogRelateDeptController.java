@@ -19,7 +19,7 @@ import java.util.Map;
  **/
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "服务分类")
+@Api(tags = "服务分类条目下的服务部门")
 @RequestMapping("/api/serviceCatalogRelateDept")
 public class ServiceCatalogRelateDeptController {
 
