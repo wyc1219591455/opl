@@ -46,6 +46,28 @@ public interface ServiceCatalogToCategoryMapper {
 
 
     /**
+     * @title: insert
+     * @description: 新增工单分类
+     * @date: 2021/2/8 15:21
+     * @author: yuchao.wang
+     * @param
+     * @return void
+     * @throws
+     */
+    void insertCategory(TrequestCategory trequestCategory);
+
+    /**
+     * @title: find
+     * @description: 根据ID查找工单分类
+     * @date: 2021/2/8 15:21
+     * @author: yuchao.wang
+     * @param
+     * @return void
+     * @throws
+     */
+    TrequestCategory findCategoryById(Integer Id);
+
+    /**
      * @title: 根据服务分类ID查找工单分类
      * @description: 根据服务分类ID查找工单分类
      * @date: 2021/1/19 19:46

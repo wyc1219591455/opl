@@ -13,11 +13,24 @@
         </foreach>
     </insert>
 
+    <!--新增-->
+    <insert id="insertCategory" parameterType="me.zhengjie.modules.opl.domain.TrequestCategory" useGeneratedKeys="true">
+        INSERT INTO trequestCategory(name,parentId,createUserId,createDateTime,status,rootId)
+        VALUES     (#{name},#{parentId},#{createUserId},#{createDateTime},#{status},#{rootId})
+    </insert>
+
 
     <insert id="insertCatalogToCategoryAssociation" parameterType="me.zhengjie.modules.opl.domain.ServiceCatalogToCategory">
         INSERT INTO serviceCatalogToCategory(catalogId,categoryId,createUserId,createDateTime,status)
         VALUES(#{catalogId},#{categoryId},#{createUserId},#{createDateTime},#{status})
     </insert>
+
+    <select id="findCategoryById" parameterType="Integer" resultType="me.zhengjie.modules.opl.domain.TrequestCategory">
+         SELECT A.id ,A.name,A.status,A.parentId,A.rootId
+        FROM trequestCategory A
+        WHERE A.id= #{Id}
+
+    </select>
 
     <select id="findAssociationById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto">
         SELECT A.categoryId as id ,B.status,B.name,B.parentId,C.name as parentName,B.rootId,D.name as rootName

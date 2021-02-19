@@ -8,14 +8,18 @@ import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.opl.domain.CrmProduct;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToCategory;
+import me.zhengjie.modules.opl.domain.TrequestCategory;
 import me.zhengjie.modules.opl.mapper.ServiceCatalogToCategoryMapper;
 import me.zhengjie.modules.opl.service.ServiceCatalogToCategoryService;
 import me.zhengjie.modules.opl.service.dto.TrequestCategoryDto;
 import me.zhengjie.utils.PageHelpResultUtil;
+import me.zhengjie.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +56,30 @@ public class ServiceCatalogToCategoryServiceImpl implements ServiceCatalogToCate
        serviceCatalogToCategoryMapper.insertCatalogToCategoryAssociation(serviceCatalogToCategory);
     }
 
+
+    @Override
+    public void insertCategory(TrequestCategory trequestCategory){
+        if(trequestCategory.getParentId()==0)
+        {
+            trequestCategory.setRootId(0);
+            String jobNumber = SecurityUtils.getCurrentUsername();
+            trequestCategory.setCreateUserId(jobNumber);
+            trequestCategory.setCreateDateTime(new Timestamp(new Date().getTime()));
+            trequestCategory.setStatus(1);
+            serviceCatalogToCategoryMapper.insertCategory(trequestCategory);
+        }
+        else {
+            TrequestCategory parentCategory = serviceCatalogToCategoryMapper.findCategoryById(trequestCategory.getParentId());
+            Integer rootId = parentCategory.getRootId();
+            trequestCategory.setRootId(rootId);
+            String jobNumber = SecurityUtils.getCurrentUsername();
+            trequestCategory.setCreateUserId(jobNumber);
+            trequestCategory.setCreateDateTime(new Timestamp(new Date().getTime()));
+            trequestCategory.setStatus(1);
+            serviceCatalogToCategoryMapper.insertCategory(trequestCategory);
+        }
+    }
+
     @Override
     public Map<String, Object> findAllCatalog(Pageable pageable){
         PageHelper.startPage(pageable.getPage(),pageable.getSize());
@@ -78,6 +106,14 @@ public class ServiceCatalogToCategoryServiceImpl implements ServiceCatalogToCate
                 getUsedCategory(trequestCategoryDto);
             }
         }
+        PageInfo<TrequestCategoryDto> pageInfo = new PageInfo<>(categoryDtoList);
+        return PageHelpResultUtil.toPage(pageInfo);
+    }
+
+    @Override
+    public Map<String, Object> findRootCatalog(Pageable pageable){
+        PageHelper.startPage(pageable.getPage(),pageable.getSize());
+        List<TrequestCategoryDto> categoryDtoList= serviceCatalogToCategoryMapper.findUsedAssociation();
         PageInfo<TrequestCategoryDto> pageInfo = new PageInfo<>(categoryDtoList);
         return PageHelpResultUtil.toPage(pageInfo);
     }

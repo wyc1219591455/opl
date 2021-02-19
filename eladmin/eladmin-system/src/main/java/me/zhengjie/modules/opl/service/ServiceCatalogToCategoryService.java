@@ -3,6 +3,7 @@ package me.zhengjie.modules.opl.service;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToCategory;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToDept;
+import me.zhengjie.modules.opl.domain.TrequestCategory;
 import me.zhengjie.modules.opl.service.dto.ServiceCatalogDto;
 import me.zhengjie.modules.opl.service.dto.TrequestCategoryDto;
 
@@ -30,6 +31,18 @@ public interface ServiceCatalogToCategoryService {
      */
     List<TrequestCategoryDto> findAllCatalogById(Integer catalogId);
 
+
+    /**
+     * @title: insert
+     * @description: 新增工单分类
+     * @date: 2021/2/8 15:21
+     * @author: yuchao.wang
+     * @param
+     * @return void
+     * @throws
+     */
+    void insertCategory(TrequestCategory trequestCategory);
+
     /**
      * @title: findAllCatalog
      * @description: 获取所有工单分类
@@ -51,6 +64,17 @@ public interface ServiceCatalogToCategoryService {
      * @throws
      */
     Map<String, Object> findUsedCatalog(Pageable pageable);
+
+    /**
+     * @title: findAllCatalog
+     * @description: 获取使用的工单分类根节点
+     * @date: 2021/1/20 18:35
+     * @author: yuchao.wang
+     * @param
+     * @return ServiceCatalogDto
+     * @throws
+     */
+    Map<String, Object> findRootCatalog(Pageable pageable);
 
     /**
      * @title: insertCategoryAssociation

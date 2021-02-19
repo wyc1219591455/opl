@@ -32,7 +32,7 @@ public class TrequestCategory {
   private Timestamp createDateTime ;
 
   @ApiModelProperty(value = "创建人")
-  private Integer createUserId;
+  private String createUserId;
 
   @ApiModelProperty(value = "状态")
   private Integer status;
@@ -40,7 +40,5 @@ public class TrequestCategory {
   @ApiModelProperty(value = "根节点Id")
   private Integer rootId;
 
-  @ApiModelProperty(value = "标识数字")
-  private Integer text;
 
 }

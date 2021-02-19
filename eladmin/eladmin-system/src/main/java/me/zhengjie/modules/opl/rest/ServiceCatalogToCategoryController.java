@@ -6,11 +6,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.modules.opl.domain.Pageable;
+import me.zhengjie.modules.opl.domain.TrequestCategory;
 import me.zhengjie.modules.opl.service.ServiceCatalogToCategoryService;
 import me.zhengjie.modules.opl.service.ServiceCatalogToDeptService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -21,6 +20,14 @@ import java.util.Map;
 public class ServiceCatalogToCategoryController {
 
     private final ServiceCatalogToCategoryService serviceCatalogToCategoryService;
+
+    @Log("新增服务分类")
+    @ApiOperation("新增服务分类")
+    @PostMapping("/category")
+    public void insertCategory(@RequestBody TrequestCategory trequestCategory) {
+        serviceCatalogToCategoryService.insertCategory(trequestCategory);
+    }
+
 
     @Log("查询服务分类的工单分类")
     @ApiOperation("查询服务分类的工单分类")
@@ -43,4 +50,10 @@ public class ServiceCatalogToCategoryController {
         return serviceCatalogToCategoryService.findUsedCatalog(pageable);
     }
 
+    @Log("查询正在使用的工单分类根节点")
+    @ApiOperation("查询正在使用的工单分类根节点")
+    @GetMapping("/root")
+    public Map<String ,Object> findRootCatalog(Pageable pageable) {
+        return serviceCatalogToCategoryService.findRootCatalog(pageable);
+    }
 }

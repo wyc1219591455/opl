@@ -5,13 +5,11 @@
 
 
     <insert id="insertSubOrder" parameterType="me.zhengjie.modules.opl.domain.SubOrder">
-        INSERT INTO subOrder(parentNo,topic,serialNo,planCompTime,jobNumber
-        ,createdTime,deptId,projectName,model,matterDate,snNo,ultimateCustomer,problemType,problemAttach
-        ,problemDesc,problemPath,siteCondition,rescueAction,faeHeader,workOrderType,orderStatus,isTransfer,description)
-        VALUES(#{parentNo},#{topic},#{serialNo},#{planCompTime},#{jobNumber},#{createAt},#{deptId},
-        #{projectName},#{model},#{matterDate},#{snNo},#{ultimateCustomer}
-        ,#{problemType},#{problemAttach},#{problemDesc},#{problemPath},#{siteCondition},#{rescueAction}
-        ,#{faeHeader},#{workOrderType},#{orderStatus},#{isTransfer},#{orderDesc})
+        INSERT INTO subOrder(parentNo,topic,serialNo,jobNumber
+        ,createdTime,deptId,projectName,problemAttach
+        ,workOrderType,orderStatus,isTransfer,description,receiver)
+        VALUES(#{parentNo},#{topic},#{serialNo},#{jobNumber},#{createTime},#{deptId},
+        #{projectName},#{problemAttach},#{workOrderType},#{orderStatus},#{isTransfer},#{description},#{receiver})
     </insert>
 
     <update id="updateSubOrder" parameterType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
@@ -27,12 +25,11 @@
     </update>
 
     <select id="findSubOrderByParentId" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.SubOrderDto">
-        SELECT A.id,A.parentNo,A.topic,A.serialNo,A.planCompTime,A.jobNumber,B.FHumanName as createdPerson ,A.createdTime,C.FDeptFullName AS deptName,A.deptId,A.projectName,D.product_name AS model,A.matterDate,A.snNo,
-        A.ultimateCustomer,A.problemType,A.problemAttach,A.problemDesc,A.problemPath,A.siteCondition,A.rescueAction,A.faeHeader,A.workOrderType,E.name as typeDesc,A.orderStatus,F.name as orderDesc,A.isTransfer,A.description,A.receiver
+        SELECT A.id,A.parentNo,A.topic,A.serialNo,A.jobNumber,B.FHumanName as createdPerson ,A.createdTime,C.FDeptFullName AS deptName,A.deptId,
+        A.problemAttach,A.workOrderType,E.name as typeDesc,A.orderStatus,F.name as orderDesc,A.isTransfer,A.description,A.receiver
         FROM subOrder A
         LEFT JOIN tsysuser B ON A.jobNumber=B.FUserName
         LEFT JOIN tsysdept C ON A.deptId=C.FDeptId
-        LEFT JOIN crm_product D ON A.model=D.crm_id
         LEFT JOIN trequestCategory E ON E.text=A.workOrderType
         LEFT JOIN orderStatus F ON F.id=A.orderStatus
         WHERE A.parentNo =#{parentNo}
