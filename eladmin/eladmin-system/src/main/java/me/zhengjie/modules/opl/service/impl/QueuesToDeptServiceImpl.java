@@ -64,16 +64,20 @@ public class QueuesToDeptServiceImpl implements QueuesToDeptService {
     }
 
     @Override
-    public Map<String, Object> findAllUserByDeptId(Pageable pageable, Integer deptId) {
+    public Map<String, Object> findAllUserByDeptId(Pageable pageable, Integer queuesId ,Integer deptId) {
         if (pageable!=null&&pageable.getPage()==-1) {
-            List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId2(deptId);
+           // List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId2(deptId);
+            // List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId(deptId);
+            List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptIdAndQueueId( queuesId, deptId);
             Map<String,Object> map = new LinkedHashMap<>(2);
             map.put("content",userForShowList);
             map.put("totalElements",userForShowList.size());
             return map;
         }else{
             PageHelper.startPage(pageable.getPage(),pageable.getSize());
-            List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId2(deptId);
+           // List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId2(deptId);
+            //List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId(deptId);
+            List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptIdAndQueueId( queuesId, deptId);
             PageInfo<UserForShow> pageInfo1 = new PageInfo<>(userForShowList);
             return  PageHelpResultUtil.toPage(pageInfo1);
         }
@@ -81,12 +85,14 @@ public class QueuesToDeptServiceImpl implements QueuesToDeptService {
 
     @Override
     @Transactional
-    public void addQueuesToDept(List<QueuesToDeptCriteria> criterias) {
-      List<QueuesToDept>  queuesToDepts=criterias.stream().map(criteria -> {
+    public void addQueuesToDept(QueuesToDeptCriteria criteria) {
+      /*List<QueuesToDept>  queuesToDepts=criterias.stream().map(criteria -> {
             //非空校验
             isEmptyTest(criteria);
             QueuesToDept queuesToDept = new QueuesToDept();
             queuesToDept.setQueuesId(criteria.getQueuesId());
+
+
             queuesToDept.setSourceId(criteria.getSourceId());
             queuesToDept.setType(1);
             queuesToDept.setStatus("1");
@@ -95,26 +101,41 @@ public class QueuesToDeptServiceImpl implements QueuesToDeptService {
             queuesToDept.setCreateDateTime(new Timestamp(new Date().getTime()));
             queuesToDept.setCreateUserId(""+SecurityUtils.getCurrentUserId());
             return queuesToDept;
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toList());*/
+        //非空校验
+        isEmptyTest(criteria);
+
+        List<QueuesToDept>  queuesToDepts=criteria.getSourceId().stream().map(
+                c1->{
+                    QueuesToDept queuesToDept = new QueuesToDept();
+                    queuesToDept.setQueuesId(criteria.getQueuesId());
+                    queuesToDept.setSourceId(c1);
+                    queuesToDept.setType(1);
+                    queuesToDept.setStatus("1");
+                    queuesToDept.setCreateDateTime(new Timestamp(new Date().getTime()));
+                    queuesToDept.setCreateUserId(""+SecurityUtils.getCurrentUserId());
+                    return queuesToDept;
+                }
+        ).collect(Collectors.toList());
 
         queuesToDeptMapper.batchInsert(queuesToDepts);
     }
 
     @Override
     @Transactional
-    public void updateQueuesToDept(List<QueuesToDeptCriteria> criterias) {
+    public void updateQueuesToDept(QueuesToDeptCriteria criteria) {
+        //非空校验
+        isEmptyTest(criteria);
         //删除
-        queuesToDeptMapper.deleteByQueue(criterias.get(0).getQueuesId());
+        queuesToDeptMapper.deleteByQueue(criteria.getQueuesId());
         //新增
-        List<QueuesToDept>  queuesToDepts=criterias.stream().map(criteria -> {
-            //非空校验
-            isEmptyTest(criteria);
+        List<QueuesToDept>  queuesToDepts=criteria.getSourceId().stream().map(c1 -> {
+
             QueuesToDept queuesToDept = new QueuesToDept();
             queuesToDept.setQueuesId(criteria.getQueuesId());
-            queuesToDept.setSourceId(criteria.getSourceId());
+            queuesToDept.setSourceId(c1);
             queuesToDept.setType(1);
             queuesToDept.setStatus("1");
-
             queuesToDept.setCreateDateTime(new Timestamp(new Date().getTime()));
             queuesToDept.setCreateUserId(""+SecurityUtils.getCurrentUserId());
             return queuesToDept;

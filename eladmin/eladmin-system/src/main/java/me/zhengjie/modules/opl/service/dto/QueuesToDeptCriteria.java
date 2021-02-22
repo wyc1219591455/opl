@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @program: eladmin
@@ -30,7 +31,7 @@ public class QueuesToDeptCriteria implements Serializable {
      * 关联的人员或部门Id
      */
     @ApiModelProperty(value = "关联的人员或部门Id")
-    private Integer sourceId;
+    private List<Integer> sourceId;
 
     /**
      * 类型 0代表关联部门 1代表关联人员

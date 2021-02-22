@@ -33,4 +33,7 @@ public class UserForShow implements Serializable {
     @ApiModelProperty(value = "部门编号")
     private Integer deptId;
 
+    @ApiModelProperty(value = "标记 1为已选择，0为未选择")
+    private Integer flag;
+
 }

@@ -19,5 +19,11 @@ public interface DeptForShowMapper {
 
     List<DeptForShow> findDeptByParentId(String deptId);
 
+    /**
+     * 获取最大上级公司下面的部门
+     * @return
+     */
+    List<DeptForShow> findDeptByGradeOrg();
+
 
 }

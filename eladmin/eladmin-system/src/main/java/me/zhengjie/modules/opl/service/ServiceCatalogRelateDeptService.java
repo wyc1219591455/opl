@@ -1,6 +1,7 @@
 package me.zhengjie.modules.opl.service;
 
 import me.zhengjie.modules.opl.domain.ServiceCatalogRelateDept;
+import me.zhengjie.modules.opl.service.dto.ServiceCatalogRelateDeptCriteria;
 import me.zhengjie.modules.opl.service.dto.ServiceCatalogRelateDeptDto;
 
 import java.util.List;
@@ -23,6 +24,17 @@ public interface ServiceCatalogRelateDeptService {
      * @throws
      */
     void batchInsert(List<ServiceCatalogRelateDept> list) ;
+
+    /**
+     * @title: batchUpdate
+     * @description: 批量修改
+     * @date: 2021/2/22 11:51
+     * @author: ming.cao
+     * @param criteria
+     * @return void
+     * @throws
+     */
+    void batchUpdate(ServiceCatalogRelateDeptCriteria criteria) ;
 
     /**
      * @title: deleteByCatalogId

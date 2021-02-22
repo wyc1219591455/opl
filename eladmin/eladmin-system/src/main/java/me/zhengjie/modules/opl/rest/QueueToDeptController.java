@@ -40,15 +40,15 @@ public class QueueToDeptController {
     @Log("新增支持组明细")
     @ApiOperation("新增支持组明细")
     @PostMapping
-    public void addRequestQueues(@RequestBody List<QueuesToDeptCriteria> criterias){
-        queuesToDeptService.addQueuesToDept(criterias);
+    public void addRequestQueues(@RequestBody QueuesToDeptCriteria criteria){
+        queuesToDeptService.addQueuesToDept(criteria);
     }
 
     @Log("修改支持组明细")
     @ApiOperation("修改支持组明细")
     @PutMapping
-    public void updateRequestQueues(@RequestBody List<QueuesToDeptCriteria> criterias){
-        queuesToDeptService.updateQueuesToDept(criterias);
+    public void updateRequestQueues(@RequestBody QueuesToDeptCriteria criteria){
+        queuesToDeptService.updateQueuesToDept(criteria);
     }
 
     @Log("删除支持组明细")
@@ -61,8 +61,8 @@ public class QueueToDeptController {
     @Log("获取所有部门人员信息")
     @ApiOperation("获取所有部门人员信息")
     @GetMapping("/deptUser")
-    public Map<String ,Object> findAllUserByDeptId(@ApiParam("部门id") @NotNull Integer deptId, Pageable pageable){
-      return  queuesToDeptService.findAllUserByDeptId(pageable,deptId);
+    public Map<String ,Object> findAllUserByDeptId(@ApiParam("支持组id") @NotNull Integer queuesId,@ApiParam("部门id") @NotNull Integer deptId, Pageable pageable){
+      return  queuesToDeptService.findAllUserByDeptId(pageable,queuesId,deptId);
     }
 
     @Log("根据服务分类条目获取部门信息")

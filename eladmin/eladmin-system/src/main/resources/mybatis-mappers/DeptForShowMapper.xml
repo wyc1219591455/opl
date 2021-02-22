@@ -21,11 +21,17 @@
     </resultMap>
 
     <select id="findDeptByOrgId" resultMap="deptMap">
-        SELECT * FROM tsysdept WHERE FOrgId = #{orgId} AND FFlag = 1
+        SELECT * FROM tsysdept WHERE FOrgId = #{orgId} AND FFlag = 0
     </select>
 
 
-    <select id="findDeptByParentId" resultType="me.zhengjie.modules.opl.domain.DeptForShow"></select>
+    <select id="findDeptByParentId" resultMap="deptMap">
+        SELECT * FROM tsysdept WHERE FParentId = #{parentId} AND FFlag = 0
+    </select>
+
+    <select id="findDeptByGradeOrg" resultMap="deptMap">
+        SELECT * FROM tsysdept WHERE FParentId = '7dc16e86-172c-4f96-bd16-9a0fd82d6262' AND FFlag = 0
+    </select>
 
 
 </mapper>

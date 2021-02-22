@@ -42,11 +42,11 @@ public interface QueuesToDeptService {
      * @date: 2021/1/22 17:24
      * @author: ming.cao
      * @param pageable
-     * @param id
+     * @param queuesId  deptId
      * @return java.util.Map<java.lang.String,java.lang.Object>
      * @throws
      */
-    Map<String,Object> findAllUserByDeptId(Pageable pageable, Integer id);
+    Map<String,Object> findAllUserByDeptId(Pageable pageable,Integer queuesId ,Integer deptId);
 
 
     /**
@@ -54,22 +54,22 @@ public interface QueuesToDeptService {
      * @description: 批量新增
      * @date: 2021/1/22 14:40
      * @author: ming.cao
-     * @param criterias
+     * @param criteria
      * @return void
      * @throws
      */
-    void addQueuesToDept(List<QueuesToDeptCriteria> criterias);
+    void addQueuesToDept(QueuesToDeptCriteria criteria);
 
     /**
      * @title: update
      * @description: 批量修改
      * @date: 2021/1/22 14:40
      * @author: ming.cao
-     * @param criterias
+     * @param criteria
      * @return void
      * @throws
      */
-    void updateQueuesToDept(List<QueuesToDeptCriteria> criterias);
+    void updateQueuesToDept(QueuesToDeptCriteria criteria);
 
     /**
      * @title: deleteQueuesToDept

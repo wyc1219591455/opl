@@ -105,6 +105,18 @@ public interface QueuesToDeptMapper {
     List<UserForShow> findAllUserByDeptId(Integer deptId);
 
     /**
+     * @title: findAllUserByDeptId
+     * @description: 根据部门id获取所有的人员
+     * @date: 2021/1/22 16:06
+     * @author: ming.cao
+     * @param deptId
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
+     * @throws
+     */
+    List<UserForShow> findAllUserByDeptIdAndQueueId(Integer queuesId,Integer deptId);
+
+
+    /**
      * @title: findDeptByQueueId
      * @description: 根据服务分类条目id获取部门信息
      * @date: 2021/2/2 15:15
