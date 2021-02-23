@@ -159,6 +159,6 @@ public interface CrmWorkOrderMapper {
      * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
      * @throws
      */
-    List<CrmWorkOrderDto> findOrderBySerialNo(String SerialNo);
+    CrmWorkOrderDto findOrderBySerialNo(String SerialNo);
 
 }

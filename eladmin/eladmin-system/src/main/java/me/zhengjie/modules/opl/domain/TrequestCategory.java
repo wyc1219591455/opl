@@ -27,6 +27,9 @@ public class TrequestCategory {
   @ApiModelProperty(value = "父节点ID")
   private Integer parentId;
 
+  @ApiModelProperty(value = "父节点名称")
+  private String parentName;
+
   @ApiModelProperty("创建时间")
   @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
   private Timestamp createDateTime ;

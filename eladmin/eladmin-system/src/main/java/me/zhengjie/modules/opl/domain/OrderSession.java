@@ -26,7 +26,7 @@ public class OrderSession {
 
     //功能完善表名称
     @ApiModelProperty("工单主表ID")
-    private String transId;
+    private Integer transId;
 
     //业务类型
     @ApiModelProperty("工单操作 1新建 2确认受理 3转派 4回复工单 5取消工单 6重开工单 7关闭工单 8派发工单")
@@ -45,5 +45,8 @@ public class OrderSession {
     @ApiModelProperty("创建日期")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp createDateTime;
+
+    @ApiModelProperty("表来源（0 主表crmworkorder ，1 附表 suborder）")
+    private Integer originalType;
 
 }

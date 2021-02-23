@@ -65,7 +65,7 @@ public interface ServiceCatalogToCategoryMapper {
      * @return void
      * @throws
      */
-    TrequestCategory findCategoryById(Integer Id);
+    List<TrequestCategory> findCategoryById(Integer Id);
 
     /**
      * @title: 根据服务分类ID查找工单分类
@@ -114,7 +114,7 @@ public interface ServiceCatalogToCategoryMapper {
     List<TrequestCategoryDto> findSubAssociationById(Integer categoryId);
 
     /**
-     * @title: 根据父ID查找可用的子分类
+     * @title: 根据ID查找可用的子分类
      * @description: 根据父ID查找可用的子分类
      * @date: 2021/1/19 19:46
      * @author: yuchao.wang
@@ -123,4 +123,30 @@ public interface ServiceCatalogToCategoryMapper {
      * @throws
      */
     List<TrequestCategoryDto> findUsedSubAssociationById(Integer categoryId);
+
+    /**
+     * @title: update
+     * @description: 根据ID修改
+     * @date: 2021/2/8 15:21
+     * @author: yuchao.wang
+     * @param
+     * @return void
+     * @throws
+     */
+    void updateCategory(TrequestCategory trequestCategory);
+
+    /**
+     * @title: delete
+     * @description: 根据ID删除
+     * @date: 2021/2/8 15:21
+     * @author: yuchao.wang
+     * @param
+     * @return void
+     * @throws
+     */
+    void deleteCategoryById(Integer Id);
+
+
+    TrequestCategoryDto getParentCategory(TrequestCategoryDto trequestCategoryDto);
+
 }

@@ -2,10 +2,7 @@ package me.zhengjie.modules.opl.service;
 
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.domain.Pageable;
-import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
-import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
-import me.zhengjie.modules.opl.service.dto.SubOrderDto;
-import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
+import me.zhengjie.modules.opl.service.dto.*;
 
 import java.util.List;
 import java.util.Map;
@@ -39,6 +36,19 @@ public interface CrmWorkOrderService {
      * @throws
      */
     void update(CrmWorkOrderCriteria crmWorkOrderCriteria);
+
+
+
+//    /**
+//     * @title: update
+//     * @description: 受理工单
+//     * @date: 2021/1/13 19:18
+//     * @author:   yuchao.wang
+//     * @param serialNo
+//     * @return void
+//     * @throws
+//     */
+//    void treatOrder(String serialNo);
 
     /**
      * @title: findCrmOrderById
@@ -93,16 +103,7 @@ public interface CrmWorkOrderService {
      * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
      * @throws
      */
-    List<CrmWorkOrderDto> findOrderBySerialNo(String SerialNo);
+    OrderShowDto findOrderBySerialNo(SerialDto serialDto);
 
-    /**
-     * @title: findOrderBySerialNo
-     * @description: 根据工单号查询工单子单
-     * @date: 2021/1/13 19:33
-     * @author: yuchao.wang
-     * @param
-     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
-     * @throws
-     */
-    List<SubOrderDto> findSubOrderBySerialNo(String SerialNo);
+
 }

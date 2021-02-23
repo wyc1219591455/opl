@@ -26,8 +26,9 @@
     </insert>
 
     <select id="findCategoryById" parameterType="Integer" resultType="me.zhengjie.modules.opl.domain.TrequestCategory">
-         SELECT A.id ,A.name,A.status,A.parentId,A.rootId
+         SELECT A.id ,A.name,A.status,A.parentId,A.rootId,B.name AS parentName
         FROM trequestCategory A
+        LEFT JOIN trequestCategory B ON A.parentId=B.id
         WHERE A.id= #{Id}
 
     </select>
@@ -89,5 +90,23 @@
 
         ORDER BY A.id ASC
 
+    </select>
+
+
+    <update id="updateCategory" parameterType="me.zhengjie.modules.opl.domain.TrequestCategory">
+            UPDATE trequestCategory set name=#{name},parentId=#{parentId}
+            WHERE id = #{id}
+    </update>
+
+    <update id="deleteCategoryById" parameterType="Integer">
+            UPDATE trequestCategory set status=0
+            WHERE id = #{id}
+    </update>
+
+    <select id="getParentCategory"  parameterType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto" resultType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto">
+        SELECT A.id ,A.name,A.status,A.parentId,A.rootId
+        FROM trequestCategory A
+        LEFT JOIN trequestCategory B on A.id=B.parentId
+        WHERE B.parentId= #{parentId}
     </select>
 </mapper>

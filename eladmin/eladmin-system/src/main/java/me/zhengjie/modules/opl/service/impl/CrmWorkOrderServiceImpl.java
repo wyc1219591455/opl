@@ -6,14 +6,14 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
+import me.zhengjie.modules.opl.domain.OrderSession;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.mapper.CrmWorkOrderMapper;
+import me.zhengjie.modules.opl.mapper.OrderSessionMapper;
 import me.zhengjie.modules.opl.mapper.SubOrderMapper;
 import me.zhengjie.modules.opl.service.CrmWorkOrderService;
-import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
-import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
-import me.zhengjie.modules.opl.service.dto.SubOrderDto;
-import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
+import me.zhengjie.modules.opl.service.OrderSessionService;
+import me.zhengjie.modules.opl.service.dto.*;
 import me.zhengjie.utils.PageHelpResultUtil;
 import me.zhengjie.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
@@ -37,14 +37,30 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
     private final CrmWorkOrderMapper crmWorkOrderMapper;
     private final SubOrderMapper subOrderMapper;
+    private final OrderSessionMapper orderSessionMapper;
+    private final OrderSessionService orderSessionService;
 
     @Override
     public void insert(CrmWorkOrderCriteria crmWorkOrderCriteria) {
         //获取opl工单号
         String maxSerialNo = getOplMaxNo();
         crmWorkOrderCriteria.setSerialNo(maxSerialNo);
+        crmWorkOrderCriteria.setOrderStatus(1);
+        crmWorkOrderCriteria.setJobNumber(SecurityUtils.getCurrentUsername());
+        crmWorkOrderCriteria.setCreateDateTime(new Timestamp(new Date().getTime()));
+        crmWorkOrderCriteria.setOrderType(0);
         crmWorkOrderMapper.insert(crmWorkOrderCriteria);
+        Integer orderId=crmWorkOrderCriteria.getId();
+        OrderSession orderSession=new OrderSession();
+        orderSession.setOrderType(1);
+        orderSession.setTransId(orderId);
+        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+        orderSession.setOriginalType(0);
+        orderSessionMapper.insertSession(orderSession);
     }
+
+
 
     @Override
     public void update(CrmWorkOrderCriteria crmWorkOrderCriteria) {
@@ -60,6 +76,10 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     public Map<String, Object> findAll(WorkOrderCriteria criteria, Pageable pageable) {
         PageHelper.startPage(pageable.getPage(),pageable.getSize());
         List<CrmWorkOrderDto> tempList= crmWorkOrderMapper.findAll(criteria);
+        for(CrmWorkOrderDto crmWorkOrderDto:tempList)
+        {
+            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
+        }
         PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
         return PageHelpResultUtil.toPage(pageInfo);
     }
@@ -94,38 +114,30 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
 
     @Override
-    public List<CrmWorkOrderDto> findOrderBySerialNo(String SerialNo) {
-        String jobNumber = SecurityUtils.getCurrentUsername();
-        List<CrmWorkOrderDto> crmWorkOrderDtoList=  crmWorkOrderMapper.findOrderBySerialNo(SerialNo);
-        for(CrmWorkOrderDto crmWorkOrderDto:crmWorkOrderDtoList){
-            if(crmWorkOrderDto.getJobNumber()!=null&jobNumber.equals(crmWorkOrderDto.getJobNumber()))
-            {
-                crmWorkOrderDto.setEqualsCreate(true);
-            }
-            else if(crmWorkOrderDto.getReceiver()!=null&jobNumber.equals(crmWorkOrderDto.getReceiver()))
-            {
-                crmWorkOrderDto.setEqualsTreat(true);
-            }
+    public  OrderShowDto findOrderBySerialNo(SerialDto serialDto) {
+        OrderShowDto orderShowDto = new OrderShowDto();
+        if(serialDto.getOrderType()==0) {
+            String serialNo = serialDto.getSerialNo();
+            CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
+            List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(serialDto.getId());
+
+            orderShowDto.setCrmWorkOrderDto(crmWorkOrderDto);
+            orderShowDto.setOrderSessionDtoList(orderSessionDtoList);
+
         }
-        return crmWorkOrderDtoList;
+        else if(serialDto.getOrderType()==1){
+            String serialNo = serialDto.getSerialNo();
+            SubOrderDto subOrderDto = subOrderMapper.findSubOrderBySerialNo(serialNo);
+            List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSubSessionById(serialDto.getId());
+
+            orderShowDto.setSubOrderDto(subOrderDto);
+            orderShowDto.setOrderSessionDtoList(orderSessionDtoList);
+
+        }
+        return orderShowDto;
     }
 
-    @Override
-    public List<SubOrderDto> findSubOrderBySerialNo(String SerialNo) {
-        String jobNumber = SecurityUtils.getCurrentUsername();
-        List<SubOrderDto> subOrderDtoList=  subOrderMapper.findSubOrderBySerialNo(SerialNo);
-        for(SubOrderDto subOrderDto:subOrderDtoList){
-            if(subOrderDto.getCreatedPerson()!=null&jobNumber.equals(subOrderDto.getCreatedPerson()))
-            {
-                subOrderDto.setEqualsCreate(true);
-            }
-            else if(subOrderDto.getJobNumber()!=null&jobNumber.equals(subOrderDto.getJobNumber()))
-            {
-                subOrderDto.setEqualsTreat(true);
-            }
-        }
-        return subOrderDtoList;
-    }
+
 
     private String getOplMaxNo(){
         //获取crm同步到opl最大编号的数据
