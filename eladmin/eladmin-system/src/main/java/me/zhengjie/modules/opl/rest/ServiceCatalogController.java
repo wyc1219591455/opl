@@ -50,6 +50,7 @@ public class ServiceCatalogController {
     public void insertParentCatalog(@RequestBody ServiceCatalog serviceCatalog) {
         serviceCatalogService.insertCatalog(serviceCatalog);
     }
+
     @Log("新增服务分类子表")
     @ApiOperation("新增服务分类子表")
     @PostMapping("/sub")
@@ -66,14 +67,23 @@ public class ServiceCatalogController {
         serviceCatalogService.updateParentCatalog(serviceCatalog);
     }
 
+/*
     @Log("修改服务分类子表")
     @ApiOperation("修改服务分类子表")
     @PutMapping("/sub")
     public void updateSubCatalog(@RequestBody SubServiceCatalog subServiceCatalog) {
         serviceCatalogService.updateSubCatalog(subServiceCatalog);
     }
+*/
 
+    @Log("修改服务分类子表")
+    @ApiOperation("修改服务分类子表")
+    @PutMapping("/sub")
+    public void updateSubCatalog(@RequestBody CatalogCriteria catalogCriteria) {
 
+        serviceCatalogService.updateSubCatalog2(catalogCriteria);
+
+    }
 
     @Log("根据服务分类条目id查询数据")
     @ApiOperation("根据服务分类条目id查询数据")

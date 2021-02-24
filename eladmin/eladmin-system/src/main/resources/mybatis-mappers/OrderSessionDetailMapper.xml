@@ -9,22 +9,11 @@
     </insert>
 
     <select id="findSessionDetailById" parameterType="me.zhengjie.modules.opl.service.dto.SessionDetailCriteria" resultType="me.zhengjie.modules.opl.service.dto.OrderSessionDetailDto">
-        SELECT A.detailId,A.sessionId,C.serial_no as transOrderId,A.transId,A.propName,A.oldValue ,A.newValue,A.createUserId,B.FHumanName as createPerson ,A.createDateTime,A.originalType
+        SELECT A.detailId,A.sessionId,C.serial_no as transOrderId,A.transId,A.propName,A.oldValue ,A.newValue,A.createUserId,B.FHumanName as createPerson ,A.createDateTime
         FROM orderSessionDetail A
         LEFT JOIN tsysuser B ON A.createUserId=B.FUserName
         LEFT JOIN crm_work_order C ON A.transId=C.id
-        WHERE A.transId= #{transId} AND A.sessionId= #{sessionId} AND A.originalType=0
-
-        ORDER BY A.createDateTime ASC
-
-    </select>
-
-    <select id="findSubSessionDetailById" parameterType="me.zhengjie.modules.opl.service.dto.SessionDetailCriteria" resultType="me.zhengjie.modules.opl.service.dto.OrderSessionDetailDto">
-        SELECT A.detailId,A.sessionId,C.serial_no as transOrderId,A.transId,A.propName,A.oldValue ,A.newValue,A.createUserId,B.FHumanName as createPerson ,A.createDateTime,A.originalType
-        FROM orderSessionDetail A
-        LEFT JOIN tsysuser B ON A.createUserId=B.FUserName
-        LEFT JOIN crm_work_order C ON A.transId=C.id
-        WHERE A.transId= #{transId} AND A.sessionId= #{sessionId} AND A.originalType=1
+        WHERE A.transId= #{transId} AND A.sessionId= #{sessionId}
 
         ORDER BY A.createDateTime ASC
 

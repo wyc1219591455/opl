@@ -16,36 +16,13 @@ import java.util.List;
 @Mapper
 public interface DeptForShowMapper {
 
-    /**
-     * @title: findDeptByOrgId
-     * @description: 根据公司id查找部门
-     * @date: 2021/2/23 10:47
-     * @author: ming.cao
-     * @param orgId
-     * @return java.util.List<me.zhengjie.modules.opl.domain.DeptForShow>
-     * @throws
-     */
-    List<DeptForShow> findDeptByOrgId(String orgId) ;
+    List<DeptForShow> findDeptByOrgId(String orgId);
 
-    /**
-     * @title: findDeptByParentId
-     * @description: 根据父类查找部门
-     * @date: 2021/2/23 10:46
-     * @author: ming.cao
-     * @param deptId
-     * @return java.util.List<me.zhengjie.modules.opl.domain.DeptForShow>
-     * @throws
-     */
     List<DeptForShow> findDeptByParentId(String deptId);
 
     /**
-     * @title: findDeptByGradeOrg
-     * @description: 获取最大上级公司下面的部门
-     * @date: 2021/2/23 10:46
-     * @author: ming.cao
-     * @param
-     * @return java.util.List<me.zhengjie.modules.opl.domain.DeptForShow>
-     * @throws
+     * 获取最大上级公司下面的部门
+     * @return
      */
     List<DeptForShow> findDeptByGradeOrg();
 
@@ -59,7 +36,7 @@ public interface DeptForShowMapper {
      * @return java.util.List<me.zhengjie.modules.opl.service.dto.DeptVo>
      * @throws
      */
-    List<DeptVo> findDeptVoNotInCatalogId(Integer catalogId,DeptVo deptVo);
+    List<DeptVo> findDeptVoNotInCatalogId(Integer catalogId, DeptVo deptVo);
 
     /**
      * @title: findDeptVoInCatalogId

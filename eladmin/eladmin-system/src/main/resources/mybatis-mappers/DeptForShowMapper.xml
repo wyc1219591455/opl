@@ -33,6 +33,7 @@
         SELECT * FROM tsysdept WHERE FParentId = '7dc16e86-172c-4f96-bd16-9a0fd82d6262' AND FFlag = 0
     </select>
 
+<<<<<<< HEAD
     <!-- 获取不在支持组下的部门数据 -->
     <select id="findDeptVoNotInCatalogId" resultType="me.zhengjie.modules.opl.service.dto.DeptVo">
          SELECT t1.FDeptId as deptId,t1.FDeptFullName as deptFullName,t1.FDeptName as deptName FROM tsysdept t1
@@ -58,5 +59,7 @@
         )
     </select>
 
+=======
+>>>>>>> origin/master
 
 </mapper>

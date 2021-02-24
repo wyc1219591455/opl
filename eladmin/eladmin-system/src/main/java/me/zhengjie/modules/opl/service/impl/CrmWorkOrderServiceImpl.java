@@ -5,11 +5,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import me.zhengjie.modules.opl.domain.*;
-import me.zhengjie.modules.opl.mapper.*;
+import me.zhengjie.modules.opl.domain.CrmWorkOrder;
+import me.zhengjie.modules.opl.domain.Pageable;
+import me.zhengjie.modules.opl.mapper.CrmWorkOrderMapper;
+import me.zhengjie.modules.opl.mapper.SubOrderMapper;
 import me.zhengjie.modules.opl.service.CrmWorkOrderService;
-import me.zhengjie.modules.opl.service.OrderSessionService;
-import me.zhengjie.modules.opl.service.dto.*;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
+import me.zhengjie.modules.opl.service.dto.SubOrderDto;
+import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 import me.zhengjie.utils.PageHelpResultUtil;
 import me.zhengjie.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
@@ -33,135 +37,13 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
     private final CrmWorkOrderMapper crmWorkOrderMapper;
     private final SubOrderMapper subOrderMapper;
-    private final OrderSessionMapper orderSessionMapper;
-    private final OrderSessionService orderSessionService;
-    private final OrderSessionDetailMapper orderSessionDetailMapper;
-    private final OrderApplyCcMapper orderApplyCcMapper;
 
     @Override
     public void insert(CrmWorkOrderCriteria crmWorkOrderCriteria) {
         //获取opl工单号
         String maxSerialNo = getOplMaxNo();
         crmWorkOrderCriteria.setSerialNo(maxSerialNo);
-        crmWorkOrderCriteria.setOrderStatus(1);
-        crmWorkOrderCriteria.setJobNumber(SecurityUtils.getCurrentUsername());
-        crmWorkOrderCriteria.setCreateDateTime(new Timestamp(new Date().getTime()));
-        crmWorkOrderCriteria.setOrderType(0);
         crmWorkOrderMapper.insert(crmWorkOrderCriteria);
-        Integer orderId = crmWorkOrderCriteria.getId();
-        OrderSession orderSession = new OrderSession();
-        orderSession.setOrderType(1);
-        orderSession.setTransId(orderId);
-        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
-        orderSession.setOriginalType(0);
-        orderSessionMapper.insertSession(orderSession);
-    }
-
-    @Override
-    public void treatOrder(OrderSession orderSession) {
-        String jobNumber = SecurityUtils.getCurrentUsername();
-        CrmWorkOrderCriteria crmWorkOrderCriteria = new CrmWorkOrderCriteria();
-        crmWorkOrderCriteria.setReceiver(jobNumber);
-        crmWorkOrderCriteria.setOrderStatus(3);
-        crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
-        crmWorkOrderCriteria.setModifyPerson(jobNumber);
-        crmWorkOrderCriteria.setId(orderSession.getTransId());
-        crmWorkOrderMapper.update(crmWorkOrderCriteria);
-        orderSession.setOrderType(2);
-        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
-        orderSession.setOriginalType(0);
-        orderSessionMapper.insertSession(orderSession);
-
-    }
-
-
-    @Override
-    public void transferOrder(TransferOrderDto transferOrderDto) {
-        CrmWorkOrderCriteria crmWorkOrderCriteria = transferOrderDto.getCrmWorkOrderCriteria();
-        crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
-        crmWorkOrderCriteria.setModifyPerson(SecurityUtils.getCurrentUsername());
-        if (crmWorkOrderCriteria.getOrderStatus() == 1) {
-            crmWorkOrderCriteria.setOrderStatus(2);
-        } else {
-            crmWorkOrderCriteria.setOrderStatus(3);
-        }
-        crmWorkOrderMapper.update(crmWorkOrderCriteria);
-        Integer orderId = crmWorkOrderCriteria.getId();
-        OrderSession orderSession = transferOrderDto.getOrderSession();
-        orderSession.setOrderType(3);
-        orderSession.setTransId(orderId);
-        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
-        orderSessionMapper.insertSession(orderSession);
-        List<OrderSessionDetail> orderSessionDetailList = transferOrderDto.getOrderSessionDetailDtoList();
-        Integer sessionId = orderSession.getId();
-        for (OrderSessionDetail orderSessionDetailDto : orderSessionDetailList) {
-            orderSessionDetailDto.setSessionId(sessionId);
-            orderSessionDetailDto.setTransId(orderId);
-            orderSessionDetailDto.setCreateUserId(SecurityUtils.getCurrentUsername());
-            orderSessionDetailDto.setCreateDateTime(new Timestamp(new Date().getTime()));
-            orderSessionDetailDto.setOriginalType(0);
-            orderSessionDetailMapper.insertSessionDetail(orderSessionDetailDto);
-        }
-    }
-
-    @Override
-    public void remarks(OrderSession orderSession) {
-        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
-        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-        orderSession.setOrderType(4);
-        orderSessionMapper.insertSession(orderSession);
-    }
-
-    @Override
-    public void sellOrder(SubOrder subOrder) {
-        subOrder.setJobNumber(SecurityUtils.getCurrentUsername());
-        subOrder.setCreateTime(new Timestamp(new Date().getTime()));
-        String serialNo=getSubOplMaxNo(subOrder.getParentNo());
-        subOrder.setSerialNo(serialNo);
-        subOrder.setOrderType(1);
-        subOrderMapper.insertSubOrder(subOrder);
-        OrderSession orderSession=new OrderSession();
-        orderSession.setTransId(subOrder.getId());
-        orderSession.setOriginalType(1);
-        orderSession.setOrderType(5);
-        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
-        orderSessionMapper.insertSession(orderSession);
-        OrderSession orderSession2=new OrderSession();
-        orderSession2.setTransId(subOrder.getParentNo());
-        orderSession2.setOriginalType(0);
-        orderSession2.setOrderType(5);
-        orderSession2.setCreateUserId(SecurityUtils.getCurrentUsername());
-        orderSession2.setCreateDateTime(new Timestamp(new Date().getTime()));
-        orderSessionMapper.insertSession(orderSession2);
-
-
-    }
-
-    @Override
-    public void completeOrder(CompleteOrderDto completeOrderDto) {
-        if(completeOrderDto.getOrderType()==0){
-            CrmWorkOrderCriteria crmWorkOrderCriteria=new CrmWorkOrderCriteria();
-            crmWorkOrderCriteria.setId(completeOrderDto.getOrderId());
-            crmWorkOrderCriteria.setMeasures(completeOrderDto.getMeasures());
-            crmWorkOrderCriteria.setReason(completeOrderDto.getReason());
-            crmWorkOrderCriteria.setCompleteType(completeOrderDto.getCompleteType());
-            crmWorkOrderCriteria.setOrderStatus(4);
-            crmWorkOrderCriteria.setModifyPerson(SecurityUtils.getCurrentUsername());
-            crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
-
-            crmWorkOrderMapper.update(crmWorkOrderCriteria);
-            OrderSession orderSession=new OrderSession();
-//            orderSession.setCreateDateTime();
-
-
-        }
-
-
-//        orderSessionMapper.insertSession(orderSession);
     }
 
     @Override
@@ -171,30 +53,26 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
     @Override
     public List<CrmWorkOrder> findCrmOrderById(Integer id) {
-        return crmWorkOrderMapper.findCrmOrderById(id);
+        return  crmWorkOrderMapper.findCrmOrderById(id);
     }
 
     @Override
     public Map<String, Object> findAll(WorkOrderCriteria criteria, Pageable pageable) {
-        PageHelper.startPage(pageable.getPage(), pageable.getSize());
-        List<CrmWorkOrderDto> tempList = crmWorkOrderMapper.findAll(criteria);
-        for (CrmWorkOrderDto crmWorkOrderDto : tempList) {
-            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
-            crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
-        }
+        PageHelper.startPage(pageable.getPage(),pageable.getSize());
+        List<CrmWorkOrderDto> tempList= crmWorkOrderMapper.findAll(criteria);
         PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
         return PageHelpResultUtil.toPage(pageInfo);
     }
 
     @Override
     public Map<String, Object> findCreatedByMe(WorkOrderCriteria criteria, Pageable pageable) {
-        PageHelper.startPage(pageable.getPage(), pageable.getSize());
+        PageHelper.startPage(pageable.getPage(),pageable.getSize());
         String jobNumber = SecurityUtils.getCurrentUsername();
         criteria.setJobNumber(jobNumber);
-        List<CrmWorkOrderDto> tempList = crmWorkOrderMapper.findCreatedByMe(criteria);
-        for (CrmWorkOrderDto crmWorkOrderDto : tempList) {
+        List<CrmWorkOrderDto> tempList= crmWorkOrderMapper.findCreatedByMe(criteria);
+        for(CrmWorkOrderDto crmWorkOrderDto:tempList)
+        {
             crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
-            crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
         }
         PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
         return PageHelpResultUtil.toPage(pageInfo);
@@ -202,113 +80,86 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
     @Override
     public Map<String, Object> findTreatByMe(WorkOrderCriteria criteria, Pageable pageable) {
-        PageHelper.startPage(pageable.getPage(), pageable.getSize());
+        PageHelper.startPage(pageable.getPage(),pageable.getSize());
         String jobNumber = SecurityUtils.getCurrentUsername();
         criteria.setJobNumber(jobNumber);
-        List<CrmWorkOrderDto> tempList = crmWorkOrderMapper.findTreatByMe(criteria);
-        for (CrmWorkOrderDto crmWorkOrderDto : tempList) {
+        List<CrmWorkOrderDto> tempList= crmWorkOrderMapper.findTreatByMe(criteria);
+        for(CrmWorkOrderDto crmWorkOrderDto:tempList)
+        {
             crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
-            crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
         }
         PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
         return PageHelpResultUtil.toPage(pageInfo);
     }
 
-    @Override
-    public String findSubOplByMaxId(Integer orderId) {
-
-        return getSubOplMaxNo(orderId);
-    }
-
 
     @Override
-    public OrderShowDto findOrderBySerialNo(SerialDto serialDto) {
-        OrderShowDto orderShowDto = new OrderShowDto();
+    public List<CrmWorkOrderDto> findOrderBySerialNo(String SerialNo) {
         String jobNumber = SecurityUtils.getCurrentUsername();
-        if (serialDto.getOrderType() == 0) {
-            String serialNo = serialDto.getSerialNo();
-
-            CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
-            crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
-            if (crmWorkOrderDto.getJobNumber().equals(jobNumber)) {
-                crmWorkOrderDto.setEqualsCreate(1);
-            } else crmWorkOrderDto.setEqualsCreate(0);
-            List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(serialDto.getId());
-
-            orderShowDto.setCrmWorkOrderDto(crmWorkOrderDto);
-            orderShowDto.setOrderSessionDtoList(orderSessionDtoList);
-
-        } else if (serialDto.getOrderType() == 1) {
-            String serialNo = serialDto.getSerialNo();
-            SubOrderDto subOrderDto = subOrderMapper.findSubOrderBySerialNo(serialNo);
-            if (subOrderDto.getJobNumber().equals(jobNumber)) {
-                subOrderDto.setEqualsCreate(1);
-            } else subOrderDto.setEqualsCreate(0);
-            List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSubSessionById(serialDto.getId());
-
-            orderShowDto.setSubOrderDto(subOrderDto);
-            orderShowDto.setOrderSessionDtoList(orderSessionDtoList);
-
+        List<CrmWorkOrderDto> crmWorkOrderDtoList=  crmWorkOrderMapper.findOrderBySerialNo(SerialNo);
+        for(CrmWorkOrderDto crmWorkOrderDto:crmWorkOrderDtoList){
+            if(crmWorkOrderDto.getJobNumber()!=null&jobNumber.equals(crmWorkOrderDto.getJobNumber()))
+            {
+                crmWorkOrderDto.setEqualsCreate(true);
+            }
+            else if(crmWorkOrderDto.getReceiver()!=null&jobNumber.equals(crmWorkOrderDto.getReceiver()))
+            {
+                crmWorkOrderDto.setEqualsTreat(true);
+            }
         }
-        return orderShowDto;
+        return crmWorkOrderDtoList;
     }
 
+    @Override
+    public List<SubOrderDto> findSubOrderBySerialNo(String SerialNo) {
+        String jobNumber = SecurityUtils.getCurrentUsername();
+        List<SubOrderDto> subOrderDtoList=  subOrderMapper.findSubOrderBySerialNo(SerialNo);
+        for(SubOrderDto subOrderDto:subOrderDtoList){
+            if(subOrderDto.getCreatedPerson()!=null&jobNumber.equals(subOrderDto.getCreatedPerson()))
+            {
+                subOrderDto.setEqualsCreate(true);
+            }
+            else if(subOrderDto.getJobNumber()!=null&jobNumber.equals(subOrderDto.getJobNumber()))
+            {
+                subOrderDto.setEqualsTreat(true);
+            }
+        }
+        return subOrderDtoList;
+    }
 
-    private String getOplMaxNo() {
+    private String getOplMaxNo(){
         //获取crm同步到opl最大编号的数据
         List<CrmWorkOrder> maxCrmWorkOrderList = crmWorkOrderMapper.findOplByMaxId();
         //获取时间编号
-        String tempMaxSerialNo = "";
+        String tempMaxSerialNo="";
         if (ObjectUtil.isNotEmpty(maxCrmWorkOrderList)) {
             tempMaxSerialNo = maxCrmWorkOrderList.get(0).getSerialNo();
         }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        String uid = "opl" + simpleDateFormat.format(new Date());
-        System.out.println("uid" + uid);
-        String serialNumber = "";
+        String uid = "opl"+simpleDateFormat.format(new Date());
+        System.out.println("uid"+uid);
+        String serialNumber="";
         //如果不为空，进行判断，如果有数据则判断是否是今天的数据。如果没有今天的数据初始化为第一个，否则+1；
         //如果为空，直接设为今天第一个
-        if (ObjectUtil.isNotEmpty(maxCrmWorkOrderList)) {
+        if (ObjectUtil.isNotEmpty(maxCrmWorkOrderList)){
                /* String tempMaxSerialNo = maxCrmWorkOrderList.get(0).getSerialNo();
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
                 String uid = "crm"+simpleDateFormat.format(new Date());*/
-            System.out.println("序号" + tempMaxSerialNo.substring(0, 11));
-            if (uid.equals(tempMaxSerialNo.substring(0, 11))) {
-                Integer intNumber = Integer.parseInt(tempMaxSerialNo.substring(11));
+            System.out.println( "序号"+tempMaxSerialNo.substring(0, 11));
+            if (uid.equals(tempMaxSerialNo.substring(0,11))){
+                Integer intNumber=Integer.parseInt(tempMaxSerialNo.substring(11));
                 intNumber++;
-                serialNumber = uid + String.format("%04d", Integer.valueOf(intNumber));
+                serialNumber= uid+String.format("%04d",Integer.valueOf(intNumber));
 
-            } else {
-                serialNumber = uid + "0001";
+            }else{
+                serialNumber= uid+"0001";
             }
-        } else {
-            serialNumber = uid + "0001";
+        }else{
+            serialNumber= uid+"0001";
         }
 
         System.out.println(serialNumber);
         return serialNumber;
     }
 
-    private String getSubOplMaxNo(Integer orderId) {
-        //获取crm同步到opl最大编号的数据
-        List<SubOrder> maxSubOrder = subOrderMapper.findSubOplByMaxId(orderId);
-        //获取时间编号
-        String serialNumber = "";
-        String tempMaxSerialNo = "";
-        if (ObjectUtil.isNotEmpty(maxSubOrder)) {
-            tempMaxSerialNo = maxSubOrder.get(0).getSerialNo();
-
-            String uid = tempMaxSerialNo.substring(0, 15);
-            Integer intNumber = Integer.parseInt(tempMaxSerialNo.substring(16));
-            intNumber++;
-
-            serialNumber = uid + "-" + String.format("%03d", Integer.valueOf(intNumber));
-        } else {
-            String uid = tempMaxSerialNo.substring(0, 15);
-            serialNumber = uid + "-" + "001";
-        }
-        return serialNumber;
-    }
 }
-
-

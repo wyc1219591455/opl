@@ -9,6 +9,15 @@
         VALUES (#{transId},#{empId},#{ccType},#{createDateTime},#{createUserId},#{originalType})
     </insert>
 
+    <!--批量插入-->
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+         INSERT INTO orderApplyCc(transId,empId,ccType,createDateTime,createUserId,originalType)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+         (#{transId},#{empId},#{ccType},#{createDateTime},#{createUserId},#{originalType})
+        </foreach>
+    </insert>
+
     <!--修改-->
     <update id="update" parameterType="me.zhengjie.modules.opl.domain.OrderApplyCc">
         UPDATE orderApplyCc SET transId=#{transId},empId=#{empId},ccType=#{ccType},
@@ -21,12 +30,17 @@
         DELETE FROM orderApplyCc WHERE id =#{id}
     </delete>
 
+    <!--根据transId删除-->
+    <delete id="deleteByTransId" parameterType="java.lang.Integer">
+        DELETE FROM orderApplyCc WHERE transId = #{transId}
+    </delete>
+
     <!--根据有抄送的工单id查询-->
     <select id="findCcByTransId" resultType="me.zhengjie.modules.opl.service.dto.OrderApplyCcDto">
         SELECT t1.*,t2.FHumanName as humanName,t2.FUserName as userName,t2.FEmail as email FROM orderApplyCc t1
          LEFT JOIN tsysuser t2 ON t1.empId = t2.FUserId
          LEFT JOIN crm_work_order t3 ON t1.transId = t3.id
-        WHERE t1.transId = #{transId}
+        WHERE t1.transId = #{transId} and t1.originalType = 0
     </select>
 
     <!--根据有抄送的人员id查询-->
@@ -51,6 +65,7 @@
          AND originalType=1 AND t2.empId=#{empId})
     </select>
 
+    <!-- 主表数据2 -->
     <select id="findMasterOrderCcByEmpId2" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
         SELECT t1.* FROM crm_work_order t1
         WHERE exists( SELECT t2.* FROM orderApplyCc t2 WHERE t2.transId=t1.id
@@ -81,6 +96,13 @@
         <if test="criteria.endTime != null  ">
             AND t1.created_at &lt;= #{criteria.endTime}
         </if>
+    </select>
+    <!--根据主表id抄送-->
+    <select id="findCcByTransIdFromSubOrder" resultType="me.zhengjie.modules.opl.service.dto.OrderApplyCcDto">
+        SELECT t1.*,t2.FHumanName as humanName,t2.FUserName as userName,t2.FEmail as email FROM orderApplyCc t1
+         LEFT JOIN tsysuser t2 ON t1.empId = t2.FUserId
+         LEFT JOIN subOrder t3 ON t1.transId = t3.id
+        WHERE t1.transId = #{transId} and t1.originalType = 1
     </select>
 
 

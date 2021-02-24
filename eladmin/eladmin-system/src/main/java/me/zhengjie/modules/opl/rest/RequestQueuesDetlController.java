@@ -43,6 +43,11 @@ public class RequestQueuesDetlController {
         requestQueuesDetlService.addRequestQueuesDetl(criteria);
     }
 
+
+/*    public void addRequestQueues(){
+
+    }*/
+
     @Log("修改支持组明细")
     @ApiOperation("修改支持组明细")
     @PutMapping

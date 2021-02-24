@@ -16,7 +16,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
+<<<<<<< HEAD
 import java.util.*;
+=======
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+>>>>>>> origin/master
 
 
 /**
@@ -84,8 +91,8 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
 
     }
     @Override
-    @Transactional
     public void insertSubCatalog(CatalogCriteria catalogCriteria) {
+<<<<<<< HEAD
 
         /**
          * 唯一性校验
@@ -95,66 +102,31 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
         /**
          * 新增服务分类条目
          */
+=======
+>>>>>>> origin/master
         SubServiceCatalog subServiceCatalog=catalogCriteria.getSubServiceCatalog();
         String createName = SecurityUtils.getCurrentUsername();
         Timestamp createDate = new Timestamp(new Date().getTime());
-        subServiceCatalog.setDescription(subServiceCatalog.getDescription());
         subServiceCatalog.setCreateDateTime(createDate);
         subServiceCatalog.setCreateUserId(createName);
-
         subServiceCatalog.setStatus(1);
-        //默认服务台
-        subServiceCatalog.setDefaultQueueId(catalogCriteria.getServiceCatalogToQueues());
-        //获取服务id
-        Integer subServiceCatalogId= subServiceCatalogMapper.insertSubCatalog(subServiceCatalog);
-
-        //获取其中的id
-        List<Integer> serviceCatalogToCategoryIntegerList = catalogCriteria.getServiceCatalogToCategoryList();
-        //通过id获取数据
-        List<ServiceCatalogToCategory> serviceCatalogToCategoryList =new ArrayList<>();
-        for(Integer serviceCatalogToCategoryId:serviceCatalogToCategoryIntegerList)
+        subServiceCatalogMapper.insertSubCatalog(subServiceCatalog);
+        List<ServiceCatalogToCategory> serviceCatalogToCategoryList =catalogCriteria.getServiceCatalogToCategoryList();
+        for(ServiceCatalogToCategory serviceCatalogToCategory:serviceCatalogToCategoryList)
         {
-            ServiceCatalogToCategory serviceCatalogToCategory = new ServiceCatalogToCategory();
-            serviceCatalogToCategory.setCatalogId(subServiceCatalogId);
-            serviceCatalogToCategory.setCategoryId(serviceCatalogToCategoryId);
             serviceCatalogToCategory.setCreateDateTime(createDate);
             serviceCatalogToCategory.setCreateUserId(createName);
             serviceCatalogToCategory.setStatus(1);
-            serviceCatalogToCategoryList.add(serviceCatalogToCategory);
         }
-        //插入数据
-        if (serviceCatalogToCategoryList.size()>0){
-            serviceCatalogToCategoryMapper.batchInsert(serviceCatalogToCategoryList);
-        }
-
-        /**
-         * 插入服务台
-         */
-        //服务台id
-        Integer serviceCatalogToQueuesId = catalogCriteria.getServiceCatalogToQueues();
-
-        ServiceCatalogToQueues serviceCatalogToQueues =new ServiceCatalogToQueues();
-        serviceCatalogToQueues.setCatalogId(subServiceCatalogId);
-        serviceCatalogToQueues.setQueuesId(serviceCatalogToQueuesId);
-        serviceCatalogToQueues.setStatus(1);
-        serviceCatalogToQueues.setCreateDateTime(createDate);
-        serviceCatalogToQueues.setCreateUserId(SecurityUtils.getCurrentUserId().intValue());
+        serviceCatalogToCategoryMapper.batchInsert(serviceCatalogToCategoryList);
+        ServiceCatalogToQueues serviceCatalogToQueues =catalogCriteria.getServiceCatalogToQueues();
         serviceCatalogToQueuesMapper.insert(serviceCatalogToQueues);
-
-        /**
-         * 插入关联部门
-         */
-        List<Integer> serviceCatalogRelateDeptIntegerList = catalogCriteria.getServiceCatalogRelateDept();
-        List<ServiceCatalogRelateDept> serviceCatalogRelateDeptList = new ArrayList<>();
-        //List<ServiceCatalogRelateDept> serviceCatalogRelateDeptList=catalogCriteria.getServiceCatalogRelateDept();
-        for(Integer serviceCatalogRelateDeptId:serviceCatalogRelateDeptIntegerList)
+        List<ServiceCatalogRelateDept> serviceCatalogRelateDeptList=catalogCriteria.getServiceCatalogRelateDept();
+        for(ServiceCatalogRelateDept serviceCatalogRelateDept:serviceCatalogRelateDeptList)
         {
-            ServiceCatalogRelateDept serviceCatalogRelateDept = new ServiceCatalogRelateDept();
-            serviceCatalogRelateDept.setCatalogId(subServiceCatalogId);
-            serviceCatalogRelateDept.setDeptId(serviceCatalogRelateDeptId);
-            serviceCatalogRelateDept.setStatus(1);
             serviceCatalogRelateDept.setCreateDateTime(createDate);
             serviceCatalogRelateDept.setCreateUserId(createName);
+<<<<<<< HEAD
             serviceCatalogRelateDeptList.add(serviceCatalogRelateDept);
         }
         if (serviceCatalogRelateDeptList.size()>0){
@@ -208,51 +180,11 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
             serviceCatalogToCategory.setCreateUserId(modifyName);
             serviceCatalogToCategory.setStatus(1);
             serviceCatalogToCategoryList.add(serviceCatalogToCategory);
+=======
+>>>>>>> origin/master
         }
+        serviceCatalogRelateDeptMapper.batchInsert(serviceCatalogRelateDeptList);
 
-            serviceCatalogToCategoryMapper.batchInsert(serviceCatalogToCategoryList);
-        }
-
-        /**
-         * 插入服务台
-         */
-        //先删除
-        serviceCatalogToQueuesMapper.delByCatalogId(subServiceCatalog.getCatalogId());
-
-        //服务台id
-        Integer serviceCatalogToQueuesId = catalogCriteria.getServiceCatalogToQueues();
-
-        ServiceCatalogToQueues serviceCatalogToQueues =new ServiceCatalogToQueues();
-        serviceCatalogToQueues.setCatalogId(subServiceCatalog.getCatalogId());
-        serviceCatalogToQueues.setQueuesId(serviceCatalogToQueuesId);
-        serviceCatalogToQueues.setStatus(1);
-        serviceCatalogToQueues.setCreateDateTime(new Timestamp(new Date().getTime()));
-        serviceCatalogToQueues.setCreateUserId(SecurityUtils.getCurrentUserId().intValue());
-        serviceCatalogToQueuesMapper.insert(serviceCatalogToQueues);
-
-        /**
-         * 插入关联部门
-         */
-        //先删除
-        serviceCatalogRelateDeptMapper.deleteByCatalogId(subServiceCatalog.getCatalogId());
-
-        //再插入
-        List<Integer> serviceCatalogRelateDeptIntegerList = catalogCriteria.getServiceCatalogRelateDept();
-        List<ServiceCatalogRelateDept> serviceCatalogRelateDeptList = new ArrayList<>();
-        //List<ServiceCatalogRelateDept> serviceCatalogRelateDeptList=catalogCriteria.getServiceCatalogRelateDept();
-        for(Integer serviceCatalogRelateDeptId:serviceCatalogRelateDeptIntegerList)
-        {
-            ServiceCatalogRelateDept serviceCatalogRelateDept = new ServiceCatalogRelateDept();
-            serviceCatalogRelateDept.setCatalogId(subServiceCatalog.getCatalogId());
-            serviceCatalogRelateDept.setDeptId(serviceCatalogRelateDeptId);
-            serviceCatalogRelateDept.setStatus(1);
-            serviceCatalogRelateDept.setCreateDateTime(new Timestamp(new Date().getTime()));
-            serviceCatalogRelateDept.setCreateUserId(SecurityUtils.getCurrentUsername());
-            serviceCatalogRelateDeptList.add(serviceCatalogRelateDept);
-        }
-        if (serviceCatalogRelateDeptList.size()>0){
-            serviceCatalogRelateDeptMapper.batchInsert(serviceCatalogRelateDeptList);
-        }
 
     }
 
@@ -353,6 +285,7 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
 
         // 若查询结果非空，即数据库中存在使用中的此控制器编号
         if (subServiceCatalogMapper.findOnUsedOrder(catalogId) != 0) {
+<<<<<<< HEAD
             throw new BadRequestException("该服务分类下存在未关闭的工单");
         }
     }
@@ -365,6 +298,9 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
         Integer count = serviceCatalogToQueuesMapper.getCountByCatalogName(subServiceCatalog);
         if (count>0){
             throw new BadRequestException("该服务分类已存在，请勿重复！");
+=======
+            throw new BadRequestException("改服务分类下存在未关闭的工单");
+>>>>>>> origin/master
         }
     }
 

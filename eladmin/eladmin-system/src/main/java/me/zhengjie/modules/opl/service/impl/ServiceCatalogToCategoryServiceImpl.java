@@ -5,7 +5,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
-import me.zhengjie.exception.BadRequestException;
+import me.zhengjie.modules.opl.domain.CrmProduct;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToCategory;
 import me.zhengjie.modules.opl.domain.TrequestCategory;
@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,6 @@ import java.util.Map;
 public class ServiceCatalogToCategoryServiceImpl implements ServiceCatalogToCategoryService {
 
     private final ServiceCatalogToCategoryMapper serviceCatalogToCategoryMapper;
-    private  List<Integer> list=new ArrayList<>();
 
     @Override
     public List<TrequestCategoryDto> findAllCatalogById(Integer catalogId){
@@ -71,16 +69,14 @@ public class ServiceCatalogToCategoryServiceImpl implements ServiceCatalogToCate
             serviceCatalogToCategoryMapper.insertCategory(trequestCategory);
         }
         else {
-            List<TrequestCategory> parentCategory = serviceCatalogToCategoryMapper.findCategoryById(trequestCategory.getParentId());
-            for(TrequestCategory trequestCategory1:parentCategory) {
-                Integer rootId = trequestCategory1.getRootId();
-                trequestCategory.setRootId(rootId);
-                String jobNumber = SecurityUtils.getCurrentUsername();
-                trequestCategory.setCreateUserId(jobNumber);
-                trequestCategory.setCreateDateTime(new Timestamp(new Date().getTime()));
-                trequestCategory.setStatus(1);
-                serviceCatalogToCategoryMapper.insertCategory(trequestCategory);
-            }
+            TrequestCategory parentCategory = serviceCatalogToCategoryMapper.findCategoryById(trequestCategory.getParentId());
+            Integer rootId = parentCategory.getRootId();
+            trequestCategory.setRootId(rootId);
+            String jobNumber = SecurityUtils.getCurrentUsername();
+            trequestCategory.setCreateUserId(jobNumber);
+            trequestCategory.setCreateDateTime(new Timestamp(new Date().getTime()));
+            trequestCategory.setStatus(1);
+            serviceCatalogToCategoryMapper.insertCategory(trequestCategory);
         }
     }
 
@@ -122,38 +118,6 @@ public class ServiceCatalogToCategoryServiceImpl implements ServiceCatalogToCate
         return PageHelpResultUtil.toPage(pageInfo);
     }
 
-    @Override
-    public List<TrequestCategory> findCategoryById(Integer Id){
-
-        return serviceCatalogToCategoryMapper.findCategoryById(Id);
-    }
-
-    @Override
-    public void updateCategory(TrequestCategory trequestCategory){
-
-         serviceCatalogToCategoryMapper.updateCategory(trequestCategory);
-    }
-
-    @Override
-    public void deleteCategoryById(List<Integer> idList){
-
-        try {
-            for (Integer id : idList) {
-                serviceCatalogToCategoryMapper.deleteCategoryById(id);
-            }
-        } catch (RuntimeException e) {
-            throw new BadRequestException("删除操作失败！");
-        }
-
-    }
-
-    @Override
-    public List<Integer> getcategoryList(TrequestCategoryDto trequestCategoryDto){
-
-        return getParentCategory(trequestCategoryDto);
-
-    }
-
     //递归查询子节点
     public TrequestCategoryDto getCategory(TrequestCategoryDto trequestCategoryDto){
         List<TrequestCategoryDto> trequestCategoryDtos=serviceCatalogToCategoryMapper.findSubAssociationById(trequestCategoryDto.getId());
@@ -179,20 +143,6 @@ public class ServiceCatalogToCategoryServiceImpl implements ServiceCatalogToCate
             }
         }
         return trequestCategoryDto;
-    }
-
-
-    public List<Integer> getParentCategory(TrequestCategoryDto trequestCategoryDto){
-
-
-        if(trequestCategoryDto!=null&trequestCategoryDto.getParentId()!=0)
-        {
-            TrequestCategoryDto parentCategory=serviceCatalogToCategoryMapper.getParentCategory(trequestCategoryDto);
-            list.add(parentCategory.getId());
-            getParentCategory(parentCategory);
-        }
-        return list;
-
     }
 
 }

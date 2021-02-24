@@ -3,34 +3,19 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.zhengjie.modules.opl.mapper.OrderSessionMapper">
 
-    <insert id="insertSession" parameterType="me.zhengjie.modules.opl.domain.OrderSession" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO orderSession(transId,orderType,description,createUserId,createDateTime,originalType,problemAttach)
-        VALUES(#{transId},#{orderType},#{description},#{createUserId},#{createDateTime},#{originalType},#{problemAttach})
+    <insert id="insertSession" parameterType="me.zhengjie.modules.opl.domain.OrderSession">
+        INSERT INTO orderSession(transId,orderType,description,createUserId,createDateTime)
+        VALUES(#{transId},#{orderType},#{description},#{createUserId},#{createDateTime})
     </insert>
 
     <select id="findSessionById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.OrderSessionDto">
-        SELECT A.id,A.transId,A.orderType,C.name AS orderTypeDesc,A.createUserId,A.description,B.FHumanName as createPerson ,A.createDateTime,A.originalType,A.problemAttach
+        SELECT A.id,A.transId,A.orderType,C.name AS orderTypeDesc,A.createUserId,A.description,B.FHumanName as createPerson ,A.createDateTime
         FROM orderSession A
         LEFT JOIN tsysuser B ON A.createUserId=B.FUserName
         LEFT JOIN orderActionType C ON A.orderType=C.text
-        WHERE A.transId= #{transId} AND A.originalType=0
+        WHERE A.transId= #{transId}
 
         ORDER BY A.createDateTime DESC
 
     </select>
-
-
-    <select id="findSubSessionById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.OrderSessionDto">
-        SELECT A.id,A.transId,A.orderType,C.name AS orderTypeDesc,A.createUserId,A.description,B.FHumanName as createPerson ,A.createDateTime,A.problemAttach
-        FROM orderSession A
-        LEFT JOIN tsysuser B ON A.createUserId=B.FUserName
-        LEFT JOIN orderActionType C ON A.orderType=C.text
-        WHERE A.transId= #{transId} AND A.originalType=1
-
-        ORDER BY A.createDateTime DESC
-
-    </select>
-
-
-
 </mapper>

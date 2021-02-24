@@ -20,10 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -64,23 +61,99 @@ public class QueuesToDeptServiceImpl implements QueuesToDeptService {
     }
 
     @Override
-    public Map<String, Object> findAllUserByDeptId(Pageable pageable, Integer queuesId ,Integer deptId) {
-        if (pageable!=null&&pageable.getPage()==-1) {
-           // List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId2(deptId);
-            // List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId(deptId);
-            List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptIdAndQueueId( queuesId, deptId);
+    public Map<String, Object> findAllUserByDeptId(Pageable pageable, Integer level , Integer queuesId ,Integer deptId) {
+
+        if (level == 0){  //如果是最上层公司，那么就展示已勾选的
+            if (pageable!=null&&pageable.getPage()==-1) {
+                List<UserForShow> userForShowList = new ArrayList<>();
+                userForShowList = queuesToDeptMapper.findAllUserInUse(queuesId);
+                Map<String,Object> map = new LinkedHashMap<>(2);
+                map.put("content",userForShowList);
+                map.put("totalElements",userForShowList.size());
+                return map;
+            }else{
+                PageHelper.startPage(pageable.getPage(),pageable.getSize());
+                List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserInUse(queuesId);
+                PageInfo<UserForShow> pageInfo1 = new PageInfo<>(userForShowList);
+                return PageHelpResultUtil.toPage(pageInfo1);
+            }
+
+        }else if (level == 1){  //如果是二级公司，及公司与子公司，则全部展示
+            //查询此公司下面有没有部门
+            Integer count = queuesToDeptMapper.getCountByOrgId(deptId);
+            List<UserForShow> userForShowList = new ArrayList<>();
+            if (count<=0){
+               return  null;
+            }else{
+                //获取公司下的部门
+                List<Integer> tempList = queuesToDeptMapper.getListByOrgId(deptId);
+                //如果不是底层部门则需要遍历，获取下面所有的部门数据
+                List<Integer> deptList = new ArrayList<>();
+                //获取部门下面所有的部门数据
+                for (Integer integer : tempList) {
+                    getAllDeptList(deptList,integer);
+                }
+                if (deptList.size()>0){
+                    userForShowList = queuesToDeptMapper.findAllUserByDeptIdAndQueueId2(queuesId, deptList);
+
+                }
+            }
+
             Map<String,Object> map = new LinkedHashMap<>(2);
             map.put("content",userForShowList);
             map.put("totalElements",userForShowList.size());
             return map;
-        }else{
-            PageHelper.startPage(pageable.getPage(),pageable.getSize());
-           // List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId2(deptId);
-            //List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId(deptId);
-            List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptIdAndQueueId( queuesId, deptId);
-            PageInfo<UserForShow> pageInfo1 = new PageInfo<>(userForShowList);
-            return  PageHelpResultUtil.toPage(pageInfo1);
         }
+        else {     //如果是部门，获取所有来展示
+
+            if (pageable!=null&&pageable.getPage()==-1) {
+                // List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId2(deptId);
+                // List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId(deptId);
+                //查询此部门是不是最底层部门
+                Integer count = queuesToDeptMapper.getCountByParentId(deptId);
+                List<UserForShow> userForShowList = new ArrayList<>();
+                if (count<=0){
+                    userForShowList = queuesToDeptMapper.findAllUserByDeptIdAndQueueId( queuesId, deptId);
+                }else{
+                    //如果不是底层部门则需要遍历，获取下面所有的部门数据
+                    List<Integer> deptList = new ArrayList<>();
+                    //获取部门下面所有的部门数据
+                    getAllDeptList(deptList,deptId);
+                    if (deptList.size()>0){
+                        userForShowList = queuesToDeptMapper.findAllUserByDeptIdAndQueueId2(queuesId, deptList);
+
+                    }
+                }
+
+                Map<String,Object> map = new LinkedHashMap<>(2);
+                map.put("content",userForShowList);
+                map.put("totalElements",userForShowList.size());
+                return map;
+            }else{
+                PageHelper.startPage(pageable.getPage(),pageable.getSize());
+                // List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId2(deptId);
+                //List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId(deptId);
+                //查询此部门是不是最底层部门
+                Integer count = queuesToDeptMapper.getCountByParentId(deptId);
+                List<UserForShow> userForShowList = new ArrayList<>();
+                if (count<=0){
+                    userForShowList = queuesToDeptMapper.findAllUserByDeptIdAndQueueId( queuesId, deptId);
+                }else{
+                    //如果不是底层部门则需要遍历，获取下面所有的部门数据
+                    List<Integer> deptList = new ArrayList<>();
+                    //获取部门下面所有的部门数据
+                    getAllDeptList(deptList,deptId);
+                    if (deptList.size()>0){
+                        userForShowList = queuesToDeptMapper.findAllUserByDeptIdAndQueueId2(queuesId, deptList);
+
+                    }
+                }
+                PageInfo<UserForShow> pageInfo1 = new PageInfo<>(userForShowList);
+                return  PageHelpResultUtil.toPage(pageInfo1);
+            }
+        }
+
+
     }
 
     @Override
@@ -142,7 +215,10 @@ public class QueuesToDeptServiceImpl implements QueuesToDeptService {
             queuesToDept.setCreateUserId(""+SecurityUtils.getCurrentUserId());
             return queuesToDept;
         }).collect(Collectors.toList());
-        queuesToDeptMapper.batchInsert(queuesToDepts);
+        if (queuesToDepts.size()>0){
+            queuesToDeptMapper.batchInsert(queuesToDepts);
+        }
+
 
     }
 
@@ -165,11 +241,30 @@ public class QueuesToDeptServiceImpl implements QueuesToDeptService {
         if (ObjectUtil.isEmpty(criteria.getQueuesId())){
             throw new BadRequestException("组id不能为空！");
         }
-        if (ObjectUtil.isEmpty(criteria.getSourceId())){
-            throw new BadRequestException("溯源id不能为空！");
-        }
         if (ObjectUtil.isEmpty(criteria.getType())){
             throw new BadRequestException("类型不能为空，请填入0，1！");
+        }
+
+    }
+
+    /**
+     * 递归调用
+     * @param deptList
+     * @param deptId
+     */
+    public void getAllDeptList(List<Integer> deptList ,Integer deptId){
+        Integer count = queuesToDeptMapper.getCountByParentId(deptId);
+        if (count<=0){
+            System.out.println(deptList);
+        }else{
+            //获取父类下的id
+            List<Integer> tempList = queuesToDeptMapper.getListByParentId(deptId);
+            //插入到deptList
+            deptList.addAll(tempList);
+            //对部门的list进行递归
+            for (Integer tempId : tempList) {
+                getAllDeptList(deptList,tempId);
+            }
         }
 
     }

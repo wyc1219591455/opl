@@ -27,7 +27,7 @@ public interface SubServiceCatalogMapper {
      * @return void
      * @throws
      */
-    void insertSubCatalog(SubServiceCatalog subServiceCatalog);
+    Integer insertSubCatalog(SubServiceCatalog subServiceCatalog);
 
     /**
      * @title: update

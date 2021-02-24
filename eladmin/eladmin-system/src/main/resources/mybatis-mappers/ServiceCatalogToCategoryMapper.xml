@@ -9,7 +9,7 @@
         INSERT INTO serviceCatalogToCategory(catalogId,categoryId,createUserId,createDateTime,status)
         VALUES
         <foreach collection="list" item="item" index="index" separator="," >
-            (#{item.catalogId},#{item.categoryId},#{item.createUserId},#{item.createDateTime},#{item.status})
+            (#{catalogId},#{categoryId},#{createUserId},#{createDateTime},#{status})
         </foreach>
     </insert>
 
@@ -25,15 +25,10 @@
         VALUES(#{catalogId},#{categoryId},#{createUserId},#{createDateTime},#{status})
     </insert>
 
-    <!-- 批量删除 -->
-    <delete id="deleteByCatalogId" parameterType="java.lang.Integer">
-        DELETE FROM serviceCatalogToCategory WHERE catalogId = #{catalogId}
-    </delete>
-
-
     <select id="findCategoryById" parameterType="Integer" resultType="me.zhengjie.modules.opl.domain.TrequestCategory">
-         SELECT A.id ,A.name,A.status,A.parentId,A.rootId
+         SELECT A.id ,A.name,A.status,A.parentId,A.rootId,B.name AS parentName
         FROM trequestCategory A
+        LEFT JOIN trequestCategory B ON A.parentId=B.id
         WHERE A.id= #{Id}
 
     </select>
@@ -97,6 +92,7 @@
 
     </select>
 
+<<<<<<< HEAD
     <!-- 根据子条目获取他的已选择的工单分类 -->
     <select id="findCategoryByCatalogId" resultType="me.zhengjie.modules.opl.domain.TrequestCategory">
         SELECT a.categoryId as id ,b.name  FROM serviceCatalogToCategory a LEFT JOIN
@@ -111,5 +107,23 @@
         trequestCategory b
         ON a.categoryId = b.id
         WHERE catalogId = #{catalogId} and a.status =1) and c.status = 1 and c.parentId =0
+=======
+
+    <update id="updateCategory" parameterType="me.zhengjie.modules.opl.domain.TrequestCategory">
+            UPDATE trequestCategory set name=#{name},parentId=#{parentId}
+            WHERE id = #{id}
+    </update>
+
+    <update id="deleteCategoryById" parameterType="Integer">
+            UPDATE trequestCategory set status=0
+            WHERE id = #{id}
+    </update>
+
+    <select id="getParentCategory"  parameterType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto" resultType="me.zhengjie.modules.opl.service.dto.TrequestCategoryDto">
+        SELECT A.id ,A.name,A.status,A.parentId,A.rootId
+        FROM trequestCategory A
+        LEFT JOIN trequestCategory B on A.id=B.parentId
+        WHERE B.parentId= #{parentId}
+>>>>>>> origin/master
     </select>
 </mapper>

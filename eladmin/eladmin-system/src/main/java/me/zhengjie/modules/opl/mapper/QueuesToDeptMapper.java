@@ -115,6 +115,74 @@ public interface QueuesToDeptMapper {
      */
     List<UserForShow> findAllUserByDeptIdAndQueueId(Integer queuesId,Integer deptId);
 
+    /**
+     * @title: findAllUserByDeptId
+     * @description: 根据部门id获取所有的人员
+     * @date: 2021/1/22 16:06
+     * @author: ming.cao
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
+     * @throws
+     */
+    List<UserForShow> findAllUserByDeptIdAndQueueId2(Integer queuesId,List<Integer> deptList);
+
+    /**
+     * @title: findAllUserInUse
+     * @description: 获取已勾选的数据
+     * @date: 2021/2/23 14:47
+     * @author: ming.cao
+     * @param queuesId
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
+     * @throws
+     */
+    List<UserForShow> findAllUserInUse(Integer queuesId);
+
+
+    /**
+     * @title: getCountByParentId
+     * @description: 根据父类id获取总数（判断此部门是不是最底层部门）
+     * @date: 2021/2/23 13:23
+     * @author: ming.cao
+     * @param orgId
+     * @return java.lang.Integer
+     * @throws
+     */
+    Integer getCountByOrgId(Integer orgId);
+
+    /**
+     * @title: getListByOrgId
+     * @description: 根据父类id获取list（查出部门下面的部门id）
+     * @date: 2021/2/23 15:43
+     * @author: ming.cao
+     * @param orgId
+     * @return java.util.List<java.lang.Integer>
+     * @throws
+     */
+    List<Integer> getListByOrgId(Integer orgId);
+
+
+    /**
+     * @title: getCountByParentId
+     * @description: 根据父类id获取总数（判断此部门是不是最底层部门）
+     * @date: 2021/2/23 13:23
+     * @author: ming.cao
+     * @param deptId
+     * @return java.lang.Integer
+     * @throws
+     */
+    Integer getCountByParentId(Integer deptId);
+
+    /**
+     * @title: getListByParentId
+     * @description: 根据父类id获取list（查出部门下面的部门id）
+     * @date: 2021/2/23 13:44
+     * @author: ming.cao
+     * @param deptId
+     * @return java.util.List<java.lang.Integer>
+     * @throws
+     */
+    List<Integer> getListByParentId(Integer deptId);
+
 
     /**
      * @title: findDeptByQueueId
