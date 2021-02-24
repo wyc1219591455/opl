@@ -7,6 +7,7 @@ import me.zhengjie.annotation.Log;
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.domain.OrderSession;
 import me.zhengjie.modules.opl.domain.Pageable;
+import me.zhengjie.modules.opl.domain.SubOrder;
 import me.zhengjie.modules.opl.service.CrmWorkOrderService;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.SerialDto;
@@ -94,6 +95,12 @@ public class CrmWorkOrderController {
         crmWorkOrderService.transferOrder(transferOrderDto);
     }
 
+    @Log("拆分工单")
+    @ApiOperation("拆分工单")
+    @PostMapping("/sell")
+    public void sellOrder(@RequestBody SubOrder subOrder){
+        crmWorkOrderService.sellOrder(subOrder);
+    }
 
     @Log("测试")
     @ApiOperation("测试")

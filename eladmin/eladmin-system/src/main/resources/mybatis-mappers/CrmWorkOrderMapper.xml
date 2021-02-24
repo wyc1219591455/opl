@@ -22,6 +22,19 @@
        <if test="receiver!=null and receiver!=''">
            ,receiver=#{receiver}
        </if>
+        <if test="measures!=null and measures!=''">
+            ,measures=#{measures}
+        </if>
+        <if test="reason!=null and reason!=''">
+            ,reason=#{reason}
+        </if>
+        <if test="completeType!=null">
+            ,complete_type=#{completeType}
+        </if>
+        <if test="close_date_time!=null">
+            ,complete_type=#{completeType}
+        </if>
+
         WHERE id = #{id}
     </update>
 

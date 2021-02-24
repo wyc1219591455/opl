@@ -79,11 +79,22 @@ public interface CrmWorkOrderService {
      * @description: 派发工单
      * @date: 2021/1/13 19:18
      * @author:   yuchao.wang
-     * @param orderSession
+     * @param subOrder
      * @return void
      * @throws
      */
-    void sellOrder(OrderSession orderSession);
+    void sellOrder(SubOrder subOrder);
+
+    /**
+     * @title: update
+     * @description: 完成工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param completeOrderDto
+     * @return void
+     * @throws
+     */
+    void completeOrder(CompleteOrderDto completeOrderDto);
 
     /**
      * @title: findCrmOrderById
