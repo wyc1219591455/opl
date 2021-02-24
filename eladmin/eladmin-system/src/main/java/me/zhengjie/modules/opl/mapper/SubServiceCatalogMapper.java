@@ -51,6 +51,16 @@ public interface SubServiceCatalogMapper {
      */
     List<SubServiceCatalogDto> findSubCatalogByParentId(Integer ParentId);
 
+    /**
+     * @title: findSubCatalogById
+     * @description: 查询子分类数据
+     * @date: 2021/2/24 11:44
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.List<me.zhengjie.modules.opl.domain.SubServiceCatalog>
+     * @throws
+     */
+    List<SubServiceCatalog> findSubCatalogById(Integer catalogId);
 
     /**
      * @title: findOnUsedSub

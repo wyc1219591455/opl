@@ -96,4 +96,20 @@
         ORDER BY A.id ASC
 
     </select>
+
+    <!-- 根据子条目获取他的已选择的工单分类 -->
+    <select id="findCategoryByCatalogId" resultType="me.zhengjie.modules.opl.domain.TrequestCategory">
+        SELECT a.categoryId as id ,b.name  FROM serviceCatalogToCategory a LEFT JOIN
+        trequestCategory b
+        ON a.categoryId = b.id
+        WHERE catalogId = #{catalogId} and a.status =1
+    </select>
+
+    <!-- 未做选择的服务分类条目id中的工单分类 -->
+    <select id="findCategoryByCatalogIdNotSelect" resultType="me.zhengjie.modules.opl.domain.TrequestCategory">
+        SELECT c.* FROM trequestCategory c WHERE c.id not in (SELECT a.categoryId as id FROM serviceCatalogToCategory a LEFT JOIN
+        trequestCategory b
+        ON a.categoryId = b.id
+        WHERE catalogId = #{catalogId} and a.status =1) and c.status = 1 and c.parentId =0
+    </select>
 </mapper>

@@ -51,6 +51,8 @@ public class QueueToDeptController {
         queuesToDeptService.updateQueuesToDept(criteria);
     }
 
+
+
     @Log("删除支持组明细")
     @ApiOperation("删除支持组明细")
     @DeleteMapping

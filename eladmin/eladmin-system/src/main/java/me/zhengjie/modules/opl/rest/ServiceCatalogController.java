@@ -85,4 +85,14 @@ public class ServiceCatalogController {
 
     }
 
+    @Log("根据服务分类条目id查询数据")
+    @ApiOperation("根据服务分类条目id查询数据")
+    @GetMapping("/subById")
+    public Map<String, Object> findSubCatalogById(Integer catalogId) {
+
+        return serviceCatalogService.findSubCatalogById(catalogId);
+
+    }
+
+
 }

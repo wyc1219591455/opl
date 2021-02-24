@@ -7,9 +7,8 @@ import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.modules.opl.domain.*;
 import me.zhengjie.modules.opl.mapper.*;
 import me.zhengjie.modules.opl.service.ServiceCatalogService;
-import me.zhengjie.modules.opl.service.dto.CatalogCriteria;
-import me.zhengjie.modules.opl.service.dto.ServiceCatalogDto;
-import me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto;
+import me.zhengjie.modules.opl.service.ServiceCatalogToCategoryService;
+import me.zhengjie.modules.opl.service.dto.*;
 import me.zhengjie.utils.PageHelpResultUtil;
 import me.zhengjie.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
@@ -17,11 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 
 
 /**
@@ -41,6 +36,9 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
     private final ServiceCatalogToCategoryMapper serviceCatalogToCategoryMapper;
     private final ServiceCatalogToQueuesMapper serviceCatalogToQueuesMapper;
     private final ServiceCatalogRelateDeptMapper serviceCatalogRelateDeptMapper;
+    private final DeptForShowMapper deptForShowMapper;
+    private final RequestQueuesMapper requestQueuesMapper;
+
 
     @Override
     public Map<String, Object> findAllCatalog(Pageable pageable) {
@@ -92,7 +90,7 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
         /**
          * 唯一性校验
          */
-        isOnlyTest(catalogCriteria );
+        isOnlyTest(catalogCriteria.getSubServiceCatalog() );
 
         /**
          * 新增服务分类条目
@@ -171,7 +169,7 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
         /**
          * 唯一性校验
          */
-        isOnlyTest( catalogCriteria );
+        isOnlyTest( catalogCriteria.getSubServiceCatalog() );
 
         /**
          * 修改服务分类条目表数据
@@ -294,6 +292,43 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
 
     }
 
+    @Override
+    public Map<String,Object> findSubCatalogById(Integer catalogId) {
+        Map<String, Object> map = new LinkedHashMap<>(2);
+        SubCatalogVo subCatalogVo = new SubCatalogVo();
+        /**
+         *展示类添加到子分类中
+         */
+        List<SubServiceCatalog> subServiceCatalogList =subServiceCatalogMapper.findSubCatalogById(catalogId);
+        SubServiceCatalog subServiceCatalog = subServiceCatalogList.get(0);
+        subCatalogVo.setSubServiceCatalog(subServiceCatalog);
+
+        /**
+         * 服务分类条目中的工单分类
+         */
+        //左边
+        List<TrequestCategory> serviceCatalogToCategoryLeftList = serviceCatalogToCategoryMapper.findCategoryByCatalogIdNotSelect(catalogId);
+        //右边
+        List<TrequestCategory> serviceCatalogToCategoryRightList = serviceCatalogToCategoryMapper.findCategoryByCatalogId(catalogId);
+        subCatalogVo.setCategoryLeftList(serviceCatalogToCategoryLeftList);
+        subCatalogVo.setCategoryRightList(serviceCatalogToCategoryRightList);
+
+        /**
+         * 关联部门
+         */
+        List<DeptVo> deptForShowList = deptForShowMapper.findDeptVoInCatalogId(catalogId);
+        subCatalogVo.setServiceCatalogRelateDept(deptForShowList);
+
+        /**
+         * 默认服务台
+         */
+        RequestQueues requestQueues = requestQueuesMapper.findQueuesById(subServiceCatalog.getDefaultQueueId());
+        subCatalogVo.setRequestQueues(requestQueues);
+        map.put("content", subCatalogVo);
+        map.put("totalElements", 1);
+        return map;
+    }
+
     /**
      * 服务分类主表检验是否还有在使用的字表
      *
@@ -324,10 +359,10 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
 
     /**
      * 唯一性校验
-     * @param catalogCriteria
+     * @param subServiceCatalog
      */
-    private void isOnlyTest( CatalogCriteria catalogCriteria ){
-        Integer count = serviceCatalogToQueuesMapper.getCountByCatalogName(catalogCriteria);
+    private void isOnlyTest( SubServiceCatalog subServiceCatalog ){
+        Integer count = serviceCatalogToQueuesMapper.getCountByCatalogName(subServiceCatalog);
         if (count>0){
             throw new BadRequestException("该服务分类已存在，请勿重复！");
         }

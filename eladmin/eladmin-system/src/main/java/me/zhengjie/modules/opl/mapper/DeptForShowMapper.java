@@ -61,5 +61,16 @@ public interface DeptForShowMapper {
      */
     List<DeptVo> findDeptVoNotInCatalogId(Integer catalogId,DeptVo deptVo);
 
+    /**
+     * @title: findDeptVoInCatalogId
+     * @description: 获取服务id下在此服务组的部门信息
+     * @date: 2021/2/24 13:52
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.DeptVo>
+     * @throws
+     */
+    List<DeptVo> findDeptVoInCatalogId(Integer catalogId);
+
 
 }

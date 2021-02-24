@@ -79,6 +79,28 @@ public interface ServiceCatalogToCategoryMapper {
     TrequestCategory findCategoryById(Integer Id);
 
     /**
+     * @title: findCategoryByCatalogId
+     * @description: 根据服务分类条目id获取工单分类
+     * @date: 2021/2/24 13:15
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.List<me.zhengjie.modules.opl.domain.TrequestCategory>
+     * @throws
+     */
+    List<TrequestCategory> findCategoryByCatalogId(Integer catalogId);
+
+    /**
+     * @title: findCategoryByCatalogIdNotSelect
+     * @description: 未做选择的服务分类条目id中的工单分类
+     * @date: 2021/2/24 13:44
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.List<me.zhengjie.modules.opl.domain.TrequestCategory>
+     * @throws
+     */
+    List<TrequestCategory> findCategoryByCatalogIdNotSelect(Integer catalogId);
+
+    /**
      * @title: 根据服务分类ID查找工单分类
      * @description: 根据服务分类ID查找工单分类
      * @date: 2021/1/19 19:46

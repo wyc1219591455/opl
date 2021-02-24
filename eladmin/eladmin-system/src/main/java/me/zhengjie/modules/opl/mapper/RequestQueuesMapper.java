@@ -27,6 +27,17 @@ public interface RequestQueuesMapper {
     List<RequestQueues> findAll(RequestQueuesCriteria criteria) ;
 
     /**
+     * @title: findQueuesById
+     * @description: 根据id获取支持组信息
+     * @date: 2021/2/24 14:23
+     * @author: ming.cao
+     * @param id
+     * @return me.zhengjie.modules.opl.domain.RequestQueues
+     * @throws
+     */
+    RequestQueues findQueuesById(Integer id);
+
+    /**
      * @title: insert
      * @description: insert
      * @date: 2021/1/20 15:49

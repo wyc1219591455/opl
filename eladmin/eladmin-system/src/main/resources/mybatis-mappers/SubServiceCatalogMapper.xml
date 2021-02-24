@@ -45,4 +45,10 @@
         where A.status not in(5,7) AND A.service_catalog_id = #{catalogId}
 
     </select>
+
+    <!-- 查询子分类条目 -->
+    <select id="findSubCatalogById" resultType="me.zhengjie.modules.opl.domain.SubServiceCatalog">
+        SELECT * FROM subServiceCatalog WHERE catalogId = #{catalogId}
+    </select>
+
 </mapper>

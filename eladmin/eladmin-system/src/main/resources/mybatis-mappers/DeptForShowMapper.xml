@@ -49,5 +49,14 @@
         ORDER BY t1.FDeptId desc
     </select>
 
+    <!-- 获取服务id下在此服务组的部门信息 -->
+    <select id="findDeptVoInCatalogId" resultType="me.zhengjie.modules.opl.service.dto.DeptVo">
+        SELECT t1.FDeptId as deptId,t1.FDeptFullName as deptFullName,t1.FDeptName as deptName FROM tsysdept t1
+        WHERE t1.FFlag=0 and EXISTS(
+        SELECT t2.* FROM serviceCatalogRelateDept t2
+        WHERE t2.catalogId = #{catalogId}  and t1.FDeptId = t2.deptId
+        )
+    </select>
+
 
 </mapper>

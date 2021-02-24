@@ -22,6 +22,7 @@
              AND  catalogId = #{catalogId}
          </if>
     </select>
+    <select id="findQueuesByUserId" resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesDto"></select>
 
 
     <!-- 批量新增 -->

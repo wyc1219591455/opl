@@ -4,6 +4,7 @@ import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.ServiceCatalog;
 import me.zhengjie.modules.opl.domain.SubServiceCatalog;
 import me.zhengjie.modules.opl.service.dto.CatalogCriteria;
+import me.zhengjie.modules.opl.service.dto.SubCatalogVo;
 
 
 import java.util.Map;
@@ -107,5 +108,17 @@ public interface ServiceCatalogService {
      * @throws
      */
     void updateSubCatalog(SubServiceCatalog subServiceCatalog);
+
+
+    /**
+     * @title: findSubCatalogById
+     * @description: 根据id获取子分类数据
+     * @date: 2021/2/24 11:37
+     * @author: ming.cao
+     * @param catalogId
+     * @return me.zhengjie.modules.opl.service.dto.CatalogCriteria
+     * @throws
+     */
+    Map<String,Object> findSubCatalogById(Integer catalogId);
 
 }
