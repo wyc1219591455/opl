@@ -1,7 +1,9 @@
 package me.zhengjie.modules.opl.service;
 
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
+import me.zhengjie.modules.opl.domain.OrderSession;
 import me.zhengjie.modules.opl.domain.Pageable;
+import me.zhengjie.modules.opl.domain.SubOrder;
 import me.zhengjie.modules.opl.service.dto.*;
 
 import java.util.List;
@@ -39,16 +41,38 @@ public interface CrmWorkOrderService {
 
 
 
-//    /**
-//     * @title: update
-//     * @description: 受理工单
-//     * @date: 2021/1/13 19:18
-//     * @author:   yuchao.wang
-//     * @param serialNo
-//     * @return void
-//     * @throws
-//     */
-//    void treatOrder(String serialNo);
+    /**
+     * @title: update
+     * @description: 受理工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param crmWorkOrderCriteria
+     * @return void
+     * @throws
+     */
+    void treatOrder(OrderSession orderSession);
+
+    /**
+     * @title: update
+     * @description: 转派工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param transferOrderDto
+     * @return void
+     * @throws
+     */
+    void transferOrder(TransferOrderDto transferOrderDto);
+
+    /**
+     * @title: update
+     * @description: 回复工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param orderSession
+     * @return void
+     * @throws
+     */
+    void remarks(OrderSession orderSession);
 
     /**
      * @title: findCrmOrderById
@@ -105,5 +129,17 @@ public interface CrmWorkOrderService {
      */
     OrderShowDto findOrderBySerialNo(SerialDto serialDto);
 
+
+
+    /**
+     * @title: findOplByMaxId
+     * @description: findOplByMaxId
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    String findSubOplByMaxId(Integer orderId);
 
 }

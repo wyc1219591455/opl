@@ -41,6 +41,10 @@ public class OrderSessionDto {
     @ApiModelProperty("具体描述")
     private String description;
 
+    //所有人
+    @ApiModelProperty("附件")
+    private String problemAttach;
+
 
     //创建人
     @ApiModelProperty("创建人")

@@ -5,10 +5,12 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
+import me.zhengjie.modules.opl.domain.OrderSession;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.service.CrmWorkOrderService;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.SerialDto;
+import me.zhengjie.modules.opl.service.dto.TransferOrderDto;
 import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 import org.springframework.web.bind.annotation.*;
 
@@ -71,6 +73,32 @@ public class CrmWorkOrderController {
     public Object findOrderBySerialNo(SerialDto serialDto){
         return  crmWorkOrderService.findOrderBySerialNo(serialDto);
     }
+    @Log("确认受理")
+    @ApiOperation("确认受理")
+    @PutMapping("/treat")
+    public void treatOrder(@RequestBody OrderSession orderSession){
+        crmWorkOrderService.treatOrder(orderSession);
+    }
+
+    @Log("回复工单")
+    @ApiOperation("回复工单")
+    @PostMapping("/remarkt")
+    public void remarks(@RequestBody OrderSession orderSession){
+        crmWorkOrderService.remarks(orderSession);
+    }
+
+    @Log("转派工单")
+    @ApiOperation("转派工单")
+    @PutMapping("/transfer")
+    public void transferOrder(@RequestBody TransferOrderDto transferOrderDto){
+        crmWorkOrderService.transferOrder(transferOrderDto);
+    }
 
 
+    @Log("测试")
+    @ApiOperation("测试")
+    @GetMapping("/sub")
+    public Object test(Integer orderId){
+        return crmWorkOrderService.findSubOplByMaxId(orderId);
+    }
 }

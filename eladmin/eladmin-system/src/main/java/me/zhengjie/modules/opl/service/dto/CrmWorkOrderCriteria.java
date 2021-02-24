@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @program: eladmin
@@ -33,9 +34,14 @@ public class CrmWorkOrderCriteria implements Serializable {
     private String serialNo;
 
     //期望完成时间
-    @ApiModelProperty("期望完成时间")
+    @ApiModelProperty("计划完成时间")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Timestamp planCompTime;
+
+    //期望完成时间
+    @ApiModelProperty("期望完成时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
+    private Timestamp hopeCompTime;
 
     //工单创建人
     @ApiModelProperty("工单创建人")
@@ -124,6 +130,9 @@ public class CrmWorkOrderCriteria implements Serializable {
 
     @ApiModelProperty("判断是主单还是子单 1代表主单，0代表子单")
     private Integer orderType;
+
+    @ApiModelProperty("处理人（opl系统中的处理人）")
+    private String receiver;
 
 
 }

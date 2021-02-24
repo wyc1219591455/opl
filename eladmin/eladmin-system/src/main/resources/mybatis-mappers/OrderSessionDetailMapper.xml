@@ -4,8 +4,8 @@
 <mapper namespace="me.zhengjie.modules.opl.mapper.OrderSessionDetailMapper">
 
     <insert id="insertSessionDetail" parameterType="me.zhengjie.modules.opl.domain.OrderSessionDetail">
-        INSERT INTO orderSessionDetail(sessionId,transId,propName,oldValue,newValue,createUserId,createDateTime)
-        VALUES(#{sessionId},#{transId},#{propName},#{oldValue},#{newValue},#{createUserId},#{createDateTime})
+        INSERT INTO orderSessionDetail(sessionId,transId,propName,oldValue,newValue,createUserId,createDateTime,originalType)
+        VALUES(#{sessionId},#{transId},#{propName},#{oldValue},#{newValue},#{createUserId},#{createDateTime},#{originalType})
     </insert>
 
     <select id="findSessionDetailById" parameterType="me.zhengjie.modules.opl.service.dto.SessionDetailCriteria" resultType="me.zhengjie.modules.opl.service.dto.OrderSessionDetailDto">

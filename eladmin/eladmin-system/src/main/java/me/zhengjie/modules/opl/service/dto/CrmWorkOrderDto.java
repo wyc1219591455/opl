@@ -34,9 +34,14 @@ public class CrmWorkOrderDto {
     private String serialNo;
 
     //期望完成时间
-    @ApiModelProperty("期望完成时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @ApiModelProperty("计划完成时间")
+    @JsonFormat(pattern = "yyyy-MM-dd ", timezone="GMT+8")
     private Timestamp planCompTime;
+
+    //期望完成时间
+    @ApiModelProperty("期望完成时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
+    private Timestamp hopeCompTime;
 
     //工单创建人
     @ApiModelProperty("工单创建人")
@@ -63,7 +68,7 @@ public class CrmWorkOrderDto {
 
     //事项日期
     @ApiModelProperty("事项日期")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd ", timezone="GMT+8")
     private Timestamp matterDate;
 
     //SN编码
@@ -164,4 +169,7 @@ public class CrmWorkOrderDto {
 
     @ApiModelProperty("判断是主单还是子单 1代表主单，0代表子单")
     private Integer orderType;
+
+    @ApiModelProperty("判断当前用户是否是工单创建人 1为是 0为否")
+    private Integer equalsCreate;
 }

@@ -84,4 +84,9 @@
             AND t1.created_at &lt;= #{criteria.endTime}
         </if>
     </select>
+
+
+    <select id="findSubOplByMaxId" resultType="me.zhengjie.modules.opl.domain.SubOrder">
+        SELECT * FROM subOrder WHERE serialNo =(SELECT max(serialNo) FROM subOrder WHERE parentNo = #{orderId})
+    </select>
 </mapper>

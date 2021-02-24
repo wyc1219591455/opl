@@ -5,75 +5,24 @@
 
 
     <insert id="insert" parameterType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO crm_work_order(topic,serial_no,plan_comp_time,created_person,job_number,created_at
+        INSERT INTO crm_work_order(topic,serial_no,plan_comp_time,hope_comp_time,created_person,job_number,created_at
         ,project_name,model,matter_date,sn_no,ultimate_customer,problem_type,problem_attach
         ,problem_desc,problem_path,site_condition,rescue_action,fae_header,work_order_type,service_catalog_id,order_status,order_type)
-        VALUES(#{topic},#{serialNo},#{planCompTime},#{createdPerson},#{jobNumber},#{createDateTime},
+        VALUES(#{topic},#{serialNo},#{planCompTime},#{hopeCompTime},#{createdPerson},#{jobNumber},#{createDateTime},
         #{projectName},#{model},#{matterDate},#{snNo},#{ultimateCustomer}
         ,#{problemType},#{problemAttach},#{problemDesc},#{problemPath},#{siteCondition},#{rescueAction}
         ,#{faeHeader},#{workOrderType},#{catalogId},#{orderStatus},#{orderType})
     </insert>
 
-    <update id="update" parameterType="me.zhengjie.modules.opl.service.dto.CatalogCriteria">
-        UPDATE crm_work_order set topic=#{topic},plan_comp_time=#{planCompTime},dim_depart=#{deptName},project_name=#{projectName},
-        model=#{model},matter_date=#{matterDate},sn_no=#{snNo},ultimate_customer=#{ultimateCustomer},updated_by=#{modifyPerson},
-        updated_at=#{modifyDateTime},problem_type=#{problemType},problem_attach=#{problemAttach},problem_desc=#{problemDesc},
-        problem_path=#{problemPath},site_condition=#{siteCondition},rescue_action=#{rescueAction},fae_header=#{faeHeader},work_order_type=#{workOrderType}
+    <update id="update" parameterType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria">
+        UPDATE crm_work_order set updated_by=#{modifyPerson},updated_at=#{modifyDateTime}
         <if test="orderStatus!=null">
             ,order_status=#{orderStatus}
         </if>
-        <if test="measures!=null and measures!=''">
-            ,measures=#{measures}
-        </if>
-        <if test="completeType!=null">
-            ,complete_type=#{completeType}
-        </if>
-        <if test="reason!=null and reason!=''">
-            ,reason=#{reason}
-        </if>
-        <if test="completeAttach!=null and completeAttach!=''">
-            ,complete_attach=#{completeAttach}
-        </if>
-       <if test="department!=null and department!=''">
-           ,department=#{department}
-       </if>
        <if test="receiver!=null and receiver!=''">
            ,receiver=#{receiver}
        </if>
-       <if test="serviceCatalogToQueueId!=null">
-           ,service_catalog_to_queue_id=#{serviceCatalogToQueueId}
-       </if>
-       <if test="serviceCatalogId!=null">
-           ,service_catalog_id=#{serviceCatalogId}
-       </if>
-       <if test="realOpTime!=null">
-           ,real_op_time=#{realOpTime}
-       </if>
-       <if test="finishDateTime!=null">
-           ,finish_date_time=#{finishDateTime}
-       </if>
-       <if test="finishUserId!=null">
-           ,finish_user_id=#{finishUserId}
-       </if>
-       <if test="finishCode!=null">
-           ,finish_code=#{finishCode}
-       </if>
-       <if test="closeDateTime!=null">
-           ,close_date_time=#{closeDateTime}
-       </if>
-       <if test="closeUserId!=null">
-           ,close_user_id=#{closeUserId}
-       </if>
-       <if test="closeScore!=null">
-           ,close_score=#{closeScore}
-       </if>
-       <if test="cancelDateTime!=null">
-           ,cancel_date_time=#{cancelDateTime}
-       </if>
-       <if test="cancelUserId!=null">
-           ,cancel_user_id=#{cancelUserId}
-       </if>
-        WHERE crm_id = #{crmId}
+        WHERE id = #{id}
     </update>
 
 
@@ -90,15 +39,16 @@
     </update>
 
     <select id="findAll" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
-        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at as createAt,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
+        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.hope_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at as createAt,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
         A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.finish_user_id,A.finish_code,A.close_date_time,A.close_user_id,A.close_score,A.cancel_date_time,A.cancel_user_id,
-        A.work_order_type,A.receiver,E.name as typeDesc,A.order_status,F.name as statusDesc,A.service_catalog_id,A.order_type
+        A.work_order_type,G.FHumanName AS receiver,E.name as typeDesc,A.order_status,F.name as statusDesc,A.service_catalog_id,A.order_type
         FROM crm_work_order A
         LEFT JOIN tsysuser B ON A.job_number=B.FUserName
         LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
         LEFT JOIN crm_product D ON A.model=D.crm_id
         LEFT JOIN trequestCategory E ON E.id=A.work_order_type
         LEFT JOIN orderStatus F ON F.id=A.order_status
+        LEFT JOIN tsysuser G ON A.receiver=G.FUserName
         where 1=1
         <if test="topic != null and topic != ''">
             AND A.topic LIKE CONCAT('%',#{topic},'%')
@@ -132,15 +82,16 @@
     </select>
 
     <select id="findCreatedByMe" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
-        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at as createAt,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
+        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.hope_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at as createAt,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
         A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.finish_user_id,A.finish_code,A.close_date_time,A.close_user_id,A.close_score,A.cancel_date_time,A.cancel_user_id,
-        A.work_order_type,A.receiver,E.name as typeDesc,A.order_status,F.name as statusDesc,A.service_catalog_id,A.order_type
+        A.work_order_type,G.FHumanName AS receiver,E.name as typeDesc,A.order_status,F.name as statusDesc,A.service_catalog_id,A.order_type
         FROM crm_work_order A
         LEFT JOIN tsysuser B ON A.job_number=B.FUserName
         LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
         LEFT JOIN crm_product D ON A.model=D.crm_id
         LEFT JOIN trequestCategory E ON E.id=A.work_order_type
         LEFT JOIN orderStatus F ON F.id=A.order_status
+        LEFT JOIN tsysuser G ON A.receiver=G.FUserName
         where A.job_number= #{jobNumber}
         <if test="topic != null and topic != ''">
             AND A.topic LIKE CONCAT('%',#{topic},'%')
@@ -175,15 +126,16 @@
     </select>
 
     <select id="findTreatByMe" parameterType="me.zhengjie.modules.opl.service.dto.WorkOrderCriteria" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
-        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at as createAt,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
+        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.hope_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at as createAt,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
         A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.finish_user_id,A.finish_code,A.close_date_time,A.close_user_id,A.close_score,A.cancel_date_time,A.cancel_user_id,
-        A.work_order_type,A.receiver,E.name as typeDesc,A.order_status,F.name as statusDesc,A.service_catalog_id,A.order_type
+        A.work_order_type,I.FHumanName AS receiver,E.name as typeDesc,A.order_status,F.name as statusDesc,A.service_catalog_id,A.order_type
         FROM crm_work_order A
         LEFT JOIN tsysuser B ON A.job_number=B.FUserName
         LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
         LEFT JOIN crm_product D ON A.model=D.crm_id
         LEFT JOIN trequestCategory E ON E.id=A.work_order_type
         LEFT JOIN orderStatus F ON F.id=A.order_status
+        LEFT JOIN tsysuser I ON A.receiver=I.FUserName
         where A.receiver= #{jobNumber}
         <if test="topic != null and topic != ''">
             AND A.topic LIKE CONCAT('%',#{topic},'%')
@@ -214,9 +166,9 @@
             AND A.created_at &lt;= #{endTime}
         </if>
         UNION
-        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at as createAt,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
+        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.hope_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at as createAt,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
         A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.finish_user_id,A.finish_code,A.close_date_time,A.close_user_id,A.close_score,A.cancel_date_time,A.cancel_user_id,
-        A.work_order_type,A.receiver,E.name as typeDesc,A.order_status,F.name as statusDesc,A.service_catalog_id,A.order_type
+        A.work_order_type,I.FHumanName AS receiver,E.name as typeDesc,A.order_status,F.name as statusDesc,A.service_catalog_id,A.order_type
         FROM crm_work_order A
         LEFT JOIN tsysuser B ON A.job_number=B.FUserName
         LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
@@ -224,6 +176,7 @@
         LEFT JOIN trequestCategory E ON E.id=A.work_order_type
         LEFT JOIN orderStatus F ON F.id=A.order_status
         LEFT JOIN subOrder G ON G.parentNo=A.id
+        LEFT JOIN tsysuser I ON A.receiver=I.FUserName
         where G.receiver= #{jobNumber}
         <if test="topic != null and topic != ''">
             AND A.topic LIKE CONCAT('%',#{topic},'%')
@@ -275,9 +228,9 @@
     </select>
 
     <select id="findOrderBySerialNo" parameterType="String" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
-        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at as createAt,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
+        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.hope_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at as createAt,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
         A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.finish_user_id,A.finish_code,A.close_date_time,A.close_user_id,A.close_score,A.cancel_date_time,A.cancel_user_id,
-        A.work_order_type,A.receiver,E.name as typeDesc,A.order_status,F.name as statusDesc,A.service_catalog_id,G.catalogName AS serviceCatalogDesc,H.name AS finishCodeDesc,A.order_type
+        A.work_order_type,I.FHumanName AS receiver,E.name as typeDesc,A.order_status,F.name as statusDesc,A.service_catalog_id,G.catalogName AS serviceCatalogDesc,H.name AS finishCodeDesc,A.order_type
         FROM crm_work_order A
         LEFT JOIN tsysuser B ON A.job_number=B.FUserName
         LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
@@ -286,6 +239,7 @@
         LEFT JOIN orderStatus F ON F.id=A.order_status
         LEFT JOIN subServiceCatalog G ON G.catalogId=A.service_catalog_id
         LEFT JOIN requestClosureCode H ON H.id=A.finish_code
+        LEFT JOIN tsysuser I ON A.receiver=I.FUserName
         WHERE A.serial_no = #{serialNo}
     </select>
 
