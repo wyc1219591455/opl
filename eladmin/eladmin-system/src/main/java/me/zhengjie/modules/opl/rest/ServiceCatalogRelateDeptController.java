@@ -33,4 +33,7 @@ public class ServiceCatalogRelateDeptController {
         return serviceCatalogRelateDeptService.findByCatalogId(catalogId);
     }
 
+
+
+
 }

@@ -39,4 +39,15 @@ public interface OrderSessionMapper {
      * @throws
      */
     List<OrderSessionDto> findSessionById(Integer transId);
+
+    /**
+     * @title: findAll
+     * @description: findAll
+     * @date: 2021/1/19 19:46
+     * @author: yuchao.wang
+     * @param transId
+     * @return OrderSession
+     * @throws
+     */
+    List<OrderSessionDto> findSubSessionById(Integer transId);
 }

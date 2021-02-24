@@ -28,7 +28,7 @@ public class OrderSessionServiceImpl implements OrderSessionService {
 
     @Override
     public void insertSession(OrderSession orderSession) {
-        //获取opl工单号
+
          orderSessionMapper.insertSession(orderSession);
     }
 
@@ -42,6 +42,22 @@ public class OrderSessionServiceImpl implements OrderSessionService {
             sessionDetailCriteria.setTransId(transId);
             sessionDetailCriteria.setSessionId(orderSessionDto.getId());
             orderSessionDto.setOrderSessionDetailDtoList(orderSessionDetailMapper.findSessionDetailById(sessionDetailCriteria));
+        }
+        return orderSessionDtoList;
+
+    }
+
+
+    @Override
+    public List<OrderSessionDto> findSubSessionById(Integer transId) {
+
+        List<OrderSessionDto> orderSessionDtoList= orderSessionMapper.findSubSessionById(transId);
+        for(OrderSessionDto orderSessionDto:orderSessionDtoList)
+        {
+            SessionDetailCriteria sessionDetailCriteria=new SessionDetailCriteria();
+            sessionDetailCriteria.setTransId(transId);
+            sessionDetailCriteria.setSessionId(orderSessionDto.getId());
+            orderSessionDto.setOrderSessionDetailDtoList(orderSessionDetailMapper.findSuBSessionDetailById(sessionDetailCriteria));
         }
         return orderSessionDtoList;
 

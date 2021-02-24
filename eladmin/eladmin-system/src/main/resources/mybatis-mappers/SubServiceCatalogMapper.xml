@@ -3,8 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="me.zhengjie.modules.opl.mapper.SubServiceCatalogMapper">
 
-    <insert id="insertSubCatalog" useGeneratedKeys="true" keyProperty="catalogId" keyColumn="catalogId" parameterType="me.zhengjie.modules.opl.domain.SubServiceCatalog">
-        INSERT INTO subServiceCatalog(catalogName,description,parentId,status,defaultQueueId,createDateTime,createUserId)
+    <insert id="insertSubCatalog" parameterType="me.zhengjie.modules.opl.domain.SubServiceCatalog">
+        INSERT INTO serviceCatalog(catalogName,description,parentId,status,defaultQueueId,createDateTime,createUserId)
         VALUES(#{catalogName},#{description},#{parentId},#{status},#{defaultQueueId},#{createDateTime},#{createUserId})
     </insert>
 

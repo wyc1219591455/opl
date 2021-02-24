@@ -76,17 +76,6 @@ public interface ServiceCatalogService {
     void insertSubCatalog(CatalogCriteria catalogCriteria);
 
     /**
-     * @title: updateSubCatalog2
-     * @description: 修改服务子分类
-     * @date: 2021/2/23 18:25
-     * @author: ming.cao
-     * @param catalogCriteria
-     * @return void
-     * @throws
-     */
-    void updateSubCatalog2(CatalogCriteria catalogCriteria);
-
-    /**
      * @title: updateParentCatalog
      * @description: 修改服务父分类
      * @date: 2021/1/20 18:55
