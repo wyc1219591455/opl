@@ -37,15 +37,4 @@ public interface OrderSessionService {
      * @throws
      */
     List<OrderSessionDto> findSessionById(Integer transId);
-
-    /**
-     * @title: findSessionById
-     * @description: 根据工单id获取明细
-     * @date: 2021/1/13 19:18
-     * @author: yuchao.wang
-     * @param
-     * @return OrderSessionDto
-     * @throws
-     */
-    List<OrderSessionDto> findSubSessionById(Integer transId);
 }

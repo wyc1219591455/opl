@@ -60,7 +60,7 @@ public interface SubOrderMapper {
      * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
      * @throws
      */
-   SubOrderDto findSubOrderBySerialNo(String SerialNo);
+    List<SubOrderDto> findSubOrderBySerialNo(String SerialNo);
 
     /**
      * @title: findParentWorkOrderDtoById

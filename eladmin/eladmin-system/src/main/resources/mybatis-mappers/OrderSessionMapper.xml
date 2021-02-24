@@ -9,28 +9,13 @@
     </insert>
 
     <select id="findSessionById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.OrderSessionDto">
-        SELECT A.id,A.transId,A.orderType,C.name AS orderTypeDesc,A.createUserId,A.description,B.FHumanName as createPerson ,A.createDateTime,A.originalType
-        FROM orderSession A
-        LEFT JOIN tsysuser B ON A.createUserId=B.FUserName
-        LEFT JOIN orderActionType C ON A.orderType=C.text
-        WHERE A.transId= #{transId} AND A.originalType=0
-
-        ORDER BY A.createDateTime DESC
-
-    </select>
-
-
-    <select id="findSubSessionById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.OrderSessionDto">
         SELECT A.id,A.transId,A.orderType,C.name AS orderTypeDesc,A.createUserId,A.description,B.FHumanName as createPerson ,A.createDateTime
         FROM orderSession A
         LEFT JOIN tsysuser B ON A.createUserId=B.FUserName
         LEFT JOIN orderActionType C ON A.orderType=C.text
-        WHERE A.transId= #{transId} AND A.originalType=1
+        WHERE A.transId= #{transId}
 
         ORDER BY A.createDateTime DESC
 
     </select>
-
-
-
 </mapper>

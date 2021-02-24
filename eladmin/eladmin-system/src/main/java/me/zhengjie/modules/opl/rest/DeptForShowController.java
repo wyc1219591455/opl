@@ -4,7 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
+import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.service.DeptForShowService;
+import me.zhengjie.modules.opl.service.dto.DeptVo;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +32,13 @@ public class DeptForShowController {
     @GetMapping
     public Map<String,Object> getDeptList(){
         return deptForShowService.getOrgData();
+    }
+
+    @Log("获取部门下拉框(支持组中查询用)")
+    @ApiOperation("获取部门下拉框(支持组中查询用)")
+    @GetMapping("/getDept")
+    public Map<String,Object> getRelateDeptList(Pageable pageable, Integer catalogId, DeptVo deptVo){
+        return deptForShowService.findDeptVoNotInCatalogId(pageable,catalogId,deptVo);
     }
 
 }

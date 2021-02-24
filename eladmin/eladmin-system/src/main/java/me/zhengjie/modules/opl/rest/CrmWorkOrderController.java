@@ -8,7 +8,6 @@ import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.service.CrmWorkOrderService;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
-import me.zhengjie.modules.opl.service.dto.SerialDto;
 import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,27 +49,32 @@ public class CrmWorkOrderController {
         return  crmWorkOrderService.findTreatByMe(criteria,pageable);
     }
 
-    @Log("创建工单")
-    @ApiOperation("创建工单")
+    @Log("新增工单")
+    @ApiOperation("新增工单")
     @PostMapping
-    public void insert(@RequestBody CrmWorkOrderCriteria crmWorkOrderCriteria){
+    public void insert( @RequestBody CrmWorkOrderCriteria crmWorkOrderCriteria){
         crmWorkOrderService.insert(crmWorkOrderCriteria);
     }
 
     @Log("修改工单")
     @ApiOperation("修改工单")
     @PutMapping
-    public void update(@RequestBody CrmWorkOrderCriteria crmWorkOrderCriteria){
+    public void update( @RequestBody CrmWorkOrderCriteria crmWorkOrderCriteria){
 
         crmWorkOrderService.update(crmWorkOrderCriteria);
     }
 
-    @Log("根据工单号查找详情")
-    @ApiOperation("根据工单号查找详情")
+    @Log("根据工单号查找主单详情")
+    @ApiOperation("根据工单号查找主单详情")
     @GetMapping("/detail")
-    public Object findOrderBySerialNo(SerialDto serialDto){
-        return  crmWorkOrderService.findOrderBySerialNo(serialDto);
+    public Object findOrderBySerialNo(String SerialNo){
+        return  crmWorkOrderService.findOrderBySerialNo(SerialNo);
     }
 
-
+    @Log("根据工单号查找子单详情")
+    @ApiOperation("根据工单号查找子单详情")
+    @GetMapping("/subDetail")
+    public Object findSubOrderBySerialNo(String SerialNo){
+        return  crmWorkOrderService.findSubOrderBySerialNo(SerialNo);
+    }
 }

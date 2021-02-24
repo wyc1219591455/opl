@@ -21,11 +21,11 @@ public class CatalogCriteria {
     private SubServiceCatalog subServiceCatalog;
 
     @ApiModelProperty(value = "服务分类条目中的工单分类")
-    private List<ServiceCatalogToCategory>      serviceCatalogToCategoryList;
+    private List<Integer> serviceCatalogToCategoryList;
 
     @ApiModelProperty(value = "服务分类条目中的服务台")
-    private ServiceCatalogToQueues serviceCatalogToQueues;
+    private Integer serviceCatalogToQueues;
 
     @ApiModelProperty(value = "服务分类条目中的关联部门")
-    private List<ServiceCatalogRelateDept> serviceCatalogRelateDept;
+    private List<Integer> serviceCatalogRelateDept;
 }

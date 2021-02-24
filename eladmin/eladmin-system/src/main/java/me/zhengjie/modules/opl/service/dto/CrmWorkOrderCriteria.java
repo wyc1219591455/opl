@@ -20,10 +20,6 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CrmWorkOrderCriteria implements Serializable {
-    //主键
-    @ApiModelProperty("主键")
-    private Integer id;
-
     //主题
     @ApiModelProperty("主题")
     private String topic;
@@ -34,7 +30,7 @@ public class CrmWorkOrderCriteria implements Serializable {
 
     //期望完成时间
     @ApiModelProperty("期望完成时间")
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp planCompTime;
 
     //工单创建人
@@ -70,7 +66,7 @@ public class CrmWorkOrderCriteria implements Serializable {
 
     //事项日期
     @ApiModelProperty("事项日期")
-    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp matterDate;
 
     //SN编码
@@ -118,12 +114,6 @@ public class CrmWorkOrderCriteria implements Serializable {
 
     @ApiModelProperty("opl工单状态 工单状态 0：新创建 1：待受理 2：处理中 3：已完成 4：已关闭 5：已取消")
     private Integer orderStatus;
-
-    @ApiModelProperty("服务分类条目ID")
-    private Integer catalogId;
-
-    @ApiModelProperty("判断是主单还是子单 1代表主单，0代表子单")
-    private Integer orderType;
 
 
 }

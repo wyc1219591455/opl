@@ -3,6 +3,7 @@ package me.zhengjie.modules.opl.service;
 import me.zhengjie.modules.opl.domain.OrderApplyCc;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
+import me.zhengjie.modules.opl.service.dto.OrderApplyCcCriteria;
 import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 
 import java.util.Map;
@@ -38,6 +39,18 @@ public interface OrderApplyCcService {
     void update(OrderApplyCc orderApplyCc);
 
     /**
+     * @title: updateOrderApplyCcByOrderId
+     * @description: 修改工单抄送信息
+     * @date: 2021/2/23 9:06
+     * @author: ming.cao
+     * @param criteria
+     * @return void
+     * @throws
+     */
+    void updateOrderApplyCcByOrderId(OrderApplyCcCriteria criteria);
+
+
+    /**
      * @title: findCcByOrderId
      * @description: 根据工单id查询抄送数据
      * @date: 2021/2/1 11:27
@@ -46,7 +59,7 @@ public interface OrderApplyCcService {
      * @return java.util.Map<java.lang.String,java.lang.Object>
      * @throws
      */
-    Map<String,Object> findCcByOrderId(Pageable pageable, Integer orderId);
+    Map<String,Object> findCcByOrderId(Pageable pageable, Integer orderId, Integer orderType);
 
     /**
      * @title: findCcByEmpId

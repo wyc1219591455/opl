@@ -9,10 +9,8 @@ import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.TrequestCategory;
 import me.zhengjie.modules.opl.service.ServiceCatalogToCategoryService;
 import me.zhengjie.modules.opl.service.ServiceCatalogToDeptService;
-import me.zhengjie.modules.opl.service.dto.TrequestCategoryDto;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -57,33 +55,5 @@ public class ServiceCatalogToCategoryController {
     @GetMapping("/root")
     public Map<String ,Object> findRootCatalog(Pageable pageable) {
         return serviceCatalogToCategoryService.findRootCatalog(pageable);
-    }
-
-    @Log("根据ID查找工单分类")
-    @ApiOperation("根据ID查找工单分类")
-    @GetMapping("/search")
-    public Object findCategoryById(Integer id) {
-        return serviceCatalogToCategoryService.findCategoryById(id);
-    }
-
-    @Log("根据ID修改")
-    @ApiOperation("根据ID修改")
-    @PutMapping("/update")
-    public void updateCategory(@RequestBody TrequestCategory trequestCategory){
-         serviceCatalogToCategoryService.updateCategory(trequestCategory);
-    }
-
-    @Log("根据ID删除")
-    @ApiOperation("根据ID删除")
-    @PutMapping("/delete")
-    public void deleteCategoryById(@RequestBody  List<Integer> idList){
-        serviceCatalogToCategoryService.deleteCategoryById(idList);
-    }
-
-    @Log("获取当前的parent分类List")
-    @ApiOperation("获取当前的parent分类List")
-    @GetMapping("/list")
-    public Object getcategoryList(TrequestCategoryDto trequestCategoryDto){
-        return serviceCatalogToCategoryService.getcategoryList(trequestCategoryDto);
     }
 }

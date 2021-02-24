@@ -1,12 +1,19 @@
 package me.zhengjie.modules.opl.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.opl.domain.DeptForShow;
 import me.zhengjie.modules.opl.domain.OrgAs;
+import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.mapper.DeptForShowMapper;
 import me.zhengjie.modules.opl.mapper.OrgAsMapper;
 import me.zhengjie.modules.opl.service.DeptForShowService;
+import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
+import me.zhengjie.modules.opl.service.dto.DeptVo;
 import me.zhengjie.modules.opl.service.dto.OrgTreeDto;
+import me.zhengjie.modules.opl.service.dto.UserForShow;
+import me.zhengjie.utils.PageHelpResultUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,13 +55,31 @@ public class DeptForShowServiceImpl implements DeptForShowService {
                  * 暂无
                  */
                 treeDto.setChildren(getOrgChildNodes());
-                treeDto.setLevel(1L);
+                treeDto.setLevel(0L);
                 treeList.add(treeDto);
             }
         }
         Map<String,Object> map = new LinkedHashMap<>(2);
         map.put("content",treeList);
         return map;
+    }
+
+    @Override
+    public Map<String, Object> findDeptVoNotInCatalogId(Pageable pageable, Integer catalogId, DeptVo deptVo) {
+        if (pageable!=null && pageable.getPage()==-1){
+            List<DeptVo> deptForShowList = deptForShowMapper.findDeptVoNotInCatalogId(catalogId, deptVo);
+            Map<String,Object> map = new LinkedHashMap<>(2);
+            map.put("content",deptForShowList);
+            map.put("totalElements",deptForShowList.size());
+            return map;
+        }
+        else {
+            PageHelper.startPage(pageable.getPage(), pageable.getSize());
+            List<DeptVo> deptForShowList = deptForShowMapper.findDeptVoNotInCatalogId(catalogId, deptVo);
+            PageInfo<DeptVo> pageInfo = new PageInfo(deptForShowList);
+            return PageHelpResultUtil.toPage(pageInfo);
+        }
+
     }
 
     //获取子公司

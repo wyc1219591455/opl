@@ -1,5 +1,8 @@
 package me.zhengjie.modules.opl.service;
 
+import me.zhengjie.modules.opl.domain.Pageable;
+import me.zhengjie.modules.opl.service.dto.DeptVo;
+
 import java.util.Map;
 
 /**
@@ -19,5 +22,16 @@ public interface DeptForShowService {
      * @throws
      */
     Map<String,Object> getOrgData();
+
+    /**
+     * @title: findDeptVoNotInCatalogId
+     * @description: 获取服务id下不在此服务组的部门信息
+     * @date: 2021/2/23 10:23
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     */
+    Map<String,Object> findDeptVoNotInCatalogId(Pageable pageable, Integer catalogId, DeptVo deptVo);
 
 }

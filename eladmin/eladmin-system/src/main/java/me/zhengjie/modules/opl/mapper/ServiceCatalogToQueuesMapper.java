@@ -1,6 +1,7 @@
 package me.zhengjie.modules.opl.mapper;
 
 import me.zhengjie.modules.opl.domain.ServiceCatalogToQueues;
+import me.zhengjie.modules.opl.service.dto.CatalogCriteria;
 import me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -71,4 +72,15 @@ public interface ServiceCatalogToQueuesMapper {
      * @throws
      */
     void delByCatalogId(Integer catalogId);
+
+    /**
+     * @title: getQueuesByUserId
+     * @description:
+     * @date: 2021/2/23 19:50
+     * @author: ming.cao
+     * @param catalogCriteria
+     * @return java.lang.Integer
+     * @throws
+     */
+    Integer getCountByCatalogName( CatalogCriteria catalogCriteria );
 }
