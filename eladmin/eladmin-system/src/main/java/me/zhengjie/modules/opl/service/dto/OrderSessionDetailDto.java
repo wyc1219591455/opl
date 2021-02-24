@@ -52,4 +52,9 @@ public class OrderSessionDetailDto {
     @ApiModelProperty("创建日期")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp createDateTime;
+
+
+    @ApiModelProperty(value = "表来源（0 主表crmworkorder ，1 附表 suborder）")
+    private Integer originalType;
+
 }

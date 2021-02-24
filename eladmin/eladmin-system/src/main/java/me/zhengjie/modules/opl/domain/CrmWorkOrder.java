@@ -56,6 +56,8 @@ public class CrmWorkOrder implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp createdAt;
 
+
+
     //修改人
     @ApiModelProperty("修改人")
     private Long updatedBy;
@@ -82,9 +84,14 @@ public class CrmWorkOrder implements Serializable {
     private String serialNo;
 
     //期望完成时间
-    @ApiModelProperty("期望完成时间")
+    @ApiModelProperty("计划完成时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp planCompTime;
+
+    //期望完成时间
+    @ApiModelProperty("期望完成时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
+    private Timestamp hopeCompTime;
 
     //工单创建人
     @ApiModelProperty("工单创建人")

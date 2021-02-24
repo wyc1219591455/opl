@@ -1,6 +1,7 @@
 package me.zhengjie.modules.opl.mapper;
 
 
+import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.domain.SubOrder;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
@@ -72,4 +73,16 @@ public interface SubOrderMapper {
      * @throws
      */
     List<CrmWorkOrderDto> findParentWorkOrderDtoById(WorkOrderCriteria criteria, Integer id);
+
+
+    /**
+     * @title: findOplByMaxId
+     * @description: findOplByMaxId
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    List<SubOrder> findSubOplByMaxId(Integer orderId);
 }

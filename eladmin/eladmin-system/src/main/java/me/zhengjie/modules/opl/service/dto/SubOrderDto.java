@@ -86,6 +86,9 @@ public class SubOrderDto {
     @ApiModelProperty("发起人是否一致")
     private Boolean equalsCreate=false;
 
+    @ApiModelProperty("判断当前用户是否是工单创建人 1为是 0为否")
+    private Integer equalsCreate;
+
 }
 
 
