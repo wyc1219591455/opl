@@ -2,7 +2,6 @@ package me.zhengjie.modules.opl.service.impl;
 
 
 import cn.hutool.core.collection.ArrayIter;
-import cn.hutool.core.util.ObjectUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Security;
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -59,61 +57,17 @@ public class OrderApplyCcServiceImpl implements OrderApplyCcService {
     }
 
     @Override
-    @Transactional
-    public void updateOrderApplyCcByOrderId(OrderApplyCcCriteria criteria) {
-
-        //先删除
-        orderApplyCcMapper.deleteByTransId(criteria.getTransId());
-
-        List<OrderApplyCc> orderApplyCcList = new ArrayList<>();
-
-        //非空校验
-        if (ObjectUtil.isNotEmpty( criteria.getEmpId() )){
-
-            for (Integer empId : criteria.getEmpId()) {
-                OrderApplyCc orderApplyCc = new OrderApplyCc();
-                //设置请求主表编号
-                orderApplyCc.setTransId(criteria.getTransId());
-                //设置人员id
-                orderApplyCc.setEmpId(empId);
-                //设置表来源
-                orderApplyCc.setOriginalType(criteria.getOriginalType());
-                //设置抄送模式 1为发布
-                orderApplyCc.setCcType(1);
-                orderApplyCc.setCreateUserId(SecurityUtils.getCurrentUserId().intValue());
-                orderApplyCc.setCreateDateTime(new Timestamp(new Date().getTime()));
-                orderApplyCcList.add(orderApplyCc);
-            }
-            //批量新增
-            orderApplyCcMapper.batchInsert(orderApplyCcList);
-
-        }
-
-
-    }
-
-    @Override
-    public Map<String, Object> findCcByOrderId(Pageable pageable, Integer orderId, Integer orderType) {
+    public Map<String, Object> findCcByOrderId(Pageable pageable, Integer orderId) {
 
         if (pageable != null && pageable.getPage() == -1) {
-            List<OrderApplyCcDto> orderApplyCcList = new ArrayList<>();
-            if (orderType==0) {  //来自主表
-                orderApplyCcList = orderApplyCcMapper.findCcByTransId(orderId);
-            }else{
-                orderApplyCcList = orderApplyCcMapper.findCcByTransIdFromSubOrder(orderId);
-            }
-                Map<String, Object> map = new LinkedHashMap<>(2);
-                map.put("content", orderApplyCcList);
-                map.put("totalElements", orderApplyCcList.size());
-                return map;
+            List<OrderApplyCcDto> orderApplyCcList = orderApplyCcMapper.findCcByTransId(orderId);
+            Map<String, Object> map = new LinkedHashMap<>(2);
+            map.put("content", orderApplyCcList);
+            map.put("totalElements", orderApplyCcList.size());
+            return map;
         } else {
             PageHelper.startPage(pageable.getPage(), pageable.getSize());
-            List<OrderApplyCcDto> orderApplyCcList = new ArrayList<>();
-            if (orderType==0) {  //来自主表
-                orderApplyCcList = orderApplyCcMapper.findCcByTransId(orderId);
-            }else{
-                orderApplyCcList = orderApplyCcMapper.findCcByTransIdFromSubOrder(orderId);
-            }
+            List<OrderApplyCcDto> orderApplyCcList = orderApplyCcMapper.findCcByTransId(orderId);
             PageInfo<OrderApplyCcDto> pageInfo1 = new PageInfo<>(orderApplyCcList);
             return PageHelpResultUtil.toPage(pageInfo1);
         }

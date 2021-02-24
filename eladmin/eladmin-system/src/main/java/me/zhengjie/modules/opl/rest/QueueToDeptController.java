@@ -61,8 +61,8 @@ public class QueueToDeptController {
     @Log("获取所有部门人员信息")
     @ApiOperation("获取所有部门人员信息")
     @GetMapping("/deptUser")
-    public Map<String ,Object> findAllUserByDeptId(@ApiParam("级别") @NotNull Integer level ,@ApiParam("支持组id") @NotNull Integer queuesId,@ApiParam("部门id") @NotNull Integer deptId, Pageable pageable){
-      return  queuesToDeptService.findAllUserByDeptId(pageable,level,queuesId,deptId);
+    public Map<String ,Object> findAllUserByDeptId(@ApiParam("支持组id") @NotNull Integer queuesId,@ApiParam("部门id") @NotNull Integer deptId, Pageable pageable){
+      return  queuesToDeptService.findAllUserByDeptId(pageable,queuesId,deptId);
     }
 
     @Log("根据服务分类条目获取部门信息")

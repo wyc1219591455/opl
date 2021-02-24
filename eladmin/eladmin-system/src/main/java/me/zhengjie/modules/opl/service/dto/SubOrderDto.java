@@ -80,11 +80,9 @@ public class SubOrderDto {
     @ApiModelProperty("处理人")
     private String receiver;
 
-    @ApiModelProperty("处理人是否一致")
-    private Boolean equalsTreat=false;
 
-    @ApiModelProperty("发起人是否一致")
-    private Boolean equalsCreate=false;
+    @ApiModelProperty("判断是主单还是子单 1代表主单，0代表子单")
+    private Integer orderType;
 
     @ApiModelProperty("判断当前用户是否是工单创建人 1为是 0为否")
     private Integer equalsCreate;

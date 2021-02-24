@@ -33,21 +33,5 @@
         SELECT * FROM tsysdept WHERE FParentId = '7dc16e86-172c-4f96-bd16-9a0fd82d6262' AND FFlag = 0
     </select>
 
-    <!-- 获取不在支持组下的部门数据 -->
-    <select id="findDeptVoNotInCatalogId" resultType="me.zhengjie.modules.opl.service.dto.DeptVo">
-         SELECT t1.FDeptId as deptId,t1.FDeptFullName as deptFullName,t1.FDeptName as deptName FROM tsysdept t1
-        WHERE t1.FFlag=0 and not EXISTS(
-        SELECT t2.* FROM serviceCatalogRelateDept t2
-        WHERE t2.catalogId = #{catalogId} and t1.FDeptId = t2.deptId
-        )
-        <if test="deptVo.deptFullName!=null and deptVo.deptFullName!=''">
-          and  t1.FDeptFullName like concat('%',#{deptVo.deptFullName},'%')
-        </if>
-        <if test="deptVo.deptName!=null and deptVo.deptName!=''">
-           and t1.FDeptName like concat('%',#{deptVo.deptName},'%')
-        </if>
-        ORDER BY t1.FDeptId desc
-    </select>
-
 
 </mapper>

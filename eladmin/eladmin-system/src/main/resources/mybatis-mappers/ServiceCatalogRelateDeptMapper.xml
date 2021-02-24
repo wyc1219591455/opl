@@ -8,7 +8,7 @@
         INSERT INTO serviceCatalogRelateDept(catalogId,deptId,status,createDateTime,createUserId)
         VALUES
         <foreach collection="list" item="item" index="index" separator="," >
-         (#{item.catalogId},#{item.deptId},#{item.status},#{item.createDateTime},#{item.createUserId})
+         (#{catalogId},#{deptId},#{status},#{createDateTime},#{createUserId})
         </foreach>
     </insert>
 

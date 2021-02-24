@@ -1,24 +1,19 @@
 package me.zhengjie.modules.opl.rest;
 
-import cn.hutool.core.util.ObjectUtil;
-import com.sun.istack.internal.NotNull;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.modules.opl.domain.OrderApplyCc;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.service.OrderApplyCcService;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
-import me.zhengjie.modules.opl.service.dto.OrderApplyCcCriteria;
 import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,8 +34,8 @@ public class OrderApplyCcController {
     @Log("根据工单id获取抄送信息")
     @ApiOperation("根据工单id获取抄送信息")
     @GetMapping
-    public Map<String,Object> getOrderApplyCcByOrderId(Pageable pageable, @NotNull @ApiParam("工单来源 0是主表 1是附表")Integer type,@NotNull @ApiParam("工单ID") Integer orderId) {
-       return orderApplyCcService.findCcByOrderId(pageable,orderId,type);
+    public Map<String,Object> getOrderApplyCcByOrderId(Pageable pageable,Integer orderId) {
+       return orderApplyCcService.findCcByOrderId(pageable,orderId);
     }
 
     @Log("抄送我的")
@@ -63,15 +58,5 @@ public class OrderApplyCcController {
     public void addOrderApplyCcByOrderId(OrderApplyCc orderApplyCc) {
         orderApplyCcService.insert(orderApplyCc);
     }
-
-    @Log("修改工单抄送信息")
-    @ApiOperation("修改工单抄送信息")
-    @PostMapping("/updateCcOrder")
-    public void updateOrderApplyCcByOrderId(OrderApplyCcCriteria criteria){
-        orderApplyCcService.updateOrderApplyCcByOrderId(criteria);
-
-    }
-
-
 
 }
