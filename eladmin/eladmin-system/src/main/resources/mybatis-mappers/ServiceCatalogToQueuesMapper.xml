@@ -15,17 +15,7 @@
     </select>
 
     <!-- 根据人员查询数据 -->
-<<<<<<< HEAD
-    <select id="getCountByCatalogName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM subServiceCatalog WHERE catalogName = #{catalogName}
-         <if test="catalogId!=null and catalogId!=''">
-             AND  catalogId = #{catalogId}
-         </if>
-    </select>
-    <select id="findQueuesByUserId" resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesDto"></select>
-=======
     <select id="findQueuesByUserId" resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesDto">
->>>>>>> origin/master
 
 
     </select>

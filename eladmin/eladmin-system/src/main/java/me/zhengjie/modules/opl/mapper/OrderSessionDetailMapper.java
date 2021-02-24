@@ -40,4 +40,15 @@ public interface OrderSessionDetailMapper {
      */
     List<OrderSessionDetailDto> findSessionDetailById(SessionDetailCriteria sessionDetailCriteria);
 
+    /**
+     * @title: findById
+     * @description: findById
+     * @date: 2021/1/19 19:46
+     * @author: yuchao.wang
+     * @param sessionDetailCriteria
+     * @return OrderSession
+     * @throws
+     */
+    List<OrderSessionDetailDto> findSuBSessionDetailById(SessionDetailCriteria sessionDetailCriteria);
+
 }

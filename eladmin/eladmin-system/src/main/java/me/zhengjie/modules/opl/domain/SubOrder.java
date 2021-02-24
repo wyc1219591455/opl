@@ -24,8 +24,8 @@ public class SubOrder {
     private Integer id;
 
     //主题
-    @ApiModelProperty("父工单")
-    private String parentNo;
+    @ApiModelProperty("父工单Id")
+    private Integer parentNo;
 
     //主题
     @ApiModelProperty("主题")
@@ -35,18 +35,11 @@ public class SubOrder {
     @ApiModelProperty("工单编号")
     private String serialNo;
 
-    //工单创建人
-    @ApiModelProperty("工单创建人")
-    private String createdPerson;
 
     //创建人工号
     @ApiModelProperty("创建人工号")
     private String jobNumber;
 
-
-
-    @ApiModelProperty("所属部门")
-    private String deptName;
 
     @ApiModelProperty("所属部门Id")
     private Integer deptId;
@@ -63,10 +56,6 @@ public class SubOrder {
     @ApiModelProperty("opl工单状态 工单状态 0：新创建 1：待受理 2：处理中 3：已完成 4：已关闭 5：已取消")
     private Integer orderStatus;
 
-    //工单分类（质量：1，需求：2）
-    @ApiModelProperty("工单分类（质量：1，需求：2）")
-    private Integer workOrderType;
-
     @ApiModelProperty("工单分类描述")
     private String typeDesc;
 
@@ -81,5 +70,8 @@ public class SubOrder {
 
     @ApiModelProperty("描述")
     private String description;
+
+    @ApiModelProperty("判断是主单还是子单 1代表主单，0代表子单")
+    private Integer orderType;
 
 }

@@ -7,8 +7,9 @@ import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.modules.opl.domain.*;
 import me.zhengjie.modules.opl.mapper.*;
 import me.zhengjie.modules.opl.service.ServiceCatalogService;
-import me.zhengjie.modules.opl.service.ServiceCatalogToCategoryService;
-import me.zhengjie.modules.opl.service.dto.*;
+import me.zhengjie.modules.opl.service.dto.CatalogCriteria;
+import me.zhengjie.modules.opl.service.dto.ServiceCatalogDto;
+import me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto;
 import me.zhengjie.utils.PageHelpResultUtil;
 import me.zhengjie.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-<<<<<<< HEAD
-import java.util.*;
-=======
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
->>>>>>> origin/master
 
 
 /**
@@ -43,9 +40,6 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
     private final ServiceCatalogToCategoryMapper serviceCatalogToCategoryMapper;
     private final ServiceCatalogToQueuesMapper serviceCatalogToQueuesMapper;
     private final ServiceCatalogRelateDeptMapper serviceCatalogRelateDeptMapper;
-    private final DeptForShowMapper deptForShowMapper;
-    private final RequestQueuesMapper requestQueuesMapper;
-
 
     @Override
     public Map<String, Object> findAllCatalog(Pageable pageable) {
@@ -92,18 +86,6 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
     }
     @Override
     public void insertSubCatalog(CatalogCriteria catalogCriteria) {
-<<<<<<< HEAD
-
-        /**
-         * 唯一性校验
-         */
-        isOnlyTest(catalogCriteria.getSubServiceCatalog() );
-
-        /**
-         * 新增服务分类条目
-         */
-=======
->>>>>>> origin/master
         SubServiceCatalog subServiceCatalog=catalogCriteria.getSubServiceCatalog();
         String createName = SecurityUtils.getCurrentUsername();
         Timestamp createDate = new Timestamp(new Date().getTime());
@@ -126,62 +108,6 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
         {
             serviceCatalogRelateDept.setCreateDateTime(createDate);
             serviceCatalogRelateDept.setCreateUserId(createName);
-<<<<<<< HEAD
-            serviceCatalogRelateDeptList.add(serviceCatalogRelateDept);
-        }
-        if (serviceCatalogRelateDeptList.size()>0){
-            serviceCatalogRelateDeptMapper.batchInsert(serviceCatalogRelateDeptList);
-        }
-
-    }
-
-    @Override
-    @Transactional
-    public void updateSubCatalog2(CatalogCriteria catalogCriteria) {
-        /**
-         * 唯一性校验
-         */
-        isOnlyTest( catalogCriteria.getSubServiceCatalog() );
-
-        /**
-         * 修改服务分类条目表数据
-         */
-        SubServiceCatalog subServiceCatalog=catalogCriteria.getSubServiceCatalog();
-        String modifyName = SecurityUtils.getCurrentUsername();
-        Timestamp modifyDate = new Timestamp(new Date().getTime());
-        subServiceCatalog.setModifyDateTime(modifyDate);
-        subServiceCatalog.setModifyUserId(modifyName);
-        //设置默认服务台
-        subServiceCatalog.setDefaultQueueId(catalogCriteria.getServiceCatalogToQueues());
-
-        //修改服务分类条目
-        subServiceCatalogMapper.updateSubCatalog(subServiceCatalog);
-
-        /**
-         * 修改服务分类条目中的工单分类
-         */
-        //先删除关联部门的数据
-        serviceCatalogToCategoryMapper.deleteByCatalogId(subServiceCatalog.getCatalogId());
-
-        //然后新增
-
-        //获取其中的id
-        List<Integer> serviceCatalogToCategoryIntegerList = catalogCriteria.getServiceCatalogToCategoryList();
-        //通过id获取数据
-        List<ServiceCatalogToCategory> serviceCatalogToCategoryList =new ArrayList<>();
-        //插入数据
-        if (serviceCatalogToCategoryList.size()>0){
-        for(Integer serviceCatalogToCategoryId:serviceCatalogToCategoryIntegerList)
-        {
-            ServiceCatalogToCategory serviceCatalogToCategory = new ServiceCatalogToCategory();
-            serviceCatalogToCategory.setCatalogId(catalogCriteria.getSubServiceCatalog().getCatalogId());
-            serviceCatalogToCategory.setCategoryId(serviceCatalogToCategoryId);
-            serviceCatalogToCategory.setCreateDateTime(new Timestamp(new Date().getTime()));
-            serviceCatalogToCategory.setCreateUserId(modifyName);
-            serviceCatalogToCategory.setStatus(1);
-            serviceCatalogToCategoryList.add(serviceCatalogToCategory);
-=======
->>>>>>> origin/master
         }
         serviceCatalogRelateDeptMapper.batchInsert(serviceCatalogRelateDeptList);
 
@@ -224,43 +150,6 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
 
     }
 
-    @Override
-    public Map<String,Object> findSubCatalogById(Integer catalogId) {
-        Map<String, Object> map = new LinkedHashMap<>(2);
-        SubCatalogVo subCatalogVo = new SubCatalogVo();
-        /**
-         *展示类添加到子分类中
-         */
-        List<SubServiceCatalog> subServiceCatalogList =subServiceCatalogMapper.findSubCatalogById(catalogId);
-        SubServiceCatalog subServiceCatalog = subServiceCatalogList.get(0);
-        subCatalogVo.setSubServiceCatalog(subServiceCatalog);
-
-        /**
-         * 服务分类条目中的工单分类
-         */
-        //左边
-        List<TrequestCategory> serviceCatalogToCategoryLeftList = serviceCatalogToCategoryMapper.findCategoryByCatalogIdNotSelect(catalogId);
-        //右边
-        List<TrequestCategory> serviceCatalogToCategoryRightList = serviceCatalogToCategoryMapper.findCategoryByCatalogId(catalogId);
-        subCatalogVo.setCategoryLeftList(serviceCatalogToCategoryLeftList);
-        subCatalogVo.setCategoryRightList(serviceCatalogToCategoryRightList);
-
-        /**
-         * 关联部门
-         */
-        List<DeptVo> deptForShowList = deptForShowMapper.findDeptVoInCatalogId(catalogId);
-        subCatalogVo.setServiceCatalogRelateDept(deptForShowList);
-
-        /**
-         * 默认服务台
-         */
-        RequestQueues requestQueues = requestQueuesMapper.findQueuesById(subServiceCatalog.getDefaultQueueId());
-        subCatalogVo.setRequestQueues(requestQueues);
-        map.put("content", subCatalogVo);
-        map.put("totalElements", 1);
-        return map;
-    }
-
     /**
      * 服务分类主表检验是否还有在使用的字表
      *
@@ -285,22 +174,7 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
 
         // 若查询结果非空，即数据库中存在使用中的此控制器编号
         if (subServiceCatalogMapper.findOnUsedOrder(catalogId) != 0) {
-<<<<<<< HEAD
-            throw new BadRequestException("该服务分类下存在未关闭的工单");
-        }
-    }
-
-    /**
-     * 唯一性校验
-     * @param subServiceCatalog
-     */
-    private void isOnlyTest( SubServiceCatalog subServiceCatalog ){
-        Integer count = serviceCatalogToQueuesMapper.getCountByCatalogName(subServiceCatalog);
-        if (count>0){
-            throw new BadRequestException("该服务分类已存在，请勿重复！");
-=======
             throw new BadRequestException("改服务分类下存在未关闭的工单");
->>>>>>> origin/master
         }
     }
 
