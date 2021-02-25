@@ -77,7 +77,7 @@
          LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
          WHERE t2.FDeptId = #{deptId}
         <if test="name!=null and name!=''">
-            AND t1.FHumanName LIKE concat('%',#{name},'%')
+            AND ( t1.FHumanName like concat('%',#{name},'%') OR t1.FUserName like concat('%',#{name},'%') )
         </if>
     </select>
     <select id="findAllUserByDeptIdAndQueueId2" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
@@ -92,7 +92,7 @@
         </foreach>
 
         <if test="name!=null and name!=''">
-            AND t1.FHumanName LIKE concat('%',#{name},'%')
+            AND ( t1.FHumanName like concat('%',#{name},'%') OR t1.FUserName like concat('%',#{name},'%') )
         </if>
 
     </select>
@@ -120,7 +120,7 @@
         WHERE ( CASE  WHEN EXISTS ( SELECT * FROM queuesToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.FUserId AND t3.queuesId =#{queuesId} ) THEN 1
 	    ELSE 0 END ) = 1
 	    <if test="name!=null and name!=''">
-            AND t1.FHumanName like concat('%',#{name},'%')
+            AND ( t1.FHumanName like concat('%',#{name},'%') OR t1.FUserName like concat('%',#{name},'%') )
         </if>
 	    ORDER BY t2.FDeptId
     </select>
