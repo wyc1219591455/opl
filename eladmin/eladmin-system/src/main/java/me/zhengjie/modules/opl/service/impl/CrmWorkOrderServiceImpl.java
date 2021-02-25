@@ -159,22 +159,32 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             crmWorkOrderCriteria.setCloseScore(closeOrderDto.getCloseScore());
 
             crmWorkOrderMapper.update(crmWorkOrderCriteria);
+            OrderSession orderSession=new OrderSession();
+            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+            orderSession.setOrderType(7);
+            String description="得分"+closeOrderDto.getCloseScore()+closeOrderDto.getDescription();
+            orderSession.setDescription(description);
+            orderSession.setProblemAttach(closeOrderDto.getProblemAttach());
+            orderSession.setTransId(closeOrderDto.getOrderId());
+            orderSession.setOriginalType(closeOrderDto.getOrderType());
+            orderSessionMapper.insertSession(orderSession);
         }
         else if(closeOrderDto.getOrderType()==1){
             SubOrder subOrder=new SubOrder();
             subOrder.setOrderStatus(5);
             subOrder.setId(closeOrderDto.getOrderId());
             subOrderMapper.updateSubOrder(subOrder);
+            OrderSession orderSession=new OrderSession();
+            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+            orderSession.setOrderType(7);
+            orderSession.setDescription(closeOrderDto.getDescription());
+            orderSession.setProblemAttach(closeOrderDto.getProblemAttach());
+            orderSession.setTransId(closeOrderDto.getOrderId());
+            orderSession.setOriginalType(closeOrderDto.getOrderType());
+            orderSessionMapper.insertSession(orderSession);
         }
-        OrderSession orderSession=new OrderSession();
-        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
-        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-        orderSession.setOrderType(7);
-        orderSession.setDescription(closeOrderDto.getDescription());
-        orderSession.setProblemAttach(closeOrderDto.getProblemAttach());
-        orderSession.setTransId(closeOrderDto.getOrderId());
-        orderSession.setOriginalType(closeOrderDto.getOrderType());
-        orderSessionMapper.insertSession(orderSession);
 
     }
 
