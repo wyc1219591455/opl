@@ -87,6 +87,39 @@ public interface CrmWorkOrderService {
 
     /**
      * @title: update
+     * @description: 关闭工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param closeOrderDto
+     * @return void
+     * @throws
+     */
+    void closeOrder(CloseOrderDto closeOrderDto);
+
+    /**
+     * @title: update
+     * @description: 取消工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param orderSession
+     * @return void
+     * @throws
+     */
+    void cancelOrder(OrderSession orderSession);
+
+    /**
+     * @title: update
+     * @description: 重开工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param orderSession
+     * @return void
+     * @throws
+     */
+    void resetOrder(OrderSession orderSession);
+
+    /**
+     * @title: update
      * @description: 完成工单
      * @date: 2021/1/13 19:18
      * @author:   yuchao.wang

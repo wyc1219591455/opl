@@ -4,24 +4,23 @@
 <mapper namespace="me.zhengjie.modules.opl.mapper.SubOrderMapper">
 
 
-    <insert id="insertSubOrder" parameterType="me.zhengjie.modules.opl.domain.SubOrder">
+    <insert id="insertSubOrder" parameterType="me.zhengjie.modules.opl.domain.SubOrder" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         INSERT INTO subOrder(parentNo,topic,serialNo,jobNumber
-        ,createdTime,deptId,projectName,problemAttach
+        ,createdTime,deptId,problemAttach
         ,orderStatus,isTransfer,description,receiver,order_type)
         VALUES(#{parentNo},#{topic},#{serialNo},#{jobNumber},#{createTime},#{deptId},
-        #{projectName},#{problemAttach},#{orderStatus},#{isTransfer},#{description},#{receiver},#{orderType})
+        #{problemAttach},#{orderStatus},#{isTransfer},#{description},#{receiver},#{orderType})
     </insert>
 
-    <update id="updateSubOrder" parameterType="me.zhengjie.modules.opl.domain.CrmWorkOrder">
-        UPDATE crm_work_order set name=#{name},entity_type=#{entityType},owner_id=#{ownerId},dim_depart=#{dimDepart},
-        workflow_stage_name=#{workflowStageName},applicant_id=#{applicantId},created_by=#{createdBy},
-        created_at=#{createdAt},updated_by=#{updatedBy},updated_at=#{updatedAt},lock_status=#{lockStatus},
-        approval_status=#{approvalStatus},topic=#{topic},serial_no=#{serialNo},plan_comp_time=#{planCompTime},
-        created_person=#{createdPerson},job_number=#{jobNumber},project_name=#{projectName},model=#{model},
-        matter_date=#{matterDate},sn_no=#{snNo},ultimate_customer=#{ultimateCustomer},problem_type=#{problemType},
-        problem_attach=#{problemAttach},problem_desc=#{problemDesc},problem_path=#{problemPath},
-        site_condition=#{siteCondition},rescue_action=#{rescueAction},fae_header=#{faeHeader},work_order_type=#{workOrderType}
-        WHERE crm_id = #{crmId}
+    <update id="updateSubOrder" parameterType="me.zhengjie.modules.opl.domain.SubOrder">
+        UPDATE subOrder set orderStatus=#{orderStatus}
+         <if test="receiver!=null and receiver!=''">
+             ,receiver=#{receiver}
+         </if>
+        <if test="orderStatus!=null">
+            ,order_status=#{orderStatus}
+        </if>
+        WHERE id = #{id}
     </update>
 
     <select id="findSubOrderByParentId" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.SubOrderDto">

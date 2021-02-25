@@ -15,9 +15,17 @@ import java.util.List;
 @AllArgsConstructor
 public class TransferOrderDto {
 
+    @ApiModelProperty("工单Id")
+    private Integer orderId;
+
+    @ApiModelProperty("工单受理人")
+    private String receiver;
+
+    @ApiModelProperty("详情")
+    private String description;
+
+    @ApiModelProperty("判断是主单还是子单 1代表主单，0代表子单")
+    private Integer orderType;
+
     List<OrderSessionDetail> orderSessionDetailDtoList;
-
-    CrmWorkOrderCriteria crmWorkOrderCriteria;
-
-    OrderSession orderSession;
 }
