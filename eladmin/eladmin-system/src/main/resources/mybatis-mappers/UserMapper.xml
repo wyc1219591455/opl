@@ -4,22 +4,22 @@
 <mapper namespace="me.zhengjie.modules.opl.mapper.UserMapper">
 
     <resultMap id="userMap" type="me.zhengjie.modules.opl.domain.User">
-        <id property="id" column="user_id"></id>
-        <result property="userName" column="username"></result>
-        <result property="name" column="nick_name"></result>
+        <id property="id" column="FUserId"></id>
+        <result property="userName" column="FUserName"></result>
+        <result property="name" column="FHumanName"></result>
     </resultMap>
 
-    <select id="findIdByUsername" resultType="java.lang.Long">
-        select sys_user.user_id from sys_user where username=#{username}
+    <select id="findIdByUsername"  resultType="java.lang.Long">
+        select FUserId from tsysuser where FUserName=#{userName}
     </select>
 
-    <select id="findUser" resultType="me.zhengjie.modules.opl.domain.User">
-        select user_id,username,nick_name from sys_user
+    <select id="findUser" parameterType="me.zhengjie.modules.opl.domain.User" resultMap="userMap">
+        select FUserId,FUserName,FHumanName from tsysuser
         <if test="userName!=null and userName!=''">
-            and username = #{userName}
+            and FUserName = #{userName}
         </if>
         <if test="name!=null and name!=''">
-            and nick_name = #{name}
+            and FHumanName = #{name}
         </if>
     </select>
 

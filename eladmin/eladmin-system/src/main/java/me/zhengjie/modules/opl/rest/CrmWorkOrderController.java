@@ -4,15 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
-import me.zhengjie.modules.opl.domain.CrmWorkOrder;
-import me.zhengjie.modules.opl.domain.OrderSession;
-import me.zhengjie.modules.opl.domain.Pageable;
-import me.zhengjie.modules.opl.domain.SubOrder;
+import me.zhengjie.modules.opl.domain.*;
 import me.zhengjie.modules.opl.service.CrmWorkOrderService;
-import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
-import me.zhengjie.modules.opl.service.dto.SerialDto;
-import me.zhengjie.modules.opl.service.dto.TransferOrderDto;
-import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
+import me.zhengjie.modules.opl.service.dto.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -102,10 +96,53 @@ public class CrmWorkOrderController {
         crmWorkOrderService.sellOrder(subOrder);
     }
 
+    @Log("取消工单")
+    @ApiOperation("取消工单")
+    @PostMapping("/cancel")
+    public void cancelOrder(@RequestBody OrderSession orderSession){
+         crmWorkOrderService.cancelOrder(orderSession);
+    }
+
+    @Log("完成工单")
+    @ApiOperation("完成工单")
+    @PostMapping("/complete")
+    public void completeOrder(@RequestBody CompleteOrderDto completeOrderDto){
+        crmWorkOrderService.completeOrder(completeOrderDto);
+    }
+
+    @Log("关闭工单")
+    @ApiOperation("关闭工单")
+    @PostMapping("/close")
+    public void closeOrder(@RequestBody CloseOrderDto closeOrderDto){
+        crmWorkOrderService.closeOrder(closeOrderDto);
+    }
+
     @Log("测试")
     @ApiOperation("测试")
     @GetMapping("/sub")
     public Object test(Integer orderId){
         return crmWorkOrderService.findSubOplByMaxId(orderId);
     }
+
+    @Log("重开工单")
+    @ApiOperation("重开工单")
+    @PostMapping("/reset")
+    public void resetOrder(@RequestBody OrderSession orderSession){
+         crmWorkOrderService.resetOrder(orderSession);
+    }
+
+    @Log("查询人员")
+    @ApiOperation("查询人员")
+    @GetMapping("/user")
+    public Object findUser(@RequestBody(required = false) User user){
+       return crmWorkOrderService.findUser(user);
+    }
+
+    @Log("服务台工单")
+    @ApiOperation("服务台工单")
+    @GetMapping("/service")
+    public Object findServiceOrder(WorkOrderCriteria workOrderCriteria,Pageable pageable) {
+        return crmWorkOrderService.findServiceOrder(workOrderCriteria,pageable);
+    }
+
 }

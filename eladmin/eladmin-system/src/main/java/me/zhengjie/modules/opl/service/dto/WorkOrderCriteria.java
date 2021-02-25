@@ -58,4 +58,6 @@ public class WorkOrderCriteria {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp endTime ;
 
+    List<Integer> subCatalogList;
+
 }

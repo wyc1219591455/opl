@@ -123,6 +123,10 @@ public class CrmWorkOrderDto {
     @ApiModelProperty("处理人（opl系统中的处理人）")
     private String receiver;
 
+    @ApiModelProperty("处理人姓名")
+    private String receiverName;
+
+
     @ApiModelProperty("最终开始处理时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp realOpTime;
@@ -172,6 +176,7 @@ public class CrmWorkOrderDto {
 
     @ApiModelProperty("判断当前用户是否是工单创建人 1为是 0为否")
     private Integer equalsCreate;
+
 
 
     @ApiModelProperty("抄送人")

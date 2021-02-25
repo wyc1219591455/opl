@@ -37,6 +37,9 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     private final OrderSessionService orderSessionService;
     private final OrderSessionDetailMapper orderSessionDetailMapper;
     private final OrderApplyCcMapper orderApplyCcMapper;
+    private final UserMapper userMapper;
+    private final QueuesToDeptMapper queuesToDeptMapper;
+
 
     @Override
     public void insert(CrmWorkOrderCriteria crmWorkOrderCriteria) {
@@ -79,31 +82,36 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
     @Override
     public void transferOrder(TransferOrderDto transferOrderDto) {
-        CrmWorkOrderCriteria crmWorkOrderCriteria = transferOrderDto.getCrmWorkOrderCriteria();
-        crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
-        crmWorkOrderCriteria.setModifyPerson(SecurityUtils.getCurrentUsername());
-        if (crmWorkOrderCriteria.getOrderStatus() == 1) {
-            crmWorkOrderCriteria.setOrderStatus(2);
-        } else {
-            crmWorkOrderCriteria.setOrderStatus(3);
-        }
-        crmWorkOrderMapper.update(crmWorkOrderCriteria);
-        Integer orderId = crmWorkOrderCriteria.getId();
-        OrderSession orderSession = transferOrderDto.getOrderSession();
-        orderSession.setOrderType(3);
-        orderSession.setTransId(orderId);
-        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
-        orderSessionMapper.insertSession(orderSession);
-        List<OrderSessionDetail> orderSessionDetailList = transferOrderDto.getOrderSessionDetailDtoList();
-        Integer sessionId = orderSession.getId();
-        for (OrderSessionDetail orderSessionDetailDto : orderSessionDetailList) {
-            orderSessionDetailDto.setSessionId(sessionId);
-            orderSessionDetailDto.setTransId(orderId);
-            orderSessionDetailDto.setCreateUserId(SecurityUtils.getCurrentUsername());
-            orderSessionDetailDto.setCreateDateTime(new Timestamp(new Date().getTime()));
-            orderSessionDetailDto.setOriginalType(0);
-            orderSessionDetailMapper.insertSessionDetail(orderSessionDetailDto);
+        if(transferOrderDto.getOrderType()==0) {
+            CrmWorkOrderCriteria crmWorkOrderCriteria = new CrmWorkOrderCriteria();
+            crmWorkOrderCriteria.setId(transferOrderDto.getOrderId());
+            crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
+            crmWorkOrderCriteria.setModifyPerson(SecurityUtils.getCurrentUsername());
+            if (transferOrderDto.getOrderStatus() == 1 || transferOrderDto.getOrderStatus() == 2) {
+                crmWorkOrderCriteria.setOrderStatus(2);
+            } else {
+                crmWorkOrderCriteria.setOrderStatus(3);
+            }
+            crmWorkOrderMapper.update(crmWorkOrderCriteria);
+            Integer orderId = crmWorkOrderCriteria.getId();
+            OrderSession orderSession = new OrderSession();
+            orderSession.setDescription(transferOrderDto.getDescription());
+            orderSession.setOrderType(3);
+            orderSession.setTransId(orderId);
+            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+            orderSession.setOriginalType(transferOrderDto.getOrderType());
+            orderSessionMapper.insertSession(orderSession);
+            List<OrderSessionDetail> orderSessionDetailList = transferOrderDto.getOrderSessionDetailDtoList();
+            Integer sessionId = orderSession.getId();
+            for (OrderSessionDetail orderSessionDetailDto : orderSessionDetailList) {
+                orderSessionDetailDto.setSessionId(sessionId);
+                orderSessionDetailDto.setTransId(orderId);
+                orderSessionDetailDto.setCreateUserId(SecurityUtils.getCurrentUsername());
+                orderSessionDetailDto.setCreateDateTime(new Timestamp(new Date().getTime()));
+                orderSessionDetailDto.setOriginalType(transferOrderDto.getOrderType());
+                orderSessionDetailMapper.insertSessionDetail(orderSessionDetailDto);
+            }
         }
     }
 
@@ -129,6 +137,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         orderSession.setOrderType(5);
         orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
         orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+        orderSession.setDescription(subOrder.getDescription());
         orderSessionMapper.insertSession(orderSession);
         OrderSession orderSession2=new OrderSession();
         orderSession2.setTransId(subOrder.getParentNo());
@@ -136,9 +145,79 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         orderSession2.setOrderType(5);
         orderSession2.setCreateUserId(SecurityUtils.getCurrentUsername());
         orderSession2.setCreateDateTime(new Timestamp(new Date().getTime()));
+        orderSession2.setDescription(subOrder.getDescription());
         orderSessionMapper.insertSession(orderSession2);
 
 
+    }
+
+
+    @Override
+    public void closeOrder(CloseOrderDto closeOrderDto){
+        if(closeOrderDto.getOrderType()==0)
+        {
+            CrmWorkOrderCriteria crmWorkOrderCriteria = new CrmWorkOrderCriteria();
+            crmWorkOrderCriteria.setFinishUserId(SecurityUtils.getCurrentUsername());
+            crmWorkOrderCriteria.setFinishDateTime(new Timestamp(new Date().getTime()));
+            crmWorkOrderCriteria.setId(closeOrderDto.getOrderId());
+            crmWorkOrderCriteria.setOrderStatus(5);
+            crmWorkOrderCriteria.setCloseScore(closeOrderDto.getCloseScore());
+
+            crmWorkOrderMapper.update(crmWorkOrderCriteria);
+            OrderSession orderSession=new OrderSession();
+            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+            orderSession.setOrderType(7);
+            String description="得分"+closeOrderDto.getCloseScore()+closeOrderDto.getDescription();
+            orderSession.setDescription(description);
+            orderSession.setProblemAttach(closeOrderDto.getProblemAttach());
+            orderSession.setTransId(closeOrderDto.getOrderId());
+            orderSession.setOriginalType(closeOrderDto.getOrderType());
+            orderSessionMapper.insertSession(orderSession);
+        }
+        else if(closeOrderDto.getOrderType()==1){
+            SubOrder subOrder=new SubOrder();
+            subOrder.setOrderStatus(5);
+            subOrder.setId(closeOrderDto.getOrderId());
+            subOrderMapper.updateSubOrder(subOrder);
+            OrderSession orderSession=new OrderSession();
+            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+            orderSession.setOrderType(7);
+            orderSession.setDescription(closeOrderDto.getDescription());
+            orderSession.setProblemAttach(closeOrderDto.getProblemAttach());
+            orderSession.setTransId(closeOrderDto.getOrderId());
+            orderSession.setOriginalType(closeOrderDto.getOrderType());
+            orderSessionMapper.insertSession(orderSession);
+        }
+
+    }
+
+
+
+    @Override
+    public void cancelOrder(OrderSession orderSession){
+        if(orderSession.getOriginalType()==0)
+        {
+            CrmWorkOrderCriteria crmWorkOrderCriteria = new CrmWorkOrderCriteria();
+            crmWorkOrderCriteria.setModifyPerson(SecurityUtils.getCurrentUsername());
+            crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
+            crmWorkOrderCriteria.setCancelDateTime(new Timestamp(new Date().getTime()));
+            crmWorkOrderCriteria.setCancelUserId(SecurityUtils.getCurrentUsername());
+            crmWorkOrderCriteria.setOrderStatus(7);
+            crmWorkOrderCriteria.setId(orderSession.getTransId());
+            crmWorkOrderMapper.update(crmWorkOrderCriteria);
+        }
+        else if(orderSession.getOriginalType()==1){
+            SubOrder subOrder=new SubOrder();
+            subOrder.setOrderStatus(7);
+            subOrder.setId(orderSession.getTransId());
+            subOrderMapper.updateSubOrder(subOrder);
+        }
+        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+        orderSession.setOrderType(8);
+        orderSessionMapper.insertSession(orderSession);
     }
 
     @Override
@@ -152,17 +231,61 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             crmWorkOrderCriteria.setOrderStatus(4);
             crmWorkOrderCriteria.setModifyPerson(SecurityUtils.getCurrentUsername());
             crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
-
+            crmWorkOrderCriteria.setFinishDateTime(new Timestamp(new Date().getTime()));
+            crmWorkOrderCriteria.setFinishUserId(SecurityUtils.getCurrentUsername());
             crmWorkOrderMapper.update(crmWorkOrderCriteria);
             OrderSession orderSession=new OrderSession();
-//            orderSession.setCreateDateTime();
-
+            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+            orderSession.setOriginalType(0);
+            orderSession.setTransId(completeOrderDto.getOrderId());
+            orderSession.setOrderType(6);
+            orderSession.setDescription(completeOrderDto.getDescription());
+            orderSession.setProblemAttach(completeOrderDto.getProblemAttach());
+            orderSessionMapper.insertSession(orderSession);
 
         }
+        else if(completeOrderDto.getOrderType()==1){
+            SubOrder subOrder=new SubOrder();
+            subOrder.setId(completeOrderDto.getOrderId());
+            subOrder.setOrderStatus(4);
+            subOrderMapper.updateSubOrder(subOrder);
+            OrderSession orderSession=new OrderSession();
+            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+            orderSession.setOriginalType(1);
+            orderSession.setTransId(completeOrderDto.getOrderId());
+            orderSession.setOrderType(6);
+            orderSession.setDescription(completeOrderDto.getDescription());
+            orderSession.setProblemAttach(completeOrderDto.getProblemAttach());
+            orderSessionMapper.insertSession(orderSession);
+        }
 
-
-//        orderSessionMapper.insertSession(orderSession);
     }
+
+    @Override
+    public void resetOrder(OrderSession orderSession){
+        if(orderSession.getOriginalType()==0)
+        {
+            CrmWorkOrderCriteria crmWorkOrderCriteria = new CrmWorkOrderCriteria();
+            crmWorkOrderCriteria.setModifyPerson(SecurityUtils.getCurrentUsername());
+            crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
+            crmWorkOrderCriteria.setOrderStatus(8);
+            crmWorkOrderCriteria.setId(orderSession.getTransId());
+            crmWorkOrderMapper.update(crmWorkOrderCriteria);
+        }
+        else if(orderSession.getOriginalType()==1){
+            SubOrder subOrder=new SubOrder();
+            subOrder.setOrderStatus(8);
+            subOrder.setId(orderSession.getTransId());
+            subOrderMapper.updateSubOrder(subOrder);
+        }
+        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+        orderSession.setOrderType(8);
+        orderSessionMapper.insertSession(orderSession);
+    }
+
 
     @Override
     public void update(CrmWorkOrderCriteria crmWorkOrderCriteria) {
@@ -212,6 +335,27 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         }
         PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
         return PageHelpResultUtil.toPage(pageInfo);
+    }
+
+    @Override
+    public Map<String,Object> findServiceOrder(WorkOrderCriteria workOrderCriteria,Pageable pageable) {
+        PageHelper.startPage(pageable.getPage(), pageable.getSize());
+        String jobNumber = SecurityUtils.getCurrentUsername();
+        Integer userId= Math.toIntExact(userMapper.findIdByUsername(jobNumber));
+        List<Integer> catalogList=queuesToDeptMapper.findServiceCatalogByUserId(userId);
+        workOrderCriteria.setSubCatalogList(catalogList);
+        List<CrmWorkOrderDto> tempList = crmWorkOrderMapper.findServiceOrder(workOrderCriteria);
+        for (CrmWorkOrderDto crmWorkOrderDto : tempList) {
+            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
+            crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
+        }
+        PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
+        return PageHelpResultUtil.toPage(pageInfo);
+    }
+
+    @Override
+    public List<User> findUser(User user) {
+     return userMapper.findUser(user);
     }
 
     @Override
@@ -304,6 +448,8 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
             serialNumber = uid + "-" + String.format("%03d", Integer.valueOf(intNumber));
         } else {
+            List<CrmWorkOrder> maxCrmWorkOrderList = crmWorkOrderMapper.findCrmOrderById(orderId);
+            tempMaxSerialNo=maxCrmWorkOrderList.get(0).getSerialNo();
             String uid = tempMaxSerialNo.substring(0, 15);
             serialNumber = uid + "-" + "001";
         }

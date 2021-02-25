@@ -1,9 +1,6 @@
 package me.zhengjie.modules.opl.service;
 
-import me.zhengjie.modules.opl.domain.CrmWorkOrder;
-import me.zhengjie.modules.opl.domain.OrderSession;
-import me.zhengjie.modules.opl.domain.Pageable;
-import me.zhengjie.modules.opl.domain.SubOrder;
+import me.zhengjie.modules.opl.domain.*;
 import me.zhengjie.modules.opl.service.dto.*;
 
 import java.util.List;
@@ -87,6 +84,39 @@ public interface CrmWorkOrderService {
 
     /**
      * @title: update
+     * @description: 关闭工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param closeOrderDto
+     * @return void
+     * @throws
+     */
+    void closeOrder(CloseOrderDto closeOrderDto);
+
+    /**
+     * @title: update
+     * @description: 取消工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param orderSession
+     * @return void
+     * @throws
+     */
+    void cancelOrder(OrderSession orderSession);
+
+    /**
+     * @title: update
+     * @description: 重开工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param orderSession
+     * @return void
+     * @throws
+     */
+    void resetOrder(OrderSession orderSession);
+
+    /**
+     * @title: update
      * @description: 完成工单
      * @date: 2021/1/13 19:18
      * @author:   yuchao.wang
@@ -163,6 +193,30 @@ public interface CrmWorkOrderService {
      * @throws
      */
     String findSubOplByMaxId(Integer orderId);
+
+
+    /**
+     * @title: findOplByMaxId
+     * @description: findOplByMaxId
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    List<User> findUser(User user);
+
+
+    /**
+     * @title: findServiceOrder
+     * @description: 服务台工单
+     * @date: 2021/1/13 19:46
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    Map<String,Object> findServiceOrder(WorkOrderCriteria workOrderCriteria,Pageable pageable);
 
 
 

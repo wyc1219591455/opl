@@ -1,6 +1,7 @@
 package me.zhengjie.modules.opl.mapper;
 
 import me.zhengjie.modules.opl.domain.DeptForShow;
+
 import me.zhengjie.modules.opl.service.dto.DeptVo;
 import me.zhengjie.modules.opl.service.dto.UserForShow;
 import org.apache.ibatis.annotations.Mapper;
@@ -59,7 +60,7 @@ public interface DeptForShowMapper {
      * @return java.util.List<me.zhengjie.modules.opl.service.dto.DeptVo>
      * @throws
      */
-    List<DeptVo> findDeptVoNotInCatalogId(Integer catalogId,DeptVo deptVo);
+    List<DeptVo> findDeptVoNotInCatalogId(Integer catalogId, DeptVo deptVo);
 
     /**
      * @title: findDeptVoInCatalogId
