@@ -35,10 +35,13 @@
 
     <!-- 获取不在支持组下的部门数据 -->
     <select id="findDeptVoNotInCatalogId" resultType="me.zhengjie.modules.opl.service.dto.DeptVo">
-         SELECT t1.FDeptId as deptId,t1.FDeptFullName as deptFullName,t1.FDeptName as deptName FROM tsysdept t1
+        SELECT t1.FDeptId as deptId,t1.FDeptFullName as deptFullName,t1.FDeptName as deptName FROM tsysdept t1
         WHERE t1.FFlag=0 and not EXISTS(
         SELECT t2.* FROM serviceCatalogRelateDept t2
         WHERE t2.catalogId = #{catalogId} and t1.FDeptId = t2.deptId
+        ) and not EXISTS (
+        SELECT t3.FParentId FROM tsysdept t3
+        WHERE t3.FParentId = t1.FSourceCode
         )
         <if test="deptVo.deptFullName!=null and deptVo.deptFullName!=''">
           and  t1.FDeptFullName like concat('%',#{deptVo.deptFullName},'%')

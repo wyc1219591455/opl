@@ -14,7 +14,7 @@
          INSERT INTO orderApplyCc(transId,empId,ccType,createDateTime,createUserId,originalType)
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
-         (#{transId},#{empId},#{ccType},#{createDateTime},#{createUserId},#{originalType})
+         (#{item.transId},#{item.empId},#{item.ccType},#{item.createDateTime},#{item.createUserId},#{item.originalType})
         </foreach>
     </insert>
 

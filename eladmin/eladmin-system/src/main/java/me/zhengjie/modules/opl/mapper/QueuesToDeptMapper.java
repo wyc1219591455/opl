@@ -148,7 +148,7 @@ public interface QueuesToDeptMapper {
      * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
      * @throws
      */
-    List<UserForShow> findAllUserByDeptIdAndQueueId(Integer queuesId,Integer deptId);
+    List<UserForShow> findAllUserByDeptIdAndQueueId(Integer queuesId,Integer deptId,String name);
 
     /**
      * @title: findAllUserByDeptId
@@ -159,7 +159,7 @@ public interface QueuesToDeptMapper {
      * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
      * @throws
      */
-    List<UserForShow> findAllUserByDeptIdAndQueueId2(Integer queuesId,List<Integer> deptList);
+    List<UserForShow> findAllUserByDeptIdAndQueueId2(Integer queuesId,List<Integer> deptList,String name);
 
     /**
      * @title: findAllUserInUse
@@ -170,7 +170,7 @@ public interface QueuesToDeptMapper {
      * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
      * @throws
      */
-    List<UserForShow> findAllUserInUse(Integer queuesId);
+    List<UserForShow> findAllUserInUse(Integer queuesId,String name);
 
 
     /**

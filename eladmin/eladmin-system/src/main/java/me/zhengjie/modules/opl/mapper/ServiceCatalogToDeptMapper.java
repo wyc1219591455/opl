@@ -57,11 +57,11 @@ public interface ServiceCatalogToDeptMapper {
      * @description: 如果是最上层公司，那么就展示已勾选的
      * @date: 2021/2/24 20:31
      * @author: ming.cao
-     * @param queuesId
+     * @param
      * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
      * @throws
      */
-    List<UserForShow> findAllUserInUse(Integer queuesId);
+    List<UserForShow> findAllUserInUse(Integer catalogId ,String name);
 
     /**
      * @title: getCountByOrgId
@@ -111,7 +111,7 @@ public interface ServiceCatalogToDeptMapper {
     /**
      * 今天就写到这
      */
-    List<UserForShow> findAllUserByDeptIdListAndCatalogId(Integer queuesId,List<Integer> deptList);
+    List<UserForShow> findAllUserByDeptIdListAndCatalogId(Integer catalogId,List<Integer> deptList,String name);
 
     /**
      * @title: findAllUserByDeptId
@@ -122,7 +122,7 @@ public interface ServiceCatalogToDeptMapper {
      * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
      * @throws
      */
-    List<UserForShow> findAllUserByDeptIdAndCatalogId(Integer queuesId,Integer deptId);
+    List<UserForShow> findAllUserByDeptIdAndCatalogId(Integer catalogId,Integer deptId,String name);
 
     /**
      * @title: delete
@@ -174,10 +174,10 @@ public interface ServiceCatalogToDeptMapper {
      * @description: 查是否存在此组id和人id的数据
      * @date: 2021/2/24 19:03
      * @author: ming.cao
-     * @param queuesId
+     * @param
      * @param sourceId
      * @return java.lang.Integer
      * @throws
      */
-    Integer findByCatalogIdAndSourceId(Integer queuesId,Integer sourceId);
+    Integer findByCatalogIdAndSourceId(Integer catalogId,Integer sourceId);
 }

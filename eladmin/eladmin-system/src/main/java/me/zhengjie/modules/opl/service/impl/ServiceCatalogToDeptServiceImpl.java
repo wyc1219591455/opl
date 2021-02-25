@@ -91,7 +91,7 @@ public class ServiceCatalogToDeptServiceImpl implements ServiceCatalogToDeptServ
     public void deleteCatalogToDept(CatalogToDeptCriteria1 criteria) {
         //非空校验
         if (ObjectUtil.isEmpty(criteria.getCatalogId())){
-            throw new BadRequestException("组id不能为空！");
+            throw new BadRequestException("服务分类id不能为空！");
         }
         if (ObjectUtil.isEmpty(criteria.getType())){
             throw new BadRequestException("类型不能为空，请填入0，1！");
@@ -123,9 +123,11 @@ public class ServiceCatalogToDeptServiceImpl implements ServiceCatalogToDeptServ
         List<ServiceCatalogToDept> findServiceCatalogToDept = serviceCatalogToDeptMapper.findServiceCatalogToDeptByCatalogId(criteria.getCatalogId());
 
         //去重后数据
-        List<ServiceCatalogToDept> serviceCatalogToDeptForAdd = serviceCatalogToDeptList.stream().collect(Collectors. collectingAndThen(
+        List<Integer> idList = findServiceCatalogToDept.stream().map(o->o.getSourceId()).collect(Collectors.toList());
+        List<ServiceCatalogToDept> serviceCatalogToDeptForAdd = serviceCatalogToDeptList.stream().filter(o->idList.contains(o.getSourceId())).collect(Collectors.toList());
+       /* List<ServiceCatalogToDept> serviceCatalogToDeptForAdd = serviceCatalogToDeptList.stream().collect(Collectors. collectingAndThen(
                 Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(o -> o.getSourceId()))), ArrayList::new));
-
+            */
         serviceCatalogToDeptMapper.batchInsert(serviceCatalogToDeptForAdd);
     }
 
@@ -136,21 +138,23 @@ public class ServiceCatalogToDeptServiceImpl implements ServiceCatalogToDeptServ
         if (criteria.getType()==1){
             try {
                 for (Integer sourceId : criteria.getSourceId()){
-                  //  if (serviceCatalogToDeptMapper)
+                   if (serviceCatalogToDeptMapper.findByCatalogIdAndSourceId(criteria.getCatalogId(),sourceId)>0){
+                       serviceCatalogToDeptMapper.deleteByCatalogIdAndSourceId(criteria.getCatalogId(),sourceId);
+                   }
                 }
             }catch (Exception e){
-
+                throw new BadRequestException("删除失败！");
             }
         }
 
     }
 
     @Override
-    public Map<String,Object> findAllUserByDeptId(Pageable pageable, Integer level, Integer catalogId, Integer deptId) {
+    public Map<String,Object> findAllUserByDeptId(Pageable pageable, Integer level, Integer catalogId, Integer deptId, String name) {
 
         if (level == 0) {    //如果是最上层公司，那么就展示已勾选的
             //List<UserForShow> userForShowList = serviceCatalogToDeptMapper.
-            List<UserForShow> userForShowList = serviceCatalogToDeptMapper.findAllUserInUse(catalogId);
+            List<UserForShow> userForShowList = serviceCatalogToDeptMapper.findAllUserInUse(catalogId,name);
             Map<String,Object> map = new LinkedHashMap<>(2);
             map.put("content",userForShowList);
             map.put("totalElements",userForShowList.size());
@@ -174,7 +178,7 @@ public class ServiceCatalogToDeptServiceImpl implements ServiceCatalogToDeptServ
                  * 今天就写到这
                  */
                 if (deptList.size()>0){
-                    userForShowList = serviceCatalogToDeptMapper.findAllUserByDeptIdListAndCatalogId(catalogId, deptList);
+                    userForShowList = serviceCatalogToDeptMapper.findAllUserByDeptIdListAndCatalogId(catalogId, deptList,name);
 
                 }
             }
@@ -189,14 +193,14 @@ public class ServiceCatalogToDeptServiceImpl implements ServiceCatalogToDeptServ
             Integer count = serviceCatalogToDeptMapper.getCountByParentId(deptId);
             List<UserForShow> userForShowList = new ArrayList<>();
             if (count<=0){
-                userForShowList = serviceCatalogToDeptMapper.findAllUserByDeptIdAndCatalogId(catalogId,deptId);
+                userForShowList = serviceCatalogToDeptMapper.findAllUserByDeptIdAndCatalogId(catalogId,deptId,name);
             }else{
                 //如果不是底层部门则需要遍历，获取下面所有的部门数据
                 List<Integer> deptList = new ArrayList<>();
                 //获取部门下面所有的部门数据
                 getAllDeptList(deptList,deptId);
                 if (deptList.size()>0){
-                    userForShowList =  serviceCatalogToDeptMapper.findAllUserByDeptIdListAndCatalogId(catalogId, deptList);
+                    userForShowList =  serviceCatalogToDeptMapper.findAllUserByDeptIdListAndCatalogId(catalogId, deptList,name);
 
                 }
             }

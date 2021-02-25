@@ -106,7 +106,7 @@ public class DeptForShowServiceImpl implements DeptForShowService {
             }
         }
 
-        if (deptChildren2.size()>0){
+        /*if (deptChildren2.size()>0){
             for (DeptForShow deptForShow : deptChildren2) {
                 OrgTreeDto treeDto = new OrgTreeDto();
                 treeDto.setId(""+deptForShow.getDeptId());
@@ -118,7 +118,7 @@ public class DeptForShowServiceImpl implements DeptForShowService {
                 treeDto.setLevel(1L);
                 treeList.add(treeDto);
             }
-        }
+        }*/
 
         return treeList;
 

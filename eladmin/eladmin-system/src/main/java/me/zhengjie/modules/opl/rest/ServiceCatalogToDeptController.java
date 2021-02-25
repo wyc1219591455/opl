@@ -10,6 +10,8 @@ import me.zhengjie.annotation.Log;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToDept;
 import me.zhengjie.modules.opl.service.ServiceCatalogToDeptService;
+import me.zhengjie.modules.opl.service.dto.CatalogToDeptCriteria;
+import me.zhengjie.modules.opl.service.dto.CatalogToDeptCriteria1;
 import me.zhengjie.modules.opl.service.dto.UserForShow;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,19 +48,47 @@ public class ServiceCatalogToDeptController {
         return serviceCatalogToDeptService.findAllCatalogById();
     }
 
-    @Log("新增服务分类关联")
+  /*  @Log("新增服务分类关联")
     @ApiOperation("新增服务分类关联")
     @PostMapping
     public void insertCatalogToDeptAssociation(@RequestBody ServiceCatalogToDept serviceCatalogToDept)  {
         serviceCatalogToDeptService.insertCatalogToDeptAssociation(serviceCatalogToDept);
+    }*/
+
+    @Log("新增服务分类关联")
+    @ApiOperation("新增服务分类关联")
+    @PostMapping
+    public void addCatalogToDept(@RequestBody  CatalogToDeptCriteria1 criteria)  {
+        serviceCatalogToDeptService.addCatalogToDept(criteria);
+    }
+
+    @Log("删除服务分类关联")
+    @ApiOperation("删除服务分类关联")
+    @DeleteMapping
+    public void deleteCatalogToDept(@RequestBody CatalogToDeptCriteria1 criteria)  {
+        serviceCatalogToDeptService.deleteCatalogToDept(criteria);
+    }
+
+    @Log("新增服务分类关联")
+    @ApiOperation("新增服务分类关联")
+    @PostMapping("/batchInsert")
+    public void batchAddCatalogToDept(@RequestBody CatalogToDeptCriteria criteria)  {
+        serviceCatalogToDeptService.batchAddCatalogToDept(criteria);
+    }
+
+    @Log("批量删除服务分类关联")
+    @ApiOperation("批量删除服务分类关联")
+    @DeleteMapping("/batchDelete")
+    public void batchDeleteCatalogToDept(@RequestBody CatalogToDeptCriteria criteria)  {
+        serviceCatalogToDeptService.batchDeleteCatalogToDept(criteria);
     }
 
 
-    @Log("获取所有部门人员信息")
-    @ApiOperation("获取所有部门人员信息")
+    @Log("批量获取所有部门人员信息")
+    @ApiOperation("批量获取所有部门人员信息")
     @GetMapping("/deptUser")
-    public Map<String ,Object> findAllUserByDeptId(@ApiParam("级别") @NotNull Integer level , @ApiParam("服务组id") @NotNull Integer catalogId, @ApiParam("部门id") @NotNull Integer deptId, Pageable pageable){
-         return  serviceCatalogToDeptService.findAllUserByDeptId(pageable,level,catalogId,deptId);
+    public Map<String ,Object> findAllUserByDeptId(@ApiParam("级别") @NotNull Integer level , @ApiParam("服务组id") @NotNull Integer catalogId, @ApiParam("部门id") @NotNull Integer deptId,@ApiParam("人名称")String name ,Pageable pageable){
+         return  serviceCatalogToDeptService.findAllUserByDeptId(pageable,level,catalogId,deptId,name);
 
     }
 

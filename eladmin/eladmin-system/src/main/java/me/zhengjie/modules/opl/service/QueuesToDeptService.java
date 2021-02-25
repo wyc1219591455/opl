@@ -47,7 +47,7 @@ public interface QueuesToDeptService {
      * @return java.util.Map<java.lang.String,java.lang.Object>
      * @throws
      */
-    Map<String,Object> findAllUserByDeptId(Pageable pageable, Integer level ,Integer queuesId ,Integer deptId);
+    Map<String,Object> findAllUserByDeptId(Pageable pageable, Integer level ,Integer queuesId , String name,Integer deptId);
 
     /**
      * @title: addQueuesToDept

@@ -95,7 +95,7 @@ public class OrderApplyCcServiceImpl implements OrderApplyCcService {
     @Override
     public Map<String, Object> findCcByOrderId(Pageable pageable, Integer orderId, Integer orderType) {
 
-        if (pageable != null && pageable.getPage() == -1) {
+        //if (pageable != null && pageable.getPage() == -1) {
             List<OrderApplyCcDto> orderApplyCcList = new ArrayList<>();
             if (orderType==0) {  //来自主表
                 orderApplyCcList = orderApplyCcMapper.findCcByTransId(orderId);
@@ -106,8 +106,8 @@ public class OrderApplyCcServiceImpl implements OrderApplyCcService {
                 map.put("content", orderApplyCcList);
                 map.put("totalElements", orderApplyCcList.size());
                 return map;
-        } else {
-            PageHelper.startPage(pageable.getPage(), pageable.getSize());
+        //} else {
+        /*    PageHelper.startPage(pageable.getPage(), pageable.getSize());
             List<OrderApplyCcDto> orderApplyCcList = new ArrayList<>();
             if (orderType==0) {  //来自主表
                 orderApplyCcList = orderApplyCcMapper.findCcByTransId(orderId);
@@ -116,7 +116,7 @@ public class OrderApplyCcServiceImpl implements OrderApplyCcService {
             }
             PageInfo<OrderApplyCcDto> pageInfo1 = new PageInfo<>(orderApplyCcList);
             return PageHelpResultUtil.toPage(pageInfo1);
-        }
+        }*/
 
     }
 

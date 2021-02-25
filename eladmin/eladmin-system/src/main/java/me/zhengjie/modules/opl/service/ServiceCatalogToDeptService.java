@@ -117,6 +117,6 @@ public interface ServiceCatalogToDeptService {
      * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
      * @throws
      */
-    Map<String,Object> findAllUserByDeptId(Pageable pageable, Integer level, Integer catalogId, Integer deptId) ;
+    Map<String,Object> findAllUserByDeptId(Pageable pageable, Integer level, Integer catalogId, Integer deptId,String name) ;
 
 }

@@ -31,6 +31,8 @@ public class ServiceCatalogRelateDeptServiceImpl implements ServiceCatalogRelate
 
     @Override
     public void batchInsert(List<ServiceCatalogRelateDept> list) {
+
+
         serviceCatalogRelateDeptMapper.batchInsert(list);
     }
 
@@ -64,7 +66,10 @@ public class ServiceCatalogRelateDeptServiceImpl implements ServiceCatalogRelate
 
     @Override
     public Map<String,Object> findByCatalogId(Integer catalogId) {
+
+
         List<ServiceCatalogRelateDeptDto> tempList =serviceCatalogRelateDeptMapper.findDeptDtoByCatalogId(catalogId);
+
         Map<String, Object> map = new LinkedHashMap<>(2);
         map.put("content", tempList);
         map.put("totalElements", tempList.size());

@@ -64,8 +64,13 @@
         t2.FDeptId as deptId,t2.FDeptName as deptName ,
 	   1 as flag FROM tsysuser t1
          LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
-        WHERE ( CASE  WHEN EXISTS ( SELECT * FROM serviceCatalogToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.FUserId AND t3.catalogId =1 ) THEN 1
+        WHERE ( CASE  WHEN EXISTS ( SELECT * FROM serviceCatalogToDept t3
+        WHERE t3.type=1 AND t3.sourceId=t1.FUserId AND t3.catalogId =#{catalogId} ) THEN 1
 	    ELSE 0 END ) = 1
+	    <if test="name!=null and name!=''">
+           AND t1.FHumanName like concat('%',#{name},'%')
+        </if>
+
     </select>
 
     <!-- 根据父类id获取总数（判断此部门是不是最底层部门） -->
@@ -92,7 +97,7 @@
         (SELECT t1.FSourceCode FROM tsysdept t1 WHERE t1.FDeptId = #{deptId} ) AND t2.FFlag = 0
     </select>
 
-    <!-- 根据部门id获取所有的人员 -->
+    <!-- 根据部门id的list和服务分类id获取所有的人员 -->
     <select id="findAllUserByDeptIdListAndCatalogId" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
         SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
         t2.FDeptId as deptId,t2.FDeptName as deptName ,
@@ -105,7 +110,12 @@
         <foreach  collection="deptList" item="item" index="index" separator="," open="(" close=")" >
             #{item}
         </foreach>
+        <if test="name!=null and name!=''">
+          AND  t1.FHumanName like concat('%',#{name},'%')
+        </if>
     </select>
+
+    <!-- 根据部门id和服务分类id获取所有的人员 -->
     <select id="findAllUserByDeptIdAndCatalogId" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
         SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
         t2.FDeptId as deptId,t2.FDeptName as deptName ,
@@ -115,6 +125,9 @@
 	    ELSE 0 END ) as flag FROM tsysuser t1
          LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
         WHERE t2.FDeptId =#{deptId}
+        <if test="name!=null and name!=''">
+          AND  t1.FHumanName like concat('%',#{name},'%')
+        </if>
     </select>
 
     <!-- 获取明细下关联数据 -->
@@ -125,7 +138,8 @@
 
     <!-- 查是否存在此组id和人id的数据-->
     <select id="findByCatalogIdAndSourceId" resultType="java.lang.Integer">
-
+        SELECT count(*) as a FROM serviceCatalogToDept WHERE catalogId = #{catalogId}
+        and sourceId = #{sourceId} and type = 1
     </select>
 
 

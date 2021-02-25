@@ -13,10 +13,7 @@ import me.zhengjie.modules.opl.service.OrderApplyCcService;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.OrderApplyCcCriteria;
 import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,14 +57,14 @@ public class OrderApplyCcController {
     @Log("新增工单抄送信息")
     @ApiOperation("新增工单抄送信息")
     @PostMapping
-    public void addOrderApplyCcByOrderId(OrderApplyCc orderApplyCc) {
+    public void addOrderApplyCcByOrderId(@RequestBody OrderApplyCc orderApplyCc) {
         orderApplyCcService.insert(orderApplyCc);
     }
 
     @Log("修改工单抄送信息")
     @ApiOperation("修改工单抄送信息")
     @PostMapping("/updateCcOrder")
-    public void updateOrderApplyCcByOrderId(OrderApplyCcCriteria criteria){
+    public void updateOrderApplyCcByOrderId(@RequestBody OrderApplyCcCriteria criteria){
         orderApplyCcService.updateOrderApplyCcByOrderId(criteria);
 
     }
