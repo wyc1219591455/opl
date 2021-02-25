@@ -28,6 +28,29 @@ public interface QueuesToDeptMapper {
     List<UserForShow> findByQueueId(Integer id) ;
 
     /**
+     * @title: findQueuesToDeptByQueuesId
+     * @description: 获取明细下关联数据
+     * @date: 2021/2/24 18:52
+     * @author: ming.cao
+     * @param queuesId
+     * @return java.util.List<me.zhengjie.modules.opl.domain.QueuesToDept>
+     * @throws
+     */
+    List<QueuesToDept> findQueuesToDeptByQueuesId(Integer queuesId);
+
+    /**
+     * @title: findByQueuesIdAndSourceId
+     * @description: 查是否存在此组id和人id的数据
+     * @date: 2021/2/24 19:03
+     * @author: ming.cao
+     * @param queuesId
+     * @param sourceId
+     * @return java.lang.Integer
+     * @throws
+     */
+    Integer findByQueuesIdAndSourceId(Integer queuesId,Integer sourceId);
+
+    /**
      * @title: insert
      * @description: insert
      * @date: 2021/1/22 14:05
@@ -83,6 +106,18 @@ public interface QueuesToDeptMapper {
     void delete(Integer id);
 
     /**
+     * @title: deleteByQueuesIdAndSourceId
+     * @description: 根据组id和人员id删除
+     * @date: 2021/2/24 18:23
+     * @author: ming.cao
+     * @param queuesId
+     * @param sourceId
+     * @return void
+     * @throws
+     */
+    void deleteByQueuesIdAndSourceId(Integer queuesId,Integer sourceId);
+
+    /**
      * @title: deleteByQueue
      * @description: 根据支持组删
      * @date: 2021/1/22 15:20
@@ -114,6 +149,74 @@ public interface QueuesToDeptMapper {
      * @throws
      */
     List<UserForShow> findAllUserByDeptIdAndQueueId(Integer queuesId,Integer deptId);
+
+    /**
+     * @title: findAllUserByDeptId
+     * @description: 根据部门id获取所有的人员
+     * @date: 2021/1/22 16:06
+     * @author: ming.cao
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
+     * @throws
+     */
+    List<UserForShow> findAllUserByDeptIdAndQueueId2(Integer queuesId,List<Integer> deptList);
+
+    /**
+     * @title: findAllUserInUse
+     * @description: 获取已勾选的数据
+     * @date: 2021/2/23 14:47
+     * @author: ming.cao
+     * @param queuesId
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
+     * @throws
+     */
+    List<UserForShow> findAllUserInUse(Integer queuesId);
+
+
+    /**
+     * @title: getCountByParentId
+     * @description: 根据父类id获取总数（判断此部门是不是最底层部门）
+     * @date: 2021/2/23 13:23
+     * @author: ming.cao
+     * @param orgId
+     * @return java.lang.Integer
+     * @throws
+     */
+    Integer getCountByOrgId(Integer orgId);
+
+    /**
+     * @title: getListByOrgId
+     * @description: 根据父类id获取list（查出部门下面的部门id）
+     * @date: 2021/2/23 15:43
+     * @author: ming.cao
+     * @param orgId
+     * @return java.util.List<java.lang.Integer>
+     * @throws
+     */
+    List<Integer> getListByOrgId(Integer orgId);
+
+
+    /**
+     * @title: getCountByParentId
+     * @description: 根据父类id获取总数（判断此部门是不是最底层部门）
+     * @date: 2021/2/23 13:23
+     * @author: ming.cao
+     * @param deptId
+     * @return java.lang.Integer
+     * @throws
+     */
+    Integer getCountByParentId(Integer deptId);
+
+    /**
+     * @title: getListByParentId
+     * @description: 根据父类id获取list（查出部门下面的部门id）
+     * @date: 2021/2/23 13:44
+     * @author: ming.cao
+     * @param deptId
+     * @return java.util.List<java.lang.Integer>
+     * @throws
+     */
+    List<Integer> getListByParentId(Integer deptId);
 
 
     /**
@@ -148,4 +251,6 @@ public interface QueuesToDeptMapper {
      * @throws
      */
     List<Integer> findServiceCatalogByUserId(Integer userId);
+
+
 }

@@ -9,6 +9,7 @@ import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.QueuesToDept;
 import me.zhengjie.modules.opl.service.QueuesToDeptService;
 import me.zhengjie.modules.opl.service.dto.QueuesToDeptCriteria;
+import me.zhengjie.modules.opl.service.dto.QueuesToDeptCriteria1;
 import me.zhengjie.modules.opl.service.dto.RequestQueuesDetlCriteria;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,32 +38,57 @@ public class QueueToDeptController {
         return  queuesToDeptService.findByQueueId(pageable,queueId);
     }
 
-    @Log("新增支持组明细")
-    @ApiOperation("新增支持组明细")
+    @Log("单个新增支持组明细")
+    @ApiOperation("单个新增支持组明细")
     @PostMapping
-    public void addRequestQueues(@RequestBody QueuesToDeptCriteria criteria){
+    public void addRequestQueues1(@RequestBody QueuesToDeptCriteria1 criteria){
         queuesToDeptService.addQueuesToDept(criteria);
     }
 
-    @Log("修改支持组明细")
-    @ApiOperation("修改支持组明细")
-    @PutMapping
-    public void updateRequestQueues(@RequestBody QueuesToDeptCriteria criteria){
-        queuesToDeptService.updateQueuesToDept(criteria);
+    @Log("单个删除支持组明细")
+    @ApiOperation("单个删除支持组明细")
+    @DeleteMapping
+    public void updateRequestQueues1(@RequestBody QueuesToDeptCriteria1 criteria){
+        queuesToDeptService.deleteQueuesToDept(criteria);
     }
 
-    @Log("删除支持组明细")
+
+    @Log("批量新增支持组明细")
+    @ApiOperation("批量新增支持组明细")
+    @PostMapping("/batchInsert")
+    public void batchAddRequestQueues(@RequestBody QueuesToDeptCriteria criteria){
+        queuesToDeptService.batchAddQueuesToDept(criteria);
+    }
+
+    @Log("批量修改支持组明细")
+    @ApiOperation("批量修改支持组明细")
+    @DeleteMapping("/batchDelete")
+    public void batchDeleteRequestQueues(@RequestBody QueuesToDeptCriteria criteria){
+        queuesToDeptService.batchUpdateQueuesToDept(criteria);
+    }
+
+
+   /* @Log("批量修改支持组明细")
+    @ApiOperation("批量修改支持组明细")
+    @PutMapping("/batchUpdate")
+    public void batchUpdateRequestQueues(@RequestBody QueuesToDeptCriteria criteria){
+        queuesToDeptService.batchUpdateQueuesToDept(criteria);
+    }*/
+
+
+
+ /*   @Log("删除支持组明细")
     @ApiOperation("删除支持组明细")
     @DeleteMapping
     public void delRequestQueues( @RequestBody List<Integer> ids){
         queuesToDeptService.deleteQueuesToDept(ids);
-    }
+    }*/
 
     @Log("获取所有部门人员信息")
     @ApiOperation("获取所有部门人员信息")
     @GetMapping("/deptUser")
-    public Map<String ,Object> findAllUserByDeptId(@ApiParam("支持组id") @NotNull Integer queuesId,@ApiParam("部门id") @NotNull Integer deptId, Pageable pageable){
-      return  queuesToDeptService.findAllUserByDeptId(pageable,queuesId,deptId);
+    public Map<String ,Object> findAllUserByDeptId(@ApiParam("级别") @NotNull Integer level ,@ApiParam("支持组id") @NotNull Integer queuesId,@ApiParam("部门id") @NotNull Integer deptId, Pageable pageable){
+      return  queuesToDeptService.findAllUserByDeptId(pageable,level,queuesId,deptId);
     }
 
     @Log("根据服务分类条目获取部门信息")

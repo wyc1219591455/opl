@@ -8,13 +8,13 @@
     <select id="findAll" parameterType="me.zhengjie.modules.opl.service.dto.RequestQueuesCriteria" resultType="me.zhengjie.modules.opl.domain.RequestQueues">
         SELECT * FROM trequestqueues WHERE 1=1
         <if test="code!=null and code!=''">
-          AND FCode LIKE concat('%',#{code},'%')
+          AND code LIKE concat('%',#{code},'%')
         </if>
         <if test="name!=null and name!=''">
-          AND FName LIKE concat('%',#{name},'%')
+          AND name LIKE concat('%',#{name},'%')
         </if>
         <if test="status!=null">
-          AND FStatus =#{status}
+          AND status =#{status}
         </if>
     </select>
 
@@ -26,6 +26,11 @@
     <!--获取默认组个数-->
     <select id="countDefaultQueue" resultType="java.lang.Integer" parameterType="java.lang.Integer">
         SELECT count(*) FROM trequestqueues WHERE isDefault = 1 AND status = 1 AND id != #{id}
+    </select>
+
+    <!--根据支持组id获取信息-->
+    <select id="findQueuesById" resultType="me.zhengjie.modules.opl.domain.RequestQueues">
+        SELECT * FROM trequestqueues WHERE id = #{id}
     </select>
 
     <!--新增-->

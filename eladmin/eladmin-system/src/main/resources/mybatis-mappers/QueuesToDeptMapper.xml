@@ -77,6 +77,65 @@
          LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
          WHERE t2.FDeptId = #{deptId}
     </select>
+    <select id="findAllUserByDeptIdAndQueueId2" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
+        SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        t2.FDeptId as deptId,t2.FDeptName as deptName ,
+	    ( CASE  WHEN EXISTS ( SELECT * FROM queuesToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.FUserId AND t3.queuesId = #{queuesId} ) THEN 1
+	    ELSE 0 END ) as flag FROM tsysuser t1
+         LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
+        WHERE t2.FDeptId in
+        <foreach  collection="deptList" item="item" index="index" separator="," open="(" close=")" >
+         #{item}
+        </foreach>
+
+    </select>
+
+
+
+    <!-- 根据父类id获取总数（判断此部门是不是最底层部门） -->
+    <select id="getCountByParentId" resultType="java.lang.Integer">
+        SELECT count(0) as a FROM tsysdept t2 WHERE t2.FParentId in
+        (SELECT t1.FSourceCode FROM tsysdept t1 WHERE t1.FDeptId = #{deptId} ) AND t2.FFlag = 0
+    </select>
+
+    <!---->
+    <select id="getListByParentId" resultType="java.lang.Integer">
+         SELECT t2.FDeptId FROM tsysdept t2 WHERE t2.FParentId in
+        (SELECT t1.FSourceCode FROM tsysdept t1 WHERE t1.FDeptId = #{deptId} ) AND t2.FFlag = 0
+    </select>
+
+    <!-- 获取已勾选的数据 -->
+    <select id="findAllUserInUse" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
+         SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        t2.FDeptId as deptId,t2.FDeptName as deptName ,
+	   1 as flag FROM tsysuser t1
+         LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
+        WHERE ( CASE  WHEN EXISTS ( SELECT * FROM queuesToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.FUserId AND t3.queuesId =#{queuesId} ) THEN 1
+	    ELSE 0 END ) = 1
+    </select>
+
+    <!--根据父类id获取总数（判断此部门是不是最底层部门）-->
+    <select id="getCountByOrgId" resultType="java.lang.Integer">
+         SELECT count(0) as a FROM tsysdept t2 WHERE t2.FParentId in
+        (SELECT t1.FOrgSourceId FROM tsysorgas t1 WHERE t1.FOrgId = #{orgId} ) AND t2.FFlag = 0
+    </select>
+
+    <!--根据父类id获取list（查出部门下面的部门id）-->
+    <select id="getListByOrgId" resultType="java.lang.Integer">
+        SELECT t2.FDeptId FROM tsysdept t2 WHERE t2.FParentId in
+        (SELECT t1.FOrgSourceId FROM tsysorgas t1 WHERE t1.FOrgId = #{orgId} ) AND t2.FFlag = 0
+    </select>
+
+    <!-- 获取明细下关联数据 -->
+    <select id="findQueuesToDeptByQueuesId" resultType="me.zhengjie.modules.opl.domain.QueuesToDept">
+        SELECT * FROM queuesToDept WHERE queuesId = #{queuesId} and type = 1
+    </select>
+
+    <!-- 查是否存在此组id和人id的数据 -->
+    <select id="findByQueuesIdAndSourceId" resultType="java.lang.Integer">
+         SELECT count(*) as a FROM queuesToDept WHERE queuesId = #{queuesId} and sourceId = #{sourceId} and type = 1
+    </select>
+
 
     <!--新增-->
     <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.QueuesToDept">
@@ -119,9 +178,16 @@
         DELETE FROM queuesToDept WHERE id = #{id}
     </delete>
 
+    <!-- 根据组id和人员id删除 -->
+    <delete id="deleteByQueuesIdAndSourceId" parameterType="java.lang.Integer">
+        DELETE FROM queuesToDept WHERE queuesId = #{queuesId} AND sourceId = #{sourceId}
+    </delete>
+
     <!--根据支持组id删除-->
     <delete id="deleteByQueue">
         DELETE FROM queuesToDept WHERE queuesId = #{queuesId}
     </delete>
+
+
 
 </mapper>

@@ -3,11 +3,18 @@ package me.zhengjie.modules.opl.rest;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import jdk.internal.dynalink.linker.LinkerServices;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
+import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToDept;
 import me.zhengjie.modules.opl.service.ServiceCatalogToDeptService;
+import me.zhengjie.modules.opl.service.dto.UserForShow;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 
 @RestController
@@ -45,4 +52,15 @@ public class ServiceCatalogToDeptController {
     public void insertCatalogToDeptAssociation(@RequestBody ServiceCatalogToDept serviceCatalogToDept)  {
         serviceCatalogToDeptService.insertCatalogToDeptAssociation(serviceCatalogToDept);
     }
+
+
+    @Log("获取所有部门人员信息")
+    @ApiOperation("获取所有部门人员信息")
+    @GetMapping("/deptUser")
+    public Map<String ,Object> findAllUserByDeptId(@ApiParam("级别") @NotNull Integer level , @ApiParam("服务组id") @NotNull Integer catalogId, @ApiParam("部门id") @NotNull Integer deptId, Pageable pageable){
+         return  serviceCatalogToDeptService.findAllUserByDeptId(pageable,level,catalogId,deptId);
+
+    }
+
+
 }

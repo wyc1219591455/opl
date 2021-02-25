@@ -1,7 +1,10 @@
 package me.zhengjie.modules.opl.mapper;
 
 import me.zhengjie.modules.opl.domain.ServiceCatalogToQueues;
+import me.zhengjie.modules.opl.domain.SubServiceCatalog;
+import me.zhengjie.modules.opl.service.dto.CatalogCriteria;
 import me.zhengjie.modules.opl.service.dto.ServiceCatalogToQueuesDto;
+import me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -71,4 +74,15 @@ public interface ServiceCatalogToQueuesMapper {
      * @throws
      */
     void delByCatalogId(Integer catalogId);
+
+    /**
+     * @title: getQueuesByUserId
+     * @description:
+     * @date: 2021/2/23 19:50
+     * @author: ming.cao
+     * @param subServiceCatalog
+     * @return java.lang.Integer
+     * @throws
+     */
+    Integer getCountByCatalogName( SubServiceCatalog subServiceCatalog );
 }

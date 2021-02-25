@@ -6,7 +6,6 @@ import me.zhengjie.modules.opl.domain.ServiceCatalogToDept;
 import me.zhengjie.modules.opl.domain.TrequestCategory;
 import me.zhengjie.modules.opl.service.dto.ServiceCatalogDto;
 import me.zhengjie.modules.opl.service.dto.TrequestCategoryDto;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Map;
@@ -87,40 +86,4 @@ public interface ServiceCatalogToCategoryService {
      * @throws
      */
     void insertCategoryAssociation(ServiceCatalogToCategory serviceCatalogToCategory);
-
-    /**
-     * @title: find
-     * @description: 根据ID查找工单分类
-     * @date: 2021/2/8 15:21
-     * @author: yuchao.wang
-     * @param
-     * @return void
-     * @throws
-     */
-    List<TrequestCategory> findCategoryById(Integer Id);
-
-    /**
-     * @title: update
-     * @description: 根据ID修改
-     * @date: 2021/2/8 15:21
-     * @author: yuchao.wang
-     * @param
-     * @return void
-     * @throws
-     */
-    void updateCategory(TrequestCategory trequestCategory);
-
-    /**
-     * @title: delete
-     * @description: 根据ID删除
-     * @date: 2021/2/8 15:21
-     * @author: yuchao.wang
-     * @param
-     * @return void
-     * @throws
-     */
-    void deleteCategoryById(List<Integer> idList);
-
-    List<Integer> getcategoryList(TrequestCategoryDto trequestCategoryDto);
 }
-

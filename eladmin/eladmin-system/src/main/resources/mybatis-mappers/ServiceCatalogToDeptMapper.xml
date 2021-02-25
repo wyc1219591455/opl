@@ -8,6 +8,25 @@
         VALUES(#{sourceId},#{catalogId},#{type},#{status},#{createDateTime},#{createUserId})
     </insert>
 
+    <insert id="batchInsert" parameterType="java.util.List" useGeneratedKeys="true">
+          INSERT INTO serviceCatalogToDept(sourceId,catalogId,type,status,createDateTime,createUserId)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator="," >
+            (#{item.sourceId},#{item.catalogId},#{item.type},#{item.status},
+            #{item.createDateTime,jdbcType=TIMESTAMP},#{item.createUserId})
+        </foreach>
+    </insert>
+
+    <!-- 删除 -->
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM serviceCatalogToDept WHERE id = #{id}
+    </delete>
+
+    <!-- 根据组id和人员id删除 -->
+    <delete id="deleteByCatalogIdAndSourceId" parameterType="java.lang.Integer">
+         DELETE FROM serviceCatalogToDept WHERE catalogId = #{catalogId} AND sourceId = #{sourceId}
+    </delete>
+
     <select id="findAssociationById"  resultType="me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto">
         SELECT C.catalogId,C.catalogName,C.description,C.parentId,C.status,C.defaultQueueId,B.FHumanName as humanName
         FROM serviceCatalogToDept A
@@ -37,6 +56,76 @@
         LEFT JOIN subServiceCatalog D ON A.catalogId=D.catalogId
         LEFT JOIN serviceCatalog E ON E.catalogId=D.parentId
         WHERE A.type=0 and C.FUserName= #{userId}
+    </select>
+
+    <!-- 如果是最上层公司，那么就展示已勾选的 -->
+    <select id="findAllUserInUse" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
+        SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        t2.FDeptId as deptId,t2.FDeptName as deptName ,
+	   1 as flag FROM tsysuser t1
+         LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
+        WHERE ( CASE  WHEN EXISTS ( SELECT * FROM serviceCatalogToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.FUserId AND t3.catalogId =1 ) THEN 1
+	    ELSE 0 END ) = 1
+    </select>
+
+    <!-- 根据父类id获取总数（判断此部门是不是最底层部门） -->
+    <select id="getCountByOrgId" resultType="java.lang.Integer">
+        SELECT count(0) as a FROM tsysdept t2 WHERE t2.FParentId in
+        (SELECT t1.FOrgSourceId FROM tsysorgas t1 WHERE t1.FOrgId = #{orgId} ) AND t2.FFlag = 0
+    </select>
+
+    <!--根据父类id获取list（查出部门下面的部门id）-->
+    <select id="getListByOrgId" resultType="java.lang.Integer">
+        SELECT t2.FDeptId FROM tsysdept t2 WHERE t2.FParentId in
+        (SELECT t1.FOrgSourceId FROM tsysorgas t1 WHERE t1.FOrgId = #{orgId} ) AND t2.FFlag = 0
+    </select>
+
+    <!-- 根据父类id获取总数（判断此部门是不是最底层部门） -->
+    <select id="getCountByParentId" resultType="java.lang.Integer">
+          SELECT count(0) as a FROM tsysdept t2 WHERE t2.FParentId in
+        (SELECT t1.FSourceCode FROM tsysdept t1 WHERE t1.FDeptId = #{deptId} ) AND t2.FFlag = 0
+    </select>
+
+    <!-- 根据父类id获取list（查出部门下面的部门id） -->
+    <select id="getListByParentId" resultType="java.lang.Integer">
+         SELECT t2.FDeptId FROM tsysdept t2 WHERE t2.FParentId in
+        (SELECT t1.FSourceCode FROM tsysdept t1 WHERE t1.FDeptId = #{deptId} ) AND t2.FFlag = 0
+    </select>
+
+    <!-- 根据部门id获取所有的人员 -->
+    <select id="findAllUserByDeptIdListAndCatalogId" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
+        SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        t2.FDeptId as deptId,t2.FDeptName as deptName ,
+	    ( CASE  WHEN EXISTS ( SELECT * FROM serviceCatalogToDept t3 WHERE t3.type=1 AND
+	     t3.sourceId=t1.FUserId AND t3.catalogId = #{catalogId} )
+			THEN 1
+	    ELSE 0 END ) as flag FROM tsysuser t1
+         LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
+        WHERE t2.FDeptId in
+        <foreach  collection="deptList" item="item" index="index" separator="," open="(" close=")" >
+            #{item}
+        </foreach>
+    </select>
+    <select id="findAllUserByDeptIdAndCatalogId" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
+        SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        t2.FDeptId as deptId,t2.FDeptName as deptName ,
+	    ( CASE  WHEN EXISTS ( SELECT * FROM serviceCatalogToDept t3 WHERE t3.type=1 AND
+	     t3.sourceId=t1.FUserId AND t3.catalogId = #{catalogId} )
+			THEN 1
+	    ELSE 0 END ) as flag FROM tsysuser t1
+         LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
+        WHERE t2.FDeptId =#{deptId}
+    </select>
+
+    <!-- 获取明细下关联数据 -->
+    <select id="findServiceCatalogToDeptByCatalogId"
+            resultType="me.zhengjie.modules.opl.domain.ServiceCatalogToDept">
+          SELECT * FROM serviceCatalogToDept WHERE catalogId = #{catalogId} and type = 1
+    </select>
+
+    <!-- 查是否存在此组id和人id的数据-->
+    <select id="findByCatalogIdAndSourceId" resultType="java.lang.Integer">
+
     </select>
 
 
