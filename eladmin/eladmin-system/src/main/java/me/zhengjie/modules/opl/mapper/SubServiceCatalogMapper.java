@@ -27,7 +27,7 @@ public interface SubServiceCatalogMapper {
      * @return void
      * @throws
      */
-    void insertSubCatalog(SubServiceCatalog subServiceCatalog);
+    Integer insertSubCatalog(SubServiceCatalog subServiceCatalog);
 
     /**
      * @title: update
@@ -51,6 +51,16 @@ public interface SubServiceCatalogMapper {
      */
     List<SubServiceCatalogDto> findSubCatalogByParentId(Integer ParentId);
 
+    /**
+     * @title: findSubCatalogById
+     * @description: 查询子分类数据
+     * @date: 2021/2/24 11:44
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.List<me.zhengjie.modules.opl.domain.SubServiceCatalog>
+     * @throws
+     */
+    List<SubServiceCatalog> findSubCatalogById(Integer catalogId);
 
     /**
      * @title: findOnUsedSub
@@ -62,4 +72,15 @@ public interface SubServiceCatalogMapper {
      * @throws
      */
     Integer findOnUsedOrder(Integer catalogId);
+
+    /**
+     * @title: deleteSubCatalogById
+     * @description: 根据子id删除
+     * @date: 2021/2/24 17:38
+     * @author: ming.cao
+     * @param subCatalogId
+     * @return void
+     * @throws
+     */
+    void deleteSubCatalogById(Integer subCatalogId);
 }
