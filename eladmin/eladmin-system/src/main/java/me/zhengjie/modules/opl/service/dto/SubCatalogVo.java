@@ -22,15 +22,17 @@ public class SubCatalogVo implements Serializable {
     @ApiModelProperty(value = "服务分类条目子表")
     private SubServiceCatalog subServiceCatalog;
 
-    @ApiModelProperty(value = "服务分类条目中的未被选择的工单分类")
-    private List<TrequestCategory> categoryLeftList;
+    /*@ApiModelProperty(value = "服务分类条目中的未被选择的工单分类")
+    private List<TrequestCategory> categoryLeftList;*/
 
     @ApiModelProperty(value = "服务分类条目中的已被选择的工单分类")
-    private List<TrequestCategory> categoryRightList;
+    //private List<TrequestCategory> categoryRightList;
+    private List<Integer> categoryRightList;
 
     @ApiModelProperty(value = "服务分类条目中的服务台")
     private RequestQueues requestQueues;
 
     @ApiModelProperty(value = "服务分类条目中的关联部门")
-    private List<DeptVo> serviceCatalogRelateDept;
+    //private List<DeptVo> serviceCatalogRelateDept;
+    private List<Integer> serviceCatalogRelateDept;
 }
