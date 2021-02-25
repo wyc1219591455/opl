@@ -1,10 +1,11 @@
 package me.zhengjie.modules.opl.service;
 
+import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.ServiceCatalogToDept;
-import me.zhengjie.modules.opl.service.dto.ServiceCatalogDto;
-import me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto;
+import me.zhengjie.modules.opl.service.dto.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: eladmin
@@ -56,5 +57,66 @@ public interface ServiceCatalogToDeptService {
      * @throws
      */
     void insertCatalogToDeptAssociation(ServiceCatalogToDept serviceCatalogToDept);
+
+    /**
+     * @title: addCatalogToDept
+     * @description: 新增
+     * @date: 2021/2/25 9:59
+     * @author: ming.cao
+     * @param
+     * @return void
+     * @throws
+     */
+    void addCatalogToDept(CatalogToDeptCriteria1 criteria1);
+
+    /**
+     * @title: deleteCatalogToDept
+     * @description: 删除
+     * @date: 2021/2/25 9:59
+     * @author: ming.cao
+     * @param
+     * @return void
+     * @throws
+     */
+    void deleteCatalogToDept(CatalogToDeptCriteria1 criteria1);
+
+    /**
+     * @title: batchAddCatalogToDept
+     * @description: 批量新增
+     * @date: 2021/2/25 10:02
+     * @author: ming.cao
+     * @param
+     * @return void
+     * @throws
+     */
+    void batchAddCatalogToDept(CatalogToDeptCriteria criteria);
+
+    /**
+     * @title: batchDeleteCatalogToDept
+     * @description: 批量删除
+     * @date: 2021/2/25 10:02
+     * @author: ming.cao
+     * @param
+     * @return void
+     * @throws
+     */
+    void batchDeleteCatalogToDept(CatalogToDeptCriteria criteria);
+
+
+
+
+    /**
+     * @title: findAllUserByDeptId
+     * @description: 获取所有部门人员信息
+     * @date: 2021/2/24 20:07
+     * @author: ming.cao
+     * @param pageable
+     * @param level
+     * @param
+     * @param deptId
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
+     * @throws
+     */
+    Map<String,Object> findAllUserByDeptId(Pageable pageable, Integer level, Integer catalogId, Integer deptId) ;
 
 }

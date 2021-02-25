@@ -57,6 +57,17 @@ public interface ServiceCatalogToCategoryMapper {
     void insertCategory(TrequestCategory trequestCategory);
 
     /**
+     * @title: deleteByCatalogId
+     * @description: 根据服务分类id删除
+     * @date: 2021/2/23 19:16
+     * @author: ming.cao
+     * @param catalogId
+     * @return void
+     * @throws
+     */
+    void deleteByCatalogId(Integer catalogId);
+
+    /**
      * @title: find
      * @description: 根据ID查找工单分类
      * @date: 2021/2/8 15:21
@@ -65,7 +76,29 @@ public interface ServiceCatalogToCategoryMapper {
      * @return void
      * @throws
      */
-    List<TrequestCategory> findCategoryById(Integer Id);
+    TrequestCategory findCategoryById(Integer Id);
+
+    /**
+     * @title: findCategoryByCatalogId
+     * @description: 根据服务分类条目id获取工单分类
+     * @date: 2021/2/24 13:15
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.List<me.zhengjie.modules.opl.domain.TrequestCategory>
+     * @throws
+     */
+    List<TrequestCategory> findCategoryByCatalogId(Integer catalogId);
+
+    /**
+     * @title: findCategoryByCatalogIdNotSelect
+     * @description: 未做选择的服务分类条目id中的工单分类
+     * @date: 2021/2/24 13:44
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.List<me.zhengjie.modules.opl.domain.TrequestCategory>
+     * @throws
+     */
+    List<TrequestCategory> findCategoryByCatalogIdNotSelect(Integer catalogId);
 
     /**
      * @title: 根据服务分类ID查找工单分类
@@ -114,7 +147,7 @@ public interface ServiceCatalogToCategoryMapper {
     List<TrequestCategoryDto> findSubAssociationById(Integer categoryId);
 
     /**
-     * @title: 根据ID查找可用的子分类
+     * @title: 根据父ID查找可用的子分类
      * @description: 根据父ID查找可用的子分类
      * @date: 2021/1/19 19:46
      * @author: yuchao.wang
@@ -123,30 +156,4 @@ public interface ServiceCatalogToCategoryMapper {
      * @throws
      */
     List<TrequestCategoryDto> findUsedSubAssociationById(Integer categoryId);
-
-    /**
-     * @title: update
-     * @description: 根据ID修改
-     * @date: 2021/2/8 15:21
-     * @author: yuchao.wang
-     * @param
-     * @return void
-     * @throws
-     */
-    void updateCategory(TrequestCategory trequestCategory);
-
-    /**
-     * @title: delete
-     * @description: 根据ID删除
-     * @date: 2021/2/8 15:21
-     * @author: yuchao.wang
-     * @param
-     * @return void
-     * @throws
-     */
-    void deleteCategoryById(Integer Id);
-
-
-    TrequestCategoryDto getParentCategory(TrequestCategoryDto trequestCategoryDto);
-
 }

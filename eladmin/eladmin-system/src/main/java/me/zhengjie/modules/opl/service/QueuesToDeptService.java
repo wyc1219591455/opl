@@ -3,6 +3,7 @@ package me.zhengjie.modules.opl.service;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.domain.QueuesToDept;
 import me.zhengjie.modules.opl.service.dto.QueuesToDeptCriteria;
+import me.zhengjie.modules.opl.service.dto.QueuesToDeptCriteria1;
 
 import java.util.List;
 import java.util.Map;
@@ -46,8 +47,29 @@ public interface QueuesToDeptService {
      * @return java.util.Map<java.lang.String,java.lang.Object>
      * @throws
      */
-    Map<String,Object> findAllUserByDeptId(Pageable pageable,Integer queuesId ,Integer deptId);
+    Map<String,Object> findAllUserByDeptId(Pageable pageable, Integer level ,Integer queuesId ,Integer deptId);
 
+    /**
+     * @title: addQueuesToDept
+     * @description: 新增
+     * @date: 2021/2/24 18:00
+     * @author: ming.cao
+     * @param criteria
+     * @return void
+     * @throws
+     */
+    void addQueuesToDept(QueuesToDeptCriteria1 criteria);
+
+    /**
+     * @title: deleteQueuesToDept
+     * @description: deleteQueuesToDept
+     * @date: 2021/2/24 18:02
+     * @author: ming.cao
+     * @param criteria
+     * @return void
+     * @throws
+     */
+    void deleteQueuesToDept(QueuesToDeptCriteria1 criteria);
 
     /**
      * @title: insert
@@ -58,7 +80,18 @@ public interface QueuesToDeptService {
      * @return void
      * @throws
      */
-    void addQueuesToDept(QueuesToDeptCriteria criteria);
+    void batchAddQueuesToDept(QueuesToDeptCriteria criteria);
+
+    /**
+     * @title: batchDeleteQueuesToDept
+     * @description: 批量删除
+     * @date: 2021/2/24 18:31
+     * @author: ming.cao
+     * @param criteria
+     * @return void
+     * @throws
+     */
+    void batchDeleteQueuesToDept(QueuesToDeptCriteria criteria);
 
     /**
      * @title: update
@@ -69,7 +102,7 @@ public interface QueuesToDeptService {
      * @return void
      * @throws
      */
-    void updateQueuesToDept(QueuesToDeptCriteria criteria);
+    void batchUpdateQueuesToDept(QueuesToDeptCriteria criteria);
 
     /**
      * @title: deleteQueuesToDept
