@@ -174,4 +174,7 @@ public class CrmWorkOrderCriteria implements Serializable {
     private Integer closeScore;
 
 
+
+
+
 }

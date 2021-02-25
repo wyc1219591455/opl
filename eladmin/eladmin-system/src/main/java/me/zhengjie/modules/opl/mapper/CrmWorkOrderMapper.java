@@ -74,6 +74,17 @@ public interface CrmWorkOrderMapper {
     List<CrmWorkOrderDto> findTreatByMe(WorkOrderCriteria workOrderCriteria);
 
     /**
+     * @title: findServiceOrder
+     * @description: 服务台工单
+     * @date: 2021/1/13 19:46
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    List<CrmWorkOrderDto> findServiceOrder(WorkOrderCriteria workOrderCriteria);
+
+    /**
      * @title: findTeamOrder
      * @description: 组内工单
      * @date: 2021/1/13 19:46
