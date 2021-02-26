@@ -47,7 +47,7 @@ public interface OrderApplyCcMapper {
      * @return java.util.List<me.zhengjie.modules.opl.domain.OrderApplyCc>
      * @throws
      */
-    List<OrderApplyCcDto> findCcByEmpId(Integer empId);
+    List<OrderApplyCcDto> findCcByEmpId(String empId);
 
     /**
      * @title: findMasterOrderCcByEmpId
@@ -58,7 +58,7 @@ public interface OrderApplyCcMapper {
      * @return java.util.List<me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto>
      * @throws
      */
-    List<CrmWorkOrderDto> findMasterOrderCcByEmpId(Integer empId);
+    List<CrmWorkOrderDto> findMasterOrderCcByEmpId(String empId);
 
     /**
      * @title: findMasterOrderCcByEmpId
@@ -69,7 +69,7 @@ public interface OrderApplyCcMapper {
      * @return java.util.List<me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto>
      * @throws
      */
-    List<CrmWorkOrderDto> findMasterOrderCcByEmpId2(WorkOrderCriteria criteria, Integer empId);
+    List<CrmWorkOrderDto> findMasterOrderCcByEmpId2(WorkOrderCriteria criteria, String empId);
 
     /**
      * @title: findSubOrderCcByEmpId
@@ -80,7 +80,7 @@ public interface OrderApplyCcMapper {
      * @return java.util.List<me.zhengjie.modules.opl.domain.SubOrder>
      * @throws
      */
-    List<SubOrderDto> findSubOrderCcByEmpId(Integer empId);
+    List<SubOrderDto> findSubOrderCcByEmpId(String empId);
 
 
     /**

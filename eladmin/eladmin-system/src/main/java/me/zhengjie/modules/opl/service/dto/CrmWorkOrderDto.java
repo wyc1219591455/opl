@@ -56,7 +56,7 @@ public class CrmWorkOrderDto {
 
     @ApiModelProperty("创建时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
-    private Timestamp createAt ;
+    private Timestamp createdAt ;
 
     //项目名称
     @ApiModelProperty("项目名称")

@@ -70,7 +70,7 @@ public class OrderApplyCcServiceImpl implements OrderApplyCcService {
         //非空校验
         if (ObjectUtil.isNotEmpty( criteria.getEmpId() )){
 
-            for (Integer empId : criteria.getEmpId()) {
+            for (String empId : criteria.getEmpId()) {
                 OrderApplyCc orderApplyCc = new OrderApplyCc();
                 //设置请求主表编号
                 orderApplyCc.setTransId(criteria.getTransId());
@@ -121,7 +121,7 @@ public class OrderApplyCcServiceImpl implements OrderApplyCcService {
     }
 
     @Override
-    public Map<String, Object> findCcByEmpId(Pageable pageable, Integer empId) {
+    public Map<String, Object> findCcByEmpId(Pageable pageable, String empId) {
 
         if (pageable != null && pageable.getPage() == -1) {
             List<OrderApplyCcDto> orderApplyCcList = orderApplyCcMapper.findCcByEmpId(empId);
@@ -141,7 +141,7 @@ public class OrderApplyCcServiceImpl implements OrderApplyCcService {
     @Override
     public Map<String, Object> findCcOrder(WorkOrderCriteria criteria, Pageable pageable) {
 
-        Integer empId= SecurityUtils.getCurrentUserId().intValue();
+        String empId= SecurityUtils.getCurrentUsername();
 
         List<CrmWorkOrderDto> totalOrderList = new ArrayList<>();
 
@@ -186,7 +186,7 @@ public class OrderApplyCcServiceImpl implements OrderApplyCcService {
         totalOrderList.addAll(parentList);
 
         //list按照时间排序
-        List<CrmWorkOrderDto> collect =totalOrderList.stream().sorted(Comparator.comparing(CrmWorkOrderDto::getCreateAt)).collect(Collectors.toList());
+        List<CrmWorkOrderDto> collect =totalOrderList.stream().sorted(Comparator.comparing(CrmWorkOrderDto::getCreatedAt)).collect(Collectors.toList());
        /* totalOrderList.stream().
                 collect(Collectors.collectingAndThen(Collectors.toCollection(()->new TreeSet<>(Comparator.comparing(o->o.getId()))), ArrayList::new));*/
         //return PageHelpResultUtil.toPage(PageInfoUtils.listToPageInfo(totalOrderList, pageable.getPage(), pageable.getSize()));

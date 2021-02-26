@@ -37,7 +37,7 @@ public class OrderApplyCc implements Serializable {
 	 * 人员编号
 	 */
 	@ApiModelProperty(value = "人员编号", position = 2)
-	private Integer empId;
+	private String empId;
 
 	/**
 	 * 1：抄送 2：订阅

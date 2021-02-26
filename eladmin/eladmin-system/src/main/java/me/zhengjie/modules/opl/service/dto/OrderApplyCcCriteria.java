@@ -24,7 +24,7 @@ public class OrderApplyCcCriteria implements Serializable {
     private Integer transId;
 
     @ApiModelProperty( value = "人员编号")
-    private List<Integer> empId;
+    private List<String> empId;
 
     @ApiModelProperty( value = "表来源（0 主表crmWorkOrder ，1 附表 suborder）")
     private Integer originalType;

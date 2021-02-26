@@ -70,7 +70,7 @@ public interface OrderApplyCcService {
      * @return java.util.Map<java.lang.String,java.lang.Object>
      * @throws
      */
-    Map<String,Object> findCcByEmpId(Pageable pageable, Integer empId);
+    Map<String,Object> findCcByEmpId(Pageable pageable, String empId);
 
     /**
      * @title: findCcOrder

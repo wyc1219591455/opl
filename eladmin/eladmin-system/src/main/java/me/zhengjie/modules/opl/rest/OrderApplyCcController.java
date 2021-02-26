@@ -48,7 +48,7 @@ public class OrderApplyCcController {
     @Log("根据用户id获取抄送信息")
     @ApiOperation("根据用户id获取抄送信息")
     @GetMapping("/getCcByUserId")
-    public Map<String,Object> getOrderApplyCcByUserId(Pageable pageable,Integer userId) {
+    public Map<String,Object> getOrderApplyCcByUserId(Pageable pageable,String userId) {
         return orderApplyCcService.findCcByEmpId(pageable,userId);
     }
 
