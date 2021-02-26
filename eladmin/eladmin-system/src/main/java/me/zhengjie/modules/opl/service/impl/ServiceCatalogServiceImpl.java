@@ -329,9 +329,9 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
          * 关联部门
          */
         List<DeptVo> deptForShowList = deptForShowMapper.findDeptVoInCatalogId(catalogId);
-        List<Integer> deptForShowIntegerList = deptForShowList.stream().map(e->e.getDeptId()).collect(Collectors.toList());
-        //subCatalogVo.setServiceCatalogRelateDept(deptForShowList);
-        subCatalogVo.setServiceCatalogRelateDept(deptForShowIntegerList);
+        //List<Integer> deptForShowIntegerList = deptForShowList.stream().map(e->e.getDeptId()).collect(Collectors.toList());
+        subCatalogVo.setServiceCatalogRelateDept(deptForShowList);
+        //subCatalogVo.setServiceCatalogRelateDept(deptForShowIntegerList);
 
         /**
          * 默认服务台
