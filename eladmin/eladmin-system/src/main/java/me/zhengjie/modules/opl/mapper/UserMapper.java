@@ -26,4 +26,13 @@ public interface UserMapper {
      */
     List<User> findUser(User user);
 
+
+    /**
+     * 根据功耗查询查询
+     * @return
+     */
+    List<User> findUserByEmpId(List<String> userId);
+
+
+
 }

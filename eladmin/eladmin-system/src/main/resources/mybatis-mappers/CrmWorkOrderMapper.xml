@@ -184,7 +184,7 @@
         <if test="workOrderType != null ">
             AND A.work_order_type = #{workOrderType}
         </if>
-        <if test="subCatalogList != null and subCatalogList != '' ">
+        <if test="subCatalogList != null  ">
             AND A.service_catalog_id in
             <foreach collection="subCatalogList" item="subCatalog" open="(" separator="," close=")">
                 #{subCatalog}

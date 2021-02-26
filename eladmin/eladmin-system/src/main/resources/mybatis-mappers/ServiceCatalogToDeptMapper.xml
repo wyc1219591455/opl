@@ -28,13 +28,13 @@
     </delete>
 
     <select id="findAssociationById"  resultType="me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto">
-        SELECT C.catalogId,C.catalogName,C.description,C.parentId,C.status,C.defaultQueueId,B.FHumanName as humanName
+        SELECT C.catalogId,C.catalogName,C.description,C.parentId,C.status,C.defaultQueueId,B.FHumanName as humanName,C.icon
         FROM serviceCatalogToDept A
         LEFT JOIN tsysuser B ON A.sourceId=B.FUserId
         LEFT JOIN subServiceCatalog C ON A.catalogId=C.catalogId
         WHERE A.type=1 and B.FUserName= #{userId}
         UNION
-        SELECT D.catalogId,D.catalogName,D.description,D.parentId,D.status,D.defaultQueueId,C.FHumanName as humanName
+        SELECT D.catalogId,D.catalogName,D.description,D.parentId,D.status,D.defaultQueueId,C.FHumanName as humanName,D.icon
         FROM serviceCatalogToDept A
         LEFT JOIN tsysdept B ON A.sourceId=B.FDeptId
         LEFT JOIN tsysuser C ON B.FSourceCode=C.FDeptId

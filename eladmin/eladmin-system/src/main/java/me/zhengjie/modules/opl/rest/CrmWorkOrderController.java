@@ -77,7 +77,7 @@ public class CrmWorkOrderController {
 
     @Log("回复工单")
     @ApiOperation("回复工单")
-    @PostMapping("/remarkt")
+    @PostMapping("/remark")
     public void remarks(@RequestBody OrderSession orderSession){
         crmWorkOrderService.remarks(orderSession);
     }
@@ -117,11 +117,11 @@ public class CrmWorkOrderController {
         crmWorkOrderService.closeOrder(closeOrderDto);
     }
 
-    @Log("测试")
-    @ApiOperation("测试")
-    @GetMapping("/sub")
-    public Object test(Integer orderId){
-        return crmWorkOrderService.findSubOplByMaxId(orderId);
+    @Log("修改抄送")
+    @ApiOperation("修改抄送人")
+    @PostMapping("/sub")
+    public  void UpdateApplyCc(@RequestBody OrderApplyCcCriteria criteria) {
+         crmWorkOrderService.UpdateApplyCc(criteria);
     }
 
     @Log("重开工单")

@@ -38,7 +38,7 @@
     <!--根据有抄送的工单id查询-->
     <select id="findCcByTransId" resultType="me.zhengjie.modules.opl.service.dto.OrderApplyCcDto">
         SELECT t1.*,t2.FHumanName as humanName,t2.FUserName as userName,t2.FEmail as email FROM orderApplyCc t1
-         LEFT JOIN tsysuser t2 ON t1.empId = t2.FUserId
+         LEFT JOIN tsysuser t2 ON t1.empId = t2.FUserName
          LEFT JOIN crm_work_order t3 ON t1.transId = t3.id
         WHERE t1.transId = #{transId} and t1.originalType = 0
     </select>

@@ -8,9 +8,11 @@ import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.opl.domain.*;
 import me.zhengjie.modules.opl.mapper.*;
 import me.zhengjie.modules.opl.service.CrmWorkOrderService;
+import me.zhengjie.modules.opl.service.OrderApplyCcService;
 import me.zhengjie.modules.opl.service.OrderSessionService;
 import me.zhengjie.modules.opl.service.dto.*;
 import me.zhengjie.utils.PageHelpResultUtil;
+import me.zhengjie.utils.PageInfoUtils;
 import me.zhengjie.utils.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +41,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     private final OrderApplyCcMapper orderApplyCcMapper;
     private final UserMapper userMapper;
     private final QueuesToDeptMapper queuesToDeptMapper;
+    private final OrderApplyCcService orderApplyCcService;
 
 
     @Override
@@ -87,6 +90,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             crmWorkOrderCriteria.setId(transferOrderDto.getOrderId());
             crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
             crmWorkOrderCriteria.setModifyPerson(SecurityUtils.getCurrentUsername());
+            crmWorkOrderCriteria.setReceiver(transferOrderDto.getReceiver());
             if (transferOrderDto.getOrderStatus() == 1 || transferOrderDto.getOrderStatus() == 2) {
                 crmWorkOrderCriteria.setOrderStatus(2);
             } else {
@@ -122,6 +126,27 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         orderSession.setOrderType(4);
         orderSessionMapper.insertSession(orderSession);
     }
+
+    @Override
+    public void UpdateApplyCc(OrderApplyCcCriteria criteria) {
+       orderApplyCcService.updateOrderApplyCcByOrderId(criteria);
+       OrderSession orderSession = new OrderSession();
+       orderSession.setTransId(criteria.getTransId());
+       orderSession.setOriginalType(criteria.getOriginalType());
+       orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+       orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+       orderSession.setOrderType(9);
+       String description="修改了抄送人";
+       List<User> userList=userMapper.findUserByEmpId(criteria.getEmpId());
+       for(User user:userList)
+       {
+           description=description+user.getName()+"   ";
+       }
+       orderSession.setDescription(description);
+       orderSessionMapper.insertSession(orderSession);
+
+    }
+
 
     @Override
     public void sellOrder(SubOrder subOrder) {
@@ -168,7 +193,17 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
             orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
             orderSession.setOrderType(7);
-            String description="得分"+closeOrderDto.getCloseScore()+closeOrderDto.getDescription();
+            String assess="";
+            switch(closeOrderDto.getCloseScore())
+            {
+                case 1:assess="差评";
+                break;
+                case 2:assess="中评";
+                break;
+                case 3:assess="好评";
+                break;
+            }
+            String description="评价"+":"+assess+""+closeOrderDto.getDescription();
             orderSession.setDescription(description);
             orderSession.setProblemAttach(closeOrderDto.getProblemAttach());
             orderSession.setTransId(closeOrderDto.getOrderId());
@@ -240,7 +275,8 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             orderSession.setOriginalType(0);
             orderSession.setTransId(completeOrderDto.getOrderId());
             orderSession.setOrderType(6);
-            orderSession.setDescription(completeOrderDto.getDescription());
+            String description="原因分析"+":"+completeOrderDto.getReason()+"改善对策"+":"+completeOrderDto.getMeasures();
+            orderSession.setDescription(description);
             orderSession.setProblemAttach(completeOrderDto.getProblemAttach());
             orderSessionMapper.insertSession(orderSession);
 
@@ -282,7 +318,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         }
         orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
         orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-        orderSession.setOrderType(8);
+        orderSession.setOrderType(10);
         orderSessionMapper.insertSession(orderSession);
     }
 
@@ -339,18 +375,20 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
     @Override
     public Map<String,Object> findServiceOrder(WorkOrderCriteria workOrderCriteria,Pageable pageable) {
-        PageHelper.startPage(pageable.getPage(), pageable.getSize());
+        PageHelper.clearPage();
+
         String jobNumber = SecurityUtils.getCurrentUsername();
         Integer userId= Math.toIntExact(userMapper.findIdByUsername(jobNumber));
         List<Integer> catalogList=queuesToDeptMapper.findServiceCatalogByUserId(userId);
         workOrderCriteria.setSubCatalogList(catalogList);
         List<CrmWorkOrderDto> tempList = crmWorkOrderMapper.findServiceOrder(workOrderCriteria);
         for (CrmWorkOrderDto crmWorkOrderDto : tempList) {
-            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
-            crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
+                crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
+                crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
         }
-        PageInfo<CrmWorkOrderCriteria> pageInfo = new PageInfo(tempList);
-        return PageHelpResultUtil.toPage(pageInfo);
+
+
+        return PageHelpResultUtil.toPage(PageInfoUtils.listToPageInfo(tempList, pageable.getPage(), pageable.getSize()));
     }
 
     @Override
@@ -359,9 +397,9 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     }
 
     @Override
-    public String findSubOplByMaxId(Integer orderId) {
+    public  List<User> findUserBy(List<String> userIds) {
 
-        return getSubOplMaxNo(orderId);
+        return userMapper.findUserByEmpId(userIds);
     }
 
 
