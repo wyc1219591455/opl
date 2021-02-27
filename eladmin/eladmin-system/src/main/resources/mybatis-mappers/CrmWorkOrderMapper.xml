@@ -49,6 +49,9 @@
         <if test="cancelUserId!=null and cancelUserId!=''">
             ,cancel_user_id=#{cancelUserId}
         </if>
+        <if test="hopeCompTime!=null">
+            ,hope_comp_time=#{hopeCompTime}
+        </if>
         WHERE id = #{id}
     </update>
 
@@ -184,7 +187,7 @@
         <if test="workOrderType != null ">
             AND A.work_order_type = #{workOrderType}
         </if>
-        <if test="subCatalogList != null  ">
+        <if test="subCatalogList != null and subCatalogList.size &gt; 0 ">
             AND A.service_catalog_id in
             <foreach collection="subCatalogList" item="subCatalog" open="(" separator="," close=")">
                 #{subCatalog}
@@ -319,6 +322,23 @@
         LEFT JOIN tsysuser I ON A.receiver=I.FUserName
         WHERE A.serial_no = #{serialNo}
     </select>
+
+    <select id="findOrderById" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
+        SELECT A.id,A.topic,A.serial_no,A.plan_comp_time,A.hope_comp_time,A.created_person,A.job_number,C.FDeptFullName AS deptName,A.project_name,D.product_name AS model,A.created_at as createAt,A.matter_date,A.sn_no,A.real_op_time,A.finish_date_time,
+        A.ultimate_customer,A.problem_type,A.problem_attach,A.problem_desc,A.problem_path,A.site_condition,A.rescue_action,A.fae_header,A.finish_user_id,A.finish_code,A.close_date_time,A.close_user_id,A.close_score,A.cancel_date_time,A.cancel_user_id,
+        A.work_order_type,I.FHumanName AS receiverName,A.receiver,E.name as typeDesc,A.order_status,F.name as statusDesc,A.service_catalog_id,G.catalogName AS serviceCatalogDesc,H.name AS finishCodeDesc,A.order_type
+        FROM crm_work_order A
+        LEFT JOIN tsysuser B ON A.job_number=B.FUserName
+        LEFT JOIN tsysdept C ON B.FDeptId=C.FSourceCode
+        LEFT JOIN crm_product D ON A.model=D.crm_id
+        LEFT JOIN trequestCategory E ON E.id=A.work_order_type
+        LEFT JOIN orderStatus F ON F.id=A.order_status
+        LEFT JOIN subServiceCatalog G ON G.catalogId=A.service_catalog_id
+        LEFT JOIN requestClosureCode H ON H.id=A.finish_code
+        LEFT JOIN tsysuser I ON A.receiver=I.FUserName
+        WHERE A.id = #{id}
+    </select>
+
 
     <select id="findAllOrder" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria">
         SELECT * FROM crm_work_order

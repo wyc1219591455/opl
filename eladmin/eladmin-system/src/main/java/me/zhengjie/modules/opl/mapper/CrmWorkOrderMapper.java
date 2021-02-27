@@ -172,4 +172,16 @@ public interface CrmWorkOrderMapper {
      */
     CrmWorkOrderDto findOrderBySerialNo(String SerialNo);
 
+
+    /**
+     * @title: findOrderBySerialNo
+     * @description: findOrderById
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    CrmWorkOrderDto findOrderById(Integer id);
+
 }

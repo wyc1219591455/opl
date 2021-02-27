@@ -82,6 +82,13 @@
         </if>
     </select>
 
+    <select id="findSubOrderById" parameterType="Integer" resultType="me.zhengjie.modules.opl.domain.SubOrder">
+       SELECT A.id,A.parentNo,A.topic,A.serialNo,A.jobNumber,A.createdTime,A.deptId,
+       A.problemAttach,A.orderStatus,A.isTransfer,A.description,A.receiver,A.order_type
+        FROM subOrder A
+        WHERE A.id =#{id}
+    </select>
+
 
     <select id="findSubOplByMaxId" resultType="me.zhengjie.modules.opl.domain.SubOrder">
         SELECT * FROM subOrder WHERE serialNo =(SELECT max(serialNo) FROM subOrder WHERE parentNo = #{orderId})

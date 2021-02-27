@@ -3,6 +3,7 @@ package me.zhengjie.modules.opl.service;
 import me.zhengjie.modules.opl.domain.*;
 import me.zhengjie.modules.opl.service.dto.*;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -125,6 +126,18 @@ public interface CrmWorkOrderService {
      * @throws
      */
     void completeOrder(CompleteOrderDto completeOrderDto);
+
+
+    /**
+     * @title: update
+     * @description: 完成工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param orderSessionDetail
+     * @return void
+     * @throws
+     */
+    void changeTime(OrderSessionDetail orderSessionDetail) throws ParseException;
 
     /**
      * @title: findCrmOrderById

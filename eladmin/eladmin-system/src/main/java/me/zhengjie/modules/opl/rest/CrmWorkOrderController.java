@@ -9,6 +9,7 @@ import me.zhengjie.modules.opl.service.CrmWorkOrderService;
 import me.zhengjie.modules.opl.service.dto.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -143,6 +144,13 @@ public class CrmWorkOrderController {
     @GetMapping("/service")
     public Object findServiceOrder(WorkOrderCriteria workOrderCriteria,Pageable pageable) {
         return crmWorkOrderService.findServiceOrder(workOrderCriteria,pageable);
+    }
+
+    @Log("修改计划解决日期")
+    @ApiOperation("修改计划解决日期")
+    @PostMapping("/changetime")
+    public void changeTime(@RequestBody OrderSessionDetail orderSessionDetail) throws ParseException {
+        crmWorkOrderService.changeTime(orderSessionDetail);
     }
 
 }
