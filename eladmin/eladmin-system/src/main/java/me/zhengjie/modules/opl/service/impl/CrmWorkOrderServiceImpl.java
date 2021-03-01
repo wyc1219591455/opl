@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -458,7 +459,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             if (crmWorkOrderDto.getJobNumber().equals(jobNumber)) {
                 crmWorkOrderDto.setEqualsCreate(1);
             } else crmWorkOrderDto.setEqualsCreate(0);
-            if (crmWorkOrderDto.getReceiver().equals(jobNumber)) {
+            if (crmWorkOrderDto.getReceiver()!=null&&crmWorkOrderDto.getReceiver().equals(jobNumber)) {
                 crmWorkOrderDto.setEqualsReceiver(1);
             } else crmWorkOrderDto.setEqualsReceiver(0);
 
@@ -477,8 +478,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             CrmWorkOrderDto crmWorkOrder=crmWorkOrderMapper.findOrderById(subOrderDto.getParentNo());
             crmWorkOrder.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(subOrderDto.getParentNo()));
             crmWorkOrder.setSubOrderDto(subOrderDto);
+            List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
+            crmWorkOrderDtoList.add(crmWorkOrder);
             orderShowDto.setCrmWorkOrderDto(crmWorkOrder);
-            orderShowDto.setOrderSessionDtoList(orderSessionDtoList);
+            orderShowDto.setCrmWorkOrderDtos(crmWorkOrderDtoList);
+//            orderShowDto.setOrderSessionDtoList(orderSessionDtoList);
 
         }
         return orderShowDto;

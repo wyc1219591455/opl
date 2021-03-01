@@ -56,4 +56,12 @@ public class ServiceCatalogToCategoryController {
     public Map<String ,Object> findRootCatalog(Pageable pageable) {
         return serviceCatalogToCategoryService.findRootCatalog(pageable);
     }
+
+
+    @Log("根据ID查找分类")
+    @ApiOperation("根据ID查找分类")
+    @GetMapping("/research")
+    public TrequestCategory findCategoryById(Integer id) {
+        return serviceCatalogToCategoryService.findCategoryById(id);
+    }
 }

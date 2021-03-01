@@ -17,6 +17,9 @@ public class OrderShowDto {
     private List<OrderSessionDto> orderSessionDtoList;
 
 
+    private List<CrmWorkOrderDto> crmWorkOrderDtos;
+
+
 
 
 }
