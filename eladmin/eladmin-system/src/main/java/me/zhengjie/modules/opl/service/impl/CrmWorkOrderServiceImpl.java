@@ -462,9 +462,10 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             if (crmWorkOrderDto.getReceiver()!=null&&crmWorkOrderDto.getReceiver().equals(jobNumber)) {
                 crmWorkOrderDto.setEqualsReceiver(1);
             } else crmWorkOrderDto.setEqualsReceiver(0);
-
+            List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
             List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(serialDto.getId());
-
+            crmWorkOrderDtoList.add(crmWorkOrderDto);
+            orderShowDto.setCrmWorkOrderDtos(crmWorkOrderDtoList);
             orderShowDto.setCrmWorkOrderDto(crmWorkOrderDto);
             orderShowDto.setOrderSessionDtoList(orderSessionDtoList);
 
@@ -482,7 +483,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             crmWorkOrderDtoList.add(crmWorkOrder);
             orderShowDto.setCrmWorkOrderDto(crmWorkOrder);
             orderShowDto.setCrmWorkOrderDtos(crmWorkOrderDtoList);
-//            orderShowDto.setOrderSessionDtoList(orderSessionDtoList);
+            orderShowDto.setOrderSessionDtoList(orderSessionDtoList);
 
         }
         return orderShowDto;

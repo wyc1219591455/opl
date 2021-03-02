@@ -86,7 +86,7 @@ public interface ServiceCatalogToCategoryService {
      * @return ServiceCatalogDto
      * @throws
      */
-    TrequestCategory findCategoryById(Integer id);
+    List<TrequestCategory> findCategoryById(Integer id);
 
     /**
      * @title: insertCategoryAssociation

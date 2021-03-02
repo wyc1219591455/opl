@@ -32,8 +32,17 @@
 
 
     <select id="findCategoryById" parameterType="Integer" resultType="me.zhengjie.modules.opl.domain.TrequestCategory">
-         SELECT A.id ,A.name,A.status,A.parentId,A.rootId
+         SELECT A.id ,A.name,A.status,A.parentId,B.name as parentName,A.rootId
         FROM trequestCategory A
+        LEFT JOIN trequestCategory B ON A.parentId=B.id
+        WHERE A.id= #{Id}
+
+    </select>
+
+    <select id="findCategoryListById" parameterType="Integer" resultType="me.zhengjie.modules.opl.domain.TrequestCategory">
+         SELECT A.id ,A.name,A.status,A.parentId,B.name as parentName,A.rootId
+        FROM trequestCategory A
+        LEFT JOIN trequestCategory B ON A.parentId=B.id
         WHERE A.id= #{Id}
 
     </select>

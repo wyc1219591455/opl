@@ -119,9 +119,9 @@ public class ServiceCatalogToCategoryServiceImpl implements ServiceCatalogToCate
     }
 
     @Override
-    public TrequestCategory findCategoryById(Integer id){
+    public List<TrequestCategory> findCategoryById(Integer id){
 
-        return serviceCatalogToCategoryMapper.findCategoryById(id);
+        return serviceCatalogToCategoryMapper.findCategoryListById(id);
     }
 
     //递归查询子节点
