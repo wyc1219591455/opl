@@ -34,4 +34,15 @@ public interface DeptForShowService {
      */
     Map<String,Object> findDeptVoNotInCatalogId(Pageable pageable, Integer catalogId, DeptVo deptVo);
 
+    /**
+     * @title: findDeptVoNotInCatalogId
+     * @description: 获取服务id下不在此服务组的部门信息
+     * @date: 2021/2/23 10:23
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     */
+    Map<String,Object> findDeptVoNotInCatalogId2(Pageable pageable, Integer catalogId, DeptVo deptVo);
+
 }

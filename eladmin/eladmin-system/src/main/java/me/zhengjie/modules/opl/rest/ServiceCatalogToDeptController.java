@@ -93,4 +93,12 @@ public class ServiceCatalogToDeptController {
     }
 
 
+    @Log("筛选所有人员模糊查询")
+    @ApiOperation("筛选所有人员模糊查询")
+    @GetMapping("/allUser")
+    public Map<String ,Object> findAllUser(@ApiParam("级别") @NotNull Integer level ,@ApiParam("支持组id") @NotNull Integer queuesId, @ApiParam("人名称")  String name){
+        return null;
+
+    }
+
 }

@@ -41,4 +41,13 @@ public class DeptForShowController {
         return deptForShowService.findDeptVoNotInCatalogId(pageable,catalogId,deptVo);
     }
 
+    @Log("获取部门下拉框(关联一级部门)")
+    @ApiOperation("获取部门下拉框(关联一级部门)")
+    @GetMapping("/getDept2")
+    public Map<String,Object> getRelateDeptList2(Pageable pageable, Integer catalogId, DeptVo deptVo){
+        return deptForShowService.findDeptVoNotInCatalogId2(pageable,catalogId,deptVo);
+    }
+
+
+
 }

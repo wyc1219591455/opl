@@ -70,5 +70,37 @@ public interface ServiceCatalogRelateDeptMapper {
      */
     List<ServiceCatalogRelateDeptDto> findDeptDtoByCatalogId(Integer catalogId);
 
+    /**
+     * @title: findDeptDtoByDeptNeedList
+     * @description: 根据ids获取部门
+     * @date: 2021/3/1 16:38
+     * @author: ming.cao
+     * @param list
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.ServiceCatalogRelateDeptDto>
+     * @throws
+     */
+    List<ServiceCatalogRelateDeptDto> findDeptDtoByDeptNeedList(List<Integer> list);
+
+    /**
+     * @title: getCountByParentId
+     * @description: 根据父类id获取总数（做判断条件）
+     * @date: 2021/3/1 15:59
+     * @author: ming.cao
+     * @param parentId
+     * @return java.lang.Integer
+     * @throws
+     */
+    Integer getCountByParentId(Integer parentId);
+
+    /**
+     * @title: getDeptIdByParentId
+     * @description: getDeptIdByParentId
+     * @date: 2021/3/1 16:07
+     * @author: ming.cao
+     * @param parentId
+     * @return java.util.List<java.lang.Integer>
+     * @throws
+     */
+    List<Integer> getDeptIdByParentId(Integer parentId);
 
 }

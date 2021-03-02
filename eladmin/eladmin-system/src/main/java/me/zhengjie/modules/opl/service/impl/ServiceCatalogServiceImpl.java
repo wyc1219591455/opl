@@ -107,9 +107,9 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
         //默认服务台
         subServiceCatalog.setDefaultQueueId(catalogCriteria.getServiceCatalogToQueues());
         //获取服务id
-        Integer subServiceCatalogId= subServiceCatalogMapper.insertSubCatalog(subServiceCatalog);
-
-        //获取其中的id
+        subServiceCatalogMapper.insertSubCatalog(subServiceCatalog);
+        Integer subServiceCatalogId= subServiceCatalog.getCatalogId();
+                //获取其中的id
         List<Integer> serviceCatalogToCategoryIntegerList = catalogCriteria.getServiceCatalogToCategoryList();
         //通过id获取数据
         List<ServiceCatalogToCategory> serviceCatalogToCategoryList =new ArrayList<>();
@@ -239,18 +239,27 @@ public class ServiceCatalogServiceImpl implements ServiceCatalogService {
 
         //再插入
         List<Integer> serviceCatalogRelateDeptIntegerList = catalogCriteria.getServiceCatalogRelateDept();
+        //对数据进行去重和非空校验
+        serviceCatalogRelateDeptIntegerList = serviceCatalogRelateDeptIntegerList.stream().filter(deptId->deptId!=null).distinct().collect(Collectors.toList());
+
+
         List<ServiceCatalogRelateDept> serviceCatalogRelateDeptList = new ArrayList<>();
         //List<ServiceCatalogRelateDept> serviceCatalogRelateDeptList=catalogCriteria.getServiceCatalogRelateDept();
-        for(Integer serviceCatalogRelateDeptId:serviceCatalogRelateDeptIntegerList)
-        {
-            ServiceCatalogRelateDept serviceCatalogRelateDept = new ServiceCatalogRelateDept();
-            serviceCatalogRelateDept.setCatalogId(subServiceCatalog.getCatalogId());
-            serviceCatalogRelateDept.setDeptId(serviceCatalogRelateDeptId);
-            serviceCatalogRelateDept.setStatus(1);
-            serviceCatalogRelateDept.setCreateDateTime(new Timestamp(new Date().getTime()));
-            serviceCatalogRelateDept.setCreateUserId(SecurityUtils.getCurrentUsername());
-            serviceCatalogRelateDeptList.add(serviceCatalogRelateDept);
+        if (serviceCatalogRelateDeptIntegerList.size()>0){
+            for(Integer serviceCatalogRelateDeptId:serviceCatalogRelateDeptIntegerList)
+            {
+                ServiceCatalogRelateDept serviceCatalogRelateDept = new ServiceCatalogRelateDept();
+                serviceCatalogRelateDept.setCatalogId(subServiceCatalog.getCatalogId());
+                serviceCatalogRelateDept.setDeptId(serviceCatalogRelateDeptId);
+                serviceCatalogRelateDept.setStatus(1);
+                serviceCatalogRelateDept.setCreateDateTime(new Timestamp(new Date().getTime()));
+                serviceCatalogRelateDept.setCreateUserId(SecurityUtils.getCurrentUsername());
+                serviceCatalogRelateDeptList.add(serviceCatalogRelateDept);
+            }
         }
+
+
+
         if (serviceCatalogRelateDeptList.size()>0){
             serviceCatalogRelateDeptMapper.batchInsert(serviceCatalogRelateDeptList);
         }

@@ -119,4 +119,16 @@ public interface ServiceCatalogToDeptService {
      */
     Map<String,Object> findAllUserByDeptId(Pageable pageable, Integer level, Integer catalogId, Integer deptId,String name) ;
 
+    /**
+     * @title: findAllUserByName
+     * @description: 根据名称获取所有部门人员信息
+     * @date: 2021/3/2 9:20
+     * @author: ming.cao
+     * @param level
+     * @param catalogId
+     * @param name
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     */
+    Map<String,Object> findAllUserByName(Integer level, Integer catalogId, String name);
 }

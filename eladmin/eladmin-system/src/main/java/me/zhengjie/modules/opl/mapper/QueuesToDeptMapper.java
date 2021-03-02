@@ -162,6 +162,17 @@ public interface QueuesToDeptMapper {
     List<UserForShow> findAllUserByDeptIdAndQueueId2(Integer queuesId,List<Integer> deptList,String name);
 
     /**
+     * @title: findAllUserByDeptId
+     * @description: 根据名称获取所有的人员进行模糊查询
+     * @date: 2021/1/22 16:06
+     * @author: ming.cao
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
+     * @throws
+     */
+    List<UserForShow> findAllUserByName(Integer queuesId,String name);
+
+    /**
      * @title: findAllUserInUse
      * @description: 获取已勾选的数据
      * @date: 2021/2/23 14:47
