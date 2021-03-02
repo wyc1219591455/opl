@@ -24,7 +24,7 @@ public class SubOrderDto {
 
     //主题
     @ApiModelProperty("父工单")
-    private String parentNo;
+    private Integer parentNo;
 
     //主题
     @ApiModelProperty("主题")

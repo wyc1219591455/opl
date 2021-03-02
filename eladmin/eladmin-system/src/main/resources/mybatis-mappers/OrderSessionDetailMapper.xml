@@ -19,7 +19,7 @@
 
     </select>
 
-    <select id="findSubSessionDetailById" parameterType="me.zhengjie.modules.opl.service.dto.SessionDetailCriteria" resultType="me.zhengjie.modules.opl.service.dto.OrderSessionDetailDto">
+    <select id="findSuBSessionDetailById" parameterType="me.zhengjie.modules.opl.service.dto.SessionDetailCriteria" resultType="me.zhengjie.modules.opl.service.dto.OrderSessionDetailDto">
         SELECT A.detailId,A.sessionId,C.serial_no as transOrderId,A.transId,A.propName,A.oldValue ,A.newValue,A.createUserId,B.FHumanName as createPerson ,A.createDateTime,A.originalType
         FROM orderSessionDetail A
         LEFT JOIN tsysuser B ON A.createUserId=B.FUserName

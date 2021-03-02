@@ -23,5 +23,14 @@
         </if>
     </select>
 
+    <select id="findUserByEmpId" parameterType="String" resultMap="userMap">
+        select FUserId,FUserName,FHumanName from tsysuser where FUserName in
+        <foreach collection="list" item="empId" index="index" open="(" close=")" separator=",">
+            #{empId}
+        </foreach>
+    </select>
+
+
+
 
 </mapper>

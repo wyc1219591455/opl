@@ -156,4 +156,15 @@ public interface ServiceCatalogToCategoryMapper {
      * @throws
      */
     List<TrequestCategoryDto> findUsedSubAssociationById(Integer categoryId);
+
+    /**
+     * @title: find
+     * @description: 根据ID查找工单分类
+     * @date: 2021/2/8 15:21
+     * @author: yuchao.wang
+     * @param
+     * @return void
+     * @throws
+     */
+    List<TrequestCategory> findCategoryListById(Integer Id);
 }

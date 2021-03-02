@@ -118,6 +118,12 @@ public class ServiceCatalogToCategoryServiceImpl implements ServiceCatalogToCate
         return PageHelpResultUtil.toPage(pageInfo);
     }
 
+    @Override
+    public List<TrequestCategory> findCategoryById(Integer id){
+
+        return serviceCatalogToCategoryMapper.findCategoryListById(id);
+    }
+
     //递归查询子节点
     public TrequestCategoryDto getCategory(TrequestCategoryDto trequestCategoryDto){
         List<TrequestCategoryDto> trequestCategoryDtos=serviceCatalogToCategoryMapper.findSubAssociationById(trequestCategoryDto.getId());

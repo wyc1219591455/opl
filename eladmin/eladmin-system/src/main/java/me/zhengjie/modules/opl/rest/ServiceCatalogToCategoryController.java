@@ -11,6 +11,7 @@ import me.zhengjie.modules.opl.service.ServiceCatalogToCategoryService;
 import me.zhengjie.modules.opl.service.ServiceCatalogToDeptService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -55,5 +56,13 @@ public class ServiceCatalogToCategoryController {
     @GetMapping("/root")
     public Map<String ,Object> findRootCatalog(Pageable pageable) {
         return serviceCatalogToCategoryService.findRootCatalog(pageable);
+    }
+
+
+    @Log("根据ID查找分类")
+    @ApiOperation("根据ID查找分类")
+    @GetMapping("/search")
+    public List<TrequestCategory> findCategoryById(Integer id) {
+        return serviceCatalogToCategoryService.findCategoryById(id);
     }
 }

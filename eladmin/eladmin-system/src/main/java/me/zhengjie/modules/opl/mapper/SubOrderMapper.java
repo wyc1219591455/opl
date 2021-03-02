@@ -64,6 +64,17 @@ public interface SubOrderMapper {
    SubOrderDto findSubOrderBySerialNo(String SerialNo);
 
     /**
+     * @title: findSubOrderById
+     * @description: findOrderBySerialNo
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    SubOrder findSubOrderById(Integer id);
+
+    /**
      * @title: findParentWorkOrderDtoById
      * @description: findParentWorkOrderDtoById
      * @date: 2021/2/18 17:23

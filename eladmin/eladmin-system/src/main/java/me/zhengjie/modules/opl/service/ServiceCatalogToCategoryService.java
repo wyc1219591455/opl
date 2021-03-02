@@ -76,6 +76,18 @@ public interface ServiceCatalogToCategoryService {
      */
     Map<String, Object> findRootCatalog(Pageable pageable);
 
+
+    /**
+     * @title: findAllCatalogById
+     * @description: 获取服务分类的工单分类
+     * @date: 2021/1/20 18:35
+     * @author: yuchao.wang
+     * @param
+     * @return ServiceCatalogDto
+     * @throws
+     */
+    List<TrequestCategory> findCategoryById(Integer id);
+
     /**
      * @title: insertCategoryAssociation
      * @description: 新增服务分类和工单分类关联

@@ -3,6 +3,7 @@ package me.zhengjie.modules.opl.service;
 import me.zhengjie.modules.opl.domain.*;
 import me.zhengjie.modules.opl.service.dto.*;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -126,6 +127,18 @@ public interface CrmWorkOrderService {
      */
     void completeOrder(CompleteOrderDto completeOrderDto);
 
+
+    /**
+     * @title: update
+     * @description: 完成工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param orderSessionDetail
+     * @return void
+     * @throws
+     */
+    void changeTime(OrderSessionDetail orderSessionDetail) throws ParseException;
+
     /**
      * @title: findCrmOrderById
      * @description: 根据id获取数据
@@ -183,16 +196,7 @@ public interface CrmWorkOrderService {
 
 
 
-    /**
-     * @title: findOplByMaxId
-     * @description: findOplByMaxId
-     * @date: 2021/1/13 19:33
-     * @author: yuchao.wang
-     * @param
-     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
-     * @throws
-     */
-    String findSubOplByMaxId(Integer orderId);
+
 
 
     /**
@@ -219,5 +223,17 @@ public interface CrmWorkOrderService {
     Map<String,Object> findServiceOrder(WorkOrderCriteria workOrderCriteria,Pageable pageable);
 
 
+    /**
+     * @title: update
+     * @description: 修改抄送人
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param criteria
+     * @return void
+     * @throws
+     */
+    void UpdateApplyCc(OrderApplyCcCriteria criteria);
 
+
+    List<User> findUserBy(List<String> userIds);
 }

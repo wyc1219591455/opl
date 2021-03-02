@@ -9,6 +9,7 @@ import me.zhengjie.modules.opl.service.CrmWorkOrderService;
 import me.zhengjie.modules.opl.service.dto.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.Map;
 
@@ -77,7 +78,7 @@ public class CrmWorkOrderController {
 
     @Log("回复工单")
     @ApiOperation("回复工单")
-    @PostMapping("/remarkt")
+    @PostMapping("/remark")
     public void remarks(@RequestBody OrderSession orderSession){
         crmWorkOrderService.remarks(orderSession);
     }
@@ -117,11 +118,11 @@ public class CrmWorkOrderController {
         crmWorkOrderService.closeOrder(closeOrderDto);
     }
 
-    @Log("测试")
-    @ApiOperation("测试")
-    @GetMapping("/sub")
-    public Object test(Integer orderId){
-        return crmWorkOrderService.findSubOplByMaxId(orderId);
+    @Log("修改抄送")
+    @ApiOperation("修改抄送人")
+    @PostMapping("/sub")
+    public  void UpdateApplyCc(@RequestBody OrderApplyCcCriteria criteria) {
+         crmWorkOrderService.UpdateApplyCc(criteria);
     }
 
     @Log("重开工单")
@@ -143,6 +144,13 @@ public class CrmWorkOrderController {
     @GetMapping("/service")
     public Object findServiceOrder(WorkOrderCriteria workOrderCriteria,Pageable pageable) {
         return crmWorkOrderService.findServiceOrder(workOrderCriteria,pageable);
+    }
+
+    @Log("修改计划解决日期")
+    @ApiOperation("修改计划解决日期")
+    @PostMapping("/changetime")
+    public void changeTime(@RequestBody OrderSessionDetail orderSessionDetail) throws ParseException {
+        crmWorkOrderService.changeTime(orderSessionDetail);
     }
 
 }

@@ -34,12 +34,12 @@ public class CrmWorkOrderCriteria implements Serializable {
     private String serialNo;
 
     //期望完成时间
-    @ApiModelProperty("计划完成时间")
+    @ApiModelProperty("期望完成时间")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Timestamp planCompTime;
 
     //期望完成时间
-    @ApiModelProperty("期望完成时间")
+    @ApiModelProperty("计划完成时间")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Timestamp hopeCompTime;
 

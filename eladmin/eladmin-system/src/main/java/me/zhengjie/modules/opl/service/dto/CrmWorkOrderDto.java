@@ -177,6 +177,13 @@ public class CrmWorkOrderDto {
     @ApiModelProperty("判断当前用户是否是工单创建人 1为是 0为否")
     private Integer equalsCreate;
 
+    @ApiModelProperty("判断当前用户是否是工单服务人 1为是 0为否")
+    private Integer equalsReceiver;
+
+
+
+    @ApiModelProperty("子单")
+    private SubOrderDto subOrderDto;
 
 
     @ApiModelProperty("抄送人")
