@@ -54,7 +54,7 @@
         WHERE parentNo =#{parentId}
     </select>
 
-    <select id="findSubNum" parameterType="Integer" resultType="Integer">
+    <select id="findComSubNum" parameterType="Integer" resultType="Integer">
        SELECT count(id)
         FROM subOrder
         WHERE orderStatus=4 AND parentNo =#{parentId}
