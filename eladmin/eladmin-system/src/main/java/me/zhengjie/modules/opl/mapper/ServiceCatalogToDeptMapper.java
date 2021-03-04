@@ -125,6 +125,18 @@ public interface ServiceCatalogToDeptMapper {
     List<UserForShow> findAllUserByDeptIdAndCatalogId(Integer catalogId,Integer deptId,String name);
 
     /**
+     * @title: findAllUser
+     * @description: 人员信息模糊查询
+     * @date: 2021/3/2 9:25
+     * @author: ming.cao
+     * @param catalogId
+     * @param name
+     * @return java.util.List<me.zhengjie.modules.opl.service.dto.UserForShow>
+     * @throws
+     */
+    List<UserForShow> findAllUser(Integer catalogId,String name);
+
+    /**
      * @title: delete
      * @description: 删除
      * @date: 2021/2/25 13:21
@@ -180,4 +192,6 @@ public interface ServiceCatalogToDeptMapper {
      * @throws
      */
     Integer findByCatalogIdAndSourceId(Integer catalogId,Integer sourceId);
+
+
 }

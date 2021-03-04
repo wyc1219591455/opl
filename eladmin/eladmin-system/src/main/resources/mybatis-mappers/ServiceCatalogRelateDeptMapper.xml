@@ -42,4 +42,24 @@
 				WHERE t1.catalogId=#{catalogId}
     </select>
 
+    <!-- 根据父类id获取总数（做判断条件） -->
+    <select id="getCountByParentId" resultType="java.lang.Integer">
+        SELECT count(*) as a FROM tsysdept WHERE FParentId = #{parentId}
+    </select>
+
+    <select id="getDeptIdByParentId" resultType="java.lang.Integer">
+
+    </select>
+
+
+    <select id="findDeptDtoByDeptNeedList"
+            resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogRelateDeptDto">
+        SELECT t2.FDeptId as deptId,t2.FDeptName as deptName FROM tsysdept t2 WHERE 1 = 1
+
+            and t2.FDeptId IN
+            <foreach collection="list" item="item" index="index" separator="," open="(" close=")" >
+                #{item}
+            </foreach>
+    </select>
+
 </mapper>

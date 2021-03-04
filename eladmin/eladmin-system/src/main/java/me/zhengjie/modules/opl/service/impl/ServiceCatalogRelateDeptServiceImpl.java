@@ -3,6 +3,7 @@ package me.zhengjie.modules.opl.service.impl;
 import cn.hutool.core.util.ObjectUtil;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.opl.domain.ServiceCatalogRelateDept;
+import me.zhengjie.modules.opl.mapper.QueuesToDeptMapper;
 import me.zhengjie.modules.opl.mapper.ServiceCatalogRelateDeptMapper;
 import me.zhengjie.modules.opl.service.ServiceCatalogRelateDeptService;
 import me.zhengjie.modules.opl.service.dto.ServiceCatalogRelateDeptCriteria;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 public class ServiceCatalogRelateDeptServiceImpl implements ServiceCatalogRelateDeptService {
 
     private final ServiceCatalogRelateDeptMapper serviceCatalogRelateDeptMapper;
+    private final QueuesToDeptMapper queuesToDeptMapper;
 
     @Override
     public void batchInsert(List<ServiceCatalogRelateDept> list) {
@@ -69,11 +71,51 @@ public class ServiceCatalogRelateDeptServiceImpl implements ServiceCatalogRelate
 
 
         List<ServiceCatalogRelateDeptDto> tempList =serviceCatalogRelateDeptMapper.findDeptDtoByCatalogId(catalogId);
+        List<ServiceCatalogRelateDeptDto> tempList2 = new ArrayList<>();
+        if (tempList.size()>0){
 
+
+        //获取部门的ids
+        List<Integer> deptIdList = tempList.stream().map(dto-> dto.getDeptId()).collect(Collectors.toList());
+        //获取这些list里面所有的小部门
+        List<Integer> deptForNeedList = new ArrayList<>();
+
+        if (deptIdList.size()>0) {
+            //递归获取
+            for (Integer deptId : deptIdList) {
+                getAllDeptList(deptForNeedList, deptId);
+            }
+
+             tempList2 = serviceCatalogRelateDeptMapper.findDeptDtoByDeptNeedList(deptIdList);
+
+        }
+    }
         Map<String, Object> map = new LinkedHashMap<>(2);
-        map.put("content", tempList);
-        map.put("totalElements", tempList.size());
+        map.put("content", tempList2);
+        map.put("totalElements", tempList2.size());
         return map;
+    }
+
+    /**
+     * 递归调用
+     * @param deptList
+     * @param deptId
+     */
+    public void getAllDeptList(List<Integer> deptList ,Integer deptId){
+        Integer count = queuesToDeptMapper.getCountByParentId(deptId);
+        if (count<=0){
+            System.out.println(deptList);
+        }else{
+            //获取父类下的id
+            List<Integer> tempList = queuesToDeptMapper.getListByParentId(deptId);
+            //插入到deptList
+            deptList.addAll(tempList);
+            //对部门的list进行递归
+            for (Integer tempId : tempList) {
+                getAllDeptList(deptList,tempId);
+            }
+        }
+
     }
 
 }

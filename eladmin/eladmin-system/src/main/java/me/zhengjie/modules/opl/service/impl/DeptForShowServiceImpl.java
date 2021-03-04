@@ -82,6 +82,23 @@ public class DeptForShowServiceImpl implements DeptForShowService {
 
     }
 
+    @Override
+    public Map<String, Object> findDeptVoNotInCatalogId2(Pageable pageable, Integer catalogId, DeptVo deptVo) {
+        if (pageable!=null && pageable.getPage()==-1){
+            List<DeptVo> deptForShowList = deptForShowMapper.findDeptVoNotInCatalogId2(catalogId, deptVo);
+            Map<String,Object> map = new LinkedHashMap<>(2);
+            map.put("content",deptForShowList);
+            map.put("totalElements",deptForShowList.size());
+            return map;
+        }
+        else {
+            PageHelper.startPage(pageable.getPage(), pageable.getSize());
+            List<DeptVo> deptForShowList = deptForShowMapper.findDeptVoNotInCatalogId2(catalogId, deptVo);
+            PageInfo<DeptVo> pageInfo = new PageInfo(deptForShowList);
+            return PageHelpResultUtil.toPage(pageInfo);
+        }
+    }
+
     //获取子公司
     private  List<OrgTreeDto> getOrgChildNodes(){
 

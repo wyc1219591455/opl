@@ -214,6 +214,21 @@ public class ServiceCatalogToDeptServiceImpl implements ServiceCatalogToDeptServ
 
     }
 
+    @Override
+    public Map<String, Object> findAllUserByName(Integer level, Integer catalogId, String name) {
+        Map<String,Object> map = new LinkedHashMap<>(2);
+        List<UserForShow> tempList = null;
+        if (level==1){
+           // tempList =
+            map.put("content",tempList);
+            map.put("totalElements",tempList.size());
+        }else {
+            map.put("content",null);
+            map.put("totalElements",0);
+        }
+        return map;
+    }
+
     /**
      * 非空校验
      * @param criteria

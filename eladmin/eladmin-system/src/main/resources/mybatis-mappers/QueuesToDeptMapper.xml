@@ -80,6 +80,8 @@
             AND ( t1.FHumanName like concat('%',#{name},'%') OR t1.FUserName like concat('%',#{name},'%') )
         </if>
     </select>
+
+    <!--根据部门id和支持组id获取所有的人员2-->
     <select id="findAllUserByDeptIdAndQueueId2" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
         SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
         t2.FDeptId as deptId,t2.FDeptName as deptName ,
@@ -94,10 +96,19 @@
         <if test="name!=null and name!=''">
             AND ( t1.FHumanName like concat('%',#{name},'%') OR t1.FUserName like concat('%',#{name},'%') )
         </if>
-
     </select>
 
-
+    <!-- 根据名称获取所有的人员进行模糊查询 -->
+    <select id="findAllUserByName" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
+        SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        t2.FDeptId as deptId,t2.FDeptName as deptName ,
+	    ( CASE  WHEN EXISTS ( SELECT * FROM queuesToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.FUserId AND t3.queuesId = 1 ) THEN 1
+	    ELSE 0 END ) as flag FROM tsysuser t1
+         LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND ( t1.FHumanName like concat('%',#{name},'%') OR t1.FUserName like concat('%',#{name},'%') )
+        </if>
+    </select>
 
     <!-- 根据父类id获取总数（判断此部门是不是最底层部门） -->
     <select id="getCountByParentId" resultType="java.lang.Integer">
@@ -146,7 +157,6 @@
     <select id="findByQueuesIdAndSourceId" resultType="java.lang.Integer">
          SELECT count(*) as a FROM queuesToDept WHERE queuesId = #{queuesId} and sourceId = #{sourceId} and type = 1
     </select>
-
 
     <!--新增-->
     <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.QueuesToDept">

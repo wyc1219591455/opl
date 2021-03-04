@@ -50,6 +50,20 @@ public interface QueuesToDeptService {
     Map<String,Object> findAllUserByDeptId(Pageable pageable, Integer level ,Integer queuesId , String name,Integer deptId);
 
     /**
+     * @title: findAllUser
+     * @description: 筛选所有部门人员信息
+     * @date: 2021/3/2 8:48
+     * @author: ming.cao
+     * @param pageable
+     * @param level
+     * @param queuesId
+     * @param name
+     * @return java.util.Map<java.lang.String,java.lang.Object>
+     * @throws
+     */
+    Map<String,Object> findAllUser(Integer level,Integer queuesId,String name);
+
+    /**
      * @title: addQueuesToDept
      * @description: 新增
      * @date: 2021/2/24 18:00

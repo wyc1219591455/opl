@@ -33,6 +33,6 @@ public class SubCatalogVo implements Serializable {
     private RequestQueues requestQueues;
 
     @ApiModelProperty(value = "服务分类条目中的关联部门")
-    //private List<DeptVo> serviceCatalogRelateDept;
-    private List<Integer> serviceCatalogRelateDept;
+    private List<DeptVo> serviceCatalogRelateDept;
+    //private List<Integer> serviceCatalogRelateDept;
 }

@@ -161,6 +161,21 @@ public class QueuesToDeptServiceImpl implements QueuesToDeptService {
     }
 
     @Override
+    public Map<String, Object> findAllUser( Integer level, Integer queuesId, String name) {
+        Map<String,Object> map = new LinkedHashMap<>(2);
+        List<UserForShow> tempList = null;
+        if (level==1){
+          tempList = queuesToDeptMapper.findAllUserByName(queuesId,name);
+            map.put("content",tempList);
+            map.put("totalElements",tempList.size());
+        }else {
+            map.put("content",null);
+            map.put("totalElements",0);
+        }
+        return map;
+    }
+
+    @Override
     public void addQueuesToDept(QueuesToDeptCriteria1 criteria) {
         //非空校验
         if (ObjectUtil.isEmpty(criteria.getQueuesId())){
