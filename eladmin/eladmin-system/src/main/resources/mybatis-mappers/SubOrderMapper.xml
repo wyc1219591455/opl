@@ -17,9 +17,6 @@
          <if test="receiver!=null and receiver!=''">
              ,receiver=#{receiver}
          </if>
-        <if test="orderStatus!=null">
-            ,order_status=#{orderStatus}
-        </if>
         WHERE id = #{id}
     </update>
 
