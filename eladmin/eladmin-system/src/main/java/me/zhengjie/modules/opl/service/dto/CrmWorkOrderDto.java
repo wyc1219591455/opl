@@ -180,6 +180,9 @@ public class CrmWorkOrderDto {
     @ApiModelProperty("判断当前用户是否是工单服务人 1为是 0为否")
     private Integer equalsReceiver;
 
+    @ApiModelProperty("判断当前工单子单是否全部关闭")
+    private Boolean isAllSubCom;
+
 
 
     @ApiModelProperty("子单")

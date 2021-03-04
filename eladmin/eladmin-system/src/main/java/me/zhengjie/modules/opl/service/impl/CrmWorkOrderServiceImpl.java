@@ -482,6 +482,8 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
             crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
             crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
+            Boolean isCom=isComplete(crmWorkOrderDto.getId());
+            crmWorkOrderDto.setIsAllSubCom(isCom);
             if (crmWorkOrderDto.getJobNumber().equals(jobNumber)) {
                 crmWorkOrderDto.setEqualsCreate(1);
             } else crmWorkOrderDto.setEqualsCreate(0);
@@ -498,11 +500,18 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         } else if (serialDto.getOrderType() == 1) {
             String serialNo = serialDto.getSerialNo();
             SubOrderDto subOrderDto = subOrderMapper.findSubOrderBySerialNo(serialNo);
+
             if (subOrderDto.getJobNumber().equals(jobNumber)) {
                 subOrderDto.setEqualsCreate(1);
             } else subOrderDto.setEqualsCreate(0);
+            if (subOrderDto.getReceiver()!=null&subOrderDto.getReceiver().equals(jobNumber)) {
+                subOrderDto.setEqualsReceiver(1);
+            } else subOrderDto.setEqualsReceiver(0);
+
             List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSubSessionById(serialDto.getId());
             CrmWorkOrderDto crmWorkOrder=crmWorkOrderMapper.findOrderById(subOrderDto.getParentNo());
+            Boolean isCom=isComplete(crmWorkOrder.getId());
+            crmWorkOrder.setIsAllSubCom(isCom);
             crmWorkOrder.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(subOrderDto.getParentNo()));
             crmWorkOrder.setSubOrderDto(subOrderDto);
             List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
@@ -581,6 +590,16 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         if (id==0) {
             throw new BadRequestException("该子工单不可转派！");
         }
+    }
+
+
+    private Boolean isComplete(Integer id) {
+
+        Integer subNum=subOrderMapper.findSubNum(id);
+        Integer subComNum=subOrderMapper.findComSubNum(id);
+        if(subNum==subComNum)return true;
+        else return false;
+
     }
 }
 

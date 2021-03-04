@@ -86,6 +86,9 @@ public class SubOrderDto {
     @ApiModelProperty("判断当前用户是否是工单创建人 1为是 0为否")
     private Integer equalsCreate;
 
+    @ApiModelProperty("判断当前用户是否是工单服务人 1为是 0为否")
+    private Integer equalsReceiver;
+
 }
 
 

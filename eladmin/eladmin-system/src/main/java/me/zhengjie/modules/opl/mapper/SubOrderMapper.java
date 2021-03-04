@@ -96,4 +96,27 @@ public interface SubOrderMapper {
      * @throws
      */
     List<SubOrder> findSubOplByMaxId(Integer orderId);
+
+
+    /**
+     * @title: findSubNum
+     * @description: 查找工单的子单数量
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    Integer findSubNum(Integer parentId);
+
+    /**
+     * @title: findComSubNum
+     * @description: 查找工单的已完成的子单数量
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
+     * @return java.util.List<me.zhengjie.modules.opl.domain.CrmWorkOrder>
+     * @throws
+     */
+    Integer findComSubNum(Integer parentId);
 }

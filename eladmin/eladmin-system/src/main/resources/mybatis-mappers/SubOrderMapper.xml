@@ -48,6 +48,19 @@
         WHERE A.serialNo =#{serialNo}
     </select>
 
+    <select id="findSubNum" parameterType="Integer" resultType="Integer">
+       SELECT count(id)
+        FROM subOrder
+        WHERE parentNo =#{parentId}
+    </select>
+
+    <select id="findSubNum" parameterType="Integer" resultType="Integer">
+       SELECT count(id)
+        FROM subOrder
+        WHERE orderStatus=4 AND parentNo =#{parentId}
+    </select>
+
+
 
     <select id="findParentWorkOrderDtoById" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
         SELECT t1.* FROM crm_work_order t1 WHERE exists (
