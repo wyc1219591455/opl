@@ -18,4 +18,7 @@ public class User {
 
     @ApiModelProperty(value = "姓名")
     private String name;
+
+    @ApiModelProperty(value = "部门名称")
+    private String deptName;
 }

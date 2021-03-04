@@ -39,11 +39,12 @@
 
     <select id="findSubOrderBySerialNo" parameterType="String" resultType="me.zhengjie.modules.opl.service.dto.SubOrderDto">
        SELECT A.id,A.parentNo,A.topic,A.serialNo,A.jobNumber,B.FHumanName as createdPerson ,A.createdTime,C.FDeptFullName AS deptName,A.deptId,
-       A.problemAttach,A.orderStatus,F.name as orderDesc,A.isTransfer,A.description,A.receiver,A.order_type
+       A.problemAttach,A.orderStatus,F.name as orderDesc,A.isTransfer,A.description,A.receiver,A.order_type,D.FHumanName as receiverName
         FROM subOrder A
         LEFT JOIN tsysuser B ON A.jobNumber=B.FUserName
         LEFT JOIN tsysdept C ON A.deptId=C.FDeptId
         LEFT JOIN orderStatus F ON F.id=A.orderStatus
+        LEFT JOIN tsysuser D ON A.receiver=D.FUserName
         WHERE A.serialNo =#{serialNo}
     </select>
 

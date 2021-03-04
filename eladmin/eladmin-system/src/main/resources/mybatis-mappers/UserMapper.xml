@@ -7,6 +7,7 @@
         <id property="id" column="FUserId"></id>
         <result property="userName" column="FUserName"></result>
         <result property="name" column="FHumanName"></result>
+        <result property="deptName" column="FDeptFullName"></result>
     </resultMap>
 
     <select id="findIdByUsername"  resultType="java.lang.Long">
@@ -14,12 +15,14 @@
     </select>
 
     <select id="findUser" parameterType="me.zhengjie.modules.opl.domain.User" resultMap="userMap">
-        select FUserId,FUserName,FHumanName from tsysuser
+        select A.FUserId,A.FUserName,A.FHumanName,B.FDeptFullName  from tsysuser A
+        LEFT JOIN tsysdept B ON A.FDeptId=B.FSourceCode
+        WHERE 1=1
         <if test="userName!=null and userName!=''">
-            and FUserName = #{userName}
+            and A.FUserName LIKE CONCAT('%',#{userName},'%')
         </if>
         <if test="name!=null and name!=''">
-            and FHumanName = #{name}
+            and A.FHumanName LIKE CONCAT('%',#{name},'%')
         </if>
     </select>
 

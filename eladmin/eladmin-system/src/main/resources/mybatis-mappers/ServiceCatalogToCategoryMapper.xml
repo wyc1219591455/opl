@@ -19,6 +19,19 @@
         VALUES     (#{name},#{parentId},#{createUserId},#{createDateTime},#{status},#{rootId})
     </insert>
 
+    <!--修改-->
+    <insert id="updateCategory" parameterType="me.zhengjie.modules.opl.domain.TrequestCategory" >
+        UPDATE trequestCategory set name=#{name},parentId=#{parentId},rootId=#{rootId}
+
+        WHERE id = #{id}
+    </insert>
+
+    <insert id="deleteCategory" parameterType="Integer" >
+        UPDATE trequestCategory set status=0
+
+        WHERE id = #{id}
+    </insert>
+
 
     <insert id="insertCatalogToCategoryAssociation" parameterType="me.zhengjie.modules.opl.domain.ServiceCatalogToCategory">
         INSERT INTO serviceCatalogToCategory(catalogId,categoryId,createUserId,createDateTime,status)

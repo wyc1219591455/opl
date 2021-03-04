@@ -43,7 +43,16 @@ public interface ServiceCatalogToCategoryMapper {
      * @throws
      */
     void batchInsert(List<ServiceCatalogToCategory> list);
-
+    /**
+     * @title: update
+     * @description: 修改工单分类
+     * @date: 2021/2/8 15:21
+     * @author: yuchao.wang
+     * @param
+     * @return void
+     * @throws
+     */
+    void updateCategory(TrequestCategory trequestCategory);
 
     /**
      * @title: insert
@@ -55,6 +64,17 @@ public interface ServiceCatalogToCategoryMapper {
      * @throws
      */
     void insertCategory(TrequestCategory trequestCategory);
+
+    /**
+     * @title: delete
+     * @description: 删除工单分类
+     * @date: 2021/2/8 15:21
+     * @author: yuchao.wang
+     * @param
+     * @return void
+     * @throws
+     */
+    void deleteCategory(Integer id);
 
     /**
      * @title: deleteByCatalogId

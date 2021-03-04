@@ -1,6 +1,6 @@
 package me.zhengjie.modules.opl.rest;
 
-import com.sun.istack.internal.NotNull;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -15,6 +15,7 @@ import me.zhengjie.modules.opl.service.dto.OrderApplyCcCriteria;
 import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.Map;
 
 /**
@@ -34,7 +35,7 @@ public class OrderApplyCcController {
     @Log("根据工单id获取抄送信息")
     @ApiOperation("根据工单id获取抄送信息")
     @GetMapping
-    public Map<String,Object> getOrderApplyCcByOrderId(Pageable pageable, @NotNull @ApiParam("工单来源 0是主表 1是附表")Integer type,@NotNull @ApiParam("工单ID") Integer orderId) {
+    public Map<String,Object> getOrderApplyCcByOrderId(Pageable pageable, @NotNull @ApiParam("工单来源 0是主表 1是附表")Integer type, @NotNull @ApiParam("工单ID") Integer orderId) {
        return orderApplyCcService.findCcByOrderId(pageable,orderId,type);
     }
 

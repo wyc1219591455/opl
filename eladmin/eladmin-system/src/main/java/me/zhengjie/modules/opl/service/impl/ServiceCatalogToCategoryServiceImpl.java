@@ -56,6 +56,21 @@ public class ServiceCatalogToCategoryServiceImpl implements ServiceCatalogToCate
        serviceCatalogToCategoryMapper.insertCatalogToCategoryAssociation(serviceCatalogToCategory);
     }
 
+    @Override
+    public void updateCategory(TrequestCategory trequestCategory){
+        TrequestCategory trequestCategory1=serviceCatalogToCategoryMapper.findCategoryById(trequestCategory.getParentId());
+        trequestCategory.setRootId(trequestCategory1.getRootId());
+        serviceCatalogToCategoryMapper.updateCategory(trequestCategory);
+    }
+
+    @Override
+    public void deleteCategory(List<Integer> ids){
+        for(Integer id:ids) {
+            serviceCatalogToCategoryMapper.deleteCategory(id);
+        }
+    }
+
+
 
     @Override
     public void insertCategory(TrequestCategory trequestCategory){

@@ -135,8 +135,15 @@ public class CrmWorkOrderController {
     @Log("查询人员")
     @ApiOperation("查询人员")
     @GetMapping("/user")
-    public Object findUser(@RequestBody(required = false) User user){
+    public Object findUser( User user){
        return crmWorkOrderService.findUser(user);
+    }
+
+    @Log("查询人员分页")
+    @ApiOperation("查询人员分页")
+    @GetMapping("/newUser")
+    public Object findNewUser( User user, Pageable pageable){
+        return crmWorkOrderService.findUser(user,pageable);
     }
 
     @Log("服务台工单")

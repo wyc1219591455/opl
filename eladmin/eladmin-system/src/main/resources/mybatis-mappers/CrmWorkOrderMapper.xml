@@ -16,6 +16,57 @@
 
     <update id="update" parameterType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria">
         UPDATE crm_work_order set updated_by=#{modifyPerson},updated_at=#{modifyDateTime}
+        <if test="topic!=null and topic!=''">
+            ,topic=#{topic}
+        </if>
+        <if test="planCompTime!=null">
+            ,plan_comp_time=#{planCompTime}
+        </if>
+        <if test="workOrderType!=null">
+            ,work_order_type=#{workOrderType}
+        </if>
+        <if test="closeScore!=null">
+            ,close_score=#{closeScore}
+        </if>
+        <if test="orderType!=null">
+            ,order_type=#{orderType}
+        </if>
+        <if test="projectName!=null and projectName!=''">
+            ,project_name=#{projectName}
+        </if>
+        <if test="faeHeader!=null and faeHeader!=''">
+            ,fae_header=#{faeHeader}
+        </if>
+        <if test="ultimateCustomer!=null and ultimateCustomer!=''">
+            ,ultimate_customer=#{ultimateCustomer}
+        </if>
+        <if test="rescueAction!=null and rescueAction!=''">
+            ,rescue_action=#{rescueAction}
+        </if>
+        <if test="siteCondition!=null and siteCondition!=''">
+            ,site_condition=#{siteCondition}
+        </if>
+        <if test="problemPath!=null and problemPath!=''">
+            ,problem_path=#{problemPath}
+        </if>
+        <if test="problemAttach!=null and problemAttach!=''">
+            ,problem_attach=#{problemAttach}
+        </if>
+        <if test="problemDesc!=null and problemDesc!=''">
+            ,problem_desc=#{problemDesc}
+        </if>
+        <if test="problemType!=null">
+            ,problem_type=#{problemType}
+        </if>
+        <if test="model!=null and model!=''">
+            ,model=#{model}
+        </if>
+        <if test="snNo!=null and snNo!=''">
+            ,sn_no=#{snNo}
+        </if>
+        <if test="matterDate!=null">
+            ,matter_date=#{matterDate}
+        </if>
         <if test="orderStatus!=null">
             ,order_status=#{orderStatus}
         </if>

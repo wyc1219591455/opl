@@ -178,13 +178,17 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
        orderSession.setOrderType(9);
-       String description="修改了抄送人";
-       List<User> userList=userMapper.findUserByEmpId(criteria.getEmpId());
-       for(User user:userList)
-       {
-           description=description+user.getName()+"   ";
+       String description="";
+       if(criteria.getEmpId()!=null&criteria.getEmpId().size()>0) {
+           description = "修改了抄送人:";
+           List<User> userList = userMapper.findUserByEmpId(criteria.getEmpId());
+           for (User user : userList) {
+               description = description + user.getName() + "   ";
+           }
+
        }
-       orderSession.setDescription(description);
+       else description="清空了抄送人";
+        orderSession.setDescription(description);
        orderSessionMapper.insertSession(orderSession);
 
     }
@@ -369,6 +373,13 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     @Override
     public void update(CrmWorkOrderCriteria crmWorkOrderCriteria) {
         crmWorkOrderMapper.update(crmWorkOrderCriteria);
+        OrderSession orderSession =new OrderSession();
+        orderSession.setTransId(crmWorkOrderCriteria.getId());
+        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+        orderSession.setOriginalType(crmWorkOrderCriteria.getOrderType());
+        orderSession.setOrderType(12);
+        orderSessionMapper.insertSession(orderSession);
     }
 
     @Override
@@ -423,12 +434,16 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         String jobNumber = SecurityUtils.getCurrentUsername();
         Integer userId= Math.toIntExact(userMapper.findIdByUsername(jobNumber));
         List<Integer> catalogList=queuesToDeptMapper.findServiceCatalogByUserId(userId);
-        workOrderCriteria.setSubCatalogList(catalogList);
-        List<CrmWorkOrderDto> tempList = crmWorkOrderMapper.findServiceOrder(workOrderCriteria);
-        for (CrmWorkOrderDto crmWorkOrderDto : tempList) {
+        List<CrmWorkOrderDto> tempList=new ArrayList<>();
+        if(catalogList!=null&catalogList.size()>0) {
+            workOrderCriteria.setSubCatalogList(catalogList);
+            tempList = crmWorkOrderMapper.findServiceOrder(workOrderCriteria);
+            for (CrmWorkOrderDto crmWorkOrderDto : tempList) {
                 crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
                 crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
+            }
         }
+
 
 
         return PageHelpResultUtil.toPage(PageInfoUtils.listToPageInfo(tempList, pageable.getPage(), pageable.getSize()));
@@ -444,6 +459,17 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
         return userMapper.findUserByEmpId(userIds);
     }
+
+    @Override
+    public Map<String,Object> findUser(User user, Pageable pageable) {
+        PageHelper.startPage(pageable.getPage(), pageable.getSize());
+
+        List<User> userList = userMapper.findUser(user);
+        PageInfo<User> pageInfo = new PageInfo(userList);
+        return PageHelpResultUtil.toPage(pageInfo);
+
+    }
+
 
 
     @Override

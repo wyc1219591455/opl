@@ -44,6 +44,28 @@ public interface ServiceCatalogToCategoryService {
     void insertCategory(TrequestCategory trequestCategory);
 
     /**
+     * @title: update
+     * @description: 修改工单分类
+     * @date: 2021/2/8 15:21
+     * @author: yuchao.wang
+     * @param
+     * @return void
+     * @throws
+     */
+    void updateCategory(TrequestCategory trequestCategory);
+
+    /**
+     * @title: delete
+     * @description: 删除工单分类
+     * @date: 2021/2/8 15:21
+     * @author: yuchao.wang
+     * @param
+     * @return void
+     * @throws
+     */
+    void deleteCategory(List<Integer> ids);
+
+    /**
      * @title: findAllCatalog
      * @description: 获取所有工单分类
      * @date: 2021/1/20 18:35

@@ -29,6 +29,20 @@ public class ServiceCatalogToCategoryController {
         serviceCatalogToCategoryService.insertCategory(trequestCategory);
     }
 
+    @Log("修改服务分类")
+    @ApiOperation("修改服务分类")
+    @PutMapping("/update")
+    public void updateCategory(@RequestBody TrequestCategory trequestCategory) {
+        serviceCatalogToCategoryService.updateCategory(trequestCategory);
+    }
+
+    @Log("删除服务分类")
+    @ApiOperation("删除服务分类")
+    @PutMapping("/delete")
+    public void deleteCategory(@RequestBody List<Integer> ids) {
+        serviceCatalogToCategoryService.deleteCategory(ids);
+    }
+
 
     @Log("查询服务分类的工单分类")
     @ApiOperation("查询服务分类的工单分类")
