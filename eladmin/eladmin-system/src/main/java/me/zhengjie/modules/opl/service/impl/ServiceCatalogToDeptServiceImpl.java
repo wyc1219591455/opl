@@ -219,7 +219,7 @@ public class ServiceCatalogToDeptServiceImpl implements ServiceCatalogToDeptServ
         Map<String,Object> map = new LinkedHashMap<>(2);
         List<UserForShow> tempList = null;
         if (level==1){
-           // tempList =
+            tempList = serviceCatalogToDeptMapper.findAllUser(catalogId, name);
             map.put("content",tempList);
             map.put("totalElements",tempList.size());
         }else {
