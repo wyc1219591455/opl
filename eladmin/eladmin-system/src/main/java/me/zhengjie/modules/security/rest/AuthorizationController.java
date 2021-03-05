@@ -33,6 +33,7 @@ import me.zhengjie.modules.security.service.dto.AuthUserDto;
 import me.zhengjie.modules.security.service.dto.JwtUserDto;
 import me.zhengjie.modules.security.service.OnlineUserService;
 import me.zhengjie.modules.system.repository.UserRepository;
+import me.zhengjie.modules.system.service.dto.Token;
 import me.zhengjie.utils.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,6 +45,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.bind.DatatypeConverter;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -163,6 +166,43 @@ public class AuthorizationController {
 
         }
 
+    }
+
+    @Log("用户登录")
+    @ApiOperation("登录授权")
+    @AnonymousAccess
+    @PostMapping(value = "/login2")
+    public Map<String, Object> login(@Validated @RequestBody Token tokenComponent, HttpServletRequest request) throws UnsupportedEncodingException {
+        //public ResponseEntity<Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request){
+        byte[] saltByte = DatatypeConverter.parseBase64Binary(tokenComponent.getTokenString());
+        String text = new String(saltByte, "iso-8859-1");
+        String[] txt = text.split(";");
+        // 工号
+        String jobNumber = txt[0];
+        if(ObjectUtil.isEmpty(userRepository.findByUsername(jobNumber))){
+            throw new BadRequestException("用户不存在");
+        }
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(jobNumber, "123456");
+
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        // 生成令牌
+        String token = tokenProvider.createToken(authentication);
+        final JwtUserDto jwtUserDto = (JwtUserDto) authentication.getPrincipal();
+        // 保存在线信息
+        onlineUserService.save(jwtUserDto, token, request);
+        // 返回 token 与 用户信息
+        Map<String, Object> authInfo = new HashMap<String, Object>(2) {{
+            put("token", properties.getTokenStartWith() + token);
+            put("user", jwtUserDto);
+        }};
+        if (singleLogin) {
+            //踢掉之前已经登录的token
+            onlineUserService.checkLoginOnUser(jobNumber, token);
+        }
+        // return ResponseEntity.ok(authInfo);
+        return authInfo;
     }
 
     @ApiOperation("获取用户信息")

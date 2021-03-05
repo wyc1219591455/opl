@@ -54,7 +54,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         String maxSerialNo = getOplMaxNo();
         crmWorkOrderCriteria.setSerialNo(maxSerialNo);
         crmWorkOrderCriteria.setOrderStatus(1);
-        crmWorkOrderCriteria.setJobNumber(SecurityUtils.getCurrentUsername());
+//        crmWorkOrderCriteria.setJobNumber(SecurityUtils.getCurrentUsername());
         crmWorkOrderCriteria.setCreateDateTime(new Timestamp(new Date().getTime()));
         crmWorkOrderCriteria.setOrderType(0);
         crmWorkOrderMapper.insert(crmWorkOrderCriteria);
@@ -487,7 +487,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             if (crmWorkOrderDto.getJobNumber().equals(jobNumber)) {
                 crmWorkOrderDto.setEqualsCreate(1);
             } else crmWorkOrderDto.setEqualsCreate(0);
-            if (crmWorkOrderDto.getReceiver()!=null&&crmWorkOrderDto.getReceiver().equals(jobNumber)) {
+            if (crmWorkOrderDto.getReceiver()!=null&&jobNumber.equals(crmWorkOrderDto.getReceiver())) {
                 crmWorkOrderDto.setEqualsReceiver(1);
             } else crmWorkOrderDto.setEqualsReceiver(0);
             List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
@@ -504,7 +504,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             if (subOrderDto.getJobNumber().equals(jobNumber)) {
                 subOrderDto.setEqualsCreate(1);
             } else subOrderDto.setEqualsCreate(0);
-            if (subOrderDto.getReceiver()!=null&subOrderDto.getReceiver().equals(jobNumber)) {
+            if (subOrderDto.getReceiver()!=null&jobNumber.equals(subOrderDto.getReceiver())) {
                 subOrderDto.setEqualsReceiver(1);
             } else subOrderDto.setEqualsReceiver(0);
 
