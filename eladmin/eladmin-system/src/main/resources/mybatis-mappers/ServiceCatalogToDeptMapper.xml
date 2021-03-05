@@ -76,25 +76,25 @@
     <!-- 根据父类id获取总数（判断此部门是不是最底层部门） -->
     <select id="getCountByOrgId" resultType="java.lang.Integer">
         SELECT count(0) as a FROM tsysdept t2 WHERE t2.FParentId in
-        (SELECT t1.FOrgSourceId FROM tsysorgas t1 WHERE t1.FOrgId = #{orgId} ) AND t2.FFlag = 0
+        (SELECT t1.FOrgSourceId FROM tsysorgas t1 WHERE t1.FOrgId = #{orgId} ) AND t2.FFlag = 1
     </select>
 
     <!--根据父类id获取list（查出部门下面的部门id）-->
     <select id="getListByOrgId" resultType="java.lang.Integer">
         SELECT t2.FDeptId FROM tsysdept t2 WHERE t2.FParentId in
-        (SELECT t1.FOrgSourceId FROM tsysorgas t1 WHERE t1.FOrgId = #{orgId} ) AND t2.FFlag = 0
+        (SELECT t1.FOrgSourceId FROM tsysorgas t1 WHERE t1.FOrgId = #{orgId} ) AND t2.FFlag = 1
     </select>
 
     <!-- 根据父类id获取总数（判断此部门是不是最底层部门） -->
     <select id="getCountByParentId" resultType="java.lang.Integer">
           SELECT count(0) as a FROM tsysdept t2 WHERE t2.FParentId in
-        (SELECT t1.FSourceCode FROM tsysdept t1 WHERE t1.FDeptId = #{deptId} ) AND t2.FFlag = 0
+        (SELECT t1.FSourceCode FROM tsysdept t1 WHERE t1.FDeptId = #{deptId} ) AND t2.FFlag = 1
     </select>
 
     <!-- 根据父类id获取list（查出部门下面的部门id） -->
     <select id="getListByParentId" resultType="java.lang.Integer">
          SELECT t2.FDeptId FROM tsysdept t2 WHERE t2.FParentId in
-        (SELECT t1.FSourceCode FROM tsysdept t1 WHERE t1.FDeptId = #{deptId} ) AND t2.FFlag = 0
+        (SELECT t1.FSourceCode FROM tsysdept t1 WHERE t1.FDeptId = #{deptId} ) AND t2.FFlag = 1
     </select>
 
     <!-- 根据部门id的list和服务分类id获取所有的人员 -->

@@ -21,22 +21,22 @@
     </resultMap>
 
     <select id="findDeptByOrgId" resultMap="deptMap">
-        SELECT * FROM tsysdept WHERE FOrgId = #{orgId} AND FFlag = 0
+        SELECT * FROM tsysdept WHERE FOrgId = #{orgId} AND FFlag = 1
     </select>
 
 
     <select id="findDeptByParentId" resultMap="deptMap">
-        SELECT * FROM tsysdept WHERE FParentId = #{parentId} AND FFlag = 0
+        SELECT * FROM tsysdept WHERE FParentId = #{parentId} AND FFlag = 1
     </select>
 
     <select id="findDeptByGradeOrg" resultMap="deptMap">
-        SELECT * FROM tsysdept WHERE FParentId = '7dc16e86-172c-4f96-bd16-9a0fd82d6262' AND FFlag = 0
+        SELECT * FROM tsysdept WHERE FParentId = '7dc16e86-172c-4f96-bd16-9a0fd82d6262' AND FFlag = 1
     </select>
 
     <!-- 获取不在支持组下的部门数据 -->
     <select id="findDeptVoNotInCatalogId" resultType="me.zhengjie.modules.opl.service.dto.DeptVo">
         SELECT t1.FDeptId as deptId,t1.FDeptFullName as deptFullName,t1.FDeptName as deptName FROM tsysdept t1
-        WHERE t1.FFlag=0 and not EXISTS(
+        WHERE t1.FFlag=1 and not EXISTS(
         SELECT t2.* FROM serviceCatalogRelateDept t2
         WHERE t2.catalogId = #{catalogId} and t1.FDeptId = t2.deptId
         ) and not EXISTS (
@@ -55,7 +55,7 @@
     <!-- 获取不在支持组下的大部门数据 （关联大部门）-->
     <select id="findDeptVoNotInCatalogId2" resultType="me.zhengjie.modules.opl.service.dto.DeptVo">
         SELECT t1.FDeptId as deptId,t1.FDeptFullName as deptFullName,t1.FDeptName as deptName FROM tsysdept t1
-        WHERE t1.FFlag=0 and t1.FHrDeptLevel=3 and not EXISTS(
+        WHERE t1.FFlag=1 and t1.FHrDeptLevel=3 and not EXISTS(
         SELECT t2.* FROM serviceCatalogRelateDept t2
         WHERE t2.catalogId = 1 and  t1.FDeptId = t2.deptId
         ) and  EXISTS (
@@ -74,7 +74,7 @@
     <!-- 获取服务id下在此服务组的部门信息 -->
     <select id="findDeptVoInCatalogId" resultType="me.zhengjie.modules.opl.service.dto.DeptVo">
         SELECT t1.FDeptId as deptId,t1.FDeptFullName as deptFullName,t1.FDeptName as deptName FROM tsysdept t1
-        WHERE t1.FFlag=0 and EXISTS(
+        WHERE t1.FFlag=1 and EXISTS(
         SELECT t2.* FROM serviceCatalogRelateDept t2
         WHERE t2.catalogId = #{catalogId}  and t1.FDeptId = t2.deptId
         )
