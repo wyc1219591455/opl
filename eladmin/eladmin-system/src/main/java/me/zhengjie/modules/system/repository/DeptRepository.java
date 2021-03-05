@@ -47,7 +47,7 @@ public interface DeptRepository extends JpaRepository<Dept, Long>, JpaSpecificat
      * @param id ID
      * @return /
      */
-    @Query(value = "select name from sys_dept where dept_id = ?1",nativeQuery = true)
+    @Query(value = "select name from tsysdept where FDeptId = ?1",nativeQuery = true)
     String findNameById(Long id);
 
     /**

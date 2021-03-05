@@ -79,7 +79,7 @@ public class AuthorizationController {
     @PostMapping(value = "/login")
     public Map<String, Object> login(@Validated @RequestBody AuthUserDto authUser, HttpServletRequest request) {
         //判断数据库里面是否有此用户
-        if(ObjectUtil.isEmpty(userRepository.findByUsername(authUser.getUsername()))){
+        if(ObjectUtil.isNull(userRepository.findByUsername(authUser.getUsername()))){
             //没有，生成AD验证实例
             LDAPConnector instance = LDAPConnector.getInstance();
             //域密码解密

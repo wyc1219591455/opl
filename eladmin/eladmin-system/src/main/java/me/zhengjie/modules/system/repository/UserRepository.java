@@ -34,6 +34,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      * @param username 用户名
      * @return /
      */
+
     User findByUsername(String username);
 
     /**
@@ -50,7 +51,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      * @param lastPasswordResetTime /
      */
     @Modifying
-    @Query(value = "update sys_user set password = ?2 , pwd_reset_time = ?3 where username = ?1",nativeQuery = true)
+    @Query(value = "update tsysuser set password = ?2 , pwd_reset_time = ?3 where FUserName = ?1",nativeQuery = true)
     void updatePass(String username, String pass, Date lastPasswordResetTime);
 
     /**
@@ -59,7 +60,7 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      * @param email 邮箱
      */
     @Modifying
-    @Query(value = "update sys_user set email = ?2 where username = ?1",nativeQuery = true)
+    @Query(value = "update tsysuser set email = ?2 where FUserName = ?1",nativeQuery = true)
     void updateEmail(String username, String email);
 
     /**
@@ -67,6 +68,6 @@ public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificat
      * @param deptId
      * @return
      */
-    @Query(value = "select COUNT(*) from sys_user where dept_id = ?1 ",nativeQuery = true)
+    @Query(value = "select COUNT(*) from tsysuser where FDeptId = ?1 ",nativeQuery = true)
     int findByDeptId(Long deptId);
 }

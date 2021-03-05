@@ -34,11 +34,11 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name="sys_dept")
+@Table(name="tsysdept")
 public class Dept extends BaseEntity implements Serializable {
 
     @Id
-    @Column(name = "dept_id")
+    @Column(name = "fdeptid")
     @NotNull(groups = Update.class)
     @ApiModelProperty(value = "ID", hidden = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,19 +49,28 @@ public class Dept extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "角色")
     private Set<Role> roles;
 
+    @Column(name = "fsort")
     @ApiModelProperty(value = "排序")
     private Integer deptSort;
 
     @NotBlank
+    @Column(name = "fdeptname")
     @ApiModelProperty(value = "部门名称")
     private String name;
 
     @NotNull
+    @Column(name = "fflag")
     @ApiModelProperty(value = "是否启用")
     private Boolean enabled;
 
+    @NotBlank
+    @Column(name = "fsourcecode")
+    @ApiModelProperty(value = "erp或hr部门编号")
+    private String sourceCode;
+
+    @Column(name = "fparentid")
     @ApiModelProperty(value = "上级部门")
-    private Long pid;
+    private String pid;
 
     @Override
     public boolean equals(Object o) {

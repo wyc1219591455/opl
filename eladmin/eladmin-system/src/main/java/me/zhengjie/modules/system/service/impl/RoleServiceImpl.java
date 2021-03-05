@@ -128,7 +128,7 @@ public class RoleServiceImpl implements RoleService {
         if(CollectionUtil.isNotEmpty(resources.getDepts()) && resources.getDepts().size() == 1){
             for (Dept dept : resources.getDepts()) {
                 dept = deptRepository.findById(dept.getId()).orElseGet(Dept::new);
-                if(dept.getPid() == 0 || dept.getPid() == null){
+                if(dept.getPid() == "" || dept.getPid() == null){
                     resources.setDepts(null);
                     resources.setDataScope(DataScopeEnum.ALL.getValue());
                 }

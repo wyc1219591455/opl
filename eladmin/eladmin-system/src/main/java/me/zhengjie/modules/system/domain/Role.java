@@ -63,7 +63,7 @@ public class Role extends BaseEntity implements Serializable {
     @ManyToMany
     @JoinTable(name = "sys_roles_depts",
             joinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "dept_id",referencedColumnName = "dept_id")})
+            inverseJoinColumns = {@JoinColumn(name = "dept_id",referencedColumnName = "FDeptId")})
     @ApiModelProperty(value = "部门", hidden = true)
     private Set<Dept> depts;
 

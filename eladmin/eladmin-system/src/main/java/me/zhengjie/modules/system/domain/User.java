@@ -35,7 +35,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name="sys_user")
+@Table(name="tsysuser")
 public class User extends BaseEntity implements Serializable {
 
     @Id
@@ -60,27 +60,31 @@ public class User extends BaseEntity implements Serializable {
     private Set<Job> jobs;
 
     @OneToOne
-    @JoinColumn(name = "dept_id")
+    @JoinColumn(name = "fdeptid",referencedColumnName="fsourcecode")
     @ApiModelProperty(value = "用户部门")
     private Dept dept;
 
     @NotBlank
-    @Column(unique = true)
+    @Column(unique = true,name = "fusername")
     @ApiModelProperty(value = "用户名称")
     private String username;
 
+    @Column(name = "fhumanname")
     @ApiModelProperty(value = "用户昵称")
     private String nickName;
 
     @Email
     @NotBlank
+    @Column(name = "femail")
     @ApiModelProperty(value = "邮箱")
     private String email;
 
     @NotBlank
+    @Column(name = "fmobilenumber")
     @ApiModelProperty(value = "电话号码")
     private String phone;
 
+    @Column(name = "fsex")
     @ApiModelProperty(value = "用户性别")
     private String gender;
 
@@ -90,10 +94,12 @@ public class User extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "头像存储的路径", hidden = true)
     private String avatarPath;
 
+    @Column(name = "fpassword")
     @ApiModelProperty(value = "密码")
     private String password;
 
     @NotNull
+    @Column(name = "fflag")
     @ApiModelProperty(value = "是否启用")
     private Boolean enabled;
 
