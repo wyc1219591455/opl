@@ -5,7 +5,7 @@
 
     <!--获取明细下人员数据-->
     <select id="findByQueueId" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
-        SELECT t3.FUserId as userId,t3.FUserName as userName,t3.FHumanName as humanName,
+        SELECT t3.user_id as userId,t3.FUserName as userName,t3.FHumanName as humanName,
         t4.FDeptName as deptName,t1.code,t1.name,t1.id
         FROM trequestqueues t1 LEFT JOIN
         queuesToDept t2 ON t1.id =t2.queuesId
@@ -13,18 +13,18 @@
 		LEFT JOIN tsysuser t3 ON t3.FDeptId = t4.FSourceCode
         WHERE t2.type =0 and t1.id = #{id}
         UNION
-        SELECT t3.FUserId as userId,t3.FUserName as userName,t3.FHumanName as humanName,
+        SELECT t3.user_id as userId,t3.FUserName as userName,t3.FHumanName as humanName,
         t4.FDeptName as deptName,t1.code,t1.name,t1.id
         FROM trequestqueues t1 LEFT JOIN
         queuesToDept t2 ON t1.id =t2.queuesId
-        LEFT JOIN tsysuser t3 ON t2.sourceId = t3.FUserId
+        LEFT JOIN tsysuser t3 ON t2.sourceId = t3.user_id
 		 LEFT JOIN tsysdept t4 ON t4.FSourceCode = t3.FDeptId
         WHERE t2.type =1 and t1.id = #{id}
     </select>
 
     <!--根据部门id获取所有的人员-->
     <select id="findAllUserByDeptId" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
-        SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        SELECT t1.user_id as userId,t1.FUserName as userName,t1.FHumanName as humanName,
         t2.FDeptId as deptId,t2.FDeptName as deptName  FROM tsysuser t1
          LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
          WHERE t2.FDeptId =#{deptId}
@@ -70,9 +70,9 @@
 
     <!--根据部门id和支持组id获取所有的人员-->
     <select id="findAllUserByDeptIdAndQueueId" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
-         SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+         SELECT t1.user_id as userId,t1.FUserName as userName,t1.FHumanName as humanName,
         t2.FDeptId as deptId,t2.FDeptName as deptName ,
-	    ( CASE  WHEN EXISTS ( SELECT * FROM queuesToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.FUserId AND t3.queuesId = #{queuesId} ) THEN 1
+	    ( CASE  WHEN EXISTS ( SELECT * FROM queuesToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.user_id AND t3.queuesId = #{queuesId} ) THEN 1
 	    ELSE 0 END ) as flag FROM tsysuser t1
          LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
          WHERE t2.FDeptId = #{deptId}
@@ -83,9 +83,9 @@
 
     <!--根据部门id和支持组id获取所有的人员2-->
     <select id="findAllUserByDeptIdAndQueueId2" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
-        SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        SELECT t1.user_id as userId,t1.FUserName as userName,t1.FHumanName as humanName,
         t2.FDeptId as deptId,t2.FDeptName as deptName ,
-	    ( CASE  WHEN EXISTS ( SELECT * FROM queuesToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.FUserId AND t3.queuesId = #{queuesId} ) THEN 1
+	    ( CASE  WHEN EXISTS ( SELECT * FROM queuesToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.user_id AND t3.queuesId = #{queuesId} ) THEN 1
 	    ELSE 0 END ) as flag FROM tsysuser t1
          LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
         WHERE t2.FDeptId in
@@ -100,9 +100,9 @@
 
     <!-- 根据名称获取所有的人员进行模糊查询 -->
     <select id="findAllUserByName" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
-        SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        SELECT t1.user_id as userId,t1.FUserName as userName,t1.FHumanName as humanName,
         t2.FDeptId as deptId,t2.FDeptName as deptName ,
-	    ( CASE  WHEN EXISTS ( SELECT * FROM queuesToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.FUserId AND t3.queuesId = 1 ) THEN 1
+	    ( CASE  WHEN EXISTS ( SELECT * FROM queuesToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.user_id AND t3.queuesId = 1 ) THEN 1
 	    ELSE 0 END ) as flag FROM tsysuser t1
          LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode WHERE 1=1
         <if test="name!=null and name!=''">
@@ -124,11 +124,11 @@
 
     <!-- 获取已勾选的数据 -->
     <select id="findAllUserInUse" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
-         SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+         SELECT t1.user_id as userId,t1.FUserName as userName,t1.FHumanName as humanName,
         t2.FDeptId as deptId,t2.FDeptName as deptName ,
 	   1 as flag FROM tsysuser t1
          LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
-        WHERE ( CASE  WHEN EXISTS ( SELECT * FROM queuesToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.FUserId AND t3.queuesId =#{queuesId} ) THEN 1
+        WHERE ( CASE  WHEN EXISTS ( SELECT * FROM queuesToDept t3 WHERE t3.type=1 AND t3.sourceId=t1.user_id AND t3.queuesId =#{queuesId} ) THEN 1
 	    ELSE 0 END ) = 1
 	    <if test="name!=null and name!=''">
             AND ( t1.FHumanName like concat('%',#{name},'%') OR t1.FUserName like concat('%',#{name},'%') )

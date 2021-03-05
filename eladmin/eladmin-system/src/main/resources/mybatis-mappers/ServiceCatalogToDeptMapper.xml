@@ -30,7 +30,7 @@
     <select id="findAssociationById"  resultType="me.zhengjie.modules.opl.service.dto.SubServiceCatalogDto">
         SELECT C.catalogId,C.catalogName,C.description,C.parentId,C.status,C.defaultQueueId,B.FHumanName as humanName,C.icon
         FROM serviceCatalogToDept A
-        LEFT JOIN tsysuser B ON A.sourceId=B.FUserId
+        LEFT JOIN tsysuser B ON A.sourceId=B.user_id
         LEFT JOIN subServiceCatalog C ON A.catalogId=C.catalogId
         WHERE A.type=1 and B.FUserName= #{userId}
         UNION
@@ -44,7 +44,7 @@
     <select id="findParentAssociationById"  resultType="me.zhengjie.modules.opl.service.dto.ServiceCatalogDto">
         SELECT D.catalogId,D.catalogName,D.shortName,D.icon,D.status
         FROM serviceCatalogToDept A
-        LEFT JOIN tsysuser B ON A.sourceId=B.FUserId
+        LEFT JOIN tsysuser B ON A.sourceId=B.user_id
         LEFT JOIN subServiceCatalog C ON A.catalogId=C.catalogId
         LEFT JOIN serviceCatalog D ON D.catalogId=C.parentId
         WHERE A.type=1 and B.FUserName= #{userId}
@@ -60,12 +60,12 @@
 
     <!-- 如果是最上层公司，那么就展示已勾选的 -->
     <select id="findAllUserInUse" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
-        SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        SELECT t1.user_id as userId,t1.FUserName as userName,t1.FHumanName as humanName,
         t2.FDeptId as deptId,t2.FDeptName as deptName ,
 	   1 as flag FROM tsysuser t1
          LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
         WHERE ( CASE  WHEN EXISTS ( SELECT * FROM serviceCatalogToDept t3
-        WHERE t3.type=1 AND t3.sourceId=t1.FUserId AND t3.catalogId =#{catalogId} ) THEN 1
+        WHERE t3.type=1 AND t3.sourceId=t1.user_id AND t3.catalogId =#{catalogId} ) THEN 1
 	    ELSE 0 END ) = 1
 	    <if test="name!=null and name!=''">
            AND ( t1.FHumanName like concat('%',#{name},'%') OR t1.FUserName like concat('%',#{name},'%') )
@@ -99,10 +99,10 @@
 
     <!-- 根据部门id的list和服务分类id获取所有的人员 -->
     <select id="findAllUserByDeptIdListAndCatalogId" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
-        SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        SELECT t1.user_id as userId,t1.FUserName as userName,t1.FHumanName as humanName,
         t2.FDeptId as deptId,t2.FDeptName as deptName ,
 	    ( CASE  WHEN EXISTS ( SELECT * FROM serviceCatalogToDept t3 WHERE t3.type=1 AND
-	     t3.sourceId=t1.FUserId AND t3.catalogId = #{catalogId} )
+	     t3.sourceId=t1.user_id AND t3.catalogId = #{catalogId} )
 			THEN 1
 	    ELSE 0 END ) as flag FROM tsysuser t1
          LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
@@ -117,10 +117,10 @@
 
     <!-- 根据部门id和服务分类id获取所有的人员 -->
     <select id="findAllUserByDeptIdAndCatalogId" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
-        SELECT t1.FUserId as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        SELECT t1.user_id as userId,t1.FUserName as userName,t1.FHumanName as humanName,
         t2.FDeptId as deptId,t2.FDeptName as deptName ,
 	    ( CASE  WHEN EXISTS ( SELECT * FROM serviceCatalogToDept t3 WHERE t3.type=1 AND
-	     t3.sourceId=t1.FUserId AND t3.catalogId = #{catalogId} )
+	     t3.sourceId=t1.user_id AND t3.catalogId = #{catalogId} )
 			THEN 1
 	    ELSE 0 END ) as flag FROM tsysuser t1
          LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode
@@ -140,6 +140,20 @@
     <select id="findByCatalogIdAndSourceId" resultType="java.lang.Integer">
         SELECT count(*) as a FROM serviceCatalogToDept WHERE catalogId = #{catalogId}
         and sourceId = #{sourceId} and type = 1
+    </select>
+
+    <!-- 人员信息模糊查询 -->
+    <select id="findAllUser" resultType="me.zhengjie.modules.opl.service.dto.UserForShow">
+        SELECT t1.user_id as userId,t1.FUserName as userName,t1.FHumanName as humanName,
+        t2.FDeptId as deptId,t2.FDeptName as deptName ,
+        ( CASE  WHEN EXISTS ( SELECT * FROM serviceCatalogToDept t3 WHERE t3.type=1 AND
+        t3.sourceId=t1.user_id AND t3.catalogId = #{catalogId} )
+        THEN 1
+        ELSE 0 END ) as flag FROM tsysuser t1
+        LEFT JOIN tsysdept t2 ON t1.FDeptId = t2.FSourceCode WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND  ( t1.FHumanName like concat('%',#{name},'%') OR t1.FUserName like concat('%',#{name},'%') )
+        </if>
     </select>
 
 

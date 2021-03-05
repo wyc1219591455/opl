@@ -3,7 +3,10 @@ package me.zhengjie.modules.opl.mapper;
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
+import me.zhengjie.modules.opl.service.dto.UserForShow;
 import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
+import me.zhengjie.modules.system.domain.User;
+import me.zhengjie.modules.system.service.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -183,5 +186,16 @@ public interface CrmWorkOrderMapper {
      * @throws
      */
     CrmWorkOrderDto findOrderById(Integer id);
+
+    /**
+     * @title: findUserByCatalogId
+     * @description: 通过获取服务分类条目获取用户信息
+     * @date: 2021/3/2 13:35
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.List<me.zhengjie.modules.system.domain.User>
+     * @throws
+     */
+    List<User> findUserByCatalogId(Integer catalogId);
 
 }

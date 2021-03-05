@@ -395,4 +395,11 @@
         SELECT * FROM crm_work_order
     </select>
 
+    <!-- 通过服务分类条目获取人员数据 -->
+    <select id="findUserByCatalogId" resultType="me.zhengjie.modules.system.domain.User">
+        SELECT * FROM tsysuser WHERE user_id IN(
+        SELECT sourceId FROM queuesToDept WHERE queuesId IN
+        (SELECT defaultQueueId FROM subServiceCatalog WHERE catalogId = #{catalogId}) )
+    </select>
+
 </mapper>
