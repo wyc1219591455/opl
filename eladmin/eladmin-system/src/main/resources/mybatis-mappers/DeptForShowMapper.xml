@@ -52,13 +52,19 @@
         ORDER BY t1.FDeptId desc
     </select>
 
-    <!-- 获取不在支持组下的大部门数据 （关联大部门）-->
-    <select id="findDeptVoNotInCatalogId2" resultType="me.zhengjie.modules.opl.service.dto.DeptVo">
-        SELECT t1.FDeptId as deptId,t1.FDeptFullName as deptFullName,t1.FDeptName as deptName FROM tsysdept t1
-        WHERE t1.FFlag=1 and t1.FHrDeptLevel=3 and not EXISTS(
+    <!-- 获取不在支持组下的大部门数据 （关联大部门）and not EXISTS(
         SELECT t2.* FROM serviceCatalogRelateDept t2
         WHERE t2.catalogId = 1 and  t1.FDeptId = t2.deptId
-        ) and  EXISTS (
+
+         and  EXISTS (
+        SELECT t3.FParentId FROM tsysdept t3
+        WHERE t3.FParentId = t1.FSourceCode
+        )
+        )-->
+    <select id="findDeptVoNotInCatalogId2" resultType="me.zhengjie.modules.opl.service.dto.DeptVo">
+        SELECT t1.FDeptId as deptId,t1.FDeptFullName as deptFullName,t1.FDeptName as deptName FROM tsysdept t1
+        WHERE t1.FFlag=1 and t1.FHrDeptLevel=3
+        and  EXISTS (
         SELECT t3.FParentId FROM tsysdept t3
         WHERE t3.FParentId = t1.FSourceCode
         )
