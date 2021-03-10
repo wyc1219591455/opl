@@ -53,21 +53,24 @@
 
     <!-- 主表数据 -->
     <select id="findMasterOrderCcByEmpId" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
-        SELECT t1.* FROM crm_work_order t1
+        SELECT t1.*,t3.name as status_desc,(case WHEN t1.work_order_type = 1 THEN '质量' else '需求' end) as type_desc  FROM crm_work_order t1
+        LEFT JOIN orderStatus t3 on t1.order_status = t3.id
         WHERE exists( SELECT t2.* FROM orderApplyCc t2 WHERE t2.transId=t1.id
          AND originalType=0 AND t2.empId=#{empId})
     </select>
 
     <!-- 附表数据 -->
     <select id="findSubOrderCcByEmpId" resultType="me.zhengjie.modules.opl.service.dto.SubOrderDto">
-        SELECT t1.* FROM subOrder t1
+        SELECT t1.*,t3.name as status_desc FROM subOrder t1
+         LEFT JOIN orderStatus t3 on t1.orderStatus = t3.id
         WHERE exists( SELECT t2.* FROM orderApplyCc t2 WHERE t2.transId=t1.id
          AND originalType=1 AND t2.empId=#{empId})
     </select>
 
     <!-- 主表数据2 -->
     <select id="findMasterOrderCcByEmpId2" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
-        SELECT t1.* FROM crm_work_order t1
+        SELECT t1.*,,t3.name as status_desc,(case WHEN t1.work_order_type = 1 THEN '质量' else '需求' end) as type_desc FROM crm_work_order t1
+        LEFT JOIN orderStatus t3 on t1.order_status = t3.id
         WHERE exists( SELECT t2.* FROM orderApplyCc t2 WHERE t2.transId=t1.id
         AND originalType=0 AND t2.empId=#{empId})
         <if test="criteria.topic!=null and criteria.topic !=''">
