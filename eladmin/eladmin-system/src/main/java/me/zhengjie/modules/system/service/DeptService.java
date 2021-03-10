@@ -46,6 +46,21 @@ public interface DeptService {
     DeptDto findById(Long id);
 
     /**
+     * 根据ID查询
+     * @param sourceCode /
+     * @return /
+     */
+    DeptDto findBySourceCode(String sourceCode);
+
+
+    /**
+     * 根据ID查询
+     * @param sourceCode /
+     * @return /
+     */
+    String findSourceCodeById(Long id);
+
+    /**
      * 创建
      * @param resources /
      * @return /
@@ -70,7 +85,7 @@ public interface DeptService {
      * @param pid /
      * @return /
      */
-    List<Dept> findByPid(long pid);
+    List<Dept> findByPid(String pid);
 
     /**
      * 根据角色ID查询

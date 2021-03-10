@@ -134,6 +134,7 @@ public class UserServiceImpl implements UserService {
         user.setRoles(resources.getRoles());
         user.setDept(resources.getDept());
         user.setJobs(resources.getJobs());
+
         user.setPhone(resources.getPhone());
         user.setNickName(resources.getNickName());
         user.setGender(resources.getGender());

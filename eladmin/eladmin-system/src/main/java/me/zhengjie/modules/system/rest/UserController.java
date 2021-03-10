@@ -117,7 +117,9 @@ public class UserController {
     public Object query(UserQueryCriteria criteria, Pageable pageable){
         if (!ObjectUtils.isEmpty(criteria.getDeptId())) {
             criteria.getDeptIds().add(criteria.getDeptId());
-            criteria.getDeptIds().addAll(dataService.getDeptChildren(deptService.findByPid(criteria.getDeptId())));
+
+            String sourceCode=deptService.findSourceCodeById(criteria.getDeptId());
+            criteria.getDeptIds().addAll(dataService.getDeptChildren(deptService.findByPid(sourceCode)));
         }
         // 数据权限
         List<Long> dataScopes = dataService.getDeptIds(userService.findByName(SecurityUtils.getCurrentUsername()));

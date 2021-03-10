@@ -40,7 +40,7 @@ public interface DeptMapper extends BaseMapper<DeptDto, Dept> {
     @AfterMapping
     default DeptDto dealDto(@MappingTarget DeptDto deptDto) {
         DeptRepository deptRepository = SpringContextHolder.getBean(DeptRepository.class);
-        if(deptRepository.countByPid(deptDto.getId()) > 0){
+        if(deptRepository.countByPid(deptDto.getSourceCode()) > 0){
             deptDto.setHasChildren(true);
             deptDto.setLeaf(false);
         }

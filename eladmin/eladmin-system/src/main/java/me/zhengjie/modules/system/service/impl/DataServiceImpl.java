@@ -17,6 +17,7 @@ package me.zhengjie.modules.system.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.modules.system.domain.Dept;
+import me.zhengjie.modules.system.repository.DeptRepository;
 import me.zhengjie.modules.system.service.DataService;
 import me.zhengjie.modules.system.service.DeptService;
 import me.zhengjie.modules.system.service.RoleService;
@@ -76,7 +77,8 @@ public class DataServiceImpl implements DataService {
         Set<Dept> depts = deptService.findByRoleIds(role.getId());
         for (Dept dept : depts) {
             deptIds.add(dept.getId());
-            List<Dept> deptChildren = deptService.findByPid(dept.getId());
+            String sourceCode= deptService.findSourceCodeById(dept.getId());
+            List<Dept> deptChildren = deptService.findByPid(sourceCode);
             if (deptChildren != null && deptChildren.size() != 0) {
                 deptIds.addAll(getDeptChildren(deptChildren));
             }
@@ -95,7 +97,8 @@ public class DataServiceImpl implements DataService {
         List<Long> list = new ArrayList<>();
         deptList.forEach(dept -> {
                     if (dept!=null && dept.getEnabled()){
-                        List<Dept> depts = deptService.findByPid(dept.getId());
+                        String sourceCode= deptService.findSourceCodeById(dept.getId());
+                        List<Dept> depts = deptService.findByPid(sourceCode);
                         if(deptList.size() != 0){
                             list.addAll(getDeptChildren(depts));
                         }

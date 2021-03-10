@@ -42,7 +42,9 @@ public class DeptDto extends BaseDTO implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<DeptDto> children;
 
-    private Long pid;
+    private String pid;
+
+    private  String sourceCode;
 
     private Boolean hasChildren = false;
 

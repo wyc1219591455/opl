@@ -42,8 +42,13 @@ public class UserQueryCriteria implements Serializable {
     @Query
     private Boolean enabled;
 
+    @Query
     private Long deptId;
 
     @Query(type = Query.Type.BETWEEN)
     private List<Timestamp> createTime;
+
+
+    @Query(type = Query.Type.IN)
+    private List<Long> roleId;
 }

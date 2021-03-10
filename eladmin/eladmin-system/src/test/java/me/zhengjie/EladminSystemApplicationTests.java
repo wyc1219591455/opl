@@ -43,16 +43,16 @@ public class EladminSystemApplicationTests {
     public static void main(String[] args) {
     }
 
-    @Test
-    public void getDeptById(){
-        List<Dept> depts = deptService.findByPid(Long.valueOf(7));
-        for(Dept dept:depts){
-            System.out.println(dept.getName());
-        }
-      /*  System.out.println("in test------------");
-        System.out.println("in test------------");
-        System.out.println("in test------------");*/
-    }
+//    @Test
+//    public void getDeptById(){
+//        List<Dept> depts = deptService.findByPid(Long.valueOf(7));
+//        for(Dept dept:depts){
+//            System.out.println(dept.getName());
+//        }
+//      /*  System.out.println("in test------------");
+//        System.out.println("in test------------");
+//        System.out.println("in test------------");*/
+//    }
 
     @Test
     public void transUtil(){

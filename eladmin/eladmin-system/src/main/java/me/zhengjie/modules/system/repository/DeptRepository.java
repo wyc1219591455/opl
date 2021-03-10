@@ -20,6 +20,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -34,7 +35,7 @@ public interface DeptRepository extends JpaRepository<Dept, Long>, JpaSpecificat
      * @param id pid
      * @return /
      */
-    List<Dept> findByPid(Long id);
+    List<Dept> findByPid(String FSourceCode);
 
     /**
      * 获取顶级部门
@@ -43,12 +44,21 @@ public interface DeptRepository extends JpaRepository<Dept, Long>, JpaSpecificat
     List<Dept> findByPidIsNull();
 
     /**
+     * 获取顶级部门
+     * @return
+     */
+    Optional<Dept> findBySourceCode(String sourceCode);
+
+    /**
      * 根据ID查询名称
      * @param id ID
      * @return /
      */
-    @Query(value = "select name from tsysdept where FDeptId = ?1",nativeQuery = true)
-    String findNameById(Long id);
+    @Query(value = "select FDeptName from tsysdept where FSourceCode = ?1",nativeQuery = true)
+    String findNameBySourceCode(String sourceCode);
+
+    @Query(value = "select FSourceCode from tsysdept where FDeptId = ?1",nativeQuery = true)
+    String findSourceCodeById(Long id);
 
     /**
      * 根据角色ID 查询
@@ -62,7 +72,7 @@ public interface DeptRepository extends JpaRepository<Dept, Long>, JpaSpecificat
      * @param pid /
      * @return
      */
-    int countByPid(Long pid);
+    int countByPid(String pid);
 
     /**
      * 查询deptId在sys_roles_depts表中是否有对应的数据

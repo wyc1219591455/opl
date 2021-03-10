@@ -27,5 +27,7 @@ public class DeptSmallDto implements Serializable {
 
     private Long id;
 
+    private String sourceCode;
+
     private String name;
 }

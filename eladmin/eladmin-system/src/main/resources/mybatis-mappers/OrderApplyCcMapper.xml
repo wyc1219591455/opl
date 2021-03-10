@@ -84,9 +84,11 @@
                 #{criteria.orderStatus}
             </foreach>
         </if>
-
-        <if test="criteria.workOrderType!=null">
-            AND t1.work_order_type = #{criteria.workOrderType}
+        <if test="criteria.workOrderTypeList != null and criteria.workOrderTypeList.size &gt; 0">
+            AND t1.work_order_type in
+            <foreach collection="criteria.workOrderTypeList" item="criteria.workOrderType" open="(" separator="," close=")">
+                #{criteria.workOrderType}
+            </foreach>
         </if>
 
         <if test="criteria.startTime != null ">

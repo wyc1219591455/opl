@@ -43,7 +43,7 @@ public class WorkOrderCriteria {
 
     //工单分类（质量：1，需求：2）
     @ApiModelProperty("工单分类（质量：1，需求：2）")
-    private Integer workOrderType;
+    private List<Integer> workOrderTypeList;
 
 
     @ApiModelProperty("opl工单状态 工单状态 0：新创建 1：待受理 2：处理中 3：已完成 4：已关闭 5：已取消")

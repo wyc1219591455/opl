@@ -95,7 +95,8 @@ public class DeptController {
     public Object getSuperior(@RequestBody List<Long> ids) {
         Set<DeptDto> deptDtos  = new LinkedHashSet<>();
         for (Long id : ids) {
-            DeptDto deptDto = deptService.findById(id);
+            String souceCode=deptService.findSourceCodeById(id);
+            DeptDto deptDto = deptService.findBySourceCode(souceCode);
             List<DeptDto> depts = deptService.getSuperior(deptDto, new ArrayList<>());
             deptDtos.addAll(depts);
         }
@@ -169,7 +170,8 @@ public class DeptController {
     public void delete(@RequestBody Set<Long> ids){
         Set<DeptDto> deptDtos = new HashSet<>();
         for (Long id : ids) {
-            List<Dept> deptList = deptService.findByPid(id);
+            String souceCode=deptService.findSourceCodeById(id);
+            List<Dept> deptList = deptService.findByPid(souceCode);
             deptDtos.add(deptService.findById(id));
             if(CollectionUtil.isNotEmpty(deptList)){
                 deptDtos = deptService.getDeleteDepts(deptList, deptDtos);

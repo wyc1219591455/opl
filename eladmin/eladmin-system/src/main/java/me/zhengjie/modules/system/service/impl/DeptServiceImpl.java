@@ -78,7 +78,8 @@ public class DeptServiceImpl implements DeptService {
                 }
             }
         }
-        return deptMapper.toDto(deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),sort));
+        List<DeptDto> deptDtos= deptMapper.toDto(deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),sort));
+        return deptDtos;
     }
 
     @Override
@@ -90,9 +91,23 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
+    @Cacheable(key = "#p0")
+    public DeptDto findBySourceCode(String sourceCode) {
+        Dept dept = deptRepository.findBySourceCode(sourceCode).orElseGet(Dept::new);
+        ValidationUtil.isNull(dept.getSourceCode(),"Dept","id",sourceCode);
+        return deptMapper.toDto(dept);
+    }
+
+    @Override
     @Cacheable
-    public List<Dept> findByPid(long pid) {
+    public List<Dept> findByPid(String  pid) {
         return deptRepository.findByPid(pid);
+    }
+
+    @Override
+    @Cacheable
+    public String findSourceCodeById(Long id) {
+        return deptRepository.findSourceCodeById(id);
     }
 
     @Override
@@ -155,7 +170,7 @@ public class DeptServiceImpl implements DeptService {
     public Set<DeptDto> getDeleteDepts(List<Dept> menuList, Set<DeptDto> deptDtos) {
         for (Dept dept : menuList) {
             deptDtos.add(deptMapper.toDto(dept));
-            List<Dept> depts = deptRepository.findByPid(dept.getId());
+            List<Dept> depts = deptRepository.findByPid(dept.getSourceCode());
             if(depts!=null && depts.size()!=0){
                 getDeleteDepts(depts, deptDtos);
             }
@@ -170,7 +185,7 @@ public class DeptServiceImpl implements DeptService {
             return deptMapper.toDto(depts);
         }
         depts.addAll(deptRepository.findByPid(deptDto.getPid()));
-        return getSuperior(findById(deptDto.getPid()), depts);
+        return getSuperior(findBySourceCode(deptDto.getPid()), depts);
     }
 
     @Override
@@ -185,7 +200,7 @@ public class DeptServiceImpl implements DeptService {
                 trees.add(deptDTO);
             }
             for (DeptDto it : deptDtos) {
-                if (deptDTO.getId().equals(it.getPid())) {
+                if (deptDTO.getSourceCode().equals(it.getPid())) {
                     isChild = true;
                     if (deptDTO.getChildren() == null) {
                         deptDTO.setChildren(new ArrayList<>());
@@ -195,7 +210,7 @@ public class DeptServiceImpl implements DeptService {
             }
             if(isChild) {
                 depts.add(deptDTO);
-            } else if(!deptNames.contains(deptRepository.findNameById(deptDTO.getPid()))) {
+            } else if(!deptNames.contains(deptRepository.findNameBySourceCode(deptDTO.getPid()))) {
                 depts.add(deptDTO);
             }
         }

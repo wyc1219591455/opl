@@ -73,6 +73,12 @@ public class User extends BaseEntity implements Serializable {
     @ApiModelProperty(value = "用户昵称")
     private String nickName;
 
+
+
+//    @Column(name = "fdeptid")
+//    @ApiModelProperty(value = "用户部门")
+//    private String sourceCode;
+
     @Email
     @NotBlank
     @Column(name = "femail")
