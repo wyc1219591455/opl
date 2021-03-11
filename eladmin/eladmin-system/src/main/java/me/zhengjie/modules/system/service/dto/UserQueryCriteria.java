@@ -49,6 +49,6 @@ public class UserQueryCriteria implements Serializable {
     private List<Timestamp> createTime;
 
 
-    @Query(type = Query.Type.IN)
+    @Query(propName = "id",type = Query.Type.IN,joinName = "roles")
     private List<Long> roleId;
 }

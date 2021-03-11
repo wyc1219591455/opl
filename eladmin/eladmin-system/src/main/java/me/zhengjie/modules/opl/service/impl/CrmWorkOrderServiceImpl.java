@@ -70,19 +70,31 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
     @Override
     public void treatOrder(OrderSession orderSession) {
-        String jobNumber = SecurityUtils.getCurrentUsername();
-        CrmWorkOrderCriteria crmWorkOrderCriteria = new CrmWorkOrderCriteria();
-        crmWorkOrderCriteria.setReceiver(jobNumber);
-        crmWorkOrderCriteria.setOrderStatus(3);
-        crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
-        crmWorkOrderCriteria.setModifyPerson(jobNumber);
-        crmWorkOrderCriteria.setId(orderSession.getTransId());
-        crmWorkOrderMapper.update(crmWorkOrderCriteria);
-        orderSession.setOrderType(2);
-        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
-        orderSession.setOriginalType(0);
-        orderSessionMapper.insertSession(orderSession);
+        if(orderSession.getOriginalType()==0) {
+            String jobNumber = SecurityUtils.getCurrentUsername();
+            CrmWorkOrderCriteria crmWorkOrderCriteria = new CrmWorkOrderCriteria();
+            crmWorkOrderCriteria.setReceiver(jobNumber);
+            crmWorkOrderCriteria.setOrderStatus(3);
+            crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
+            crmWorkOrderCriteria.setModifyPerson(jobNumber);
+            crmWorkOrderCriteria.setId(orderSession.getTransId());
+            crmWorkOrderMapper.update(crmWorkOrderCriteria);
+        }
+        else if(orderSession.getOriginalType()==1)
+        {
+            String jobNumber = SecurityUtils.getCurrentUsername();
+            SubOrder subOrder=new SubOrder();
+            subOrder.setOrderStatus(3);
+            subOrder.setReceiver(jobNumber);
+            subOrder.setId(orderSession.getTransId());
+            subOrderMapper.updateSubOrder(subOrder);
+        }
+            orderSession.setOrderType(2);
+            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+            orderSession.setOriginalType(orderSession.getOriginalType());
+            orderSessionMapper.insertSession(orderSession);
+
 
     }
 
