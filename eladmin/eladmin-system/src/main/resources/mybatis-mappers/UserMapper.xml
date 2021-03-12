@@ -8,6 +8,8 @@
         <result property="userName" column="FUserName"></result>
         <result property="name" column="FHumanName"></result>
         <result property="deptName" column="FDeptFullName"></result>
+        <result property="mobileNumber" column="FMobileNumber"></result>
+        <result property="email" column="FEmail"></result>
     </resultMap>
 
     <select id="findIdByUsername"  resultType="java.lang.Long">
@@ -27,7 +29,7 @@
     </select>
 
     <select id="findUserByEmpId" parameterType="String" resultMap="userMap">
-        select user_id as FUserId,FUserName,FHumanName from tsysuser where FUserName in
+        select user_id as FUserId,FUserName,FHumanName,FMobileNumber,FEmail from tsysuser where FUserName in
         <foreach collection="list" item="empId" index="index" open="(" close=")" separator=",">
             #{empId}
         </foreach>

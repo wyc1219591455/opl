@@ -8,6 +8,7 @@ import com.dingtalk.api.request.OapiUserGetByMobileRequest;
 import com.dingtalk.api.response.OapiMessageCorpconversationAsyncsendV2Response;
 import com.dingtalk.api.response.OapiUserGetByMobileResponse;
 import com.taobao.api.ApiException;
+import me.zhengjie.modules.opl.service.dto.WorkOrderMessageToDingTip;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,8 +45,8 @@ public class DingDingUtil {
     //     * @param userId 接收者的用户userid列表
     //     * @param  msgcontent 消息内容
      */
-    public static JSONObject sendDDMessage(String userId,String messages,String savePath) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static JSONObject sendDDMessage(String userId, String messages, WorkOrderMessageToDingTip workOrderMessage) {
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         DingTalkClient client = new DefaultDingTalkClient("https://oapi.dingtalk.com/topapi/message/corpconversation/asyncsend_v2");
         OapiMessageCorpconversationAsyncsendV2Request req = new OapiMessageCorpconversationAsyncsendV2Request();
         req.setAgentId(AGENTID);
@@ -54,7 +55,8 @@ public class DingDingUtil {
         OapiMessageCorpconversationAsyncsendV2Request.Msg msg = new OapiMessageCorpconversationAsyncsendV2Request.Msg();
         msg.setMsgtype("text");
         msg.setText(new OapiMessageCorpconversationAsyncsendV2Request.Text());
-        msg.getText().setContent(df.format(new Date())+'\n'+messages+savePath);
+        msg.getText().setContent(messages+'\n'+"主题："+workOrderMessage.getTopic()+'\n'+"发起人:"+workOrderMessage.getSponsor()+'\n'+"期望解决时间："+df.format(workOrderMessage.getHopeCompTime()));
+        // msg.getText().setContent("aaaaa");
         req.setMsg(msg);
         try {
             String token = getToken(CORPID,CORPSECRET);

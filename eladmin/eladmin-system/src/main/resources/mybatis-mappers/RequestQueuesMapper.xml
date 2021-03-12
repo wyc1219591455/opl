@@ -41,7 +41,7 @@
 
     <!--修改-->
     <update id="update" parameterType="me.zhengjie.modules.opl.domain.RequestQueues">
-        UPDATE trequestqueues SET code = #{code},name = #{name},status = #{status},memo = #{memo},
+        UPDATE trequestqueues SET code = #{code},[name] = #{name},status = #{status},memo = #{memo},
         isDefault = #{isDefault},modifyUserId = #{modifyUserId},modifyDateTime = #{modifyDateTime}
         WHERE id = #{id}
     </update>

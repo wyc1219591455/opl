@@ -1,11 +1,16 @@
 package me.zhengjie.modules.opl.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.extra.template.Template;
+import cn.hutool.extra.template.TemplateConfig;
+import cn.hutool.extra.template.TemplateEngine;
+import cn.hutool.extra.template.TemplateUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sun.jna.platform.win32.Sspi;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import me.zhengjie.domain.vo.EmailVo;
 import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.modules.opl.domain.*;
 import me.zhengjie.modules.opl.mapper.*;
@@ -13,19 +18,23 @@ import me.zhengjie.modules.opl.service.CrmWorkOrderService;
 import me.zhengjie.modules.opl.service.OrderApplyCcService;
 import me.zhengjie.modules.opl.service.OrderSessionService;
 import me.zhengjie.modules.opl.service.dto.*;
+import me.zhengjie.modules.system.repository.DeptRepository;
+import me.zhengjie.modules.system.repository.UserRepository;
+import me.zhengjie.service.EmailService;
+
+import me.zhengjie.utils.FatherToChild;
 import me.zhengjie.utils.PageHelpResultUtil;
 import me.zhengjie.utils.PageInfoUtils;
 import me.zhengjie.utils.SecurityUtils;
+import me.zhengjie.utils.dingUtils.DingDingUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @program: eladmin
@@ -46,15 +55,18 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     private final UserMapper userMapper;
     private final QueuesToDeptMapper queuesToDeptMapper;
     private final OrderApplyCcService orderApplyCcService;
+    private final EmailService emailService;
+    private final UserRepository userRepository;
+    private final DeptRepository deptRepository;
+
 
 
     @Override
-    public void insert(CrmWorkOrderCriteria crmWorkOrderCriteria) {
+    public void insert(CrmWorkOrderCriteria crmWorkOrderCriteria)  {
         //获取opl工单号
         String maxSerialNo = getOplMaxNo();
         crmWorkOrderCriteria.setSerialNo(maxSerialNo);
         crmWorkOrderCriteria.setOrderStatus(1);
-//        crmWorkOrderCriteria.setJobNumber(SecurityUtils.getCurrentUsername());
         crmWorkOrderCriteria.setCreateDateTime(new Timestamp(new Date().getTime()));
         crmWorkOrderCriteria.setOrderType(0);
         crmWorkOrderMapper.insert(crmWorkOrderCriteria);
@@ -66,6 +78,77 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
         orderSession.setOriginalType(0);
         orderSessionMapper.insertSession(orderSession);
+
+        //创建完成工单之后，发送邮件给服务台
+        WorkOrderMessage workOrderMessage = new WorkOrderMessage();
+        workOrderMessage.setTopic(crmWorkOrderCriteria.getTopic());
+        workOrderMessage.setDescribe(crmWorkOrderCriteria.getProblemDesc());
+        workOrderMessage.setDept(crmWorkOrderCriteria.getDeptName());
+        workOrderMessage.setSponsor(crmWorkOrderCriteria.getFaeHeader());
+        workOrderMessage.setUltimateCustomer(crmWorkOrderCriteria.getUltimateCustomer());
+        workOrderMessage.setCreateDate(crmWorkOrderCriteria.getCreateDateTime());
+        workOrderMessage.setHopeCompTime(crmWorkOrderCriteria.getPlanCompTime());
+        workOrderMessage.setServiceCatalogId(crmWorkOrderCriteria.getCatalogId());
+        //设置传入状态
+        workOrderMessage.setType("创建");
+        workOrderMessage.setServiceCatalogName("测试");
+
+        //查询工单要传的数据
+        Integer transId = crmWorkOrderCriteria.getId();
+        //取下面的活动明细
+        List<OrderSessionDto> dtoList= new ArrayList<>();
+        String serialNo = maxSerialNo;
+
+        //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
+        List<User> userList = queuesToDeptMapper.findUserInDefaultQueueByCatalogId(crmWorkOrderCriteria.getCatalogId());
+        //人员循环
+
+        CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
+        crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
+        crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
+        Boolean isCom=isComplete(crmWorkOrderDto.getId());
+        crmWorkOrderDto.setIsAllSubCom(isCom);
+        if (crmWorkOrderDto.getJobNumber().equals(crmWorkOrderCriteria.getJobNumber())) {
+            crmWorkOrderDto.setEqualsCreate(1);
+        } else crmWorkOrderDto.setEqualsCreate(0);
+        if (crmWorkOrderDto.getReceiver()!=null&&crmWorkOrderCriteria.getJobNumber().equals(crmWorkOrderDto.getReceiver())) {
+            crmWorkOrderDto.setEqualsReceiver(1);
+        } else crmWorkOrderDto.setEqualsReceiver(0);
+        List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
+        List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(transId);
+        crmWorkOrderDtoList.add(crmWorkOrderDto);
+
+
+        for (User user : userList) {
+            //发送钉钉
+            WorkOrderMessageToDingTip dingTip = new WorkOrderMessageToDingTip();
+            try{
+                FatherToChild.fatherToChild(workOrderMessage,dingTip);
+                //WorkOrderMessageToDingTip dingTip = (WorkOrderMessageToDingTip) workOrderMessage;
+                dingTip.setReceiver(crmWorkOrderDto.getReceiver());
+
+                dingTipForGrateOrder(dingTip);
+            }catch (Exception e){
+                throw  new BadRequestException(e.getMessage());
+            }
+        }
+
+
+        dtoList=orderSessionDtoList;
+
+        workOrderMessage.setOrderShowDto(dtoList);
+
+        //获取操作人的字段，传到邮件中
+        String operationUser = userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
+
+        //邮件模板(所有)
+        List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,maxSerialNo,dtoList,operationUser,userList);
+
+        //邮件发送
+        for (EmailVo emailVo : emailInfoList) {
+            emailService.send(emailVo,emailService.find());
+        }
+
     }
 
     @Override
@@ -138,6 +221,81 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
                 crmWorkOrderCriteria.setOrderStatus(3);
             }
             crmWorkOrderMapper.update(crmWorkOrderCriteria);
+
+            /**
+             * 当主表被转派,发送转派的邮件
+             */
+            CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(transferOrderDto.getOrderId());
+            //转派工单发送 发出邮件给执行服务者
+            WorkOrderMessage workOrderMessage = new WorkOrderMessage();
+            workOrderMessage.setTopic(tempCrmWorkOrderDto.getTopic());
+            workOrderMessage.setDescribe(tempCrmWorkOrderDto.getProblemDesc());
+            workOrderMessage.setDept(tempCrmWorkOrderDto.getDeptName());
+            workOrderMessage.setSponsor(tempCrmWorkOrderDto.getFaeHeader());
+            workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
+            workOrderMessage.setCreateDate(tempCrmWorkOrderDto.getCreatedAt());
+            workOrderMessage.setHopeCompTime(tempCrmWorkOrderDto.getPlanCompTime());
+            workOrderMessage.setServiceCatalogId(tempCrmWorkOrderDto.getServiceCatalogId());
+            //设置传入状态
+            workOrderMessage.setType("转派");
+            //查询工单要传的数据
+
+            Integer transId = crmWorkOrderCriteria.getId();
+
+            //取下面的活动明细
+            List<OrderSessionDto> dtoList= new ArrayList<>();
+            String serialNo =tempCrmWorkOrderDto.getSerialNo();
+
+            CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
+            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(transId));
+            crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(transId));
+            Boolean isCom=isComplete(transId);
+            crmWorkOrderDto.setIsAllSubCom(isCom);
+            if (crmWorkOrderDto.getJobNumber().equals(crmWorkOrderCriteria.getModifyPerson())) {
+                crmWorkOrderDto.setEqualsCreate(1);
+            } else crmWorkOrderDto.setEqualsCreate(0);
+            if (crmWorkOrderDto.getReceiver()!=null&&crmWorkOrderCriteria.getModifyPerson().equals(crmWorkOrderDto.getReceiver())) {
+                crmWorkOrderDto.setEqualsReceiver(1);
+            } else crmWorkOrderDto.setEqualsReceiver(0);
+            List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
+            List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(transId);
+            crmWorkOrderDtoList.add(crmWorkOrderDto);
+
+            dtoList=orderSessionDtoList;
+
+            workOrderMessage.setOrderShowDto(dtoList);
+
+            //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
+            List<String> empIdList = new ArrayList<>();
+            empIdList.add(tempCrmWorkOrderDto.getReceiver());
+            List<User> userList = userMapper.findUserByEmpId(empIdList);
+
+            for (User user : userList) {
+                //发送钉钉
+                WorkOrderMessageToDingTip dingTip = new WorkOrderMessageToDingTip();
+                try{
+                    FatherToChild.fatherToChild(workOrderMessage,dingTip);
+                    dingTip.setReceiver(crmWorkOrderDto.getReceiver());
+
+                    dingTipForGrateOrder(dingTip);
+                }catch (Exception e){
+                    throw  new BadRequestException(e.getMessage());
+                }
+            }
+
+            //List<User> userList = queuesToDeptMapper.findUserInDefaultQueueByCatalogId(crmWorkOrderCriteria.getCatalogId());
+            //人员循环
+            String operationUser =userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
+
+            //邮件模板(所有)
+            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList);
+
+            //邮件发送
+            for (EmailVo emailVo : emailInfoList) {
+                emailService.send(emailVo,emailService.find());
+            }
+
+
         }
         else  if(transferOrderDto.getOrderType()==0) {
 
@@ -169,7 +327,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
                 orderSessionDetailDto.setOriginalType(transferOrderDto.getOrderType());
                 orderSessionDetailMapper.insertSessionDetail(orderSessionDetailDto);
             }
-
 
     }
 
@@ -232,9 +389,90 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         orderSession2.setDescription(subOrder.getDescription());
         orderSessionMapper.insertSession(orderSession2);
 
+        /**
+         * 当子表被拆分,发送拆分的邮件
+         */
+        CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
+        //转派工单发送 发出邮件给执行服务者
+        WorkOrderMessage workOrderMessage = new WorkOrderMessage();
+        workOrderMessage.setTopic(subOrder.getTopic());
+        workOrderMessage.setDescribe(subOrder.getDescription());
+        workOrderMessage.setDept(subOrder.getDeptId()+"");
+        //发起人
+        workOrderMessage.setSponsor(tempCrmWorkOrderDto.getCreatedPerson());
+        //workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
+        workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
+        workOrderMessage.setCreateDate(tempCrmWorkOrderDto.getCreatedAt());
+        workOrderMessage.setHopeCompTime(tempCrmWorkOrderDto.getPlanCompTime());
+        workOrderMessage.setServiceCatalogId(tempCrmWorkOrderDto.getServiceCatalogId());
+        //设置传入状态
+        workOrderMessage.setType("拆分");
+
+        WorkOrderMessageToDingTip workOrderMessageToDingTip = (WorkOrderMessageToDingTip) workOrderMessage;
+        workOrderMessageToDingTip.setReceiver(tempCrmWorkOrderDto.getReceiver());
+        //发送钉钉
+        dingTipForGrateOrder(workOrderMessageToDingTip);
+
+        //查询工单要传的数据
+
+        Integer transId = subOrder.getId();
+
+        //取下面的活动明细
+        List<OrderSessionDto> dtoList= new ArrayList<>();
+        String subSerialNo = serialNo;
+        SubOrderDto subOrderDto = subOrderMapper.findSubOrderBySerialNo(serialNo);
+
+        if (subOrderDto.getJobNumber().equals(subOrder.getJobNumber())) {
+            subOrderDto.setEqualsCreate(1);
+        } else subOrderDto.setEqualsCreate(0);
+        if (subOrderDto.getReceiver()!=null&subOrder.getJobNumber().equals(subOrderDto.getReceiver())) {
+            subOrderDto.setEqualsReceiver(1);
+        } else subOrderDto.setEqualsReceiver(0);
+
+
+        List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSubSessionById(transId);
+        CrmWorkOrderDto crmWorkOrder=crmWorkOrderMapper.findOrderById(subOrderDto.getParentNo());
+        Boolean isCom=isComplete(crmWorkOrder.getId());
+        crmWorkOrder.setIsAllSubCom(isCom);
+        crmWorkOrder.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(subOrderDto.getParentNo()));
+        crmWorkOrder.setSubOrderDto(subOrderDto);
+        List<SubOrderDto> crmWorkOrderDtoList=new ArrayList<>();
+        crmWorkOrderDtoList.add(subOrderDto);
+
+        dtoList=orderSessionDtoList;
+
+        workOrderMessage.setOrderShowDto(dtoList);
+
+        //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
+        List<String> empIdList = new ArrayList<>();
+        empIdList.add(subOrder.getReceiver());
+        List<User> userList = userMapper.findUserByEmpId(empIdList);
+
+        for (User user : userList) {
+            //发送钉钉
+            WorkOrderMessageToDingTip dingTip = new WorkOrderMessageToDingTip();
+            try{
+                FatherToChild.fatherToChild(workOrderMessage,dingTip);
+                dingTip.setReceiver(crmWorkOrder.getReceiver());
+
+                dingTipForGrateOrder(dingTip);
+            }catch (Exception e){
+                throw  new BadRequestException(e.getMessage());
+            }
+        }
+
+        //获取操作人
+        String operationUser = userMapper.findUserByEmpId(empIdList).get(0).getName();
+
+        //邮件模板(所有)
+        List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList);
+
+        //邮件发送
+        for (EmailVo emailVo : emailInfoList) {
+            emailService.send(emailVo,emailService.find());
+        }
 
     }
-
 
     @Override
     public void closeOrder(CloseOrderDto closeOrderDto){
@@ -268,22 +506,74 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             orderSession.setTransId(closeOrderDto.getOrderId());
             orderSession.setOriginalType(closeOrderDto.getOrderType());
             orderSessionMapper.insertSession(orderSession);
+
+
+            /**
+             * 当主表被关闭,发送关闭的邮件
+             */
+            CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(closeOrderDto.getOrderId());
+            //转派工单发送 发出邮件给执行服务者
+            WorkOrderMessage workOrderMessage = new WorkOrderMessage();
+            workOrderMessage.setTopic(tempCrmWorkOrderDto.getTopic());
+            workOrderMessage.setDescribe(tempCrmWorkOrderDto.getProblemDesc());
+            workOrderMessage.setDept(tempCrmWorkOrderDto.getDeptName());
+            workOrderMessage.setSponsor(tempCrmWorkOrderDto.getFaeHeader());
+            workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
+            workOrderMessage.setCreateDate(tempCrmWorkOrderDto.getCreatedAt());
+            workOrderMessage.setHopeCompTime(tempCrmWorkOrderDto.getPlanCompTime());
+            workOrderMessage.setServiceCatalogId(tempCrmWorkOrderDto.getServiceCatalogId());
+            //设置传入状态
+            workOrderMessage.setType("关闭");
+            workOrderMessage.setServiceCatalogName("测试");
+
+            //查询工单要传的数据
+
+            Integer transId = crmWorkOrderCriteria.getId();
+
+            //取下面的活动明细
+            List<OrderSessionDto> dtoList= new ArrayList<>();
+            String serialNo =tempCrmWorkOrderDto.getSerialNo();
+
+            CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
+            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(transId));
+            crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(transId));
+            Boolean isCom=isComplete(transId);
+            crmWorkOrderDto.setIsAllSubCom(isCom);
+            if (tempCrmWorkOrderDto.getJobNumber().equals(crmWorkOrderCriteria.getModifyPerson())) {
+                crmWorkOrderDto.setEqualsCreate(1);
+            } else crmWorkOrderDto.setEqualsCreate(0);
+            if (tempCrmWorkOrderDto.getReceiver()!=null&&tempCrmWorkOrderDto.getReceiver().equals(crmWorkOrderCriteria.getModifyPerson())) {
+                crmWorkOrderDto.setEqualsReceiver(1);
+            } else crmWorkOrderDto.setEqualsReceiver(0);
+            List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
+            List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(transId);
+            crmWorkOrderDtoList.add(crmWorkOrderDto);
+
+            dtoList=orderSessionDtoList;
+
+            workOrderMessage.setOrderShowDto(dtoList);
+
+            //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
+            List<String> empIdList = new ArrayList<>();
+            empIdList.add(tempCrmWorkOrderDto.getReceiver());
+            List<User> userList = userMapper.findUserByEmpId(empIdList);
+
+            //获取操作人
+            String operationUser = userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
+
+            //List<User> userList = queuesToDeptMapper.findUserInDefaultQueueByCatalogId(crmWorkOrderCriteria.getCatalogId());
+            //人员循环
+
+            //邮件模板(所有)
+            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList);
+
+            //邮件发送
+            for (EmailVo emailVo : emailInfoList) {
+                emailService.send(emailVo,emailService.find());
+            }
+
         }
-        else if(closeOrderDto.getOrderType()==1){
-            SubOrder subOrder=new SubOrder();
-            subOrder.setOrderStatus(5);
-            subOrder.setId(closeOrderDto.getOrderId());
-            subOrderMapper.updateSubOrder(subOrder);
-            OrderSession orderSession=new OrderSession();
-            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
-            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-            orderSession.setOrderType(7);
-            orderSession.setDescription(closeOrderDto.getDescription());
-            orderSession.setProblemAttach(closeOrderDto.getProblemAttach());
-            orderSession.setTransId(closeOrderDto.getOrderId());
-            orderSession.setOriginalType(closeOrderDto.getOrderType());
-            orderSessionMapper.insertSession(orderSession);
-        }
+
 
     }
 
@@ -472,13 +762,77 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         return userMapper.findUserByEmpId(userIds);
     }
 
+    /**
+     * 主表发送邮件业务
+     */
+    @Override
+    public void sendMessagesMethod(CrmWorkOrderCriteria crmWorkOrderCriteria) {
+
+  /*      //创建完成工单之后，发送邮件给服务台
+        WorkOrderMessage workOrderMessage = new WorkOrderMessage();
+        workOrderMessage.setTopic(crmWorkOrderCriteria.getTopic());
+        workOrderMessage.setDescribe(crmWorkOrderCriteria.getProblemDesc());
+        workOrderMessage.setDept(crmWorkOrderCriteria.getDeptName());
+        workOrderMessage.setSponsor(crmWorkOrderCriteria.getFaeHeader());
+        workOrderMessage.setUltimateCustomer(crmWorkOrderCriteria.getUltimateCustomer());
+        workOrderMessage.setCreateDate(crmWorkOrderCriteria.getCreateDateTime());
+        workOrderMessage.setHopeCompTime(crmWorkOrderCriteria.getPlanCompTime());
+        workOrderMessage.setServiceCatalogId(crmWorkOrderCriteria.getCatalogId());
+        //设置传入状态
+        workOrderMessage.setType("创建");
+        workOrderMessage.setServiceCatalogName("测试");
+
+        Integer transId = crmWorkOrderCriteria.getId();
+        //List<OrderSessionDto> dtoList = orderSessionService.findSubSessionById(transId);
+        //取下面的活动明细
+        List<OrderSessionDto> dtoList= new ArrayList<>();
+        String serialNo = crmWorkOrderCriteria.getSerialNo();
+
+        CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
+        crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
+        crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
+        Boolean isCom=isComplete(crmWorkOrderDto.getId());
+        crmWorkOrderDto.setIsAllSubCom(isCom);
+        if (crmWorkOrderDto.getJobNumber().equals(crmWorkOrderCriteria.getJobNumber())) {
+            crmWorkOrderDto.setEqualsCreate(1);
+        } else crmWorkOrderDto.setEqualsCreate(0);
+        if (crmWorkOrderDto.getReceiver()!=null&&crmWorkOrderCriteria.getJobNumber().equals(crmWorkOrderDto.getReceiver())) {
+            crmWorkOrderDto.setEqualsReceiver(1);
+        } else crmWorkOrderDto.setEqualsReceiver(0);
+        List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
+        List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(transId);
+        crmWorkOrderDtoList.add(crmWorkOrderDto);
+
+        //发送钉钉
+        dingTipForGrateOrder(workOrderMessage);
+
+        dtoList=orderSessionDtoList;
+
+        workOrderMessage.setOrderShowDto(dtoList);
+
+        //获取操作人的字段，传到邮件中
+        String operationUser = "";
+
+        //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
+        List<User> userList = queuesToDeptMapper.findUserInDefaultQueueByCatalogId(crmWorkOrderCriteria.getCatalogId());
+        //人员循环
+
+        //邮件模板(所有)
+        List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList);
+
+        //邮件发送
+        for (EmailVo emailVo : emailInfoList) {
+            emailService.send(emailVo,emailService.find());
+        }
+    }
+
     @Override
     public Map<String,Object> findUser(User user, Pageable pageable) {
         PageHelper.startPage(pageable.getPage(), pageable.getSize());
 
         List<User> userList = userMapper.findUser(user);
         PageInfo<User> pageInfo = new PageInfo(userList);
-        return PageHelpResultUtil.toPage(pageInfo);
+        return PageHelpResultUtil.toPage(pageInfo);*/
 
     }
 
@@ -534,6 +888,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
         }
         return orderShowDto;
+    }
+
+    @Override
+    public Map<String, Object> findUser(User user, Pageable pageable) {
+        return null;
     }
 
 
@@ -613,6 +972,118 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         else return false;
 
     }
+
+
+    /**
+     * 钉钉推送（工单创建的时候发到默认服务台下人）
+     * @param
+     * @param
+     * @param
+     * @return
+     */
+    public String dingTipForGrateOrder(WorkOrderMessageToDingTip workOrderMessage) {
+        String messages = "您有一条新的待处理工单！";
+        //通过服务分类条目查询其服务台中其他人员数据
+        //用户信息
+        List<me.zhengjie.modules.system.domain.User> userList = crmWorkOrderMapper.findUserByCatalogId(workOrderMessage.getServiceCatalogId()) ;
+
+
+        //用户手机号
+        List<String> phoneNoList = userList.stream().map(user -> user.getPhone()).collect(Collectors.toList());
+
+        //钉钉用户号
+        List<String> dingDingUserIdList = new ArrayList<>();
+
+        for (String phone : phoneNoList) {
+            String userId = DingDingUtil.getUserIdByMobile(phone);
+            dingDingUserIdList.add(userId);
+        }
+        //发送信息
+        for (String userId : dingDingUserIdList) {
+            DingDingUtil.sendDDMessage(userId,messages,workOrderMessage);
+        }
+        /*
+        String userId = DingDingUtil.getUserIdByMobile(phoneNo);
+        String topic ="";
+        String person ="";
+        String dept="";
+        DingDingUtil.sendDDMessage(userId, messages, filePath);*/
+        return dingDingUserIdList.toString();
+    }
+
+    /**
+     * opl主单创建工单时发送邮件
+     */
+
+
+
+    /**
+     * 构建邮件模板
+     * @return
+     */
+    public List<EmailVo> setMailInfo(WorkOrderMessage workOrderMessage,String orderSerialNo,List<OrderSessionDto> orderShowDto,String operationUser,List<User> userList) {
+        //邮件模板list
+        List<EmailVo> emailVoList = new ArrayList<>();
+
+   /*     EmailVo emailVo = new EmailVo();
+        emailVo.setSubject("【OPL服务平台】");
+        Map<String, Object> data = new HashMap<>(11);
+
+        //设置邮件发部参数
+        data.put("topic",workOrderMessage.getTopic() );
+        data.put("describe",workOrderMessage.getDescribe());
+        data.put("sponsor",workOrderMessage.getSponsor());
+        data.put("dept",workOrderMessage.getDept());
+        data.put("hopeCompTime",workOrderMessage.getHopeCompTime());
+        data.put("serviceCatalogName",workOrderMessage.getServiceCatalogName());
+        data.put("serialNo",orderSerialNo);
+        data.put("orderShowDto",orderShowDto);
+        TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("template", TemplateConfig.ResourceMode.CLASSPATH));
+        Template template = engine.getTemplate("email/orderEmail.ftl");
+        emailVo.setContent(template.render(data));*/
+        //  获取到所有的人员的邮箱信息
+        for (User user : userList) {
+            // user.getEmail()
+            EmailVo emailVo = new EmailVo();
+            emailVo.setSubject("【OPL服务平台】");
+            Map<String, Object> data = new HashMap<>(11);
+
+            //设置邮件发部参数
+            data.put("topic",workOrderMessage.getTopic() );
+            data.put("describe",workOrderMessage.getDescribe());
+            data.put("sponsor",workOrderMessage.getSponsor());
+            data.put("dept",workOrderMessage.getDept());
+            data.put("serviceDept",user.getDeptName());
+            data.put("serviceUser",userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName());
+            data.put("planCompTime",workOrderMessage);
+            data.put("hopeCompTime",workOrderMessage.getHopeCompTime());
+            data.put("serviceCatalogName",workOrderMessage.getServiceCatalogName());
+            data.put("ultimateCustomer",workOrderMessage.getUltimateCustomer());
+            //设置操作人
+            data.put("operationUser",operationUser);
+            data.put("orderType",workOrderMessage.getType());
+            data.put("serialNo",orderSerialNo);
+            data.put("orderShowDto",orderShowDto);
+            TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("template", TemplateConfig.ResourceMode.CLASSPATH));
+            Template template = engine.getTemplate("email/orderEmail.ftl");
+            emailVo.setContent(template.render(data));
+            //设置邮件收件人
+            List<String> sendToList =new ArrayList<>();
+            sendToList.add(user.getEmail());
+            emailVo.setTos(sendToList);
+            emailVoList.add(emailVo);
+        }
+
+        //获取邮件
+        String emailStr = "1229071084@qq.com";
+        List<String> emailList =new ArrayList<>();
+
+
+
+        return emailVoList;
+    }
+
+
 }
 
 
