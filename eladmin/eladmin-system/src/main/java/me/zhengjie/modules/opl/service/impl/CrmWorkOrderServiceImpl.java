@@ -101,6 +101,10 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
         //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
         List<User> userList = queuesToDeptMapper.findUserInDefaultQueueByCatalogId(crmWorkOrderCriteria.getCatalogId());
+
+        //获取抄送人员的信息
+        List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
+
         //人员循环
 
         CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
@@ -118,20 +122,19 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(transId);
         crmWorkOrderDtoList.add(crmWorkOrderDto);
 
-
-        for (User user : userList) {
-            //发送钉钉
-            WorkOrderMessageToDingTip dingTip = new WorkOrderMessageToDingTip();
-            try{
-                FatherToChild.fatherToChild(workOrderMessage,dingTip);
-                //WorkOrderMessageToDingTip dingTip = (WorkOrderMessageToDingTip) workOrderMessage;
-                dingTip.setReceiver(crmWorkOrderDto.getReceiver());
-
-                dingTipForGrateOrder(dingTip);
-            }catch (Exception e){
-                throw  new BadRequestException(e.getMessage());
-            }
+        //用户信息
+        List<me.zhengjie.modules.system.domain.User> userList1 = crmWorkOrderMapper.findUserByCatalogId(workOrderMessage.getServiceCatalogId()) ;
+        WorkOrderMessageToDingTip dingTip = new WorkOrderMessageToDingTip();
+        try{
+            FatherToChild.fatherToChild(workOrderMessage,dingTip);
+            //WorkOrderMessageToDingTip dingTip = (WorkOrderMessageToDingTip) workOrderMessage;
+            dingTip.setReceiver(crmWorkOrderDto.getReceiver());
+            dingTip.setSendToUserPhoneList(userList1.stream().map(e->e.getPhone()).collect(Collectors.toList()));
+            dingTipForGrateOrder(dingTip);
+        }catch (Exception e){
+            throw  new BadRequestException(e.getMessage());
         }
+
 
 
         dtoList=orderSessionDtoList;
@@ -142,7 +145,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         String operationUser = userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
 
         //邮件模板(所有)
-        List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,maxSerialNo,dtoList,operationUser,userList);
+        List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,maxSerialNo,dtoList,operationUser,userList,ccUserList);
 
         //邮件发送
         for (EmailVo emailVo : emailInfoList) {
@@ -269,26 +272,28 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             List<String> empIdList = new ArrayList<>();
             empIdList.add(tempCrmWorkOrderDto.getReceiver());
             List<User> userList = userMapper.findUserByEmpId(empIdList);
+             //获取抄送人员的信息
+            List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
 
-            for (User user : userList) {
+
                 //发送钉钉
                 WorkOrderMessageToDingTip dingTip = new WorkOrderMessageToDingTip();
                 try{
                     FatherToChild.fatherToChild(workOrderMessage,dingTip);
                     dingTip.setReceiver(crmWorkOrderDto.getReceiver());
 
-                    dingTipForGrateOrder(dingTip);
                 }catch (Exception e){
                     throw  new BadRequestException(e.getMessage());
                 }
-            }
+            dingTip.setSendToUserPhoneList(userList.stream().map(e->e.getMobileNumber()).collect(Collectors.toList()));
+            dingTipForGrateOrder(dingTip);
 
             //List<User> userList = queuesToDeptMapper.findUserInDefaultQueueByCatalogId(crmWorkOrderCriteria.getCatalogId());
             //人员循环
             String operationUser =userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
 
             //邮件模板(所有)
-            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList);
+            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
 
             //邮件发送
             for (EmailVo emailVo : emailInfoList) {
@@ -408,8 +413,19 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         //设置传入状态
         workOrderMessage.setType("拆分");
 
-        WorkOrderMessageToDingTip workOrderMessageToDingTip = (WorkOrderMessageToDingTip) workOrderMessage;
-        workOrderMessageToDingTip.setReceiver(tempCrmWorkOrderDto.getReceiver());
+        WorkOrderMessageToDingTip workOrderMessageToDingTip = new WorkOrderMessageToDingTip();
+        try{
+            FatherToChild.fatherToChild(workOrderMessage,workOrderMessageToDingTip);
+            workOrderMessageToDingTip.setReceiver(subOrder.getReceiver());
+
+        }catch (Exception e){
+            throw  new BadRequestException(e.getMessage());
+        }
+        List<String> empIdList = new ArrayList<>();
+        empIdList.add(subOrder.getReceiver());
+        List<User> userList = userMapper.findUserByEmpId(empIdList);
+        workOrderMessageToDingTip.setSendToUserPhoneList(userList.stream().map(e->e.getMobileNumber()).collect(Collectors.toList()));
+        workOrderMessageToDingTip.setReceiver(subOrder.getJobNumber());
         //发送钉钉
         dingTipForGrateOrder(workOrderMessageToDingTip);
 
@@ -443,14 +459,13 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
         workOrderMessage.setOrderShowDto(dtoList);
 
-        //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
-        List<String> empIdList = new ArrayList<>();
-        empIdList.add(subOrder.getReceiver());
-        List<User> userList = userMapper.findUserByEmpId(empIdList);
 
-        for (User user : userList) {
+        //获取抄送人员的信息
+        List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
+
+
             //发送钉钉
-            WorkOrderMessageToDingTip dingTip = new WorkOrderMessageToDingTip();
+        /*    WorkOrderMessageToDingTip dingTip = new WorkOrderMessageToDingTip();
             try{
                 FatherToChild.fatherToChild(workOrderMessage,dingTip);
                 dingTip.setReceiver(crmWorkOrder.getReceiver());
@@ -458,14 +473,14 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
                 dingTipForGrateOrder(dingTip);
             }catch (Exception e){
                 throw  new BadRequestException(e.getMessage());
-            }
-        }
+            }*/
+
 
         //获取操作人
         String operationUser = userMapper.findUserByEmpId(empIdList).get(0).getName();
 
         //邮件模板(所有)
-        List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList);
+        List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
 
         //邮件发送
         for (EmailVo emailVo : emailInfoList) {
@@ -561,11 +576,14 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             //获取操作人
             String operationUser = userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
 
+            //获取抄送人员的信息
+            List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
+
             //List<User> userList = queuesToDeptMapper.findUserInDefaultQueueByCatalogId(crmWorkOrderCriteria.getCatalogId());
             //人员循环
 
             //邮件模板(所有)
-            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList);
+            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
 
             //邮件发送
             for (EmailVo emailVo : emailInfoList) {
@@ -768,72 +786,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     @Override
     public void sendMessagesMethod(CrmWorkOrderCriteria crmWorkOrderCriteria) {
 
-  /*      //创建完成工单之后，发送邮件给服务台
-        WorkOrderMessage workOrderMessage = new WorkOrderMessage();
-        workOrderMessage.setTopic(crmWorkOrderCriteria.getTopic());
-        workOrderMessage.setDescribe(crmWorkOrderCriteria.getProblemDesc());
-        workOrderMessage.setDept(crmWorkOrderCriteria.getDeptName());
-        workOrderMessage.setSponsor(crmWorkOrderCriteria.getFaeHeader());
-        workOrderMessage.setUltimateCustomer(crmWorkOrderCriteria.getUltimateCustomer());
-        workOrderMessage.setCreateDate(crmWorkOrderCriteria.getCreateDateTime());
-        workOrderMessage.setHopeCompTime(crmWorkOrderCriteria.getPlanCompTime());
-        workOrderMessage.setServiceCatalogId(crmWorkOrderCriteria.getCatalogId());
-        //设置传入状态
-        workOrderMessage.setType("创建");
-        workOrderMessage.setServiceCatalogName("测试");
-
-        Integer transId = crmWorkOrderCriteria.getId();
-        //List<OrderSessionDto> dtoList = orderSessionService.findSubSessionById(transId);
-        //取下面的活动明细
-        List<OrderSessionDto> dtoList= new ArrayList<>();
-        String serialNo = crmWorkOrderCriteria.getSerialNo();
-
-        CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
-        crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
-        crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
-        Boolean isCom=isComplete(crmWorkOrderDto.getId());
-        crmWorkOrderDto.setIsAllSubCom(isCom);
-        if (crmWorkOrderDto.getJobNumber().equals(crmWorkOrderCriteria.getJobNumber())) {
-            crmWorkOrderDto.setEqualsCreate(1);
-        } else crmWorkOrderDto.setEqualsCreate(0);
-        if (crmWorkOrderDto.getReceiver()!=null&&crmWorkOrderCriteria.getJobNumber().equals(crmWorkOrderDto.getReceiver())) {
-            crmWorkOrderDto.setEqualsReceiver(1);
-        } else crmWorkOrderDto.setEqualsReceiver(0);
-        List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
-        List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(transId);
-        crmWorkOrderDtoList.add(crmWorkOrderDto);
-
-        //发送钉钉
-        dingTipForGrateOrder(workOrderMessage);
-
-        dtoList=orderSessionDtoList;
-
-        workOrderMessage.setOrderShowDto(dtoList);
-
-        //获取操作人的字段，传到邮件中
-        String operationUser = "";
-
-        //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
-        List<User> userList = queuesToDeptMapper.findUserInDefaultQueueByCatalogId(crmWorkOrderCriteria.getCatalogId());
-        //人员循环
-
-        //邮件模板(所有)
-        List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList);
-
-        //邮件发送
-        for (EmailVo emailVo : emailInfoList) {
-            emailService.send(emailVo,emailService.find());
-        }
-    }
-
-    @Override
-    public Map<String,Object> findUser(User user, Pageable pageable) {
-        PageHelper.startPage(pageable.getPage(), pageable.getSize());
-
-        List<User> userList = userMapper.findUser(user);
-        PageInfo<User> pageInfo = new PageInfo(userList);
-        return PageHelpResultUtil.toPage(pageInfo);*/
-
     }
 
 
@@ -911,9 +863,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         //如果不为空，进行判断，如果有数据则判断是否是今天的数据。如果没有今天的数据初始化为第一个，否则+1；
         //如果为空，直接设为今天第一个
         if (ObjectUtil.isNotEmpty(maxCrmWorkOrderList)) {
-               /* String tempMaxSerialNo = maxCrmWorkOrderList.get(0).getSerialNo();
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-                String uid = "crm"+simpleDateFormat.format(new Date());*/
             System.out.println("序号" + tempMaxSerialNo.substring(0, 11));
             if (uid.equals(tempMaxSerialNo.substring(0, 11))) {
                 Integer intNumber = Integer.parseInt(tempMaxSerialNo.substring(11));
@@ -984,12 +933,9 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     public String dingTipForGrateOrder(WorkOrderMessageToDingTip workOrderMessage) {
         String messages = "您有一条新的待处理工单！";
         //通过服务分类条目查询其服务台中其他人员数据
-        //用户信息
-        List<me.zhengjie.modules.system.domain.User> userList = crmWorkOrderMapper.findUserByCatalogId(workOrderMessage.getServiceCatalogId()) ;
-
 
         //用户手机号
-        List<String> phoneNoList = userList.stream().map(user -> user.getPhone()).collect(Collectors.toList());
+        List<String> phoneNoList = workOrderMessage.getSendToUserPhoneList();
 
         //钉钉用户号
         List<String> dingDingUserIdList = new ArrayList<>();
@@ -1002,12 +948,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         for (String userId : dingDingUserIdList) {
             DingDingUtil.sendDDMessage(userId,messages,workOrderMessage);
         }
-        /*
-        String userId = DingDingUtil.getUserIdByMobile(phoneNo);
-        String topic ="";
-        String person ="";
-        String dept="";
-        DingDingUtil.sendDDMessage(userId, messages, filePath);*/
         return dingDingUserIdList.toString();
     }
 
@@ -1021,26 +961,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
      * 构建邮件模板
      * @return
      */
-    public List<EmailVo> setMailInfo(WorkOrderMessage workOrderMessage,String orderSerialNo,List<OrderSessionDto> orderShowDto,String operationUser,List<User> userList) {
+    public List<EmailVo> setMailInfo(WorkOrderMessage workOrderMessage,String orderSerialNo,List<OrderSessionDto> orderShowDto,String operationUser,List<User> userList,List<User> ccUserList) {
         //邮件模板list
         List<EmailVo> emailVoList = new ArrayList<>();
 
-   /*     EmailVo emailVo = new EmailVo();
-        emailVo.setSubject("【OPL服务平台】");
-        Map<String, Object> data = new HashMap<>(11);
 
-        //设置邮件发部参数
-        data.put("topic",workOrderMessage.getTopic() );
-        data.put("describe",workOrderMessage.getDescribe());
-        data.put("sponsor",workOrderMessage.getSponsor());
-        data.put("dept",workOrderMessage.getDept());
-        data.put("hopeCompTime",workOrderMessage.getHopeCompTime());
-        data.put("serviceCatalogName",workOrderMessage.getServiceCatalogName());
-        data.put("serialNo",orderSerialNo);
-        data.put("orderShowDto",orderShowDto);
-        TemplateEngine engine = TemplateUtil.createEngine(new TemplateConfig("template", TemplateConfig.ResourceMode.CLASSPATH));
-        Template template = engine.getTemplate("email/orderEmail.ftl");
-        emailVo.setContent(template.render(data));*/
         //  获取到所有的人员的邮箱信息
         for (User user : userList) {
             // user.getEmail()
@@ -1071,14 +996,13 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             List<String> sendToList =new ArrayList<>();
             sendToList.add(user.getEmail());
             emailVo.setTos(sendToList);
+            //设置抄送人
+            if (ccUserList!=null&&ccUserList.size()>0){
+                List<String> ccUserListStr=ccUserList.stream().map(e->e.getEmail()).collect(Collectors.toList());
+                emailVo.setCcs(ccUserListStr);
+            }
             emailVoList.add(emailVo);
         }
-
-        //获取邮件
-        String emailStr = "1229071084@qq.com";
-        List<String> emailList =new ArrayList<>();
-
-
 
         return emailVoList;
     }

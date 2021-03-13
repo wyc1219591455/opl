@@ -275,5 +275,16 @@ public interface QueuesToDeptMapper {
      */
     List<User> findUserInDefaultQueueByCatalogId(Integer catalogId);
 
+    /**
+     * @title: findCcUserByTransId
+     * @description: 通过工单号查找抄送人
+     * @date: 2021/3/13 15:12
+     * @author: ming.cao
+     * @param transId
+     * @return java.util.List<me.zhengjie.modules.opl.domain.User>
+     * @throws
+     */
+    List<User> findCcUserByTransId(Integer transId);
+
 
 }

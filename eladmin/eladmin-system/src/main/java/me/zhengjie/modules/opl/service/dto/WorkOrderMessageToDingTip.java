@@ -4,6 +4,9 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import me.zhengjie.modules.system.domain.User;
+
+import java.util.List;
 
 /**
  * @program: eladmin
@@ -17,6 +20,9 @@ import lombok.NoArgsConstructor;
 public class WorkOrderMessageToDingTip extends WorkOrderMessage{
     @ApiModelProperty("服务人")
     private String receiver;
+
+    @ApiModelProperty("发送改的人")
+    private List<String> sendToUserPhoneList;
 
   /*  public WorkOrderMessageToDingTip(WorkOrderMessage workOrderMessage,String receiver){
       return  new WorkOrderMessageToDingTip().set
