@@ -167,6 +167,32 @@
          SELECT count(*) as a FROM queuesToDept WHERE queuesId = #{queuesId} and sourceId = #{sourceId} and type = 1
     </select>
 
+    <!-- 获取服务分类默认服务台下的人 -->
+    <select id="findUserInDefaultQueueByCatalogId" resultType="me.zhengjie.modules.opl.domain.User">
+         SELECT t.user_id as id, td.FDeptName as deptName,t.FMobileNumber as phoneNo,t.FEmail as email,t.FUserName as userName,
+        t.FHumanName as name,t.FPassword as password,
+        t.FDeptId as dept,t.FSex as sex,
+        t.FFlag as flag,t.avatar_name,t.avatar_path,t.is_admin,t.pwd_reset_time
+        FROM tsysuser t
+        LEFT JOIN tsysdept td
+        on t.FDeptId = td.FSourceCode
+        WHERE EXISTS(
+        SELECT * FROM queuesToDept q WHERE q.queuesId in (
+        SELECT defaultQueueId FROM subServiceCatalog WHERE catalogId =#{catalogId}
+        ) and q.sourceId = t.user_id
+        ) and t.FFlag=1
+    </select>
+
+
+    <select id="findCcUserByTransId" resultType="me.zhengjie.modules.opl.domain.User">
+    SELECT t.user_id as id, t.FMobileNumber as phoneNo,t.FEmail as email,t.FUserName as userName,
+        t.FHumanName as name,t.FPassword as password,
+        t.FDeptId as dept,t.FSex as sex,
+        t.FFlag as flag,t.avatar_name,t.avatar_path,t.is_admin,t.pwd_reset_time FROM orderApplyCc t1
+    LEFT JOIN tsysuser t on t1.empId = t.FUserName
+    WHERE t1.transId = #{transId}
+    </select>
+
     <!--新增-->
     <insert id="insert" parameterType="me.zhengjie.modules.opl.domain.QueuesToDept">
         INSERT INTO queuesToDept(queuesId,sourceId,type,status,

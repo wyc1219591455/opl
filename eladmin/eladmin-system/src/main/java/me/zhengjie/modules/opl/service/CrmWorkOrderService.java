@@ -256,4 +256,6 @@ public interface CrmWorkOrderService {
 
 
     List<User> findUserBy(List<String> userIds);
+
+    void sendMessagesMethod(CrmWorkOrderCriteria crmWorkOrderCriteria);
 }

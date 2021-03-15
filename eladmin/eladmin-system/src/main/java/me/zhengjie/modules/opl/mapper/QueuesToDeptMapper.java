@@ -2,6 +2,7 @@ package me.zhengjie.modules.opl.mapper;
 
 import me.zhengjie.modules.opl.domain.DeptForShow;
 import me.zhengjie.modules.opl.domain.QueuesToDept;
+import me.zhengjie.modules.opl.domain.User;
 import me.zhengjie.modules.opl.service.dto.SysDeptDto;
 import me.zhengjie.modules.opl.service.dto.UserForShow;
 import org.apache.ibatis.annotations.Mapper;
@@ -262,6 +263,28 @@ public interface QueuesToDeptMapper {
      * @throws
      */
     List<Integer> findServiceCatalogByUserId(Integer userId);
+
+    /**
+     * @title: findUserInDefaultQueueByCatalogId
+     * @description: 获取服务分类默认服务台下的人
+     * @date: 2021/3/8 15:42
+     * @author: ming.cao
+     * @param catalogId
+     * @return java.util.List<me.zhengjie.modules.system.domain.User>
+     * @throws
+     */
+    List<User> findUserInDefaultQueueByCatalogId(Integer catalogId);
+
+    /**
+     * @title: findCcUserByTransId
+     * @description: 通过工单号查找抄送人
+     * @date: 2021/3/13 15:12
+     * @author: ming.cao
+     * @param transId
+     * @return java.util.List<me.zhengjie.modules.opl.domain.User>
+     * @throws
+     */
+    List<User> findCcUserByTransId(Integer transId);
 
 
 }

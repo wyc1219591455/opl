@@ -90,14 +90,27 @@ public class EmailServiceImpl implements EmailService {
         // 发送
         try {
             int size = emailVo.getTos().size();
-            Mail.create(account)
-                    .setTos(emailVo.getTos().toArray(new String[size]))
-                    .setTitle(emailVo.getSubject())
-                    .setContent(content)
-                    .setHtml(true)
-                    //关闭session
-                    .setUseGlobalSession(false)
-                    .send();
+            if (emailVo.getCcs()!=null&&emailVo.getCcs().size()>0){
+                Mail.create(account)
+                        .setTos(emailVo.getTos().toArray(new String[size]))
+                        .setCcs(emailVo.getCcs().toArray(new String[size]))
+                        .setTitle(emailVo.getSubject())
+                        .setContent(content)
+                        .setHtml(true)
+                        //关闭session
+                        .setUseGlobalSession(false)
+                        .send();
+            }else{
+                Mail.create(account)
+                        .setTos(emailVo.getTos().toArray(new String[size]))
+                        .setTitle(emailVo.getSubject())
+                        .setContent(content)
+                        .setHtml(true)
+                        //关闭session
+                        .setUseGlobalSession(false)
+                        .send();
+            }
+
         }catch (Exception e){
             throw new BadRequestException(e.getMessage());
         }

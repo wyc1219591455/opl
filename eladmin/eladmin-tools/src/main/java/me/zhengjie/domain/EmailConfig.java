@@ -45,6 +45,7 @@ public class EmailConfig implements Serializable {
     private String port;
 
     @NotBlank
+    @Column(name = "user_name")
     @ApiModelProperty(value = "发件者用户名")
     private String user;
 

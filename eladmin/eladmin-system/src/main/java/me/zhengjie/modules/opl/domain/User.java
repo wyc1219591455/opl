@@ -21,4 +21,11 @@ public class User {
 
     @ApiModelProperty(value = "部门名称")
     private String deptName;
+
+    @ApiModelProperty(value = "邮件")
+    private String email;
+
+    @ApiModelProperty(value = "手机号")
+    private String mobileNumber;
+
 }
