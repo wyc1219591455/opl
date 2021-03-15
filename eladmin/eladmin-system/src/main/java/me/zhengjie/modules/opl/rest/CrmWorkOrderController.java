@@ -118,6 +118,13 @@ public class CrmWorkOrderController {
         crmWorkOrderService.closeOrder(closeOrderDto);
     }
 
+    @Log("退回工单")
+    @ApiOperation("退回工单")
+    @PostMapping("/sendBack")
+    public void sendBackOrder(@RequestBody OrderSession orderSession){
+        crmWorkOrderService.sendBackOrder(orderSession);
+    }
+
     @Log("修改抄送")
     @ApiOperation("修改抄送人")
     @PostMapping("/sub")

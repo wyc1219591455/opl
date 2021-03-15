@@ -85,6 +85,17 @@ public interface CrmWorkOrderService {
 
     /**
      * @title: update
+     * @description: 退回工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param orderId
+     * @return void
+     * @throws
+     */
+    void sendBackOrder(OrderSession orderSession);
+
+    /**
+     * @title: update
      * @description: 关闭工单
      * @date: 2021/1/13 19:18
      * @author:   yuchao.wang

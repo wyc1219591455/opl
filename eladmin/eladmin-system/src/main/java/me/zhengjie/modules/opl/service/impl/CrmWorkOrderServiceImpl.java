@@ -75,9 +75,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             CrmWorkOrderCriteria crmWorkOrderCriteria = new CrmWorkOrderCriteria();
             crmWorkOrderCriteria.setReceiver(jobNumber);
             crmWorkOrderCriteria.setOrderStatus(3);
+            crmWorkOrderCriteria.setRealOpTime(new Timestamp(new Date().getTime()));
             crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
             crmWorkOrderCriteria.setModifyPerson(jobNumber);
             crmWorkOrderCriteria.setId(orderSession.getTransId());
+
             crmWorkOrderMapper.update(crmWorkOrderCriteria);
         }
         else if(orderSession.getOriginalType()==1)
@@ -87,6 +89,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             subOrder.setOrderStatus(3);
             subOrder.setReceiver(jobNumber);
             subOrder.setId(orderSession.getTransId());
+            subOrder.setRealOpTime(new Timestamp(new Date().getTime()));
             subOrderMapper.updateSubOrder(subOrder);
         }
             orderSession.setOrderType(2);
@@ -205,6 +208,21 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
     }
 
+    @Override
+    public void sendBackOrder(OrderSession orderSession) {
+        if (orderSession.getOriginalType() == 0) {
+            CrmWorkOrderCriteria crmWorkOrderCriteria = new CrmWorkOrderCriteria();
+            crmWorkOrderCriteria.setOrderStatus(9);
+            crmWorkOrderCriteria.setId(orderSession.getTransId());
+            crmWorkOrderMapper.update(crmWorkOrderCriteria);
+            orderSession.setOrderType(13);
+            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+            orderSessionMapper.insertSession(orderSession);
+
+        }
+    }
+
 
     @Override
     public void sellOrder(SubOrder subOrder) {
@@ -269,21 +287,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             orderSession.setOriginalType(closeOrderDto.getOrderType());
             orderSessionMapper.insertSession(orderSession);
         }
-        else if(closeOrderDto.getOrderType()==1){
-            SubOrder subOrder=new SubOrder();
-            subOrder.setOrderStatus(5);
-            subOrder.setId(closeOrderDto.getOrderId());
-            subOrderMapper.updateSubOrder(subOrder);
-            OrderSession orderSession=new OrderSession();
-            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
-            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-            orderSession.setOrderType(7);
-            orderSession.setDescription(closeOrderDto.getDescription());
-            orderSession.setProblemAttach(closeOrderDto.getProblemAttach());
-            orderSession.setTransId(closeOrderDto.getOrderId());
-            orderSession.setOriginalType(closeOrderDto.getOrderType());
-            orderSessionMapper.insertSession(orderSession);
-        }
 
     }
 
@@ -306,6 +309,8 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             SubOrder subOrder=new SubOrder();
             subOrder.setOrderStatus(7);
             subOrder.setId(orderSession.getTransId());
+            subOrder.setCancelDateTime(new Timestamp(new Date().getTime()));
+            subOrder.setCancelUserId(SecurityUtils.getCurrentUsername());
             subOrderMapper.updateSubOrder(subOrder);
         }
         orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
@@ -317,6 +322,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     @Override
     public void completeOrder(CompleteOrderDto completeOrderDto) {
         if(completeOrderDto.getOrderType()==0){
+            CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderById(completeOrderDto.getOrderId());
+            if(crmWorkOrderDto.getIsAllSubCom()==false)
+            {
+                throw new BadRequestException("该工单存在尚未关闭的子单！");
+            }
             CrmWorkOrderCriteria crmWorkOrderCriteria=new CrmWorkOrderCriteria();
             crmWorkOrderCriteria.setId(completeOrderDto.getOrderId());
             crmWorkOrderCriteria.setMeasures(completeOrderDto.getMeasures());
@@ -344,6 +354,8 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             SubOrder subOrder=new SubOrder();
             subOrder.setId(completeOrderDto.getOrderId());
             subOrder.setOrderStatus(4);
+            subOrder.setFinishDateTime(new Timestamp(new Date().getTime()));
+            subOrder.setFinishUserId(SecurityUtils.getCurrentUsername());
             subOrderMapper.updateSubOrder(subOrder);
             OrderSession orderSession=new OrderSession();
             orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));

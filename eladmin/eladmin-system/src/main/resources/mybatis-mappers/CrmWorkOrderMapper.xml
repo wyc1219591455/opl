@@ -67,6 +67,9 @@
         <if test="matterDate!=null">
             ,matter_date=#{matterDate}
         </if>
+        <if test="realOpTime!=null">
+            ,real_op_time=#{realOpTime}
+        </if>
         <if test="orderStatus!=null">
             ,order_status=#{orderStatus}
         </if>

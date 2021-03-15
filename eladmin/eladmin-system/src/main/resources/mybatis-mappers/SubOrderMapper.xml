@@ -17,12 +17,28 @@
          <if test="receiver!=null and receiver!=''">
              ,receiver=#{receiver}
          </if>
+        <if test="realOpTime!=null ">
+            ,real_op_time=#{realOpTime}
+        </if>
+        <if test="finishDateTime!=null">
+            ,finish_date_time=#{finishDateTime}
+        </if>
+        <if test="finishUserId!=null and finishUserId!=''">
+            ,finish_user_id=#{finishUserId}
+        </if>
+        <if test="cancelDateTime!=null">
+            ,cancel_date_time=#{cancelDateTime}
+        </if>
+        <if test="cancelUserId!=null and cancelUserId!=''">
+            ,cancel_user_id=#{cancelUserId}
+        </if>
         WHERE id = #{id}
     </update>
 
     <select id="findSubOrderByParentId" parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.SubOrderDto">
         SELECT A.id,A.parentNo,A.topic,A.serialNo,A.jobNumber,B.FHumanName as createdPerson ,A.createdTime as createdAt,C.FDeptFullName AS deptName,A.deptId,
         A.problemAttach,A.orderStatus,F.name as orderDesc,A.isTransfer,A.description,A.receiver,A.order_type
+         ,A.real_op_time,A.finish_date_time,A.finish_user_id,A.cancel_date_time,A.cancel_user_id
         FROM subOrder A
         LEFT JOIN tsysuser B ON A.jobNumber=B.FUserName
         LEFT JOIN tsysdept C ON A.deptId=C.FDeptId
@@ -37,6 +53,7 @@
     <select id="findSubOrderBySerialNo" parameterType="String" resultType="me.zhengjie.modules.opl.service.dto.SubOrderDto">
        SELECT A.id,A.parentNo,A.topic,A.serialNo,A.jobNumber,B.FHumanName as createdPerson ,A.createdTime as createdAt,C.FDeptFullName AS deptName,A.deptId,
        A.problemAttach,A.orderStatus,F.name as orderDesc,A.isTransfer,A.description,A.receiver,A.order_type,D.FHumanName as receiverName
+       ,A.real_op_time,A.finish_date_time,A.finish_user_id,A.cancel_date_time,A.cancel_user_id
         FROM subOrder A
         LEFT JOIN tsysuser B ON A.jobNumber=B.FUserName
         LEFT JOIN tsysdept C ON A.deptId=C.FDeptId
@@ -96,6 +113,7 @@
     <select id="findSubOrderById" parameterType="Integer" resultType="me.zhengjie.modules.opl.domain.SubOrder">
        SELECT A.id,A.parentNo,A.topic,A.serialNo,A.jobNumber,A.createdTime,A.deptId,
        A.problemAttach,A.orderStatus,A.isTransfer,A.description,A.receiver,A.order_type
+        ,A.real_op_time,A.finish_date_time,A.finish_user_id,A.cancel_date_time,A.cancel_user_id
         FROM subOrder A
         WHERE A.id =#{id}
     </select>

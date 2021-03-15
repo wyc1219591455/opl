@@ -198,7 +198,7 @@ public class CrmWorkOrder implements Serializable {
     private Timestamp cancelDateTime;
 
     @ApiModelProperty("取消人")
-    private Integer cancelUserId;
+    private String cancelUserId;
 
     @ApiModelProperty("判断是主单还是子单 1代表主单，0代表子单")
     private Integer orderType;

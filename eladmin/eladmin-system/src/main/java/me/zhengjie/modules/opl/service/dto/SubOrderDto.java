@@ -89,6 +89,22 @@ public class SubOrderDto {
     @ApiModelProperty("判断当前用户是否是工单服务人 1为是 0为否")
     private Integer equalsReceiver;
 
+    @ApiModelProperty("最终开始处理时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Timestamp realOpTime;
+
+    @ApiModelProperty("完成时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Timestamp finishDateTime;
+
+    @ApiModelProperty("完成人")
+    private String finishUserId;
+
+    @ApiModelProperty("取消时间")
+    private Timestamp cancelDateTime;
+
+    @ApiModelProperty("取消人")
+    private String cancelUserId;
 }
 
 
