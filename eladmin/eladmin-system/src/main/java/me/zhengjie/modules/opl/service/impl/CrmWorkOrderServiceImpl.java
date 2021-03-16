@@ -22,11 +22,8 @@ import me.zhengjie.modules.system.domain.Dept;
 import me.zhengjie.modules.system.repository.DeptRepository;
 import me.zhengjie.modules.system.repository.UserRepository;
 import me.zhengjie.service.EmailService;
-import me.zhengjie.utils.FatherToChild;
-import me.zhengjie.utils.PageHelpResultUtil;
-import me.zhengjie.utils.PageInfoUtils;
-import me.zhengjie.utils.SecurityUtils;
-import me.zhengjie.utils.dingUtils.DingDingUtil;
+import me.zhengjie.utils.*;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -242,7 +239,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             }
             crmWorkOrderMapper.update(crmWorkOrderCriteria);
         }
-        else  if(transferOrderDto.getOrderType()==0) {
+        else  if(transferOrderDto.getOrderType()==1) {
 
             SubOrder subOrder=subOrderMapper.findSubOrderById(transferOrderDto.getOrderId());
             isTransfer(subOrder.getIsTransfer());
@@ -508,7 +505,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         subOrder.setCreateTime(new Timestamp(new Date().getTime()));
         String serialNo=getSubOplMaxNo(subOrder.getParentNo());
         subOrder.setSerialNo(serialNo);
-        subOrder.setOrderStatus(1);
+        subOrder.setOrderStatus(2);
         subOrder.setOrderType(1);
         subOrderMapper.insertSubOrder(subOrder);
         OrderSession orderSession=new OrderSession();
@@ -759,8 +756,10 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     @Transactional
     public void completeOrder(CompleteOrderDto completeOrderDto) {
         if(completeOrderDto.getOrderType()==0){
-            CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderById(completeOrderDto.getOrderId());
-            if(crmWorkOrderDto.getIsAllSubCom()==false)
+
+            Boolean isCom=isComplete(completeOrderDto.getOrderId());
+
+            if(isCom==false)
             {
                 throw new BadRequestException("该工单存在尚未关闭的子单！");
             }
@@ -1009,6 +1008,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
     @Override
     public void update(CrmWorkOrderCriteria crmWorkOrderCriteria) {
+
         crmWorkOrderMapper.update(crmWorkOrderCriteria);
         OrderSession orderSession =new OrderSession();
         orderSession.setTransId(crmWorkOrderCriteria.getId());
