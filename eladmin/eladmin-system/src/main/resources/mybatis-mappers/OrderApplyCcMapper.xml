@@ -78,11 +78,12 @@
     <!-- 主表数据2 -->
     <select id="findMasterOrderCcByEmpId2" resultType="me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto">
         SELECT t1.*,t3.name as status_desc,(case WHEN t1.work_order_type = 1 THEN '质量' else '需求' end) as type_desc,
-        t4.FHumanName as receiver_name,t5.FDeptFullName AS dept_name
+        t4.FHumanName as receiver_name,t5.FDeptFullName AS dept_name,H.catalogName AS serviceCatalogDesc
         FROM crm_work_order t1
         LEFT JOIN orderStatus t3 on t1.order_status = t3.id
         LEFT JOIN tsysuser t4 on t1.receiver = t4.FUserName
         LEFT JOIN tsysdept t5 ON t4.FDeptId=t5.FSourceCode
+        LEFT JOIN subServiceCatalog H ON t1.service_catalog_id=H.catalogId
         WHERE exists( SELECT t2.* FROM orderApplyCc t2 WHERE t2.transId=t1.id
         AND originalType=0 AND t2.empId=#{empId})
         <if test="criteria.topic!=null and criteria.topic !=''">
