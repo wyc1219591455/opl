@@ -24,6 +24,7 @@ import me.zhengjie.modules.system.repository.UserRepository;
 import me.zhengjie.service.EmailService;
 import me.zhengjie.utils.*;
 
+import me.zhengjie.utils.dingUtils.DingDingUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -865,7 +866,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
                 dingTip.setReceiver(crmWorkOrderDto.getReceiver());
 
             }catch (Exception e){
-                throw  new BadRequestException(e.getMessage());
+                throw  new BadRequestException("转换错误");
             }
             dingTip.setDingTipMessage("您的工单已完成");
             dingTip.setSponsor(tempCrmWorkOrderDto.getCreatedPerson());
@@ -1258,7 +1259,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         List<String> phoneNoList = workOrderMessage.getSendToUserPhoneList();
 
         //删除名单
-        phoneNoList.remove("15851518625");
+        phoneNoList.remove("18036112924");
 
         //钉钉用户号
         List<String> dingDingUserIdList = new ArrayList<>();
@@ -1317,9 +1318,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             //设置邮件收件人
             List<String> sendToList =new ArrayList<>();
             sendToList.add(user.getEmail());
+            Boolean flag= sendToList.remove("nina.ge@ape.cn");
             emailVo.setTos(sendToList);
+
             List<String> removeList = new ArrayList<>();
-            removeList.add("nina.ge@ape.cn");
+            //  removeList.add("nina.ge@ape.cn");
             //设置抄送人
             if (ccUserList!=null&&ccUserList.size()>0){
                 List<String> ccUserListStr=ccUserList.stream().map(e->e.getEmail()).collect(Collectors.toList());

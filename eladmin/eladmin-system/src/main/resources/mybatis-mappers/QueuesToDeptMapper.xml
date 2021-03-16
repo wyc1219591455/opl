@@ -185,7 +185,7 @@
 
 
     <select id="findCcUserByTransId" resultType="me.zhengjie.modules.opl.domain.User">
-    SELECT t.user_id as id, t.FMobileNumber as phoneNo,t.FEmail as email,t.FUserName as userName,
+    SELECT t.user_id as id, t.FMobileNumber as mobileNumber,t.FEmail as email,t.FUserName as userName,
         t.FHumanName as name,t.FPassword as password,
         t.FDeptId as dept,t.FSex as sex,
         t.FFlag as flag,t.avatar_name,t.avatar_path,t.is_admin,t.pwd_reset_time FROM orderApplyCc t1
