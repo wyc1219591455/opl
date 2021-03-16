@@ -774,6 +774,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
             crmWorkOrderCriteria.setFinishDateTime(new Timestamp(new Date().getTime()));
             crmWorkOrderCriteria.setFinishUserId(SecurityUtils.getCurrentUsername());
+            crmWorkOrderCriteria.setLockStatus(2);
             crmWorkOrderMapper.update(crmWorkOrderCriteria);
             OrderSession orderSession=new OrderSession();
             orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
@@ -935,7 +936,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             dingTipForGrateOrder(workOrderMessageToDingTip);
 
             //查询工单要传的数据
-
             Integer transId = subOrder.getId();
 
             //取下面的活动明细
@@ -950,7 +950,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
                 subOrderDto.setEqualsReceiver(1);
             } else subOrderDto.setEqualsReceiver(0);
 
-
             List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSubSessionById(transId);
             CrmWorkOrderDto crmWorkOrder=crmWorkOrderMapper.findOrderById(subOrderDto.getParentNo());
             Boolean isCom=isComplete(crmWorkOrder.getId());
@@ -963,7 +962,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             dtoList=orderSessionDtoList;
             workOrderMessage.setSerialNo(subOrderDto.getSerialNo());
             workOrderMessage.setOrderShowDto(dtoList);
-
 
             //获取抄送人员的信息
             List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);

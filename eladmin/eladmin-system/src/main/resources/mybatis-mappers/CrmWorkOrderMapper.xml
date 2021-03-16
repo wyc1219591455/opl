@@ -106,6 +106,9 @@
         <if test="hopeCompTime!=null">
             ,hope_comp_time=#{hopeCompTime}
         </if>
+        <if test="lockStatus!=null">
+            ,lock_status=#{lockStatus}
+        </if>
         WHERE id = #{id}
     </update>
 

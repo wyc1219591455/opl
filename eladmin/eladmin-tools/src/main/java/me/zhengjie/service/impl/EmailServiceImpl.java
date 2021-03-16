@@ -93,7 +93,7 @@ public class EmailServiceImpl implements EmailService {
             if (emailVo.getCcs()!=null&&emailVo.getCcs().size()>0){
                 Mail.create(account)
                         .setTos(emailVo.getTos().toArray(new String[size]))
-                        //.setCcs(emailVo.getCcs().toArray(new String[size]))
+                        .setCcs(emailVo.getCcs().toArray(new String[size]))
                         .setTitle(emailVo.getSubject())
                         .setContent(content)
                         .setHtml(true)

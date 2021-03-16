@@ -33,6 +33,10 @@ public class CrmWorkOrderCriteria implements Serializable {
     @ApiModelProperty("工单编号")
     private String serialNo;
 
+    //工单编号
+    @ApiModelProperty("锁定状态")
+    private Integer lockStatus;
+
     //期望完成时间
     @ApiModelProperty("期望完成时间")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
