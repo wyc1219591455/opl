@@ -24,6 +24,9 @@ public class WorkOrderMessageToDingTip extends WorkOrderMessage{
     @ApiModelProperty("发送改的人")
     private List<String> sendToUserPhoneList;
 
+    @ApiModelProperty("发送的消息")
+    private String dingTipMessage;
+
   /*  public WorkOrderMessageToDingTip(WorkOrderMessage workOrderMessage,String receiver){
       return  new WorkOrderMessageToDingTip().set
     }*/

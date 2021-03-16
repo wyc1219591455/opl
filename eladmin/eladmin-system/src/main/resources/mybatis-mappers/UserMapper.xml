@@ -29,7 +29,9 @@
     </select>
 
     <select id="findUserByEmpId" parameterType="String" resultMap="userMap">
-        select user_id as FUserId,FUserName,FHumanName,FMobileNumber,FEmail from tsysuser where FUserName in
+        select A.user_id as FUserId,A.FUserName,A.FHumanName,A.FMobileNumber,A.FEmail,B.FDeptFullName  from tsysuser A
+          LEFT JOIN tsysdept B ON A.FDeptId=B.FSourceCode
+         where A.FUserName in
         <foreach collection="list" item="empId" index="index" open="(" close=")" separator=",">
             #{empId}
         </foreach>

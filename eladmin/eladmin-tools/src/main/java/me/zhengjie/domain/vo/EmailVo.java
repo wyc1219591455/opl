@@ -36,6 +36,9 @@ public class EmailVo {
     @NotEmpty
     private List<String> tos;
 
+    /** 抄送人，支持多个收件人 */
+    private List<String> ccs;
+
     @NotBlank
     private String subject;
 

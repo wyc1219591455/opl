@@ -28,7 +28,7 @@
 
             <p class=MsoNormal align=center style='text-align:center;line-height:22.5pt;
 background:#4A5C6A'><span style='font-family:"Microsoft JhengHei",sans-serif;
-color:white'>智能服务平台<span lang=EN-US>-ITC</span>服务<span lang=EN-US><o:p></o:p></span></span></p>
+color:white'>智能服务平台<span lang=EN-US>-OPL</span>服务<span lang=EN-US><o:p></o:p></span></span></p>
 
         </div>
 
