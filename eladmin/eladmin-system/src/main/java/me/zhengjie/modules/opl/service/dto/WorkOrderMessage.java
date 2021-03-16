@@ -37,6 +37,12 @@ public class WorkOrderMessage extends SerialDto implements Serializable {
     @ApiModelProperty("发起人")
     private String sponsor;
 
+    @ApiModelProperty("服务部门")
+    private String receiverDept;
+
+    @ApiModelProperty("服务人")
+    private String receiver;
+
     @ApiModelProperty("终端客户")
     private String ultimateCustomer;
 

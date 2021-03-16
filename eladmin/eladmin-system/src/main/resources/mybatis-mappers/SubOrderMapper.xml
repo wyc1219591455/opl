@@ -119,6 +119,18 @@
     </select>
 
 
+    <select id="findSubOrderDtoById"  parameterType="Integer" resultType="me.zhengjie.modules.opl.service.dto.SubOrderDto">
+          SELECT A.id,A.parentNo,A.topic,A.serialNo,A.jobNumber,B.FHumanName as createdPerson ,A.createdTime as createdAt,C.FDeptFullName AS deptName,A.deptId,
+        A.problemAttach,A.orderStatus,F.name as orderDesc,A.isTransfer,A.description,A.receiver,A.order_type
+         ,A.real_op_time,A.finish_date_time,A.finish_user_id,A.cancel_date_time,A.cancel_user_id
+        FROM subOrder A
+        LEFT JOIN tsysuser B ON A.jobNumber=B.FUserName
+        LEFT JOIN tsysdept C ON A.deptId=C.FDeptId
+        LEFT JOIN orderStatus F ON F.id=A.orderStatus
+         WHERE A.id =#{id}
+    </select>
+
+
     <select id="findSubOplByMaxId" resultType="me.zhengjie.modules.opl.domain.SubOrder">
         SELECT * FROM subOrder WHERE serialNo =(SELECT max(serialNo) FROM subOrder WHERE parentNo = #{orderId})
     </select>

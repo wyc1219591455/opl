@@ -1,11 +1,11 @@
 package me.zhengjie.modules.opl.mapper;
 
 import me.zhengjie.modules.opl.domain.CrmWorkOrder;
+import me.zhengjie.modules.opl.domain.User;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
 import me.zhengjie.modules.opl.service.dto.UserForShow;
 import me.zhengjie.modules.opl.service.dto.WorkOrderCriteria;
-import me.zhengjie.modules.system.domain.User;
 import me.zhengjie.modules.system.service.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 

@@ -418,9 +418,9 @@
     </select>
 
     <!-- 通过服务分类条目获取人员数据 -->
-    <select id="findUserByCatalogId" resultType="me.zhengjie.modules.system.domain.User">
-        SELECT user_id as id,FEmail as email,FUserName username,FHumanName nickName,FEnName,FSourceNo,FPassword,FOrgId,
-         FDeptId,FMobileNumber phone,create_time,create_by,update_time,update_by,FSex,FFlag,
+    <select id="findUserByCatalogId" resultType="me.zhengjie.modules.opl.domain.User">
+        SELECT user_id as id,FEmail as email,FUserName username,FHumanName name,FEnName,FSourceNo,FPassword,FOrgId,
+         FDeptId,FMobileNumber as mobileNumber,create_time,create_by,update_time,update_by,FSex,FFlag,
          avatar_name,avatar_path,is_admin,pwd_reset_time
          FROM tsysuser WHERE user_id IN(
         SELECT sourceId FROM queuesToDept WHERE queuesId IN

@@ -18,8 +18,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class WorkOrderMessageToDingTip extends WorkOrderMessage{
-    @ApiModelProperty("服务人")
-    private String receiver;
 
     @ApiModelProperty("发送改的人")
     private List<String> sendToUserPhoneList;

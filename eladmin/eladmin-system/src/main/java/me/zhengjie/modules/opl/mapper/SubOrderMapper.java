@@ -75,6 +75,17 @@ public interface SubOrderMapper {
     SubOrder findSubOrderById(Integer id);
 
     /**
+     * @title: findSubOrderDtoById
+     * @description: findSubOrderDtoById
+     * @date: 2021/3/16 13:21
+     * @author: ming.cao
+     * @param id
+     * @return me.zhengjie.modules.opl.service.dto.SubOrderDto
+     * @throws
+     */
+    SubOrderDto findSubOrderDtoById(Integer id) ;
+
+    /**
      * @title: findParentWorkOrderDtoById
      * @description: findParentWorkOrderDtoById
      * @date: 2021/2/18 17:23
