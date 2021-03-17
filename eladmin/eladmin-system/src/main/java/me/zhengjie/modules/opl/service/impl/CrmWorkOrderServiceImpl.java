@@ -24,7 +24,7 @@ import me.zhengjie.modules.system.repository.UserRepository;
 import me.zhengjie.service.EmailService;
 import me.zhengjie.utils.*;
 
-import me.zhengjie.utils.dingUtils.DingDingUtil;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -650,11 +650,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             String assess="";
             switch(closeOrderDto.getCloseScore())
             {
-                case 1:assess="差评";
+                case 1:assess="好评";
                 break;
                 case 2:assess="中评";
                 break;
-                case 3:assess="好评";
+                case 3:assess="差评";
                 break;
             }
             String description="评价"+":"+assess+""+closeOrderDto.getDescription();
@@ -1017,13 +1017,24 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
     @Override
     public void update(CrmWorkOrderCriteria crmWorkOrderCriteria) {
-
         crmWorkOrderMapper.update(crmWorkOrderCriteria);
         OrderSession orderSession =new OrderSession();
         orderSession.setTransId(crmWorkOrderCriteria.getId());
         orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
         orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
         orderSession.setOriginalType(crmWorkOrderCriteria.getOrderType());
+        orderSession.setOrderType(12);
+        orderSessionMapper.insertSession(orderSession);
+    }
+
+    @Override
+    public void updateSubOrder(SubOrder subOrder) {
+        subOrderMapper.updateSubOrder(subOrder);
+        OrderSession orderSession =new OrderSession();
+        orderSession.setTransId(subOrder.getId());
+        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+        orderSession.setOriginalType(subOrder.getOrderType());
         orderSession.setOrderType(12);
         orderSessionMapper.insertSession(orderSession);
     }

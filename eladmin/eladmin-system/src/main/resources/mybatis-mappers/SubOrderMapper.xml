@@ -14,9 +14,15 @@
 
     <update id="updateSubOrder" parameterType="me.zhengjie.modules.opl.domain.SubOrder">
         UPDATE subOrder set orderStatus=#{orderStatus}
-         <if test="receiver!=null and receiver!=''">
+        <if test="description!=null and description!=''">
+            ,description=#{description}
+        </if>
+        <if test="topic!=null and topic!=''">
+            ,topic=#{topic}
+        </if>
+        <if test="receiver!=null and receiver!=''">
              ,receiver=#{receiver}
-         </if>
+        </if>
         <if test="realOpTime!=null ">
             ,real_op_time=#{realOpTime}
         </if>

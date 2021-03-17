@@ -63,6 +63,14 @@ public class CrmWorkOrderController {
         crmWorkOrderService.update(crmWorkOrderCriteria);
     }
 
+    @Log("修改子工单")
+    @ApiOperation("修改子工单")
+    @PutMapping("/updateSub")
+    public void updateSubOrder(@RequestBody SubOrder subOrder){
+
+        crmWorkOrderService.updateSubOrder(subOrder);
+    }
+
     @Log("根据工单号查找详情")
     @ApiOperation("根据工单号查找详情")
     @GetMapping("/detail")

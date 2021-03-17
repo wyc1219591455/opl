@@ -38,6 +38,16 @@ public interface CrmWorkOrderService {
     void update(CrmWorkOrderCriteria crmWorkOrderCriteria);
 
 
+    /**
+     * @title: update
+     * @description: 受理子工单
+     * @date: 2021/1/13 19:18
+     * @author:   yuchao.wang
+     * @param subOrder
+     * @return void
+     * @throws
+     */
+     void updateSubOrder(SubOrder subOrder);
 
     /**
      * @title: update
