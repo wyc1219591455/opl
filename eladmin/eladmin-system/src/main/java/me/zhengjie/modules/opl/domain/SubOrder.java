@@ -91,5 +91,8 @@ public class SubOrder {
     @ApiModelProperty("取消人")
     private String cancelUserId;
 
+    @ApiModelProperty("关闭得分")
+    private Integer closeScore;
+
 
 }

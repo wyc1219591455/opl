@@ -20,6 +20,9 @@
         <if test="realOpTime!=null ">
             ,real_op_time=#{realOpTime}
         </if>
+        <if test="closeScore!=null">
+            ,close_score=#{closeScore}
+        </if>
         <if test="finishDateTime!=null">
             ,finish_date_time=#{finishDateTime}
         </if>
@@ -72,7 +75,7 @@
     <select id="findComSubNum" parameterType="Integer" resultType="Integer">
        SELECT count(id)
         FROM subOrder
-        WHERE orderStatus=4 AND parentNo =#{parentId}
+        WHERE orderStatus in (4,5,7) AND parentNo =#{parentId}
     </select>
 
 

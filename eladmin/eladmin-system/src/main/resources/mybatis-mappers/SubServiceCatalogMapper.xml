@@ -31,7 +31,6 @@
             catalogName = #{catalogName},
             description = #{description},
             status = #{status},
-            icon = #{icon},
             defaultQueueId = #{defaultQueueId},
             modifyDateTime = #{modifyDateTime},
             modifyUserId = #{modifyUserId}
