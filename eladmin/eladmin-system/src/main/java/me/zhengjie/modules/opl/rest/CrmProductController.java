@@ -7,6 +7,7 @@ import me.zhengjie.annotation.Log;
 import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.mapper.CrmProductMapper;
 import me.zhengjie.modules.opl.service.CrmProductService;
+import me.zhengjie.modules.opl.service.dto.CrmProductCriteria;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderCriteria;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,8 +32,8 @@ public class CrmProductController {
     @Log("获取所有产品信息")
     @ApiOperation("获取所有产品信息")
     @GetMapping
-    public Map<String ,Object> getCrmWorkOrder(CrmWorkOrderCriteria criteria, Pageable pageable){
-        return  crmProductService.findAll(pageable);
+    public Map<String ,Object> getCrmWorkOrder(CrmProductCriteria criteria, Pageable pageable){
+        return  crmProductService.findAll(criteria,pageable);
     }
 
 }

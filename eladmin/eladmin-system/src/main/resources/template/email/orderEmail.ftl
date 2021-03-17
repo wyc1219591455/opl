@@ -15,7 +15,7 @@
 
     <p style='margin-top:0cm;margin-right:0cm;margin-bottom:7.5pt;margin-left:0cm'><span
                 style='font-size:10.5pt;font-family:"Microsoft JhengHei",sans-serif;color:black'>您好，${operationUser!} ${orderType!}了工单<span lang=EN-US>#${serialNo!}</span>
-                   <span lang=EN-US>  请访问系统查阅：</span> <a href="http://10.65.44.36:10100/" target="_blank"><span
+                   <span lang=EN-US>  请访问系统查阅：</span> <a href="http://10.66.52.109:8088/" target="_blank"><span
                             style='color:#1208BF;text-decoration:none;text-underline:none'>http://10.65.44.36:10100/</span></a><o:p></o:p></span></span></p>
 
     <p style='margin-top:0cm;margin-right:0cm;margin-bottom:7.5pt;margin-left:0cm'><span

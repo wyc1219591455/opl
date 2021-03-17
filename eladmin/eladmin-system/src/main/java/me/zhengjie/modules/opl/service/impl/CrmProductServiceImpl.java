@@ -10,6 +10,7 @@ import me.zhengjie.modules.opl.domain.Pageable;
 import me.zhengjie.modules.opl.mapper.CrmProductMapper;
 import me.zhengjie.modules.opl.service.CrmProductService;
 import me.zhengjie.modules.opl.service.CrmWorkOrderService;
+import me.zhengjie.modules.opl.service.dto.CrmProductCriteria;
 import me.zhengjie.utils.PageHelpResultUtil;
 import org.springframework.stereotype.Service;
 
@@ -29,9 +30,9 @@ public class CrmProductServiceImpl implements CrmProductService {
     private final CrmProductMapper crmProductMapper;
 
     @Override
-    public Map<String, Object> findAll(Pageable pageable) {
+    public Map<String, Object> findAll(CrmProductCriteria criteria, Pageable pageable) {
         PageHelper.startPage(pageable.getPage(),pageable.getSize());
-        List<CrmProduct> crmProductList = crmProductMapper.findAll();
+        List<CrmProduct> crmProductList = crmProductMapper.findAll(criteria);
         PageInfo<CrmProduct> pageInfo1 = new PageInfo<>(crmProductList);
         return PageHelpResultUtil.toPage(pageInfo1);
     }

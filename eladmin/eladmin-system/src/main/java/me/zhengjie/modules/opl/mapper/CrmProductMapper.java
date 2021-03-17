@@ -2,6 +2,7 @@ package me.zhengjie.modules.opl.mapper;
 
 
 import me.zhengjie.modules.opl.domain.CrmProduct;
+import me.zhengjie.modules.opl.service.dto.CrmProductCriteria;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @Mapper
 public interface CrmProductMapper {
 
-    List<CrmProduct> findAll();
+    List<CrmProduct> findAll(CrmProductCriteria criteria);
 
 
     //List<CrmProduct> findCrmProductByMaxId();

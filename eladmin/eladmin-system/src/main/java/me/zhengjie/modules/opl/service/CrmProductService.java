@@ -1,6 +1,7 @@
 package me.zhengjie.modules.opl.service;
 
 import me.zhengjie.modules.opl.domain.Pageable;
+import me.zhengjie.modules.opl.service.dto.CrmProductCriteria;
 
 import java.util.Map;
 
@@ -21,6 +22,6 @@ public interface CrmProductService {
     * @return java.util.Map<java.lang.String,java.lang.Object>
     * @throws
     */
-Map<String,Object> findAll(Pageable pageable);
+Map<String,Object> findAll(CrmProductCriteria criteria, Pageable pageable);
 
 }

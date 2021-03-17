@@ -816,7 +816,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             workOrderMessage.setTopic(tempCrmWorkOrderDto.getTopic());
             workOrderMessage.setDescribe(tempCrmWorkOrderDto.getProblemDesc());
             workOrderMessage.setDept(tempCrmWorkOrderDto.getDeptName());
-            workOrderMessage.setSponsor(tempCrmWorkOrderDto.getFaeHeader());
+            workOrderMessage.setSponsor(tempCrmWorkOrderDto.getCreatedPerson());
             workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
             workOrderMessage.setCreateDate(tempCrmWorkOrderDto.getCreatedAt());
             workOrderMessage.setHopeCompTime(tempCrmWorkOrderDto.getPlanCompTime());
@@ -1316,11 +1316,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             //设置邮件收件人
             List<String> sendToList =new ArrayList<>();
             sendToList.add(user.getEmail());
-            Boolean flag= sendToList.remove("nina.ge@ape.cn");
+            sendToList.remove("nina.ge@ape.cn");
             emailVo.setTos(sendToList);
 
             List<String> removeList = new ArrayList<>();
-            //  removeList.add("nina.ge@ape.cn");
+            removeList.add("nina.ge@ape.cn");
             //设置抄送人
             if (ccUserList!=null&&ccUserList.size()>0){
                 List<String> ccUserListStr=ccUserList.stream().map(e->e.getEmail()).collect(Collectors.toList());
