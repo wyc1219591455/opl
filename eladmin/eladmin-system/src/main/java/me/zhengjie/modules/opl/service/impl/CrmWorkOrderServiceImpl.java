@@ -25,6 +25,7 @@ import me.zhengjie.service.EmailService;
 import me.zhengjie.utils.*;
 
 
+import me.zhengjie.utils.dingUtils.DingDingUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,7 +91,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         workOrderMessage.setTopic(crmWorkOrderCriteria.getTopic());
         workOrderMessage.setDescribe(crmWorkOrderCriteria.getProblemDesc());
         workOrderMessage.setDept(crmWorkOrderCriteria.getDeptName());
-        workOrderMessage.setSponsor(crmWorkOrderCriteria.getFaeHeader());
+        workOrderMessage.setSponsor(crmWorkOrderCriteria.getCreatedPerson());
         workOrderMessage.setUltimateCustomer(crmWorkOrderCriteria.getUltimateCustomer());
         workOrderMessage.setCreateDate(crmWorkOrderCriteria.getCreateDateTime());
         workOrderMessage.setHopeCompTime(crmWorkOrderCriteria.getPlanCompTime());
@@ -543,7 +544,8 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         workOrderMessage.setCreateDate(tempCrmWorkOrderDto.getCreatedAt());
         workOrderMessage.setHopeCompTime(tempCrmWorkOrderDto.getPlanCompTime());
         workOrderMessage.setServiceCatalogId(tempCrmWorkOrderDto.getServiceCatalogId());
-        workOrderMessage.setReceiver(tempSubOrderDto.getReceiverName());
+        me.zhengjie.modules.system.domain.User receiverUser = userRepository.findByUsername(tempSubOrderDto.getReceiver());
+        workOrderMessage.setReceiver(receiverUser.getNickName());
         workOrderMessage.setReceiverDept("");
         //获取服务人员部门
         if (ObjectUtil.isNotEmpty(tempSubOrderDto.getReceiver())){
@@ -606,9 +608,10 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
 
         //发送钉钉
-        //获取操作人
-        String operationUser = userMapper.findUserByEmpId(empIdList).get(0).getName();
-
+     /*   //获取操作人
+        String operationUser = userMapper.findUserByEmpId(empIdList).get(0).getName();*/
+        //获取操作人的字段，传到邮件中
+        String operationUser = userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
         //邮件模板(所有)
         List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
 
