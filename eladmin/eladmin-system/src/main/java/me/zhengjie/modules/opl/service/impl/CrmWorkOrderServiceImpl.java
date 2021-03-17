@@ -24,6 +24,7 @@ import me.zhengjie.modules.system.repository.UserRepository;
 import me.zhengjie.service.EmailService;
 import me.zhengjie.utils.*;
 
+import me.zhengjie.utils.dingUtils.DingDingUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -604,10 +605,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         //获取抄送人员的信息
         List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
 
-
         //发送钉钉
-
-
         //获取操作人
         String operationUser = userMapper.findUserByEmpId(empIdList).get(0).getName();
 
@@ -669,66 +667,66 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             /**
              * 当主表被关闭,发送关闭的邮件
 //             */
-//            CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(closeOrderDto.getOrderId());
-//            //转派工单发送 发出邮件给执行服务者
-//            WorkOrderMessage workOrderMessage = new WorkOrderMessage();
-//            workOrderMessage.setTopic(tempCrmWorkOrderDto.getTopic());
-//            workOrderMessage.setDescribe(tempCrmWorkOrderDto.getProblemDesc());
-//            workOrderMessage.setDept(tempCrmWorkOrderDto.getDeptName());
-//            workOrderMessage.setSponsor(tempCrmWorkOrderDto.getFaeHeader());
-//            workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
-//            workOrderMessage.setCreateDate(tempCrmWorkOrderDto.getCreatedAt());
-//            workOrderMessage.setHopeCompTime(tempCrmWorkOrderDto.getPlanCompTime());
-//            workOrderMessage.setServiceCatalogId(tempCrmWorkOrderDto.getServiceCatalogId());
-//            //设置传入状态
-//            workOrderMessage.setType("关闭");
-//            workOrderMessage.setServiceCatalogName("测试");
-//
-//            //查询工单要传的数据
-//
-//            Integer transId = crmWorkOrderCriteria.getId();
-//
-//            //取下面的活动明细
-//            List<OrderSessionDto> dtoList= new ArrayList<>();
-//            String serialNo =tempCrmWorkOrderDto.getSerialNo();
-//
-//            CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
-//            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(transId));
-//            crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(transId));
-//            Boolean isCom=isComplete(transId);
-//            crmWorkOrderDto.setIsAllSubCom(isCom);
-//            if (tempCrmWorkOrderDto.getJobNumber().equals(crmWorkOrderCriteria.getModifyPerson())) {
-//                crmWorkOrderDto.setEqualsCreate(1);
-//            } else crmWorkOrderDto.setEqualsCreate(0);
-//            if (tempCrmWorkOrderDto.getReceiver()!=null&&tempCrmWorkOrderDto.getReceiver().equals(crmWorkOrderCriteria.getModifyPerson())) {
-//                crmWorkOrderDto.setEqualsReceiver(1);
-//            } else crmWorkOrderDto.setEqualsReceiver(0);
-//            List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
-//            List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(transId);
-//            crmWorkOrderDtoList.add(crmWorkOrderDto);
-//
-//            dtoList=orderSessionDtoList;
-//
-//            workOrderMessage.setOrderShowDto(dtoList);
-//
-//            //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
-//            List<String> empIdList = new ArrayList<>();
-//            empIdList.add(tempCrmWorkOrderDto.getReceiver());
-//            List<User> userList = userMapper.findUserByEmpId(empIdList);
-//
-//            //获取操作人
-//            String operationUser = userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
-//
-//            //获取抄送人员的信息
-//            List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
-//
-//            //邮件模板(所有)
-//            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
-//
-//            //邮件发送
-//            for (EmailVo emailVo : emailInfoList) {
-//                emailService.send(emailVo,emailService.find());
-//            }
+            CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(closeOrderDto.getOrderId());
+            //转派工单发送 发出邮件给执行服务者
+            WorkOrderMessage workOrderMessage = new WorkOrderMessage();
+            workOrderMessage.setTopic(tempCrmWorkOrderDto.getTopic());
+            workOrderMessage.setDescribe(tempCrmWorkOrderDto.getProblemDesc());
+            workOrderMessage.setDept(tempCrmWorkOrderDto.getDeptName());
+            workOrderMessage.setSponsor(tempCrmWorkOrderDto.getFaeHeader());
+            workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
+            workOrderMessage.setCreateDate(tempCrmWorkOrderDto.getCreatedAt());
+            workOrderMessage.setHopeCompTime(tempCrmWorkOrderDto.getPlanCompTime());
+            workOrderMessage.setServiceCatalogId(tempCrmWorkOrderDto.getServiceCatalogId());
+            //设置传入状态
+            workOrderMessage.setType("关闭");
+            workOrderMessage.setServiceCatalogName("测试");
+
+            //查询工单要传的数据
+
+            Integer transId = closeOrderDto.getOrderId();
+
+            //取下面的活动明细
+            List<OrderSessionDto> dtoList= new ArrayList<>();
+            String serialNo =tempCrmWorkOrderDto.getSerialNo();
+
+            CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
+            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(transId));
+            crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(transId));
+            Boolean isCom=isComplete(transId);
+            crmWorkOrderDto.setIsAllSubCom(isCom);
+            /*if (tempCrmWorkOrderDto.getJobNumber().equals(closeOrderDto.getModifyPerson())) {
+                crmWorkOrderDto.setEqualsCreate(1);
+            } else crmWorkOrderDto.setEqualsCreate(0);
+            if (tempCrmWorkOrderDto.getReceiver()!=null&&tempCrmWorkOrderDto.getReceiver().equals(closeOrderDto.getModifyPerson())) {
+                crmWorkOrderDto.setEqualsReceiver(1);
+            } else crmWorkOrderDto.setEqualsReceiver(0);*/
+            List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
+            List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(transId);
+            crmWorkOrderDtoList.add(crmWorkOrderDto);
+
+            dtoList=orderSessionDtoList;
+
+            workOrderMessage.setOrderShowDto(dtoList);
+
+            //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
+            List<String> empIdList = new ArrayList<>();
+            empIdList.add(tempCrmWorkOrderDto.getReceiver());
+            List<User> userList = userMapper.findUserByEmpId(empIdList);
+
+            //获取操作人
+            String operationUser = userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
+
+            //获取抄送人员的信息
+            List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
+
+            //邮件模板(所有)
+            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
+
+            //邮件发送
+            for (EmailVo emailVo : emailInfoList) {
+                emailService.send(emailVo,emailService.find());
+            }
 
         }
 
@@ -819,7 +817,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
         if (completeOrderDto.getOrderType()==0){
             /**
-             * 当主表被完成,发送转派的邮件
+             * 当主表被完成,发送完成的邮件
              */
             CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(completeOrderDto.getOrderId());
             //转派工单发送 发出邮件给执行服务者
@@ -827,6 +825,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             workOrderMessage.setTopic(tempCrmWorkOrderDto.getTopic());
             workOrderMessage.setDescribe(tempCrmWorkOrderDto.getProblemDesc());
             workOrderMessage.setDept(tempCrmWorkOrderDto.getDeptName());
+            //发起人
             workOrderMessage.setSponsor(tempCrmWorkOrderDto.getCreatedPerson());
             workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
             workOrderMessage.setCreateDate(tempCrmWorkOrderDto.getCreatedAt());
@@ -865,7 +864,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
             //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
             List<String> empIdList = new ArrayList<>();
-            empIdList.add(tempCrmWorkOrderDto.getReceiver());
+            empIdList.add(tempCrmWorkOrderDto.getCreatedPerson());
             List<User> userList = userMapper.findUserByEmpId(empIdList);
             //获取抄送人员的信息
             List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
