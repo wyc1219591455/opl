@@ -5,6 +5,12 @@
 
     <select id="findAll" resultType="me.zhengjie.modules.opl.domain.CrmProduct">
         SELECT *,crm_id as crmId FROM crm_product WHERE enable_status = 1
+        <if test="productNo!=null and productNo!=''">
+          AND product_no like concat('%',#{productNo},'%')
+        </if>
+        <if test="productName!=null and productName!=''">
+          AND product_name like concat('%',#{productName},'%')
+        </if>
     </select>
 
 </mapper>
