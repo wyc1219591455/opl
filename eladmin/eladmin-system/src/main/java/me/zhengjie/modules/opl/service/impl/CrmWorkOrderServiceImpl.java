@@ -863,7 +863,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
             //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
             List<String> empIdList = new ArrayList<>();
-            empIdList.add(tempCrmWorkOrderDto.getCreatedPerson());
+            empIdList.add(tempCrmWorkOrderDto.getJobNumber());
             List<User> userList = userMapper.findUserByEmpId(empIdList);
             //获取抄送人员的信息
             List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
