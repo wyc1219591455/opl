@@ -38,18 +38,18 @@ public class CmsFileUploadServiceImpl implements CmsFileUploadService {
     public ImageUploadVo uploadImage(MultipartFile multipartFile) {
         File file = FileUtil.upload(multipartFile, fileProperties.getPath().getAvatar());
         String fileName = file.getName();
-        String filePath = imageBaseUrl + fileName;
-        return new ImageUploadVo(1,fileName,filePath);
+        String fileUrl = imageBaseUrl + fileName;
+        return new ImageUploadVo(1,fileName,fileUrl);
     }
 
     @Override
     public Map<String, String> uploadFile(MultipartFile multipartFile) {
         File file = FileUtil.upload(multipartFile,fileProperties.getPath().getPath());
         String fileName = file.getName();
-        String filePath = fileBaseUrl + fileName;
+        String fileUrl = fileBaseUrl + fileName;
         Map<String,String> map = new HashMap<String,String>(2){{
             put("fileName", fileName);
-            put("filePath", filePath);
+            put("fileUrl", fileUrl);
         }};
         return map;
     }

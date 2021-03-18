@@ -175,4 +175,12 @@ public class CrmWorkOrderController {
         crmWorkOrderService.changeTime(orderSessionDetail);
     }
 
+    @Log("查询主页数据")
+    @ApiOperation("查询主页数据")
+    @GetMapping("/orderNum")
+    public Object findOrderNumber(){
+        return crmWorkOrderService.findOrderNumber();
+    }
+
+
 }

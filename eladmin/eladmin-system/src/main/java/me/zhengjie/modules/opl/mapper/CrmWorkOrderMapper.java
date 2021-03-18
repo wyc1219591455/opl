@@ -198,4 +198,51 @@ public interface CrmWorkOrderMapper {
      */
     List<User> findUserByCatalogId(Integer catalogId);
 
+
+    /**
+     * @title: findLimitOrder
+     * @description: 查找预期工单
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
+     * @return Integer
+     * @throws
+     */
+    Integer findLimitOrder(String jobNumber);
+
+    /**
+     * @title: findLimitOrder
+     * @description: 查找今日到期工单
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
+     * @return Integer
+     * @throws
+     */
+    Integer findDueOrder(String jobNumber);
+
+
+    /**
+     * @title: findLimitOrder
+     * @description: 查找待处理工单
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
+     * @return Integer
+     * @throws
+     */
+    Integer findTreatOrder(String jobNumber);
+
+
+    /**
+     * @title: findLimitOrder
+     * @description: 查找新增工单
+     * @date: 2021/1/13 19:33
+     * @author: yuchao.wang
+     * @param
+     * @return Integer
+     * @throws
+     */
+    Integer findNewOrder(String jobNumber);
+
 }

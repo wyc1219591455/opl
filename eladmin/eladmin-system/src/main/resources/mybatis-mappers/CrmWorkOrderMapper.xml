@@ -430,4 +430,35 @@
         (SELECT defaultQueueId FROM subServiceCatalog WHERE catalogId = #{catalogId}) )
     </select>
 
+
+
+    <select id="findLimitOrder" resultType="Integer">
+       select( SELECT count(id)
+         FROM crm_work_order WHERE format(hope_comp_time ,'yyyy-MM-dd' )>format(GETDATE() ,'yyyy-MM-dd' ) AND order_status =3 AND receiver = #{receiver})
+         +
+         (select count(A.id) from subOrder A LEFT JOIN crm_work_order B ON A.parentNo=B.id WHERE format(B.hope_comp_time ,'yyyy-MM-dd' )>format(GETDATE() ,'yyyy-MM-dd' ) AND A.orderStatus =3 AND A.receiver= #{receiver}  )
+    </select>
+
+    <select id="findDueOrder" resultType="Integer">
+        SELECT(SELECT count(id)
+         FROM crm_work_order WHERE format(hope_comp_time ,'yyyy-MM-dd' )=format(GETDATE() ,'yyyy-MM-dd' ) AND order_status =3 AND receiver = #{receiver})
+         +
+         (select count(A.id) from subOrder A LEFT JOIN crm_work_order B ON A.parentNo=B.id WHERE format(B.hope_comp_time ,'yyyy-MM-dd' )=format(GETDATE() ,'yyyy-MM-dd' ) AND A.orderStatus =3 AND A.receiver= #{receiver}  )
+    </select>
+
+    <select id="findTreatOrder" resultType="Integer">
+        SELECT(SELECT count(id)
+         FROM crm_work_order WHERE  order_status =2 AND receiver = #{receiver})
+         +(SELECT count(id)
+         from subOrder    WHERE  orderStatus =2 AND receiver = #{receiver})
+    </select>
+
+    <select id="findNewOrder" resultType="Integer">
+        SELECT(SELECT count(id)
+         FROM crm_work_order WHERE format(created_at ,'yyyy-MM-dd' )=format(GETDATE() ,'yyyy-MM-dd' )  AND receiver = #{receiver})
+         +(SELECT count(id)
+         FROM subOrder WHERE format(createdTime ,'yyyy-MM-dd' )=format(GETDATE() ,'yyyy-MM-dd' )  AND receiver = #{receiver})
+    </select>
+
+
 </mapper>

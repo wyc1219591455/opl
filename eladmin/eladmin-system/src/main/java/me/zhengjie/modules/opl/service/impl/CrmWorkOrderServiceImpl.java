@@ -25,7 +25,6 @@ import me.zhengjie.service.EmailService;
 import me.zhengjie.utils.*;
 
 
-import me.zhengjie.utils.dingUtils.DingDingUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -1185,6 +1184,19 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     }
 
 
+    @Override
+    public OrderNumber findOrderNumber() {
+        String jobNumber = SecurityUtils.getCurrentUsername();
+        OrderNumber orderNumber=new OrderNumber();
+        orderNumber.setDueNum(crmWorkOrderMapper.findDueOrder(jobNumber));
+        orderNumber.setLimitNum(crmWorkOrderMapper.findLimitOrder(jobNumber));
+        orderNumber.setNewNum(crmWorkOrderMapper.findNewOrder(jobNumber));
+        orderNumber.setTreatNum(crmWorkOrderMapper.findTreatOrder(jobNumber));
+        return  orderNumber;
+    }
+
+
+
     private String getOplMaxNo() {
         //获取crm同步到opl最大编号的数据
         List<CrmWorkOrder> maxCrmWorkOrderList = crmWorkOrderMapper.findOplByMaxId();
@@ -1351,6 +1363,9 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
         return emailVo;
     }
+
+
+
 }
 
 
