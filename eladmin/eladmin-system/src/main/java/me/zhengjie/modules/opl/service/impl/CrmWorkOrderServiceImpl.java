@@ -174,7 +174,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             crmWorkOrderCriteria.setModifyDateTime(new Timestamp(new Date().getTime()));
             crmWorkOrderCriteria.setModifyPerson(jobNumber);
             crmWorkOrderCriteria.setId(orderSession.getTransId());
-
+            crmWorkOrderCriteria.setHopeCompTime(orderSession.getHopeCompTime());
             crmWorkOrderMapper.update(crmWorkOrderCriteria);
         }
         else if(orderSession.getOriginalType()==1)
@@ -783,35 +783,32 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             crmWorkOrderCriteria.setFinishUserId(SecurityUtils.getCurrentUsername());
             crmWorkOrderCriteria.setLockStatus(2);
             crmWorkOrderMapper.update(crmWorkOrderCriteria);
-            OrderSession orderSession=new OrderSession();
-            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
-            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-            orderSession.setOriginalType(0);
-            orderSession.setTransId(completeOrderDto.getOrderId());
-            orderSession.setOrderType(6);
-            String description="原因分析"+":"+completeOrderDto.getReason()+"改善对策"+":"+completeOrderDto.getMeasures();
-            orderSession.setDescription(description);
-            orderSession.setProblemAttach(completeOrderDto.getProblemAttach());
-            orderSessionMapper.insertSession(orderSession);
+
 
         }
         else if(completeOrderDto.getOrderType()==1){
             SubOrder subOrder=new SubOrder();
             subOrder.setId(completeOrderDto.getOrderId());
             subOrder.setOrderStatus(4);
+            subOrder.setMeasures(completeOrderDto.getMeasures());
+            subOrder.setCompleteType(completeOrderDto.getCompleteType());
+            subOrder.setReason(completeOrderDto.getReason());
             subOrder.setFinishDateTime(new Timestamp(new Date().getTime()));
             subOrder.setFinishUserId(SecurityUtils.getCurrentUsername());
             subOrderMapper.updateSubOrder(subOrder);
-            OrderSession orderSession=new OrderSession();
-            orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
-            orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
-            orderSession.setOriginalType(1);
-            orderSession.setTransId(completeOrderDto.getOrderId());
-            orderSession.setOrderType(6);
-            orderSession.setDescription(completeOrderDto.getDescription());
-            orderSession.setProblemAttach(completeOrderDto.getProblemAttach());
-            orderSessionMapper.insertSession(orderSession);
+
         }
+
+        OrderSession orderSession=new OrderSession();
+        orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
+        orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
+        orderSession.setOriginalType(completeOrderDto.getOrderType());
+        orderSession.setTransId(completeOrderDto.getOrderId());
+        orderSession.setOrderType(6);
+        String description="原因分析"+":"+completeOrderDto.getReason()+"改善对策"+":"+completeOrderDto.getMeasures();
+        orderSession.setDescription(description);
+        orderSession.setProblemAttach(completeOrderDto.getProblemAttach());
+        orderSessionMapper.insertSession(orderSession);
 
         if (completeOrderDto.getOrderType()==0){
             /**

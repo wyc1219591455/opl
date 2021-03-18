@@ -95,4 +95,14 @@ public class SubOrder {
     private Integer closeScore;
 
 
+
+    @ApiModelProperty("改善措施（完成工单）")
+    private String measures;
+
+    @ApiModelProperty("完成状态（完成工单）（成功1，无法处理2，失败3）")
+    private Integer completeType;
+
+    @ApiModelProperty("原因分析  (完成工单)")
+    private String reason;
+
 }

@@ -53,4 +53,9 @@ public class OrderSession {
     @ApiModelProperty("表来源（0 主表crmworkorder ，1 附表 suborder）")
     private Integer originalType;
 
+
+    @ApiModelProperty("计划完成时间")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
+    private Timestamp hopeCompTime;
+
 }

@@ -29,6 +29,15 @@
         <if test="closeScore!=null">
             ,close_score=#{closeScore}
         </if>
+        <if test="measures!=null and measures!=''">
+            ,measures=#{measures}
+        </if>
+        <if test="reason!=null and reason!=''">
+            ,reason=#{reason}
+        </if>
+        <if test="completeType!=null">
+            ,complete_type=#{completeType}
+        </if>
         <if test="finishDateTime!=null">
             ,finish_date_time=#{finishDateTime}
         </if>
