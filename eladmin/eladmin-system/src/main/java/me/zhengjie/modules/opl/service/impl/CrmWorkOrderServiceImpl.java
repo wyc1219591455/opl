@@ -66,7 +66,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         String maxSerialNo = getOplMaxNo();
         crmWorkOrderCriteria.setSerialNo(maxSerialNo);
         crmWorkOrderCriteria.setOrderStatus(1);
-//        crmWorkOrderCriteria.setJobNumber(SecurityUtils.getCurrentUsername());
+        //crmWorkOrderCriteria.setJobNumber(SecurityUtils.getCurrentUsername());
         crmWorkOrderCriteria.setCreateDateTime(new Timestamp(new Date().getTime()));
         crmWorkOrderCriteria.setOrderType(0);
         crmWorkOrderMapper.insert(crmWorkOrderCriteria);
@@ -155,12 +155,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         String operationUser = userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
 
         //邮件模板(所有)
-        List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,maxSerialNo,dtoList,operationUser,userList,ccUserList);
+        EmailVo emailInfoList = setMailInfo(workOrderMessage,maxSerialNo,dtoList,operationUser,userList,ccUserList);
 
         //邮件发送
-        for (EmailVo emailVo : emailInfoList) {
-            emailService.send(emailVo,emailService.find());
-        }
+            emailService.send(emailInfoList,emailService.find());
+
 
     }
 
@@ -344,12 +343,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             String operationUser =userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
 
             //邮件模板(所有)
-            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
+            EmailVo emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
 
             //邮件发送
-            for (EmailVo emailVo : emailInfoList) {
-                emailService.send(emailVo,emailService.find());
-            }
+                emailService.send(emailInfoList,emailService.find());
+
         }
 
 
@@ -438,12 +436,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             String operationUser =userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
 
             //邮件模板(所有)
-            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,subOrder.getSerialNo(),dtoList,operationUser,userList,ccUserList);
+            EmailVo emailInfoList = setMailInfo(workOrderMessage,subOrder.getSerialNo(),dtoList,operationUser,userList,ccUserList);
 
             //邮件发送
-            for (EmailVo emailVo : emailInfoList) {
-                emailService.send(emailVo,emailService.find());
-            }
+                emailService.send(emailInfoList,emailService.find());
+
 
         }
 
@@ -613,12 +610,12 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         //获取操作人的字段，传到邮件中
         String operationUser = userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
         //邮件模板(所有)
-        List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
+        EmailVo emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
 
         //邮件发送
-        for (EmailVo emailVo : emailInfoList) {
-            emailService.send(emailVo,emailService.find());
-        }
+
+            emailService.send(emailInfoList,emailService.find());
+
     }
 
 
@@ -724,12 +721,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
 
             //邮件模板(所有)
-            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
+            EmailVo emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
 
             //邮件发送
-            for (EmailVo emailVo : emailInfoList) {
-                emailService.send(emailVo,emailService.find());
-            }
+                emailService.send(emailInfoList,emailService.find());
+
 
         }
 
@@ -892,12 +888,11 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             String operationUser =userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
 
             //邮件模板(所有)
-            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
+            EmailVo emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
 
             //邮件发送
-            for (EmailVo emailVo : emailInfoList) {
-                emailService.send(emailVo,emailService.find());
-            }
+                emailService.send(emailInfoList,emailService.find());
+
         }
 
 
@@ -983,12 +978,12 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             String operationUser =userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
 
             //邮件模板(所有)
-            List<EmailVo> emailInfoList = setMailInfo(workOrderMessage,subOrder.getSerialNo(),dtoList,operationUser,userList,ccUserList);
+            EmailVo emailInfoList = setMailInfo(workOrderMessage,subOrder.getSerialNo(),dtoList,operationUser,userList,ccUserList);
 
             //邮件发送
-            for (EmailVo emailVo : emailInfoList) {
-                emailService.send(emailVo,emailService.find());
-            }
+
+                emailService.send(emailInfoList,emailService.find());
+
 
         }
 
@@ -1305,17 +1300,19 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
      * 构建邮件模板
      * @return
      */
-    public List<EmailVo> setMailInfo(WorkOrderMessage workOrderMessage,String orderSerialNo,List<OrderSessionDto> orderShowDto,String operationUser,List<User> userList,List<User> ccUserList) {
+    public EmailVo setMailInfo(WorkOrderMessage workOrderMessage,String orderSerialNo,List<OrderSessionDto> orderShowDto,String operationUser,List<User> userList,List<User> ccUserList) {
         //邮件模板list
         List<EmailVo> emailVoList = new ArrayList<>();
 
 
         //  获取到所有的人员的邮箱信息
-        for (User user : userList) {
+
             // user.getEmail()
             EmailVo emailVo = new EmailVo();
             emailVo.setSubject("【OPL服务平台】");
             Map<String, Object> data = new HashMap<>(14);
+            //所有人的邮件
+            List<String> userEmailList = userList.stream().map(e->e.getEmail()).collect(Collectors.toList());
 
             //设置邮件发部参数
             data.put("topic",workOrderMessage.getTopic() );
@@ -1338,10 +1335,8 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             Template template = engine.getTemplate("email/orderEmail.ftl");
             emailVo.setContent(template.render(data));
             //设置邮件收件人
-            List<String> sendToList =new ArrayList<>();
-            sendToList.add(user.getEmail());
-            sendToList.remove("nina.ge@ape.cn");
-            emailVo.setTos(sendToList);
+            userEmailList.remove("nina.ge@ape.cn");
+            emailVo.setTos(userEmailList);
 
             List<String> removeList = new ArrayList<>();
             removeList.add("nina.ge@ape.cn");
@@ -1352,9 +1347,9 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
                 emailVo.setCcs(ccUserListStr);
             }
             emailVoList.add(emailVo);
-        }
 
-        return emailVoList;
+
+        return emailVo;
     }
 }
 
