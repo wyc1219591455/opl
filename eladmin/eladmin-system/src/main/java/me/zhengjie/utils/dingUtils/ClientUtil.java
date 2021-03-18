@@ -1,10 +1,15 @@
 package me.zhengjie.utils.dingUtils;
 
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.ContentType;
@@ -17,6 +22,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -157,6 +163,70 @@ public class ClientUtil {
 
     public static String doPost(String url) {
         return doPost(url, null);
+    }
+
+    /**
+     * patch请求
+     *
+     * @param url             接口地址
+     * @param params          接口参数
+     * @param
+     * @return
+     */
+
+    public static String doPatch(String url,Long id, String params,String authorization) {
+
+        //拼接url
+        String urlForPatch = url+id;
+
+        // 创建patch请求
+        HttpPatch patch = new HttpPatch(urlForPatch);
+
+        // 如果需要鉴权
+        if (authorization != null) {
+            // 请求头添加token
+            patch.addHeader("Authorization",authorization);
+        }
+
+        // 创建参数列表
+        StringEntity entity = new StringEntity(params, ContentType.APPLICATION_JSON);
+        // 设置参数
+        patch.setEntity(entity);
+        // 创建客户端
+        HttpClient client = HttpClients.createDefault();
+        try {
+            HttpResponse response = client.execute(patch);
+            return getResult(response);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * 获取响应结果
+     *
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    public static String getResult(HttpResponse response) throws IOException {
+        // 获取状态码
+        int code = response.getStatusLine().getStatusCode();
+        System.out.println(code);
+        // 获取body
+        HttpEntity entity = response.getEntity();
+        String body = EntityUtils.toString(entity);
+        System.out.println(body);
+        // 获取头信息
+        Header[] allHeaders = response.getAllHeaders();
+        String headers = Arrays.toString(allHeaders);
+        System.out.println(headers);
+
+        // 返回body
+        return body;
     }
 
     public static String doPostJson(String url, String json) {

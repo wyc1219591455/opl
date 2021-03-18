@@ -181,6 +181,8 @@ public class CrmWorkOrderCriteria implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp realOpTime;
 
-
+  /*  //锁定状态
+    @ApiModelProperty("锁定状态")
+    private String lockStatus;*/
 
 }

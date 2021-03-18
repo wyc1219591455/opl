@@ -25,6 +25,8 @@ import me.zhengjie.service.EmailService;
 import me.zhengjie.utils.*;
 
 
+import me.zhengjie.utils.dingUtils.ClientUtil;
+import me.zhengjie.utils.dingUtils.DingDingUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,6 +36,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * @program: eladmin
@@ -45,6 +49,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
+    private final GetTokenUtils getTokenUtils;
     private final CrmWorkOrderMapper crmWorkOrderMapper;
     private final SubOrderMapper subOrderMapper;
     private final OrderSessionMapper orderSessionMapper;
@@ -193,6 +198,29 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             orderSession.setOriginalType(orderSession.getOriginalType());
             orderSessionMapper.insertSession(orderSession);
 
+        List<CrmWorkOrder> crmWorkOrder = crmWorkOrderMapper.findCrmOrderById(orderSession.getTransId());
+
+        //修改数据接口
+        String url = "https://api.xiaoshouyi.com/rest/data/v2.0/xobjects/customEntity12__c/";
+
+        //认证
+        String authorization = getTokenUtils.getCrmToken();
+        FunctionPerfectionTable table = new FunctionPerfectionTable();
+        table.setId(crmWorkOrder.get(0).getCrmId());
+        table.setLockStatus(2);
+        table.setCustomItem23__c(3);
+        //对象转json
+        JSONObject paramToJson = (JSONObject) JSON.toJSON(table);
+
+        //调用获取数据接口
+        JSONObject json = new JSONObject();
+        json.put("data",paramToJson);
+
+        String jsonData = ClientUtil.doPatch(url,crmWorkOrder.get(0).getCrmId(),json.toString(),authorization);
+        if (!"200".equals(JSONObject.parseObject(jsonData).getString("code"))){
+            authorization = getTokenUtils.getSimpleToken();
+            jsonData = ClientUtil.doPatch(url,crmWorkOrder.get(0).getCrmId(),json.toString(),authorization);
+        }
 
     }
 
@@ -492,6 +520,29 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
             orderSessionMapper.insertSession(orderSession);
 
+            List<CrmWorkOrder> crmWorkOrder = crmWorkOrderMapper.findCrmOrderById(orderSession.getTransId());
+
+            //修改数据接口
+            String url = "https://api.xiaoshouyi.com/rest/data/v2.0/xobjects/customEntity12__c/";
+
+            //认证
+            String authorization = getTokenUtils.getCrmToken();
+            FunctionPerfectionTable table = new FunctionPerfectionTable();
+            table.setId(crmWorkOrder.get(0).getCrmId());
+            table.setLockStatus(1);
+            table.setCustomItem23__c(8);
+            //对象转json
+            JSONObject paramToJson = (JSONObject) JSON.toJSON(table);
+
+            //调用获取数据接口
+            JSONObject json = new JSONObject();
+            json.put("data",paramToJson);
+
+            String jsonData = ClientUtil.doPatch(url,crmWorkOrder.get(0).getCrmId(),json.toString(),authorization);
+            if (!"200".equals(JSONObject.parseObject(jsonData).getString("code"))){
+                authorization = getTokenUtils.getSimpleToken();
+                jsonData = ClientUtil.doPatch(url,crmWorkOrder.get(0).getCrmId(),json.toString(),authorization);
+            }
         }
     }
 

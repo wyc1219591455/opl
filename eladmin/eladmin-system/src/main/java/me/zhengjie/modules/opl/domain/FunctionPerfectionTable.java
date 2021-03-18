@@ -115,4 +115,7 @@ public class FunctionPerfectionTable implements Serializable {
 
     //所属部门
     private String customItem22__c;
+
+    //工单状态
+    private Integer customItem23__c;
 }
