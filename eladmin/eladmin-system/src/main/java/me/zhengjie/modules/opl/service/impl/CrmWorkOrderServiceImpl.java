@@ -512,6 +512,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     public void sendBackOrder(OrderSession orderSession) {
         if (orderSession.getOriginalType() == 0) {
             CrmWorkOrderCriteria crmWorkOrderCriteria = new CrmWorkOrderCriteria();
+            crmWorkOrderCriteria.setLockStatus(1);
             crmWorkOrderCriteria.setOrderStatus(9);
             crmWorkOrderCriteria.setId(orderSession.getTransId());
             crmWorkOrderMapper.update(crmWorkOrderCriteria);
