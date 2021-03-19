@@ -156,12 +156,12 @@ public class CrmWorkOrderCriteria implements Serializable {
     @ApiModelProperty("完成人")
     private String finishUserId;
 
-    @ApiModelProperty("完成时间")
+    @ApiModelProperty("关闭时间")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private Timestamp closeDateTime ;
 
     //工单创建人
-    @ApiModelProperty("完成人")
+    @ApiModelProperty("关闭人")
     private String closeUserId;
 
 

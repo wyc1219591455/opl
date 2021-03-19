@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -19,7 +20,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CrmWorkOrderDto {
+public class CrmWorkOrderDto implements Serializable {
 
     //主键id
     @ApiModelProperty("主键id")
@@ -183,7 +184,8 @@ public class CrmWorkOrderDto {
     @ApiModelProperty("判断当前工单子单是否全部关闭")
     private Boolean isAllSubCom;
 
-
+    @ApiModelProperty("当前用户")
+    private String nowUser;
 
     @ApiModelProperty("子单")
     private SubOrderDto subOrderDto;

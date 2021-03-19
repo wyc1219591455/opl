@@ -94,7 +94,13 @@ public class SubOrder {
     @ApiModelProperty("关闭得分")
     private Integer closeScore;
 
+    @ApiModelProperty("关闭时间")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
+    private Timestamp closeDateTime ;
 
+    //工单创建人
+    @ApiModelProperty("关闭人")
+    private String closeUserId;
 
     @ApiModelProperty("改善措施（完成工单）")
     private String measures;
