@@ -6,6 +6,17 @@ spring:
       username: ${sqlserver_name:sa}
       password: ${sqlserver_password:abc@123456}
 
+  rabbitmq:
+    #host: 47.96.15.25
+    host: 127.0.0.1
+    username: guest
+    password: guest
+    port: 5672
+    #username: admin
+    #password: guest_pass
+    #password: 123456
+    channelCacheSize: 10
+    concurrency: 5
   redis:
     #数据库索引
     database: 9
@@ -64,10 +75,10 @@ file:
   avatarMaxSize: 20
 
 # 使用富文本编辑器上传图片需要写死图片存放路径(可根据不同的测试环境更改ip端口)
-image-base-url: http://10.65.44.31:8001/avatar/
+image-base-url: http://10.65.44.24:8200/avatar/
 
 # 用于上传文件（图纸之类的pdf等文件）
-file-base-url: http://10.65.44.31:8001/file/
+file-base-url: http://10.65.44.24:8200/file/
 
 #静态资源管理根目录
 staticFileManager:
