@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 /**
  * @program: 工单子单
@@ -16,7 +17,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubOrderDto {
+public class SubOrderDto implements Serializable {
 
     //主键
     @ApiModelProperty("主键")
@@ -116,6 +117,12 @@ public class SubOrderDto {
     //工单创建人
     @ApiModelProperty("关闭人")
     private String closeUserId;
+
+    @ApiModelProperty("当前用户")
+    private String nowUser;
+
+    @ApiModelProperty("操作")
+    private String operation;
 }
 
 

@@ -193,4 +193,8 @@ public class CrmWorkOrderDto implements Serializable {
 
     @ApiModelProperty("抄送人")
     List<OrderApplyCcDto> orderApplyCcDtos;
+
+    @ApiModelProperty("操作")
+    private String operation;
+
 }

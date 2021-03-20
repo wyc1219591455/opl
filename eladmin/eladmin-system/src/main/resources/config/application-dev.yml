@@ -75,10 +75,12 @@ file:
   avatarMaxSize: 20
 
 # 使用富文本编辑器上传图片需要写死图片存放路径(可根据不同的测试环境更改ip端口)
-image-base-url: http://10.65.44.24:8200/avatar/
+#image-base-url: http://10.65.44.24:8200/avatar/
+image-base-url: http://10.66.52.109:8089/avatar/
 
 # 用于上传文件（图纸之类的pdf等文件）
-file-base-url: http://10.65.44.24:8200/file/
+#file-base-url: http://10.65.44.24:8200/file/
+file-base-url: http://10.66.52.109:8089/file/
 
 #静态资源管理根目录
 staticFileManager:

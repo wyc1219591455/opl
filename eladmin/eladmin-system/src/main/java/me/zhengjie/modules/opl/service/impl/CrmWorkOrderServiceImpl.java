@@ -23,6 +23,7 @@ import me.zhengjie.service.EmailService;
 import me.zhengjie.utils.*;
 
 
+import me.zhengjie.utils.dingUtils.DingDingUtil;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,12 +81,18 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         orderSession.setCreateDateTime(new Timestamp(new Date().getTime()));
         orderSession.setOriginalType(0);
         orderSessionMapper.insertSession(orderSession);
-
-        //创建完成工单之后，发送邮件给服务台
-        //查询工单要传的数据
         Integer transId = crmWorkOrderCriteria.getId();
         String serialNo = maxSerialNo;
         CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
+
+        crmWorkOrderDto.setNowUser(SecurityUtils.getCurrentUsername());
+        crmWorkOrderDto.setOperation("创建");
+        //转派工单发送 发出邮件给执行服务者
+        rabbitTemplate.convertAndSend("MailDirectExchange", "MailDirectRouting", crmWorkOrderDto);
+
+       /* //创建完成工单之后，发送邮件给服务台
+        //查询工单要传的数据
+
         crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
         crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
 
@@ -161,7 +168,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
         //邮件发送
             emailService.send(emailInfoList,emailService.find());
-
+*/
 
     }
 
@@ -278,7 +285,13 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
              * 当主表被转派,发送转派的邮件
              */
             CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(transferOrderDto.getOrderId());
+
+            tempCrmWorkOrderDto.setNowUser(SecurityUtils.getCurrentUsername());
+            tempCrmWorkOrderDto.setOperation("转派");
             //转派工单发送 发出邮件给执行服务者
+            rabbitTemplate.convertAndSend("MailDirectExchange", "MailDirectRouting", tempCrmWorkOrderDto);
+
+            /* //转派工单发送 发出邮件给执行服务者
             WorkOrderMessage workOrderMessage = new WorkOrderMessage();
             workOrderMessage.setTopic(tempCrmWorkOrderDto.getTopic());
             workOrderMessage.setDescribe(tempCrmWorkOrderDto.getProblemDesc());
@@ -348,7 +361,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             EmailVo emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
 
             //邮件发送
-                emailService.send(emailInfoList,emailService.find());
+                emailService.send(emailInfoList,emailService.find());*/
 
         }
 
@@ -357,10 +370,15 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             //SubOrder subOrder=subOrderMapper.findSubOrderById(transferOrderDto.getOrderId());
 
             SubOrderDto subOrder = subOrderMapper.findSubOrderDtoById(transferOrderDto.getOrderId());
+            subOrder.setOperation("转派");
+            subOrder.setNowUser(SecurityUtils.getCurrentUsername());
+            //转派工单发送 发出邮件给执行服务者
+            rabbitTemplate.convertAndSend("MailDirectExchange","MailDirectRouting2",subOrder);
+
             /**
              * 当子表被转派,发送转派的邮件
              */
-            CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
+            /*CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
             //转派工单发送 发出邮件给执行服务者
             WorkOrderMessage workOrderMessage = new WorkOrderMessage();
             workOrderMessage.setTopic(subOrder.getTopic());
@@ -441,7 +459,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             EmailVo emailInfoList = setMailInfo(workOrderMessage,subOrder.getSerialNo(),dtoList,operationUser,userList,ccUserList);
 
             //邮件发送
-                emailService.send(emailInfoList,emailService.find());
+                emailService.send(emailInfoList,emailService.find());*/
 
 
         }
@@ -530,7 +548,12 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
          * 当子表被拆分,发送拆分的邮件
          */
         SubOrderDto tempSubOrderDto = subOrderMapper.findSubOrderDtoById(subOrder.getId());
-        CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
+        tempSubOrderDto.setOperation("拆分");
+        tempSubOrderDto.setNowUser(SecurityUtils.getCurrentUsername());
+        //转派工单发送 发出邮件给执行服务者
+        rabbitTemplate.convertAndSend("MailDirectExchange","MailDirectRouting2",tempSubOrderDto);
+
+        /* CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
         //转派工单发送 发出邮件给执行服务者
         WorkOrderMessage workOrderMessage = new WorkOrderMessage();
         workOrderMessage.setTopic(subOrder.getTopic());
@@ -607,8 +630,8 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
 
         //发送钉钉
-     /*   //获取操作人
-        String operationUser = userMapper.findUserByEmpId(empIdList).get(0).getName();*/
+     *//*   //获取操作人
+        String operationUser = userMapper.findUserByEmpId(empIdList).get(0).getName();*//*
         //获取操作人的字段，传到邮件中
         String operationUser = userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
         //邮件模板(所有)
@@ -616,7 +639,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
         //邮件发送
 
-            emailService.send(emailInfoList,emailService.find());
+            emailService.send(emailInfoList,emailService.find());*/
 
     }
 
@@ -670,8 +693,13 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
              * 当主表被关闭,发送关闭的邮件
 //             */
             CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(closeOrderDto.getOrderId());
+            tempCrmWorkOrderDto.setOperation("关闭");
+            tempCrmWorkOrderDto.setNowUser(SecurityUtils.getCurrentUsername());
             //转派工单发送 发出邮件给执行服务者
-            WorkOrderMessage workOrderMessage = new WorkOrderMessage();
+            rabbitTemplate.convertAndSend("MailDirectExchange", "MailDirectRouting", tempCrmWorkOrderDto);
+
+            //转派工单发送 发出邮件给执行服务者
+           /* WorkOrderMessage workOrderMessage = new WorkOrderMessage();
             workOrderMessage.setTopic(tempCrmWorkOrderDto.getTopic());
             workOrderMessage.setDescribe(tempCrmWorkOrderDto.getProblemDesc());
             workOrderMessage.setDept(tempCrmWorkOrderDto.getDeptName());
@@ -697,12 +725,12 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(transId));
             Boolean isCom=isComplete(transId);
             crmWorkOrderDto.setIsAllSubCom(isCom);
-            /*if (tempCrmWorkOrderDto.getJobNumber().equals(closeOrderDto.getModifyPerson())) {
+            *//*if (tempCrmWorkOrderDto.getJobNumber().equals(closeOrderDto.getModifyPerson())) {
                 crmWorkOrderDto.setEqualsCreate(1);
             } else crmWorkOrderDto.setEqualsCreate(0);
             if (tempCrmWorkOrderDto.getReceiver()!=null&&tempCrmWorkOrderDto.getReceiver().equals(closeOrderDto.getModifyPerson())) {
                 crmWorkOrderDto.setEqualsReceiver(1);
-            } else crmWorkOrderDto.setEqualsReceiver(0);*/
+            } else crmWorkOrderDto.setEqualsReceiver(0);*//*
             List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
             List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(transId);
             crmWorkOrderDtoList.add(crmWorkOrderDto);
@@ -726,7 +754,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             EmailVo emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
 
             //邮件发送
-                emailService.send(emailInfoList,emailService.find());
+                emailService.send(emailInfoList,emailService.find());*/
 
 
         }
@@ -818,21 +846,24 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
              * 当主表被完成,发送完成的邮件
              */
             CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(completeOrderDto.getOrderId());
+            tempCrmWorkOrderDto.setOperation("完成");
             tempCrmWorkOrderDto.setNowUser(SecurityUtils.getCurrentUsername());
             //转派工单发送 发出邮件给执行服务者
             rabbitTemplate.convertAndSend("MailDirectExchange", "MailDirectRouting", tempCrmWorkOrderDto);
 
-
-
         }
-
 
         if(completeOrderDto.getOrderType()==1){
             SubOrderDto subOrder=subOrderMapper.findSubOrderDtoById(completeOrderDto.getOrderId());
+            subOrder.setOperation("完成");
+            subOrder.setNowUser(SecurityUtils.getCurrentUsername());
+            //转派工单发送 发出邮件给执行服务者
+            rabbitTemplate.convertAndSend("MailDirectExchange","MailDirectRouting2",subOrder);
+
             /**
              * 当子表被转派,发送转派的邮件
              */
-            CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
+            /*CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
             //转派工单发送 发出邮件给执行服务者
             WorkOrderMessage workOrderMessage = new WorkOrderMessage();
             workOrderMessage.setTopic(subOrder.getTopic());
@@ -914,7 +945,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             //邮件发送
 
                 emailService.send(emailInfoList,emailService.find());
-
+*/
 
         }
 
