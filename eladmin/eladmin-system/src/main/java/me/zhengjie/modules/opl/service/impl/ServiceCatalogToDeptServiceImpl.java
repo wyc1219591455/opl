@@ -121,14 +121,18 @@ public class ServiceCatalogToDeptServiceImpl implements ServiceCatalogToDeptServ
 
         //后台获取的数据
         List<ServiceCatalogToDept> findServiceCatalogToDept = serviceCatalogToDeptMapper.findServiceCatalogToDeptByCatalogId(criteria.getCatalogId());
-
+        List<ServiceCatalogToDept> serviceCatalogToDeptForAdd = new ArrayList<>();
         //去重后数据
-        List<Integer> idList = findServiceCatalogToDept.stream().map(o->o.getSourceId()).collect(Collectors.toList());
-        List<ServiceCatalogToDept> serviceCatalogToDeptForAdd = serviceCatalogToDeptList.stream().filter(o->idList.contains(o.getSourceId())).collect(Collectors.toList());
+
+            List<Integer> idList = findServiceCatalogToDept.stream().map(o->o.getSourceId()).collect(Collectors.toList());
+           serviceCatalogToDeptForAdd = serviceCatalogToDeptList.stream().filter(o->!idList.contains(o.getSourceId())).collect(Collectors.toList());
        /* List<ServiceCatalogToDept> serviceCatalogToDeptForAdd = serviceCatalogToDeptList.stream().collect(Collectors. collectingAndThen(
                 Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(o -> o.getSourceId()))), ArrayList::new));
             */
-        serviceCatalogToDeptMapper.batchInsert(serviceCatalogToDeptForAdd);
+
+        if (ObjectUtil.isNotEmpty(serviceCatalogToDeptForAdd)){
+            serviceCatalogToDeptMapper.batchInsert(serviceCatalogToDeptForAdd);
+        }
     }
 
     @Override

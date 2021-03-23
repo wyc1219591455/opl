@@ -2,9 +2,12 @@
 spring:
   datasource:
       driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      # 77
       url: jdbc:log4jdbc:sqlserver://${sqlserver_url:10.66.52.77}:${sqlserver_port:1433};DatabaseName=${database_name:OPL}
+      #url: jdbc:log4jdbc:sqlserver://${sqlserver_url:10.66.52.109}:${sqlserver_port:1433};DatabaseName=${database_name:OPL}
       username: ${sqlserver_name:sa}
       password: ${sqlserver_password:abc@123456}
+      #password: ${sqlserver_password:ABC@123abc}
 
   rabbitmq:
     #host: 47.96.15.25

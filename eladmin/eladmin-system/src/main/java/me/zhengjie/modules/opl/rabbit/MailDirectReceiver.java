@@ -10,15 +10,18 @@ import lombok.RequiredArgsConstructor;
 
 
 import me.zhengjie.domain.vo.EmailVo;
+import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.modules.opl.domain.User;
 import me.zhengjie.modules.opl.mapper.*;
 import me.zhengjie.modules.opl.service.OrderSessionService;
 import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
 import me.zhengjie.modules.opl.service.dto.OrderSessionDto;
 import me.zhengjie.modules.opl.service.dto.WorkOrderMessage;
+import me.zhengjie.modules.opl.service.dto.WorkOrderMessageToDingTip;
 import me.zhengjie.modules.system.domain.Dept;
 import me.zhengjie.modules.system.repository.UserRepository;
 import me.zhengjie.service.EmailService;
+import me.zhengjie.utils.FatherToChild;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -43,7 +46,7 @@ public class MailDirectReceiver {
     private final UserRepository userRepository;
 
     @RabbitHandler
-    public void process( CrmWorkOrderDto tempCrmWorkOrderDto) {
+    public void process( CrmWorkOrderDto tempCrmWorkOrderDto ) {
 
       //System.out.println(tempCrmWorkOrderDto.getReceiver()+"1232132132154214");
         WorkOrderMessage workOrderMessage = new WorkOrderMessage();
@@ -58,6 +61,28 @@ public class MailDirectReceiver {
         workOrderMessage.setServiceCatalogId(tempCrmWorkOrderDto.getServiceCatalogId());
         workOrderMessage.setReceiver(tempCrmWorkOrderDto.getReceiverName());
         workOrderMessage.setReceiverDept("");
+
+
+    /*    WorkOrderMessageToDingTip workOrderMessageToDingTip = new WorkOrderMessageToDingTip();
+        try{
+            FatherToChild.fatherToChild(workOrderMessage,workOrderMessageToDingTip);
+            workOrderMessageToDingTip.setReceiver(tempCrmWorkOrderDto.getReceiver());
+
+        }catch (Exception e){
+            throw  new BadRequestException(e.getMessage());
+        }
+        List<String> empIdList = new ArrayList<>();
+        empIdList.add(tempCrmWorkOrderDto.getReceiver());
+        List<User> userList = userMapper.findUserByEmpId(empIdList);
+        workOrderMessageToDingTip.setSendToUserPhoneList(userList.stream().map(e->e.getMobileNumber()).collect(Collectors.toList()));
+        workOrderMessageToDingTip.setReceiver(tempCrmWorkOrderDto.getJobNumber());
+        workOrderMessageToDingTip.setSponsor(tempCrmWorkOrderDto.getCreatedPerson());
+        workOrderMessageToDingTip.setDingTipMessage("您的工单已完成");
+        //发送钉钉
+        dingTipForGrateOrder(workOrderMessageToDingTip);*/
+
+
+
         //获取服务人员部门
         if (ObjectUtil.isNotEmpty(tempCrmWorkOrderDto.getReceiver())){
             Dept tempReceiverDept = userRepository.findByUsername(tempCrmWorkOrderDto.getReceiver()).getDept();

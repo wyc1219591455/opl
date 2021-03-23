@@ -133,28 +133,6 @@ public class QueuesToDeptServiceImpl implements QueuesToDeptService {
                 map.put("content",userForShowList);
                 map.put("totalElements",userForShowList.size());
                 return map;
-            /*}else{
-                PageHelper.startPage(pageable.getPage(),pageable.getSize());
-                // List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId2(deptId);
-                //List<UserForShow> userForShowList = queuesToDeptMapper.findAllUserByDeptId(deptId);
-                //查询此部门是不是最底层部门
-                Integer count = queuesToDeptMapper.getCountByParentId(deptId);
-                List<UserForShow> userForShowList = new ArrayList<>();
-                if (count<=0){
-                    userForShowList = queuesToDeptMapper.findAllUserByDeptIdAndQueueId( queuesId, deptId);
-                }else{
-                    //如果不是底层部门则需要遍历，获取下面所有的部门数据
-                    List<Integer> deptList = new ArrayList<>();
-                    //获取部门下面所有的部门数据
-                    getAllDeptList(deptList,deptId);
-                    if (deptList.size()>0){
-                        userForShowList = queuesToDeptMapper.findAllUserByDeptIdAndQueueId2(queuesId, deptList);
-
-                    }
-                }
-                PageInfo<UserForShow> pageInfo1 = new PageInfo<>(userForShowList);
-                return  PageHelpResultUtil.toPage(pageInfo1);
-            }*/
         }
 
 
@@ -253,7 +231,9 @@ public class QueuesToDeptServiceImpl implements QueuesToDeptService {
         //List<QueuesToDept> queuesToDeptForAdd = queuesToDepts.stream().collect(Collectors. collectingAndThen(
           //      Collectors.toCollection(() -> new TreeSet<>(Comparator.comparing(o -> o.getSourceId()))), ArrayList::new));
 
-        queuesToDeptMapper.batchInsert(queuesToDeptForAdd);
+        if (ObjectUtil.isNotEmpty(queuesToDeptForAdd)){
+            queuesToDeptMapper.batchInsert(queuesToDeptForAdd);
+        }
     }
 
     @Override
