@@ -1,5 +1,6 @@
 package me.zhengjie.config;
 
+import me.zhengjie.utils.MessageConverter;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -11,6 +12,20 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitConfig {
 
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        template.setMessageConverter(new MessageConverter());
+        return template;
+    }
+
+    @Bean
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(new MessageConverter());
+        return factory;
+    }
     /**
      * @Author : JCccc
      * @CreateTime : 2019/9/3
@@ -18,7 +33,6 @@ public class RabbitConfig {
      **/
     @Configuration
     public class DirectRabbitConfig {
-
         //队列 起名：MailDirectQueue
         @Bean
         public Queue MailDirectQueue() {

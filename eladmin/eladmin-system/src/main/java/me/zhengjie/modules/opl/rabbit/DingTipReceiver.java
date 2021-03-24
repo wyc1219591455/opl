@@ -5,15 +5,14 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.domain.vo.EmailVo;
 import me.zhengjie.modules.opl.domain.User;
 import me.zhengjie.modules.opl.mapper.*;
 import me.zhengjie.modules.opl.service.OrderSessionService;
-import me.zhengjie.modules.opl.service.dto.CrmWorkOrderDto;
-import me.zhengjie.modules.opl.service.dto.OrderSessionDto;
-import me.zhengjie.modules.opl.service.dto.WorkOrderMessage;
-import me.zhengjie.modules.opl.service.dto.WorkOrderMessageToDingTip;
+import me.zhengjie.modules.opl.service.dto.*;
 import me.zhengjie.modules.system.domain.Dept;
 import me.zhengjie.modules.system.repository.UserRepository;
 import me.zhengjie.service.EmailService;
@@ -48,10 +47,11 @@ public class DingTipReceiver {
     private final QueuesToDeptMapper queuesToDeptMapper;
     private final EmailService emailService;
     private final UserRepository userRepository;
-
+// CrmWorkOrderDto tempCrmWorkOrderDto
     @RabbitHandler
-    public void process( CrmWorkOrderDto tempCrmWorkOrderDto ) {
-
+    public void process( JSONObject jsonObject ) {
+        String str = JSON.toJSONString(jsonObject);
+        CrmWorkOrderDto tempCrmWorkOrderDto= JSON.parseObject(str,CrmWorkOrderDto.class);
         WorkOrderMessageToDingTip workOrderMessageToDingTip = new WorkOrderMessageToDingTip();
 
         //获取服务人员部门
@@ -59,7 +59,7 @@ public class DingTipReceiver {
             Dept tempReceiverDept = userRepository.findByUsername(tempCrmWorkOrderDto.getReceiver()).getDept();
             workOrderMessageToDingTip.setReceiverDept(tempReceiverDept.getName());
         }
-        if (tempCrmWorkOrderDto.getOrderType()==0){
+        //if (tempCrmWorkOrderDto.getOrderType()==0){
             CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(tempCrmWorkOrderDto.getSerialNo());
 
             crmWorkOrderDto.setNowUser(tempCrmWorkOrderDto.getNowUser());
@@ -84,6 +84,7 @@ public class DingTipReceiver {
                 case "完成": //完成
                     //设置传入状态
                     workOrderMessageToDingTip.setType("完成");
+                    workOrderMessageToDingTip.setHopeCompTime(tempCrmWorkOrderDto.getPlanCompTime());
                     List<String> empIdList2 = new ArrayList<>();
                     empIdList2.add(tempCrmWorkOrderDto.getCreatedPerson());
                     userList = userMapper.findUserByEmpId(empIdList2);
@@ -93,13 +94,13 @@ public class DingTipReceiver {
                     break;
             }
             workOrderMessageToDingTip.setTopic(tempCrmWorkOrderDto.getTopic());
-            workOrderMessageToDingTip.setHopeCompTime(tempCrmWorkOrderDto.getPlanCompTime());
+            workOrderMessageToDingTip.setHopeCompTime(tempCrmWorkOrderDto.getHopeCompTime());
             workOrderMessageToDingTip.setSponsor(crmWorkOrderDto.getCreatedPerson());
             workOrderMessageToDingTip.setReceiver(crmWorkOrderDto.getReceiver());
             workOrderMessageToDingTip.setSendToUserPhoneList(userList.stream().map(e->e.getMobileNumber()).collect(Collectors.toList()));
             //workOrderMessageToDingTip.setDingTipMessage("您有一条新的待处理工单！");
             dingTipForGrateOrder(workOrderMessageToDingTip);
-        }
+        //}
 
 
 

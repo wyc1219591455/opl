@@ -5,6 +5,7 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
@@ -27,6 +28,8 @@ import me.zhengjie.utils.*;
 
 import me.zhengjie.utils.dingUtils.ClientUtil;
 import me.zhengjie.utils.dingUtils.DingDingUtil;
+
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,8 +67,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     private final UserRepository userRepository;
     private final DeptRepository deptRepository;
 
-    @Autowired
-    RabbitTemplate rabbitTemplate;  //使用RabbitTemplate,这提供了接收/发送等等方法
+    private final RabbitTemplate rabbitTemplate; //使用RabbitTemplate,这提供了接收/发送等等方法
 
     @Override
     @Transactional
@@ -478,6 +480,9 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             dingTipForGrateOrder(dingTip);*/
 
             //转派工单发送 发出邮件给执行服务者
+           // JSONObject jsonObject = JSON.parseObject(tempCrmWorkOrderDto.toString());
+
+
             rabbitTemplate.convertAndSend("MailDirectExchange", "MailDirectRouting", tempCrmWorkOrderDto);
             rabbitTemplate.convertAndSend("DingTipDirectExchange", "DingTipDirectRouting", tempCrmWorkOrderDto);
 

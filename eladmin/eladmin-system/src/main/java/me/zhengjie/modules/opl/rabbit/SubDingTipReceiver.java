@@ -5,6 +5,8 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.domain.vo.EmailVo;
 import me.zhengjie.exception.BadRequestException;
@@ -46,8 +48,10 @@ public class SubDingTipReceiver {
 
     private final UserRepository userRepository;
 
+    //String jsonStr  SubOrderDto subOrder
     @RabbitHandler
-    public void process( SubOrderDto subOrder) {
+    public void process(JSONObject jsonObject ) {
+        SubOrderDto subOrder= JSON.parseObject(JSON.toJSONString(jsonObject),SubOrderDto.class);
         CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
         //转派工单发送 发出邮件给执行服务者
 
@@ -135,6 +139,7 @@ public class SubDingTipReceiver {
      * @param
      * @return
      */
+
     public String dingTipForGrateOrder(WorkOrderMessageToDingTip workOrderMessage) {
 
         String messages = workOrderMessage.getDingTipMessage();

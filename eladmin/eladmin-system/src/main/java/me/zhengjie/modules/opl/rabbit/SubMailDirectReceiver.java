@@ -5,9 +5,12 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.domain.vo.EmailVo;
 import me.zhengjie.exception.BadRequestException;
+import me.zhengjie.modules.opl.domain.SubOrder;
 import me.zhengjie.modules.opl.domain.User;
 import me.zhengjie.modules.opl.mapper.*;
 import me.zhengjie.modules.opl.service.OrderSessionService;
@@ -47,7 +50,9 @@ public class SubMailDirectReceiver {
     private final UserRepository userRepository;
 
     @RabbitHandler
-    public void process( SubOrderDto subOrder) {
+    public void process( JSONObject jsonObject) {
+       // CrmWorkOrderDto tempCrmWorkOrderDto= JSON.parseObject(jsonStr,CrmWorkOrderDto.class);
+        SubOrderDto subOrder= JSON.parseObject(JSON.toJSONString(jsonObject),SubOrderDto.class);
         CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
         //转派工单发送 发出邮件给执行服务者
         WorkOrderMessage workOrderMessage = new WorkOrderMessage();

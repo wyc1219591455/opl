@@ -6,6 +6,9 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
+import com.alibaba.fastjson.JSON;
+
+import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 
 
@@ -46,9 +49,12 @@ public class MailDirectReceiver {
     private final UserRepository userRepository;
 
     @RabbitHandler
-    public void process( CrmWorkOrderDto tempCrmWorkOrderDto ) {
+    public void process( JSONObject jsonObject) {
 
-      //System.out.println(tempCrmWorkOrderDto.getReceiver()+"1232132132154214");
+        String str = JSON.toJSONString(jsonObject);
+        CrmWorkOrderDto tempCrmWorkOrderDto= JSON.parseObject(str,CrmWorkOrderDto.class);
+        //CrmWorkOrderDto tempCrmWorkOrderDto = null;
+        //System.out.println(tempCrmWorkOrderDto.getReceiver()+"1232132132154214");
         WorkOrderMessage workOrderMessage = new WorkOrderMessage();
         workOrderMessage.setTopic(tempCrmWorkOrderDto.getTopic());
         workOrderMessage.setDescribe(tempCrmWorkOrderDto.getProblemDesc());
@@ -57,7 +63,7 @@ public class MailDirectReceiver {
         workOrderMessage.setSponsor(tempCrmWorkOrderDto.getCreatedPerson());
         workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
         workOrderMessage.setCreateDate(tempCrmWorkOrderDto.getCreatedAt());
-        workOrderMessage.setHopeCompTime(tempCrmWorkOrderDto.getPlanCompTime());
+        workOrderMessage.setHopeCompTime(tempCrmWorkOrderDto.getHopeCompTime());
         workOrderMessage.setServiceCatalogId(tempCrmWorkOrderDto.getServiceCatalogId());
         workOrderMessage.setReceiver(tempCrmWorkOrderDto.getReceiverName());
         workOrderMessage.setReceiverDept("");
@@ -99,7 +105,9 @@ public class MailDirectReceiver {
         String serialNo =tempCrmWorkOrderDto.getSerialNo();
 
         CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
-        crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(transId));
+        if (subOrderMapper.findSubOrderByParentId(transId)!=null){
+            crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(transId));
+        }
         crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(transId));
 
 
