@@ -264,6 +264,19 @@ public interface QueuesToDeptMapper {
      */
     List<Integer> findServiceCatalogByUserId(Integer userId);
 
+
+    /**
+     * @title: findServiceCatalogByUserName
+     * @description: 根据用户工号获取所有服务分类条目
+     * @date: 2021/2/4 13:15
+     * @author: ming.cao
+     * @param userName
+     * @return java.util.List<java.lang.Integer>
+     * @throws
+     */
+    List<Integer> findServiceCatalogByUserName(String userName);
+
+
     /**
      * @title: findUserInDefaultQueueByCatalogId
      * @description: 获取服务分类默认服务台下的人
@@ -274,6 +287,8 @@ public interface QueuesToDeptMapper {
      * @throws
      */
     List<User> findUserInDefaultQueueByCatalogId(Integer catalogId);
+
+
 
     /**
      * @title: findCcUserByTransId
