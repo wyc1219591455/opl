@@ -5,8 +5,6 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
@@ -25,14 +23,13 @@ import me.zhengjie.service.EmailService;
 import me.zhengjie.utils.*;
 
 
-import me.zhengjie.utils.dingUtils.ClientUtil;
-import me.zhengjie.utils.dingUtils.DingDingUtil;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.io.Console;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -49,8 +46,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
-
-    private final GetTokenUtils getTokenUtils;
     private final CrmWorkOrderMapper crmWorkOrderMapper;
     private final SubOrderMapper subOrderMapper;
     private final OrderSessionMapper orderSessionMapper;
@@ -90,79 +85,10 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         String serialNo = maxSerialNo;
         CrmWorkOrderDto crmWorkOrderDto = crmWorkOrderMapper.findOrderBySerialNo(serialNo);
 
-        crmWorkOrderDto.setOrderType(0);
         crmWorkOrderDto.setNowUser(SecurityUtils.getCurrentUsername());
         crmWorkOrderDto.setOperation("创建");
-
         //转派工单发送 发出邮件给执行服务者
-       // rabbitTemplate.convertAndSend("MailDirectExchange", "MailDirectRouting", crmWorkOrderDto);
-
-        rabbitTemplate.convertAndSend("DingTipDirectExchange", "DingTipDirectRouting", crmWorkOrderDto);
-
-        /*//钉钉推送
-        crmWorkOrderDto.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(crmWorkOrderDto.getId()));
-        crmWorkOrderDto.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(crmWorkOrderDto.getId()));
-
-        WorkOrderMessage workOrderMessage = new WorkOrderMessage();
-        workOrderMessage.setTopic(crmWorkOrderCriteria.getTopic());
-        workOrderMessage.setDescribe(crmWorkOrderCriteria.getProblemDesc());
-        workOrderMessage.setDept(crmWorkOrderCriteria.getDeptName());
-        workOrderMessage.setSponsor(crmWorkOrderCriteria.getCreatedPerson());
-        workOrderMessage.setUltimateCustomer(crmWorkOrderCriteria.getUltimateCustomer());
-        workOrderMessage.setCreateDate(crmWorkOrderCriteria.getCreateDateTime());
-        workOrderMessage.setHopeCompTime(crmWorkOrderCriteria.getPlanCompTime());
-        workOrderMessage.setServiceCatalogId(crmWorkOrderCriteria.getCatalogId());
-        workOrderMessage.setReceiver(crmWorkOrderDto.getReceiverName());
-        workOrderMessage.setReceiverDept("");
-        //获取服务人员部门
-        if (ObjectUtil.isNotEmpty(crmWorkOrderDto.getReceiver())){
-            Dept tempReceiverDept = userRepository.findByUsername(crmWorkOrderDto.getReceiver()).getDept();
-            workOrderMessage.setReceiverDept(tempReceiverDept.getName());
-        }
-
-        //设置传入状态
-        workOrderMessage.setType("创建");
-        workOrderMessage.setServiceCatalogName("测试");
-
-        //取下面的活动明细
-        List<OrderSessionDto> dtoList= new ArrayList<>();
-
-        //获取完邮件模板后，发送邮件给对应支持（服务部门）组下的人
-        List<User> userList = queuesToDeptMapper.findUserInDefaultQueueByCatalogId(crmWorkOrderCriteria.getCatalogId());
-
-        //获取抄送人员的信息
-        List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
-
-        //人员循环
-        Boolean isCom=isComplete(crmWorkOrderDto.getId());
-        crmWorkOrderDto.setIsAllSubCom(isCom);
-        if (crmWorkOrderDto.getJobNumber().equals(crmWorkOrderCriteria.getJobNumber())) {
-            crmWorkOrderDto.setEqualsCreate(1);
-        } else crmWorkOrderDto.setEqualsCreate(0);
-        if (crmWorkOrderDto.getReceiver()!=null&&crmWorkOrderCriteria.getJobNumber().equals(crmWorkOrderDto.getReceiver())) {
-            crmWorkOrderDto.setEqualsReceiver(1);
-        } else crmWorkOrderDto.setEqualsReceiver(0);
-        List<CrmWorkOrderDto> crmWorkOrderDtoList=new ArrayList<>();
-        List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSessionById(transId);
-        crmWorkOrderDtoList.add(crmWorkOrderDto);
-
-        //用户信息
-        List<User> userList1 = crmWorkOrderMapper.findUserByCatalogId(workOrderMessage.getServiceCatalogId()) ;
-        WorkOrderMessageToDingTip dingTip = new WorkOrderMessageToDingTip();
-        try{
-            FatherToChild.fatherToChild(workOrderMessage,dingTip);
-
-        }catch (Exception e){
-            throw new BadRequestException("转换错误");
-        }
-
-        dingTip.setSponsor(crmWorkOrderDto.getCreatedPerson());
-        dingTip.setReceiver(crmWorkOrderDto.getReceiver());
-        dingTip.setSendToUserPhoneList(userList1.stream().map(e->e.getMobileNumber()).collect(Collectors.toList()));
-        dingTip.setDingTipMessage("您有一条新的待处理工单！");
-        dingTipForGrateOrder(dingTip);
-*/
-
+        rabbitTemplate.convertAndSend("MailDirectExchange", "MailDirectRouting", crmWorkOrderDto);
 
        /* //创建完成工单之后，发送邮件给服务台
         //查询工单要传的数据
@@ -260,31 +186,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             crmWorkOrderCriteria.setId(orderSession.getTransId());
             crmWorkOrderCriteria.setHopeCompTime(orderSession.getHopeCompTime());
             crmWorkOrderMapper.update(crmWorkOrderCriteria);
-
-            List<CrmWorkOrder> crmWorkOrder = crmWorkOrderMapper.findCrmOrderById(orderSession.getTransId());
-
-            //修改数据接口
-            String url = "https://api.xiaoshouyi.com/rest/data/v2.0/xobjects/customEntity12__c/";
-
-            //认证
-            String authorization = getTokenUtils.getCrmToken();
-            FunctionPerfectionTable table = new FunctionPerfectionTable();
-            table.setId(crmWorkOrder.get(0).getCrmId());
-            table.setLockStatus(2);
-            table.setCustomItem23__c(3);
-            //对象转json
-            JSONObject paramToJson = (JSONObject) JSON.toJSON(table);
-
-            //调用获取数据接口
-            JSONObject json = new JSONObject();
-            json.put("data",paramToJson);
-
-            String jsonData = ClientUtil.doPatch(url,crmWorkOrder.get(0).getCrmId(),json.toString(),authorization);
-            if (!"200".equals(JSONObject.parseObject(jsonData).getString("code"))){
-                authorization = getTokenUtils.getSimpleToken();
-                jsonData = ClientUtil.doPatch(url,crmWorkOrder.get(0).getCrmId(),json.toString(),authorization);
-            }
-
         }
         else if(orderSession.getOriginalType()==1)
         {
@@ -302,31 +203,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             orderSession.setOriginalType(orderSession.getOriginalType());
             orderSessionMapper.insertSession(orderSession);
 
-/*
-        List<CrmWorkOrder> crmWorkOrder = crmWorkOrderMapper.findCrmOrderById(orderSession.getTransId());
-
-        //修改数据接口
-        String url = "https://api.xiaoshouyi.com/rest/data/v2.0/xobjects/customEntity12__c/";
-
-        //认证
-        String authorization = getTokenUtils.getCrmToken();
-        FunctionPerfectionTable table = new FunctionPerfectionTable();
-        table.setId(crmWorkOrder.get(0).getCrmId());
-        table.setLockStatus(2);
-        table.setCustomItem23__c(3);
-        //对象转json
-        JSONObject paramToJson = (JSONObject) JSON.toJSON(table);
-
-        //调用获取数据接口
-        JSONObject json = new JSONObject();
-        json.put("data",paramToJson);
-
-        String jsonData = ClientUtil.doPatch(url,crmWorkOrder.get(0).getCrmId(),json.toString(),authorization);
-        if (!"200".equals(JSONObject.parseObject(jsonData).getString("code"))){
-            authorization = getTokenUtils.getSimpleToken();
-            jsonData = ClientUtil.doPatch(url,crmWorkOrder.get(0).getCrmId(),json.toString(),authorization);
-        }
-*/
 
     }
 
@@ -412,9 +288,10 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
             tempCrmWorkOrderDto.setNowUser(SecurityUtils.getCurrentUsername());
             tempCrmWorkOrderDto.setOperation("转派");
-
-           /* //钉钉推送
             //转派工单发送 发出邮件给执行服务者
+            rabbitTemplate.convertAndSend("MailDirectExchange", "MailDirectRouting", tempCrmWorkOrderDto);
+
+            /* //转派工单发送 发出邮件给执行服务者
             WorkOrderMessage workOrderMessage = new WorkOrderMessage();
             workOrderMessage.setTopic(tempCrmWorkOrderDto.getTopic());
             workOrderMessage.setDescribe(tempCrmWorkOrderDto.getProblemDesc());
@@ -475,31 +352,33 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             dingTip.setDingTipMessage("您有一条新的待处理工单！");
             dingTip.setSponsor(crmWorkOrderDto.getCreatedPerson());
             dingTip.setSendToUserPhoneList(userList.stream().map(e->e.getMobileNumber()).collect(Collectors.toList()));
-            dingTipForGrateOrder(dingTip);*/
+            dingTipForGrateOrder(dingTip);
 
-            //转派工单发送 发出邮件给执行服务者
-            rabbitTemplate.convertAndSend("MailDirectExchange", "MailDirectRouting", tempCrmWorkOrderDto);
-            rabbitTemplate.convertAndSend("DingTipDirectExchange", "DingTipDirectRouting", tempCrmWorkOrderDto);
+            //人员循环
+            String operationUser =userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
+
+            //邮件模板(所有)
+            EmailVo emailInfoList = setMailInfo(workOrderMessage,serialNo,dtoList,operationUser,userList,ccUserList);
+
+            //邮件发送
+                emailService.send(emailInfoList,emailService.find());*/
 
         }
 
 
         if(transferOrderDto.getOrderType()==1){
-            SubOrderDto subOrder= subOrderMapper.findSubOrderDtoById(transferOrderDto.getOrderId());
             //SubOrder subOrder=subOrderMapper.findSubOrderById(transferOrderDto.getOrderId());
+
+            SubOrderDto subOrder = subOrderMapper.findSubOrderDtoById(transferOrderDto.getOrderId());
             subOrder.setOperation("转派");
-            subOrder.setNowUser(SecurityUtils.getCurrentUsername());
-            rabbitTemplate.convertAndSend("DingTipDirectExchange", "DingTipDirectRouting2", subOrder);
-
-
-           /* subOrder.setOperation("转派");
             subOrder.setNowUser(SecurityUtils.getCurrentUsername());
             //转派工单发送 发出邮件给执行服务者
             rabbitTemplate.convertAndSend("MailDirectExchange","MailDirectRouting2",subOrder);
 
-
-            //钉钉推送
-            CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
+            /**
+             * 当子表被转派,发送转派的邮件
+             */
+            /*CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
             //转派工单发送 发出邮件给执行服务者
             WorkOrderMessage workOrderMessage = new WorkOrderMessage();
             workOrderMessage.setTopic(subOrder.getTopic());
@@ -537,7 +416,50 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             workOrderMessageToDingTip.setReceiver(subOrder.getJobNumber());
             workOrderMessageToDingTip.setDingTipMessage("您有一条新的待处理工单！");
             //发送钉钉
-            dingTipForGrateOrder(workOrderMessageToDingTip);*/
+            dingTipForGrateOrder(workOrderMessageToDingTip);
+
+            //查询工单要传的数据
+
+            Integer transId = subOrder.getId();
+
+            //取下面的活动明细
+            List<OrderSessionDto> dtoList= new ArrayList<>();
+            String subSerialNo = subOrder.getSerialNo();
+            SubOrderDto subOrderDto = subOrderMapper.findSubOrderBySerialNo(subSerialNo);
+
+            if (subOrderDto.getJobNumber().equals(subOrder.getJobNumber())) {
+                subOrderDto.setEqualsCreate(1);
+            } else subOrderDto.setEqualsCreate(0);
+            if (subOrderDto.getReceiver()!=null&subOrder.getJobNumber().equals(subOrderDto.getReceiver())) {
+                subOrderDto.setEqualsReceiver(1);
+            } else subOrderDto.setEqualsReceiver(0);
+
+
+            List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSubSessionById(transId);
+            CrmWorkOrderDto crmWorkOrder=crmWorkOrderMapper.findOrderById(subOrderDto.getParentNo());
+            Boolean isCom=isComplete(crmWorkOrder.getId());
+            crmWorkOrder.setIsAllSubCom(isCom);
+            crmWorkOrder.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(subOrderDto.getParentNo()));
+            crmWorkOrder.setSubOrderDto(subOrderDto);
+            List<SubOrderDto> crmWorkOrderDtoList=new ArrayList<>();
+            crmWorkOrderDtoList.add(subOrderDto);
+
+            dtoList=orderSessionDtoList;
+            workOrderMessage.setSerialNo(subOrderDto.getSerialNo());
+            workOrderMessage.setOrderShowDto(dtoList);
+
+
+            //获取抄送人员的信息
+            List<User> ccUserList = queuesToDeptMapper.findCcUserByTransId(transId);
+
+            //人员循环
+            String operationUser =userRepository.findByUsername(SecurityUtils.getCurrentUsername()).getNickName();
+
+            //邮件模板(所有)
+            EmailVo emailInfoList = setMailInfo(workOrderMessage,subOrder.getSerialNo(),dtoList,operationUser,userList,ccUserList);
+
+            //邮件发送
+                emailService.send(emailInfoList,emailService.find());*/
 
 
         }
@@ -583,7 +505,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     public void sendBackOrder(OrderSession orderSession) {
         if (orderSession.getOriginalType() == 0) {
             CrmWorkOrderCriteria crmWorkOrderCriteria = new CrmWorkOrderCriteria();
-            crmWorkOrderCriteria.setLockStatus(1);
             crmWorkOrderCriteria.setOrderStatus(9);
             crmWorkOrderCriteria.setId(orderSession.getTransId());
             crmWorkOrderMapper.update(crmWorkOrderCriteria);
@@ -592,29 +513,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             orderSession.setCreateUserId(SecurityUtils.getCurrentUsername());
             orderSessionMapper.insertSession(orderSession);
 
-            List<CrmWorkOrder> crmWorkOrder = crmWorkOrderMapper.findCrmOrderById(orderSession.getTransId());
-
-            //修改数据接口
-            String url = "https://api.xiaoshouyi.com/rest/data/v2.0/xobjects/customEntity12__c/";
-
-            //认证
-            String authorization = getTokenUtils.getCrmToken();
-            FunctionPerfectionTable table = new FunctionPerfectionTable();
-            table.setId(crmWorkOrder.get(0).getCrmId());
-            table.setLockStatus(1);
-            table.setCustomItem23__c(8);
-            //对象转json
-            JSONObject paramToJson = (JSONObject) JSON.toJSON(table);
-
-            //调用获取数据接口
-            JSONObject json = new JSONObject();
-            json.put("data",paramToJson);
-
-            String jsonData = ClientUtil.doPatch(url,crmWorkOrder.get(0).getCrmId(),json.toString(),authorization);
-            if (!"200".equals(JSONObject.parseObject(jsonData).getString("code"))){
-                authorization = getTokenUtils.getSimpleToken();
-                jsonData = ClientUtil.doPatch(url,crmWorkOrder.get(0).getCrmId(),json.toString(),authorization);
-            }
         }
     }
 
@@ -654,55 +552,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
         tempSubOrderDto.setNowUser(SecurityUtils.getCurrentUsername());
         //转派工单发送 发出邮件给执行服务者
         rabbitTemplate.convertAndSend("MailDirectExchange","MailDirectRouting2",tempSubOrderDto);
-        rabbitTemplate.convertAndSend("DingTipDirectExchange","DingTipDirectRouting2",tempSubOrderDto);
-
-
-       /* //钉钉
-        CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
-
-
-        //转派工单发送 发出邮件给执行服务者
-        WorkOrderMessage workOrderMessage = new WorkOrderMessage();
-        workOrderMessage.setTopic(subOrder.getTopic());
-        workOrderMessage.setDescribe(subOrder.getDescription());
-        workOrderMessage.setDept(subOrder.getDeptId()+"");
-        //发起人
-        workOrderMessage.setSponsor(tempCrmWorkOrderDto.getCreatedPerson());
-        //workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
-        workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
-        workOrderMessage.setCreateDate(tempCrmWorkOrderDto.getCreatedAt());
-        workOrderMessage.setHopeCompTime(tempCrmWorkOrderDto.getPlanCompTime());
-        workOrderMessage.setServiceCatalogId(tempCrmWorkOrderDto.getServiceCatalogId());
-        me.zhengjie.modules.system.domain.User receiverUser = userRepository.findByUsername(tempSubOrderDto.getReceiver());
-        workOrderMessage.setReceiver(receiverUser.getNickName());
-        workOrderMessage.setReceiverDept("");
-        //获取服务人员部门
-        if (ObjectUtil.isNotEmpty(tempSubOrderDto.getReceiver())){
-            Dept tempReceiverDept = userRepository.findByUsername(tempSubOrderDto.getReceiver()).getDept();
-            workOrderMessage.setReceiverDept(tempReceiverDept.getName());
-        }
-        //设置传入状态
-        workOrderMessage.setType("拆分");
-
-        WorkOrderMessageToDingTip workOrderMessageToDingTip = new WorkOrderMessageToDingTip();
-        try{
-            FatherToChild.fatherToChild(workOrderMessage,workOrderMessageToDingTip);
-            workOrderMessageToDingTip.setReceiver(subOrder.getReceiver());
-
-        }catch (Exception e){
-            throw  new BadRequestException(e.getMessage());
-        }
-        List<String> empIdList = new ArrayList<>();
-        empIdList.add(subOrder.getReceiver());
-        List<User> userList = userMapper.findUserByEmpId(empIdList);
-        workOrderMessageToDingTip.setSendToUserPhoneList(userList.stream().map(e->e.getMobileNumber()).collect(Collectors.toList()));
-        workOrderMessageToDingTip.setReceiver(subOrder.getJobNumber());
-
-        workOrderMessageToDingTip.setDingTipMessage("您有一条新的待处理工单！");
-        //发送钉钉
-        dingTipForGrateOrder(workOrderMessageToDingTip);
-*/
-
 
         /* CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
         //转派工单发送 发出邮件给执行服务者
@@ -849,7 +698,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             //转派工单发送 发出邮件给执行服务者
             rabbitTemplate.convertAndSend("MailDirectExchange", "MailDirectRouting", tempCrmWorkOrderDto);
 
-
             //转派工单发送 发出邮件给执行服务者
            /* WorkOrderMessage workOrderMessage = new WorkOrderMessage();
             workOrderMessage.setTopic(tempCrmWorkOrderDto.getTopic());
@@ -968,30 +816,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             crmWorkOrderMapper.update(crmWorkOrderCriteria);
 
 
-            List<CrmWorkOrder> crmWorkOrder = crmWorkOrderMapper.findCrmOrderById(crmWorkOrderCriteria.getId());
-
-            //修改数据接口
-            String url = "https://api.xiaoshouyi.com/rest/data/v2.0/xobjects/customEntity12__c/";
-
-            //认证
-            String authorization = getTokenUtils.getCrmToken();
-            FunctionPerfectionTable table = new FunctionPerfectionTable();
-            table.setId(crmWorkOrder.get(0).getCrmId());
-            //table.setLockStatus(2);
-            table.setCustomItem23__c(4);
-            //对象转json
-            JSONObject paramToJson = (JSONObject) JSON.toJSON(table);
-
-            //调用获取数据接口
-            JSONObject json = new JSONObject();
-            json.put("data",paramToJson);
-
-            String jsonData = ClientUtil.doPatch(url,crmWorkOrder.get(0).getCrmId(),json.toString(),authorization);
-            if (!"200".equals(JSONObject.parseObject(jsonData).getString("code"))){
-                authorization = getTokenUtils.getSimpleToken();
-                jsonData = ClientUtil.doPatch(url,crmWorkOrder.get(0).getCrmId(),json.toString(),authorization);
-            }
-
         }
         else if(completeOrderDto.getOrderType()==1){
             SubOrder subOrder=new SubOrder();
@@ -1026,8 +850,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             tempCrmWorkOrderDto.setNowUser(SecurityUtils.getCurrentUsername());
             //转派工单发送 发出邮件给执行服务者
             rabbitTemplate.convertAndSend("MailDirectExchange", "MailDirectRouting", tempCrmWorkOrderDto);
-            //钉钉
-            rabbitTemplate.convertAndSend("DingTipDirectExchange","DingTipDirectRouting",tempCrmWorkOrderDto);
+
         }
 
         if(completeOrderDto.getOrderType()==1){
@@ -1036,52 +859,6 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
             subOrder.setNowUser(SecurityUtils.getCurrentUsername());
             //转派工单发送 发出邮件给执行服务者
             rabbitTemplate.convertAndSend("MailDirectExchange","MailDirectRouting2",subOrder);
-            //钉钉
-            rabbitTemplate.convertAndSend("DingTipDirectExchange","DingTipDirectRouting2",subOrder);
-
-
-            /*//钉钉推送
-            CrmWorkOrderDto tempCrmWorkOrderDto = crmWorkOrderMapper.findOrderById(subOrder.getParentNo());
-            //转派工单发送 发出邮件给执行服务者
-            WorkOrderMessage workOrderMessage = new WorkOrderMessage();
-            workOrderMessage.setTopic(subOrder.getTopic());
-            workOrderMessage.setDescribe(subOrder.getDescription());
-            workOrderMessage.setDept(subOrder.getDeptId()+"");
-            //发起人
-            workOrderMessage.setSponsor(tempCrmWorkOrderDto.getCreatedPerson());
-            //workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
-            workOrderMessage.setUltimateCustomer(tempCrmWorkOrderDto.getUltimateCustomer());
-            workOrderMessage.setCreateDate(tempCrmWorkOrderDto.getCreatedAt());
-            workOrderMessage.setHopeCompTime(tempCrmWorkOrderDto.getPlanCompTime());
-            workOrderMessage.setServiceCatalogId(tempCrmWorkOrderDto.getServiceCatalogId());
-            workOrderMessage.setReceiver(subOrder.getReceiverName());
-            workOrderMessage.setReceiverDept("");
-            //获取服务人员部门
-            if (ObjectUtil.isNotEmpty(subOrder.getReceiver())){
-                Dept tempReceiverDept = userRepository.findByUsername(subOrder.getReceiver()).getDept();
-                workOrderMessage.setReceiverDept(tempReceiverDept.getName());
-            }
-
-            //设置传入状态
-            workOrderMessage.setType("完成");
-
-            WorkOrderMessageToDingTip workOrderMessageToDingTip = new WorkOrderMessageToDingTip();
-            try{
-                FatherToChild.fatherToChild(workOrderMessage,workOrderMessageToDingTip);
-                workOrderMessageToDingTip.setReceiver(subOrder.getReceiver());
-
-            }catch (Exception e){
-                throw  new BadRequestException(e.getMessage());
-            }
-            List<String> empIdList = new ArrayList<>();
-            empIdList.add(subOrder.getReceiver());
-            List<User> userList = userMapper.findUserByEmpId(empIdList);
-            workOrderMessageToDingTip.setSendToUserPhoneList(userList.stream().map(e->e.getMobileNumber()).collect(Collectors.toList()));
-            workOrderMessageToDingTip.setReceiver(subOrder.getJobNumber());
-            workOrderMessageToDingTip.setSponsor(subOrder.getCreatedPerson());
-            workOrderMessageToDingTip.setDingTipMessage("您的工单已完成");
-            //发送钉钉
-            dingTipForGrateOrder(workOrderMessageToDingTip);*/
 
             /**
              * 当子表被转派,发送转派的邮件
@@ -1270,10 +1047,8 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
     @Override
     public Map<String,Object> findServiceOrder(WorkOrderCriteria workOrderCriteria,Pageable pageable) {
         PageHelper.clearPage();
-
         String jobNumber = SecurityUtils.getCurrentUsername();
-        Integer userId= Math.toIntExact(userMapper.findIdByUsername(jobNumber));
-        List<Integer> catalogList=queuesToDeptMapper.findServiceCatalogByUserId(userId);
+        List<Integer> catalogList=queuesToDeptMapper.findServiceCatalogByUserName(jobNumber);
         List<CrmWorkOrderDto> tempList=new ArrayList<>();
         if(catalogList!=null&catalogList.size()>0) {
             workOrderCriteria.setSubCatalogList(catalogList);
@@ -1355,6 +1130,7 @@ public class CrmWorkOrderServiceImpl implements CrmWorkOrderService {
 
             List<OrderSessionDto> orderSessionDtoList = orderSessionService.findSubSessionById(serialDto.getId());
             CrmWorkOrderDto crmWorkOrder=crmWorkOrderMapper.findOrderById(subOrderDto.getParentNo());
+            crmWorkOrder.setOrderApplyCcDtos(orderApplyCcMapper.findCcByTransId(subOrderDto.getParentNo()));
             Boolean isCom=isComplete(crmWorkOrder.getId());
             crmWorkOrder.setIsAllSubCom(isCom);
             crmWorkOrder.setSubOrderDtoList(subOrderMapper.findSubOrderByParentId(subOrderDto.getParentNo()));
